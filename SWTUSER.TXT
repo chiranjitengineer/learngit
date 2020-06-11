@@ -54,3 +54,14 @@ PASSWORD 		: 		NAIHATI
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
 
+
+Data Migration should be in Birla server.
+ 
+
+ANYDESK - 400326309 , PWD - birla#2020
+ 
+
+ORACLE
+
+USER - BIRLANEW, PWD - Cl0udBirPwd, DATABASE = BIRLANEW_CLOUD
+
