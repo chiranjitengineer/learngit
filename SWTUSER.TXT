@@ -1,0 +1,56 @@
+
+ INSERT INTO SWTSYSCONFIG(SERIALNO, CONFIGTYPE, CONFIGVALUE) 
+ VALUES (8, 'LICENSE', 'afW0YjaQad8lgmXYtBVJr1b8WeeDk4FWqTFtrQMYxFM=') 
+
+---------------------------------------------------------------------
+USER/PASWORD    :		JOONK / EELL0TKN00J
+IP   			:		1.6.189.9:8000
+PASSWORD 		: 		EELL0TKN00J
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		DHUNSERI_STRU
+IP   			:		1.6.37.187:8050
+PASSWORD 		: 		123098
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		DHUNSERI_DEMO
+IP   			:		1.6.189.9:8040
+PASSWORD 		: 		123098
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		AMBOOTIA / AIT00BMA
+IP   			:		1.6.37.242
+PASSWORD 		: 		000
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		ASIANTEA
+IP   			:		223.31.219.122
+PASSWORD 		: 		123098
+SERVICE NAME 	: 		OR11G2SE
+---------------------------------------------------------------------
+USER 			: 		JIAJURI
+IP   			:		1.6.37.187:8444
+PASSWORD 		: 		000
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		KANCO_WEB
+IP   			:		1.6.37.187:8086
+PASSWORD 		: 		123098
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		KARNAFULI
+IP   			:		35.185.146.232
+PASSWORD 		: 		EELL0TKN00J
+SERVICE NAME 	: 		ORCL11G
+---------------------------------------------------------------------
+USER 			: 		BD/BD_DOTEPL  
+IP   			:		1.6.37.187:9000
+PASSWORD 		: 		9354
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+USER 			: 		NJMCL_WEB/NJMCL_WEB  
+IP   			:		1.6.37.187:8083
+PASSWORD 		: 		NAIHATI
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+
