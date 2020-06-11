@@ -1,1 +1,11 @@
-This is new line added.
+Insert into REPORTPARAMETERMASTER
+   (MODULENAME, REPORTTAG, REPORTTAG1, REPORTTAG2, REPORTTAG3, 
+    MAINTABLE, SUBREPORTTABLE, SUBREPORTTABLE1, SUBREPORTTABLE2, SUBREPORTTABLE3, 
+    SUBREPORTTABLE4, REPORTNAME, REFNO)
+ Values
+   ('GPS', 'ABSENTCONTINEOUS', NULL, NULL, NULL, 
+    'GTT_ABSENT_CONTINEOUS_RPT', NULL, NULL, NULL, NULL, 
+    NULL, 'GPS/PAGES/Report/Transaction/rpt_ABSENT_CONTINEOUS.rdlc', NULL);
+COMMIT;
+
+----------------------------------------------------------------------------------------------
