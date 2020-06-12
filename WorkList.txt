@@ -18,3 +18,276 @@ I:\OFFICE\PROJECTS\swterptea\swterptea\GPS\Pages\Report\Transaction\rptAbsentees
 Amalesh Sir Call me
 
 He said that whether data migration done or not
+
+---------------------------------------------------------------
+
+
+**************************************************************
+12/06/2020 
+---------------------------------------------------------
+
+sumanta sir call me, he tell me that, i should separate absenteeism report as 
+name "Generate Notice"
+
+1. add validation for STATUS DATE and DATE OF RETIREMENT
+
+------------------------------------------------------------
+
+
+PROCEDURE UPDATE : prc_upload_key_wise_document ( ACTUALLY THIS WAS IN INVALID STATE )
+
+TABLE NOT FOUND SO, TAKE TABLE FROM GLOSTER DATABASE
+
+--------------------------------------------------------------------------
+
+DROP TABLE FILE_ID CASCADE CONSTRAINTS;
+
+CREATE TABLE FILE_ID
+(
+  FILE_ID        VARCHAR2(100 BYTE),
+  DATA_FILE      BLOB,
+  FILE_TYPE      VARCHAR2(100 BYTE),
+  UID_DATE       DATE                           DEFAULT SYSDATE,
+  FILE_MENUCODE  VARCHAR2(50 BYTE)
+)
+
+--------------------------------------------------------
+
+Case "ABSENT GENERATE NOTICE"
+
+ Case "ABSENTCONTINEOUS"
+
+----------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(menutag) LIKE UPPER('%ABSENT%')
+
+SELECT * FROM REPORTPARAMETERMASTER
+WHERE REPORTTAG like 'ABSENTCONTINEOUS'
+
+011004020247
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '011004020247'
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, AUDITRAIL, KEY_COLUMN)
+ Values
+   ('011004020248', NULL, 'Generate Absenteeism Notice', 'REPORTS', 'ABSENT GENERATE NOTICE', 
+    'Assamees', NULL, 'X', 'X', 'X', 
+    'Y', 'X', 'Y', 'GPS', NULL, 
+    '''0002'',''0008'',''0009'',''0010'',''0011''', '''0002'',''0008'',''0009'',''0010'',''0011''', NULL, 'GPS/Pages/Report/pgReportGPSTemplate.aspx', NULL, 
+    NULL, NULL, NULL, 'Y', 'X', 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+SELECT * FROM roledetails
+WHERE MENUCODE = '011004020248'
+
+
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('1', '011004020248', 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'Y', 'GPS', 
+    '201912311346150014540363');
+COMMIT;
+
+
+SELECT * FROM REPORTPARAMETERMASTER
+WHERE REPORTTAG like 'ABSENT GENERATE NOTICE'
+
+Insert into REPORTPARAMETERMASTER
+   (MODULENAME, REPORTTAG, REPORTTAG1, REPORTTAG2, REPORTTAG3, 
+    MAINTABLE, SUBREPORTTABLE, SUBREPORTTABLE1, SUBREPORTTABLE2, SUBREPORTTABLE3, 
+    SUBREPORTTABLE4, REPORTNAME, REFNO)
+ Values
+   ('GPS', 'ABSENT GENERATE NOTICE', 'PROC_ABSENT_GENERATE_NOTICE', NULL, NULL, 
+    'GTT_ABSENT_GENERATE_NOTICE', NULL, NULL, NULL, NULL, 
+    NULL, 'GPS/PAGES/Report/Transaction/rptAbsenteesmContLang.rdlc', NULL);
+COMMIT;
+
+PROC_ABSENT_CONTINEOUS_LANG
+
+PROC_ABSENT_GENERATE_NOTICE
+
+create global temporary table GTT_ABSENT_GENERATE_NOTICE
+as
+select * from
+GTT_ABSENT_CONTINEOUS_LANG
+
+
+PROC_RPT_ABSENTDETAILS
+
+
+----------------------------------------------------------------------------
+
+Sumanta Choudhuri Mailed me (ref. from Pullianam),
+
+
+Dear Sir,
+
+We are enclosing herewith wage summary report and PF register report for the month of May 2020 for verification.  
+In PF register total  PF earnings shows 2093872 and wage summary report PF earnings shows Rs.2139987.  
+Kindly do the needful to rectify the defects.
+
+Pullikannam - 0007
+
+Pullikanam Estate
+
+
+*********
+
+2093872.00
+
+PROC_RPT_GPSPFREGISTER('JT0069','0007','01/05/2020','31/05/2020','','')
+
+
+213523.00
+
+PROC_RPT_PAYSLIPWEKLYWAGES_SUM('JT0069','0007','01/05/2020','31/05/2020','','')
+
+
+213885.42
+
+PROC_RPT_WAGESSUMMARY('JT0069','0007','202005','','')
+
+
+46126
+
+2139987
+
+-46115
+
+2139987.42
+
+2139987.42
+
+
+----------------------------------------------------------------------------
+
+
+SELECT COMPANYNAME, DIVISIONNAME, CATEGORYCODE, CATEGORYDESC, 
+PF_GROSS, ROUND(PF_GROSS,0) PF_GROSS_RND,
+PF_GROSS1,ROUND(PF_GROSS1,0) PF_GROSS1_RND,
+PF_TMP1, ROUND(PF_TMP1,0) PF_TMP1_RND,
+PF_GROSS2,ROUND(PF_GROSS2,0) PF_GROSS2_RND,
+PF_TMP2,ROUND(PF_TMP2,0) PF_TMP2_RND
+FROM (
+    SELECT C.COMPANYNAME, D.DIVISIONNAME, A.CATEGORYCODE, B.CATEGORYDESC, PF_GROSS, PF_GROSS1,PF_TMP1, PF_GROSS2,PF_TMP2 FROM
+    (
+        SELECT COMPANYCODE, DIVISIONCODE, CATEGORYCODE, SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, 
+        SUM(PF_GROSS1) PF_GROSS1, SUM(PF_TMP) PF_TMP1, SUM(PF_GROSS2) PF_GROSS2, SUM(PF_TMP2) PF_TMP2
+        FROM 
+        (    
+            SELECT A.COMPANYCODE, A.DIVISIONCODE, A.CATEGORYCODE, nvl(A.GROSSWAGES,0) GROSSWAGES, nvl(A.PF_GROSS,0) PF_GROSS, 
+            ( 
+                CASE WHEN nvl(A.PF_GROSS,0) >=15000 THEN 15000 ELSE nvl(A.PF_GROSS,0) END 
+            ) PF_GROSS1, 
+            ( 
+                CASE WHEN nvl(A.PF_GROSS,0) >=15000 THEN (nvl(A.PF_GROSS,0)-15000) ELSE 0 END 
+            ) PF_TMP, 
+            ( 
+                CASE WHEN ROUND(A.PF_GROSS,0) >=15000 THEN 15000 ELSE ROUND(A.PF_GROSS,0) END 
+            ) PF_GROSS2, 
+            ( 
+                CASE WHEN ROUND(A.PF_GROSS,0) >=15000 THEN (ROUND(A.PF_GROSS,0)-15000) ELSE 0 END 
+            ) PF_TMP2
+            FROM ( 
+                SELECT COMPANYCODE, DIVISIONCODE , WORKERSERIAL, TOKENNO,CATEGORYCODE,  SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E  
+                FROM GPSPAYSHEETDETAILS
+                WHERE PERIODTO >=TO_DATE('01/05/2020','DD/MM/YYYY') 
+                AND PERIODTO <=TO_DATE('31/05/2020','DD/MM/YYYY') 
+                AND DIVISIONCODE ='0007' 
+                AND COMPANYCODE ='JT0069'
+                AND PF_E>0 
+                GROUP BY COMPANYCODE, DIVISIONCODE,CATEGORYCODE , WORKERSERIAL, TOKENNO
+            )  A
+        ) 
+        GROUP BY COMPANYCODE, DIVISIONCODE, CATEGORYCODE
+    ) A, GPSCATEGORYMAST B, COMPANYMAST C, DIVISIONMASTER D,
+    (
+        SELECT TO_NUMBER(PARAMETER_VALUE) DLIPER FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME ='DLIPERCENTAGE'
+        AND COMPANYCODE='JT0069'
+        AND DIVISIONCODE LIKE '%'||0007||'%'
+    )E
+    WHERE A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND A.CATEGORYCODE=B.CATEGORYCODE
+    AND   A.COMPANYCODE=C.COMPANYCODE
+    AND   A.COMPANYCODE=D.COMPANYCODE
+    AND A.DIVISIONCODE=D.DIVISIONCODE
+)
+
+
+
+----------------------------------------------------------------------------
+
+
+SELECT COMPANYNAME, DIVISIONNAME, CATEGORYCODE, CATEGORYDESC, PF_GROSS, PF_GROSS1,PF_TMP1, PF_GROSS2,PF_TMP2 TOTAL_EARN
+FROM (
+    SELECT C.COMPANYNAME, D.DIVISIONNAME, A.CATEGORYCODE, B.CATEGORYDESC, PF_GROSS, PF_GROSS1,PF_TMP1, PF_GROSS2,PF_TMP2 FROM
+    (
+        SELECT COMPANYCODE, DIVISIONCODE, CATEGORYCODE, SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, 
+        SUM(PF_GROSS1) PF_GROSS1, SUM(PF_TMP) PF_TMP1, SUM(PF_GROSS2) PF_GROSS2, SUM(PF_TMP2) PF_TMP2
+        FROM 
+        (    
+            SELECT A.COMPANYCODE, A.DIVISIONCODE, A.CATEGORYCODE, nvl(A.GROSSWAGES,0) GROSSWAGES, nvl(A.PF_GROSS,0) PF_GROSS, 
+            ( 
+                CASE WHEN nvl(A.PF_GROSS,0) >=15000 THEN 15000 ELSE nvl(A.PF_GROSS,0) END 
+            ) PF_GROSS1, 
+            ( 
+                CASE WHEN nvl(A.PF_GROSS,0) >=15000 THEN (nvl(A.PF_GROSS,0)-15000) ELSE 0 END 
+            ) PF_TMP, 
+            ( 
+                CASE WHEN ROUND(A.PF_GROSS,0) >=15000 THEN 15000 ELSE ROUND(A.PF_GROSS,0) END 
+            ) PF_GROSS2, 
+            ( 
+                CASE WHEN ROUND(A.PF_GROSS,0) >=15000 THEN (ROUND(A.PF_GROSS,0)-15000) ELSE 0 END 
+            ) PF_TMP2
+            FROM ( 
+                SELECT COMPANYCODE, DIVISIONCODE , WORKERSERIAL, TOKENNO,CATEGORYCODE,  SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E  
+                FROM GPSPAYSHEETDETAILS
+                WHERE PERIODTO >=TO_DATE('01/05/2020','DD/MM/YYYY') 
+                AND PERIODTO <=TO_DATE('31/05/2020','DD/MM/YYYY') 
+                AND DIVISIONCODE ='0007' 
+                AND COMPANYCODE ='JT0069'
+                AND PF_E>0 
+                GROUP BY COMPANYCODE, DIVISIONCODE,CATEGORYCODE , WORKERSERIAL, TOKENNO
+            )  A
+        ) 
+        GROUP BY COMPANYCODE, DIVISIONCODE, CATEGORYCODE
+    ) A, GPSCATEGORYMAST B, COMPANYMAST C, DIVISIONMASTER D,
+    (
+        SELECT TO_NUMBER(PARAMETER_VALUE) DLIPER FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME ='DLIPERCENTAGE'
+        AND COMPANYCODE='JT0069'
+        AND DIVISIONCODE LIKE '%'||0007||'%'
+    )E
+    WHERE A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND A.CATEGORYCODE=B.CATEGORYCODE
+    AND   A.COMPANYCODE=C.COMPANYCODE
+    AND   A.COMPANYCODE=D.COMPANYCODE
+    AND A.DIVISIONCODE=D.DIVISIONCODE
+)
+
+
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
