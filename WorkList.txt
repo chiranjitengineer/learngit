@@ -285,7 +285,530 @@ FROM (
 )
 
 
+****************************************************
+13/06/2020
+****************************************************
 
+Changes in page url from Gloster to Birla
+----------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%employee%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010111'
+
+PIS/PAGES/Master/pgEmployeeMast_Rate.aspx
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010111', NULL, 'Employee Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgEmployeeMast_Rate.aspx', NULL, 
+    NULL, 'prcPIS_EmpRate_b4Save', NULL, 'Y', NULL, 
+    'DOCUMENT UPLOAD', 'PISEMPLOYEEMASTER', NULL);
+COMMIT;
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%employee%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010111'
+
+PIS/PAGES/Master/pgPISEmployeeMast.aspx
+
+
+PIS/PAGES/Master/pgEmployeeMast_Rate.aspx
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010111', NULL, 'Employee Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgEmployeeMast_Rate.aspx', NULL, 
+    NULL, 'prcPIS_EmpRate_b4Save', NULL, 'Y', NULL, 
+    'DOCUMENT UPLOAD', 'PISEMPLOYEEMASTER', NULL);
+COMMIT;
+
+
+update menumaster_rnd
+set urlsrc='PIS/PAGES/Master/pgEmployeeMast_Rate.aspx'
+where menucode='0107010111'
+
+
+select * from menumaster_rnd
+where urlsrc like '%\_%' escape '\'
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%leave%')
+and active='Y'
+and projectname='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107020404'
+
+
+SELECT * FROM roledetails
+WHERE MENUCODE = '0107020403'
+
+
+PIS/PAGES/Transaction/pgPISLeaveApplicationEntry.aspx
+
+PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx
+
+DELETE FROM MENUMASTER_RND
+WHERE MENUCODE='0107020404'
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE)
+ Values
+   ('0107020404', NULL, 'Leave Entry With Grid Details', 'TRANSACTIONS', 'LEAVE ENTRY GRID', 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'N', 'N', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx', NULL, 
+    NULL, 'prcLeave_Bf_MainSave', 'PRCLEAVE_AF_MAINSAVE', 'Y', NULL, 
+    NULL, NULL);
+COMMIT;
+
+
+
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('1', '0107020404', 'X', 'Y', 'Y', 
+    'X', 'X', 'X', 'X', 'PIS', 
+    '202005081119420010404570');
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('54', '0107020404', 'X', 'Y', 'Y', 
+    'X', 'X', 'X', 'X', 'PIS', 
+    '202003131131450010180945');
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('59', '0107020404', 'X', 'Y', 'Y', 
+    'X', 'X', 'X', 'X', 'PIS', 
+    '202005061003380010395136');
+COMMIT;
+
+
+
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%LOAN%')
+and active='Y'
+AND PROJECTNAME='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010106'
+
+0110022901
+
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010106', NULL, 'Loan Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgPISLoanMaster.aspx', NULL, 
+    NULL, NULL, 'PRCLOANMAST_AFTERSAVE', 'Y', NULL, 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+----------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%employee%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010111'
+
+PIS/PAGES/Master/pgEmployeeMast_Rate.aspx
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010111', NULL, 'Employee Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgEmployeeMast_Rate.aspx', NULL, 
+    NULL, 'prcPIS_EmpRate_b4Save', NULL, 'Y', NULL, 
+    'DOCUMENT UPLOAD', 'PISEMPLOYEEMASTER', NULL);
+COMMIT;
+
+
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%leave%')
+and active='Y'
+and projectname='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107020404'
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107020404', NULL, 'Leave Entry With Grid Details', 'TRANSACTIONS', 'LEAVE ENTRY GRID', 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'N', 'N', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx', NULL, 
+    NULL, 'prcLeave_Bf_MainSave', 'PRCLEAVE_AF_MAINSAVE', 'Y', NULL, 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%LOAN%')
+and active='Y'
+AND PROJECTNAME='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107020404'
+
+ 
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107020404', NULL, 'Leave Entry With Grid Details', 'TRANSACTIONS', 'LEAVE ENTRY GRID', 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'N', 'N', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx', NULL, 
+    NULL, 'prcLeave_Bf_MainSave', 'PRCLEAVE_AF_MAINSAVE', 'Y', NULL, 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+----------------------------------------------------------------------------
+GLOSTER
+----------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%employee%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010111'
+
+PIS/PAGES/Master/pgEmployeeMast_Rate.aspx
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010111', NULL, 'Employee Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgEmployeeMast_Rate.aspx', NULL, 
+    NULL, 'prcPIS_EmpRate_b4Save', NULL, 'Y', NULL, 
+    'DOCUMENT UPLOAD', 'PISEMPLOYEEMASTER', NULL);
+COMMIT;
+
+UPDATE MENUMASTER_RND
+SET URLSRC='PIS/PAGES/Master/pgEmployeeMast_Rate.aspx'
+WHERE MENUCODE='0107010111'
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%leave%')
+and active='Y'
+and projectname='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107020404'
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107020404', NULL, 'Leave Entry With Grid Details', 'TRANSACTIONS', 'LEAVE ENTRY GRID', 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'N', 'N', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx', NULL, 
+    NULL, 'prcLeave_Bf_MainSave', 'PRCLEAVE_AF_MAINSAVE', 'Y', NULL, 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+UPDATE MENUMASTER_RND
+SET URLSRC='PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx'
+WHERE MENUCODE='0107020402'
+
+------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%LOAN%')
+and active='Y'
+AND PROJECTNAME='PIS'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107010106'
+
+0110022901
+
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE, KEY_COLUMN)
+ Values
+   ('0107010106', NULL, 'Loan Master', 'MASTERS', NULL, 
+    NULL, NULL, 'Y', 'Y', 'Y', 
+    'Y', 'Y', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0005''', '''0001'',''0002'',''0005''', NULL, 'PIS/PAGES/Master/pgPISLoanMaster.aspx', NULL, 
+    NULL, NULL, 'PRCLOANMAST_AFTERSAVE', 'Y', NULL, 
+    NULL, NULL, NULL);
+COMMIT;
+
+
+
+----------------------------------------------------------------------------
+
+Insert into SYS_HELP_QRY
+   (QRY_ID, QRY_STRING, PARAMETER_STRING, QRY_SHORTDESC, QRY_RETURN_TABLE_NAME, 
+    WEB_QRY_STRING, SEARCH_COLUMNLIST, MODULENAME)
+ Values
+   (7502, '""', 'COMPANYCODE~DIVISIONCODE~PATTERN', 'PIS INVESTMENT INFORMATION', NULL, 
+    'SELECT COLUMNSUBHEADING2 HEADING FROM PISITAXPARAM '||CHR(10)||'WHERE COMPANYCODE=<<COMPANYCODE>> '||CHR(10)||'    AND DIVISIONCODE=<<DIVISIONCODE>>'||CHR(10)||'    AND COLUMNSOURCE=''PISPAYINVESTMENT'' '||CHR(10)||'AND COLUMNSUBHEADING2 IS NOT NULL'||CHR(10)||'', 'HEADING', 'PIS');
+COMMIT;
+
+
+Insert into SYS_HELP_QRY
+   (QRY_ID, QRY_STRING, PARAMETER_STRING, QRY_SHORTDESC, QRY_RETURN_TABLE_NAME, 
+    WEB_QRY_STRING, SEARCH_COLUMNLIST, MODULENAME)
+ Values
+   (7041, '""', 'COMPANYCODE~DIVISIONCODE~EMPLOYEECODE~LEAVECODE~PATTERN', 'PIS EMPLOYEE LEAVE INFORMATION', NULL, 
+    'SELECT DISTINCT DOCUMENTNO, TOKENNO, LEAVECODE, TO_CHAR(LEAVEAPPLIEDON) LEAVEAPPLIEDON'||CHR(13)||CHR(10)||' FROM PISLEAVEAPPLICATION A'||CHR(13)||CHR(10)||'    WHERE A.COMPANYCODE=<<COMPANYCODE>>'||CHR(13)||CHR(10)||'    AND A.DIVISIONCODE=<<DIVISIONCODE>>'||CHR(13)||CHR(10)||'    AND A.TOKENNO=<<EMPLOYEECODE>>'||CHR(13)||CHR(10)||'    AND A.LEAVECODE=<<LEAVECODE>>'||CHR(13)||CHR(10)||'   ORDER BY DOCUMENTNO'||CHR(10)||'', 'DOCUMENTNO~TOKENNO~LEAVECODE~LEAVEAPPLIEDON'||CHR(10)||'', 'PIS');
+Insert into SYS_HELP_QRY
+   (QRY_ID, QRY_STRING, PARAMETER_STRING, QRY_SHORTDESC, QRY_RETURN_TABLE_NAME, 
+    WEB_QRY_STRING, SEARCH_COLUMNLIST, MODULENAME)
+ Values
+   (7042, '""', 'COMPANYCODE~DIVISIONCODE~TOKENNO~TRANSACTIONTYPE~PATTERN', 'POLICY INFROMATION', NULL, 
+    'SELECT POLICYNO,TO_CHAR(POLICYDATE,''DD/MM/YYYY'') POLICYDATE FROM LICMASTER '||CHR(10)||'WHERE COMPANYCODE=<<COMPANYCODE>>'||CHR(10)||'    AND DIVISIONCODE=<<DIVISIONCODE>>'||CHR(10)||'    AND MODULE=''PIS'''||CHR(10)||'    AND TRANSACTIONTYPE=<<TRANSACTIONTYPE>>'||CHR(10)||'    AND TOKENNO=<<TOKENNO>>', 'POLICYNO~POLICYDATE~', 'PIS');
+COMMIT;
+
+
+
+UPDATE MENUMASTER_RND
+SET URLSRC='PIS/PAGES/Master/pgEmployeeMast_Rate.aspx'
+WHERE MENUCODE='0107010111'
+
+
+UPDATE MENUMASTER_RND
+SET URLSRC='PIS/PAGES/Transaction/pgPISLeaveApplicationEntryWithGridDet.aspx'
+WHERE MENUCODE='0107020402'
+
+----------------------------------------------------------------------------
+
+SELECT * FROM SYS_PARAMETER
+WHERE PARAMETER_NAME='EPF_PERCENTAGE'
+
+SELECT * FROM SYS_PARAMETER
+WHERE PARAMETER_NAME='FPF_PERCENTAGE'
+
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+ Values
+   ('EPF_PERCENTAGE', 'EPF PERCENTAGE FOR PF CHALLAN', '3.67', 'GPS', 'JT0069', 
+    SYSDATE, SYS_GUID(), '0004', 'SWT', 'SWT TO SET');
+COMMIT;
+
+INSERT INTO SYS_PARAMETER
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+ Values
+   ('FPF_PERCENTAGE', 'FPF PERCENTAGE FOR PF CHALLAN', '8.33', 'GPS', 'JT0069', 
+    SYSDATE, SYS_GUID(), '0004', 'SWT', 'SWT TO SET');
+COMMIT;
+
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+SELECT  PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, A.COMPANYCODE, 
+    SYSDATE LASTMODIFIED, SYS_GUID() SYSROWID, A.DIVISIONCODE, A.USERNAME, ALLOW_CHANGE_FROM_INTERFACE
+     FROM DIVISIONMASTER A,
+(
+SELECT PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE
+    FROM SYS_PARAMETER
+    WHERE PARAMETER_NAME = 'FPF_PERCENTAGE'
+    ) B
+    
+    DELETE FROM SYS_PARAMETER
+     WHERE PARAMETER_NAME = 'FPF_PERCENTAGE'
+     AND COMPANYCODE='JT0069'
+	 
+	 
+BIRLA CONTACT PERSON	 
+sunil sharma - 7003744286 /  9339840380
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+SELECT * FROM SYS_PARAMETER
+WHERE PARAMETER_NAME='EPF_PERCENTAGE'
+
+SELECT * FROM SYS_PARAMETER
+WHERE PARAMETER_NAME='FPF_PERCENTAGE'
+
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+ Values
+   ('EPF_PERCENTAGE', 'EPF PERCENTAGE FOR PF CHALLAN', '3.67', 'GPS', 'JT0069', 
+    SYSDATE, SYS_GUID(), '0004', 'SWT', 'SWT TO SET');
+COMMIT;
+
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+ Values
+   ('FPF_PERCENTAGE', 'FPF PERCENTAGE FOR PF CHALLAN', '8.33', 'GPS', 'JT0069', 
+    SYSDATE, SYS_GUID(), '0004', 'SWT', 'SWT TO SET');
+COMMIT;
+
+ Insert into SYS_PARAMETER
+   (PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE)
+SELECT  PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE,DECODE(A.DIVISIONTYPE,'HEAD OFFICE', 'PIS','GPS') PROJECTNAME, A.COMPANYCODE, 
+    SYSDATE LASTMODIFIED, SYS_GUID() SYSROWID, A.DIVISIONCODE, A.USERNAME, ALLOW_CHANGE_FROM_INTERFACE
+     FROM DIVISIONMASTER A,
+(
+SELECT PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, 
+    LASTMODIFIED, SYSROWID, DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE
+    FROM SYS_PARAMETER
+    WHERE PARAMETER_NAME = 'FPF_PERCENTAGE'
+    ) B
+    
+    DELETE FROM SYS_PARAMETER
+     WHERE PARAMETER_NAME = 'FPF_PERCENTAGE'
+     AND COMPANYCODE='JT0069'
+     
+     
+     
+	 
+----------------------------------------------------------------------------
+
+
+    <link href="../../../Lib/jquery-ui-1.11.2/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../../../Scripts/jquery.handsontable.full.css" rel="stylesheet" />
+    <script src="../../../Scripts/modernizr-2.6.2.js" type="text/javascript"></script>
+    <script src="../../../Scripts/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="../../../Lib/jquery-ui-1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../../../Scripts/jquery.handsontable.full.js" type="text/javascript"></script>
+    <script src="../../../Scripts/globalSearch.js" type="text/javascript"></script>
+    <script src="../../../Scripts/commonvalidations.js" type="text/javascript"></script>
+    <script src="../../../Scripts/jquery.maskedinput.js"></script>
+	
+	
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
