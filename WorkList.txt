@@ -1314,6 +1314,24 @@ WHERE COMPANYCODE='JT0069'
 
 
 ----------------------------------------------------------------------------
+
+
+SELECT * FROM PISCOMPONENTMASTER WHERE COMPONENTTYPE='DEDUCTION'
+
+SELECT * FROM PISCOMPONENTMASTER WHERE PHASE<=5
+ORDER BY PHASE, CALCULATIONINDEX
+
+NS_HRS,
+OT_HRS,
+OT_DAYS,
+SERV_PERC,
+CONV_PERC
+ESI_ADJERN
+HRA_AMT
+NS_ALLOW
+PROF_BONUS
+SERV_ALW
+ADHOC_NPF
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
