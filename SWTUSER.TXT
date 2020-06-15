@@ -21,7 +21,7 @@ SERVICE NAME 	: 		OR12CSE2
 USER 			: 		AMBOOTIA / AIT00BMA
 IP   			:		1.6.37.242
 PASSWORD 		: 		000
-SERVICE NAME 	: 		OR12CSE2
+SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
 USER 			: 		ASIANTEA
 IP   			:		223.31.219.122
