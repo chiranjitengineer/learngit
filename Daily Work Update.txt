@@ -3,6 +3,93 @@
 work update on 15/06/2020
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%month att%')
+
+
+update menumaster_rnd
+set URLSRC ='PIS/PAGES/Transaction/pgPISMonthAttendanceWithLeave.aspx'
+where menucode = '01070202'
+
+
+update menumaster_rnd
+set URLSRC ='PIS/PAGES/Transaction/pgPISMonthAttendance.aspx'
+where menucode = '01070202'
+
+URLSRC
+
+---------------------------------------------------------------------------------------------
+
+--ATTENDANCE CODE
+select rtrim(xmlagg(xmlelement(e,x.componentcode||',') order by srl).extract('//text()'),',') xx 
+  from ( 
+        select srl, columnname componentcode from pistagwisefixedcolumnshow 
+         where companycode='BJ0056' 
+           and divisioncode='0001' 
+           and tagtype='ATTENDANCE' 
+        union all 
+        select 50+nvl(phase,999)+nvl(calculationindex,9999) srl, 'ASSIGN.'||A.componentcode componentcode from piscomponentmaster A
+        ,(
+            SELECT DISTINCT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+            WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = (
+                                SELECT MAX(YEARMONTH) FROM PISGRADECOMPONENTMAPPING
+                                WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                            )
+            AND CATEGORYCODE = '10'
+            AND GRADECODE ='11' 
+            AND APPLICABLE LIKE 'Y%' 
+        ) B 
+         where companycode='BJ0056' 
+           and divisioncode='0001' 
+           and A.componentcode||yearmonth in ( 
+                                            select distinct componentcode||max(yearmonth) from piscomponentmaster 
+                                             where companycode='BJ0056' 
+                                               and divisioncode='0001' 
+                                               and to_number(yearmonth)<=to_number('202004') 
+                                             group by componentcode 
+                                           ) 
+          AND A.COMPONENTCODE = B.COMPONENTCODE
+           and nvl(userentryapplicable,'N')='Y' 
+           and nvl(attendanceentryapplicable,'N')='Y' 
+        union all 
+        select (SELECT MAX(srl) FROM pistagwisefixedcolumnshow where companycode='BJ0056' 
+           and divisioncode='0001' 
+           and tagtype='ATTENDANCE' )  srl, 'L_A.'||leavecode componentcode from PISLEAVEMASTER
+         where companycode='BJ0056' 
+           and divisioncode='0001' 
+        union all 
+        select 0 srl,  'DYLEAVE' componentcode from dual
+       ) x 
+	   
+---------------------------------------------------------------------------------------------
+
+--FUNCTION TAKEN FROM GLOSTER 
+--ADDED TO BIRLA
+CREATE OR REPLACE function fn_RtnNoOfApplicableHolidays(P_COMPCODE VARCHAR2, P_DIVCODE VARCHAR2, P_YEARMONTH VARCHAR2, P_CATEGORYCODE VARCHAR2,P_GRADECODE VARCHAR2,P_WORKERSERIAL  VARCHAR2, P_MODULE VARCHAR2 DEFAULT 'PIS') return number
+AS 
+lv_Cnt      number(5,2):=0;
+begin
+    if P_MODULE = 'PIS' THEN
+        SELECT COUNT(*) INTO lv_Cnt
+        FROM PISHOLIDAYMASTER A, PISEMPLOYEEMASTER E
+        WHERE A.COMPANYCODE = P_COMPCODE AND A.DIVISIONCODE = P_DIVCODE
+          AND TO_CHAR(A.HOLIDAYDATE,'YYYYMM') = P_YEARMONTH
+          AND NVL(A.ISPAID,'N') = 'Y'
+          AND A.COMPANYCODE=E.COMPANYCODE
+          AND A.DIVISIONCODE=E.DIVISIONCODE
+          AND NVL(A.CATEGORYCODE,'N')=E.CATEGORYCODE
+          AND NVL(A.GRADECODE,'N')=E.GRADECODE
+          AND A.HOLIDAYDATE>=E.DATEOFJOIN
+          AND E.WORKERSERIAL=P_WORKERSERIAL;
+    
+    END IF;
+    return lv_Cnt;
+end;
+/
+
+---------------------------------------------------------------------------------------------
 procedure
 
 prcAssignment_Bf_MainSave
