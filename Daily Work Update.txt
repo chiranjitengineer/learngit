@@ -1,5 +1,594 @@
 
 ---------------------------------------------------------------------------------------------
+Debasis Dutta call me 
+
+1. In Flexi Division (003) Month 
+2. Add ESI Applicable field default value 'Y'
+
+---------------------------------------------------------------------------------------------
+ACBILLDETAILS_ENTRY
+
+--
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Employee|     Employee           |Employee's |Employee's  |Employeer's |Share       |Refund  | No.of Days/|         |           |           
+--  Code   |     Name               |Amount of  |Contribution|EPF differ  |Pension Fund| of     | Period     |   DLI   |  EE+      |   Gross   
+--         |                        |  Wages    |            |between     |Contribution|Advance |  of non    |  Wages  |  ER+PF_E  |   Earn    
+--         |                        | ( Rs. )   |   12%      |  8.33%     |   8.33%    |        |contributing|         |           |           
+-----------------------------------------------------------------------------------------------------------------------------------------------
+--00002     LAXMI NARAYAN DASH          42000.00     5040.00     3790.00      1250.00      0.00      0.00      15000.00    10080.00    78217.00
+--'
+
+select * from pispaytransaction
+
+
+select netsalary, totearn,pf_gross,pf_c from pispaytransaction
+
+select netsalary, totearn,pf_gross,pf_c, epf from pispaytransaction
+
+select netsalary, totearn,pf_gross,pf_c, pf_e from pispaytransaction
+
+
+select 1950/16250 from dual
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+2. Add ESI Applicable field default value 'Y'
+----------------------------------------------
+SELECT * FROM PISEMPLOYEEMASTER
+
+ALTER TABLE PISEMPLOYEEMASTER
+ADD ESIAPPLICABLE VARCHAR2(1)
+
+UPDATE PISEMPLOYEEMASTER SET 
+ESI_APPLICABLE ='Y'
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE LIKE 'ESI%'
+
+PISCOMP.ESI_GROSS*0.0325
+
+ESI_E
+---------------------
+CASE WHEN PISCOMP.BASIC > 0 AND NVL(PISMAST.ESIAPPLICABLE,'Y')= 'Y' THEN PISCOMP.ESI_GROSS*0.0075 ELSE 0 END 
+
+
+
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM COLS
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%MONTH ATTEN%')
+
+PISCOMPONENTMASTER
+
+
+PISTEMPMAST
+
+SELECT * FROM PIS_ERROR_LOG
+
+PRC_PIS_SALARY_PROCESS
+
+
+select COMPANYCODE, DIVISIONCODE, PROCESSTYPE, PROCEDURE_NAME, PHASE, CALCULATIONINDEX, PARAM_1, PARAM_2, PARAM_3 
+                            from WAGESPROCESSTYPE_PHASE  
+                            where COMPANYCODE = '0001' 
+                              and DIVISIONCODE = '001'
+                              and PROCESSTYPE = 'SALARY'
+                            ORDER BY PHASE, CALCULATIONINDEX
+
+
+PRC_PISSALARYPROCESS_INSERT
+PRC_PISSALARY_WRKDAY_LV_UPDT
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARYPROCESS_DEDN
+PRC_PISSALARYPROCESS_UPDATE
+PRC_PISSALARY_OTHCOMP_UPDATE
+PRC_PISSALARYPROCESS_TRANSFER
+
+
+---------------------------------------------------------------------------------------------
+SELECT * FROM PISEMPLOYEEMASTER
+
+ALTER TABLE PISEMPLOYEEMASTER
+ADD ESI_APPLICABLE VARCHAR2(1)
+
+UPDATE PISEMPLOYEEMASTER SET 
+ESI_APPLICABLE ='Y'
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE LIKE 'ESI%'
+
+PISCOMP.ESI_GROSS*0.0325
+
+
+---------------------------------------------------------------------------------------------
+/* Formatted on 19/06/2020 1:55:01 PM (QP5 v5.326) */
+  SELECT *
+    FROM (SELECT NVL (L_A.PL_LWP, 'N')
+                     AS PL_LWP,
+                 NVL (L_A.SL_LWP, 'N')
+                     AS SL_LWP,
+                 EMPMAST.COMPANYCODE,
+                 EMPMAST.DIVISIONCODE,
+                 ATTN.SYSROWID,
+                 ASSIGN.YEARCODE,
+                 ASSIGN.YEARMONTH,
+                 EMPMAST.UNITCODE,
+                 EMPMAST.CATEGORYCODE,
+                 EMPMAST.GRADECODE,
+                 EMPMAST.WORKERSERIAL,
+                 EMPMAST.TOKENNO,
+                 EMPMAST.EMPLOYEENAME,
+                 EMPMAST.DEPARTMENTCODE,
+                 DEPT.DEPARTMENTDESC,
+                 CASE
+                     WHEN TO_NUMBER (TO_CHAR (EMPMAST.DATEOFJOIN, 'YYYYMM')) =
+                          TO_NUMBER ('202004')
+                     THEN
+                           (  LAST_DAY (TO_DATE ('01/04/2020', 'DD/MM/YYYY'))
+                            - EMPMAST.DATEOFJOIN)
+                         + 1
+                     ELSE
+                         TO_NUMBER (
+                             TO_CHAR (
+                                 LAST_DAY (
+                                     TO_DATE ('01/04/2020', 'DD/MM/YYYY')),
+                                 'DD'))
+                 END
+                     TOTALDAYS,
+                 DECODE (
+                     NVL (C.CALCULATIONDAYS, 0),
+                     0, TO_NUMBER (
+                            TO_CHAR (
+                                LAST_DAY (TO_DATE ('01/04/2020', 'DD/MM/YYYY')),
+                                'DD')),
+                     C.CALCULATIONDAYS)
+                     CALCULATIONFACTORDAYS,
+                 NVL (
+                     ATTN.PRESENTDAYS,
+                       NVL (
+                           ATTN.SALARYDAYS,
+                             CASE
+                                 WHEN TO_NUMBER (
+                                          TO_CHAR (EMPMAST.DATEOFJOIN,
+                                                   'YYYYMM')) =
+                                      TO_NUMBER ('202004')
+                                 THEN
+                                       (  LAST_DAY (
+                                              TO_DATE ('01/04/2020',
+                                                       'DD/MM/YYYY'))
+                                        - EMPMAST.DATEOFJOIN)
+                                     + 1
+                                 ELSE
+                                     DECODE (
+                                         NVL (C.CALCULATIONDAYS, 0),
+                                         0, TO_NUMBER (
+                                                TO_CHAR (
+                                                    LAST_DAY (
+                                                        TO_DATE ('01/04/2020',
+                                                                 'DD/MM/YYYY')),
+                                                    'DD')),
+                                         C.CALCULATIONDAYS)
+                             END
+                           - CASE
+                                 WHEN ATTN.WITHOUTPAYDAYS IS NULL THEN 0
+                                 ELSE NVL (ATTN.WITHOUTPAYDAYS, 0)
+                             END)
+                     - (NVL (L_A.PL, 0) + NVL (L_A.SL, 0))
+                     - NVL (
+                           ATTN.HOLIDAYS,
+                           fn_RtnNoOfApplicableHolidays ('0001',
+                                                         '003',
+                                                         '202004',
+                                                         '01',
+                                                         '01',
+                                                         EMPMAST.WORKERSERIAL)))
+                     AS PRESENTDAYS,
+                 NVL (
+                     ATTN.SALARYDAYS,
+                       CASE
+                           WHEN TO_NUMBER (
+                                    TO_CHAR (EMPMAST.DATEOFJOIN, 'YYYYMM')) =
+                                TO_NUMBER ('202004')
+                           THEN
+                                 (  LAST_DAY (
+                                        TO_DATE ('01/04/2020', 'DD/MM/YYYY'))
+                                  - EMPMAST.DATEOFJOIN)
+                               + 1
+                           ELSE
+                               DECODE (
+                                   NVL (
+                                       DECODE (
+                                           NVL (C.CALCULATIONDAYS, 0),
+                                           0, TO_NUMBER (
+                                                  TO_CHAR (
+                                                      LAST_DAY (
+                                                          TO_DATE (
+                                                              '01/04/2020',
+                                                              'DD/MM/YYYY')),
+                                                      'DD')),
+                                           C.CALCULATIONDAYS),
+                                       0),
+                                   0, TO_NUMBER (
+                                          TO_CHAR (
+                                              LAST_DAY (
+                                                  TO_DATE ('01/04/2020',
+                                                           'DD/MM/YYYY')),
+                                              'DD')),
+                                   DECODE (
+                                       NVL (C.CALCULATIONDAYS, 0),
+                                       0, TO_NUMBER (
+                                              TO_CHAR (
+                                                  LAST_DAY (
+                                                      TO_DATE ('01/04/2020',
+                                                               'DD/MM/YYYY')),
+                                                  'DD')),
+                                       C.CALCULATIONDAYS))
+                       END
+                     - CASE
+                           WHEN ATTN.WITHOUTPAYDAYS IS NULL THEN 0
+                           ELSE NVL (ATTN.WITHOUTPAYDAYS, 0)
+                       END)
+                     SALARYDAYS,
+                 NVL (ATTN.HOLIDAYS,
+                      fn_RtnNoOfApplicableHolidays ('0001',
+                                                    '003',
+                                                    '202004',
+                                                    '01',
+                                                    '01',
+                                                    EMPMAST.WORKERSERIAL))
+                     HOLIDAYS,
+                 ATTN.NOOFOFFDAYS,
+                 ATTN.WITHOUTPAYDAYS,
+                 L_A.SL,
+                 L_A.PL,
+                 ASSIGN.LOP,
+                 ASSIGN.SHIFT_A,
+                 ASSIGN.SHIFT_B,
+                 ASSIGN.SHIFT_C,
+                 ASSIGN.CONV_ALW,
+                 ASSIGN.ATN_INCTV,
+                 ASSIGN.PUNC_ALW,
+                 ASSIGN.ATN_ALW,
+                 ASSIGN.WASH_ALW,
+                 ASSIGN.EDU_ALW,
+                 ASSIGN.CLEAN_ALW,
+                 ASSIGN.LGBK_ALW,
+                 ASSIGN.INSP_ALW,
+                 ASSIGN.CHRG_HAND,
+                 ASSIGN.PERF_ALW,
+                 ASSIGN.MISC_DEDN,
+                 ASSIGN.CANTEEN
+            FROM PISEMPLOYEEMASTER  EMPMAST,
+                 PISDEPARTMENTMASTER DEPT,
+                 PISCATEGORYMASTER  C,
+                 (SELECT *
+                    FROM PISCOMPONENTASSIGNMENT
+                   WHERE     COMPANYCODE = '0001'
+                         AND DIVISIONCODE = '003'
+                         AND TRANSACTIONTYPE = 'ATTENDANCE'
+                         AND WORKERSERIAL || YEARMONTH IN
+                                 (  SELECT WORKERSERIAL || MAX (YEARMONTH)
+                                      FROM PISCOMPONENTASSIGNMENT
+                                     WHERE     COMPANYCODE = '0001'
+                                           AND DIVISIONCODE = '003'
+                                           AND TO_NUMBER (YEARMONTH) =
+                                               TO_NUMBER ('202004')
+                                           AND TRANSACTIONTYPE = 'ATTENDANCE'
+                                  GROUP BY WORKERSERIAL)) ASSIGN,
+                 PISMONTHATTENDANCE ATTN,
+                 (  SELECT WORKERSERIAL, TOKENNO, SUM (LEAVEDAYS) LV_ENCASH_DAYS
+                      FROM PISLEAVEAPPLICATION
+                     WHERE     COMPANYCODE = '0001'
+                           AND DIVISIONCODE = '003'
+                           AND NVL (LEAVEENCASHED, 'N') = 'Y'
+                           AND TO_NUMBER (TO_CHAR (LEAVEDATE, 'YYYYMM')) =
+                               TO_NUMBER ('202004')
+                  GROUP BY WORKERSERIAL, TOKENNO) L,
+                 (  SELECT A.WORKERSERIAL,
+                           SUM (DECODE (A.LEAVECODE, 'PL', A.LEAVEDAYS, 0))
+                               PL,
+                           MAX (
+                               DECODE (A.LEAVECODE, 'PL', M.WITHOUTPAYLEAVE, 'N'))
+                               PL_LWP,
+                           SUM (DECODE (A.LEAVECODE, 'SL', A.LEAVEDAYS, 0))
+                               SL,
+                           MAX (
+                               DECODE (A.LEAVECODE, 'SL', M.WITHOUTPAYLEAVE, 'N'))
+                               SL_LWP,
+                           TOKENNO
+                      FROM PISLEAVEAPPLICATION A, PISLEAVEMASTER M
+                     WHERE     A.COMPANYCODE = '0001'
+                           AND A.DIVISIONCODE = '003'
+                           AND A.LEAVESANCTIONEDON IS NOT NULL
+                           AND TO_NUMBER (TO_CHAR (A.LEAVEDATE, 'YYYYMM')) =
+                               TO_NUMBER ('202004')
+                           AND A.COMPANYCODE = M.COMPANYCODE
+                           AND A.DIVISIONCODE = M.DIVISIONCODE
+                           AND A.LEAVECODE = M.LEAVECODE
+                           AND NVL (LEAVEENCASHED, 'N') <> 'Y'
+                  GROUP BY WORKERSERIAL, TOKENNO) L_A
+           WHERE     EMPMAST.COMPANYCODE = DEPT.COMPANYCODE
+                 AND EMPMAST.DIVISIONCODE = DEPT.DIVISIONCODE
+                 AND EMPMAST.DEPARTMENTCODE = DEPT.DEPARTMENTCODE
+                 AND EMPMAST.COMPANYCODE = ASSIGN.COMPANYCODE(+)
+                 AND EMPMAST.DIVISIONCODE = ASSIGN.DIVISIONCODE(+)
+                 AND EMPMAST.TOKENNO = ASSIGN.TOKENNO(+)
+                 AND EMPMAST.WORKERSERIAL = ASSIGN.WORKERSERIAL(+)
+                 AND EMPMAST.TOKENNO = L.TOKENNO(+)
+                 AND EMPMAST.WORKERSERIAL = L.WORKERSERIAL(+)
+                 AND EMPMAST.COMPANYCODE = ATTN.COMPANYCODE(+)
+                 AND EMPMAST.DIVISIONCODE = ATTN.DIVISIONCODE(+)
+                 AND EMPMAST.TOKENNO = ATTN.TOKENNO(+)
+                 AND EMPMAST.WORKERSERIAL = ATTN.WORKERSERIAL(+)
+                 AND ATTN.YEARMONTH(+) = '202004'
+                 AND EMPMAST.COMPANYCODE = '0001'
+                 AND EMPMAST.DIVISIONCODE = '003'
+                 AND EMPMAST.COMPANYCODE = C.COMPANYCODE(+)
+                 AND EMPMAST.DIVISIONCODE = C.DIVISIONCODE(+)
+                 AND EMPMAST.CATEGORYCODE = C.CATEGORYCODE(+)
+                 AND EMPMAST.TOKENNO = L_A.TOKENNO(+)
+                 AND EMPMAST.WORKERSERIAL = L_A.WORKERSERIAL(+)
+                 AND EMPMAST.UNITCODE = '003'
+                 AND EMPMAST.CATEGORYCODE = '01'
+                 AND EMPMAST.GRADECODE = '01'
+                 AND TO_NUMBER (TO_CHAR (EMPMAST.DATEOFJOIN, 'YYYYMM')) <=
+                     TO_NUMBER ('202004')
+                 AND TO_NUMBER (
+                         NVL (
+                             TO_CHAR (EMPMAST.EXTENDEDRETIREDATE, 'YYYYMM'),
+                             NVL (TO_CHAR (EMPMAST.STATUSDATE, 'YYYYMM'),
+                                  '202004'))) >=
+                     TO_NUMBER ('202004')
+                 AND EMPMAST.EMPLOYEESTATUS = 'ACTIVE')
+ORDER BY TOKENNO
+---------------------------------------------------------------------------------------------
+
+SELECT COMPONENT, COLUMN_NAME FROM (
+SELECT 'PISMAST.'||COLUMN_NAME COMPONENT, COLUMN_NAME FROM COLS WHERE TABLE_NAME = 'PISMAST' AND COLUMN_NAME NOT IN ('COMPANYCODE','DIVISIONCODE',<<COLUMN_NAME>>) 
+UNION ALL
+SELECT 'PISASSIGN.'||COLUMN_NAME COMPONENT, COLUMN_NAME FROM COLS WHERE TABLE_NAME = 'PISASSIGN' AND COLUMN_NAME NOT IN ('COMPANYCODE','DIVISIONCODE',<<COLUMN_NAME>>) 
+UNION ALL
+SELECT 'PISATTN.'||COLUMN_NAME COMPONENT, COLUMN_NAME FROM COLS WHERE TABLE_NAME = 'PISATTN'  AND COLUMN_NAME NOT IN ('COMPANYCODE','DIVISIONCODE',<<COLUMN_NAME>>) 
+UNION ALL
+SELECT 'PISCOMP.'||COLUMN_NAME COMPONENT, COLUMN_NAME FROM COLS WHERE TABLE_NAME = 'PISCOMP' AND COLUMN_NAME NOT IN ('COMPANYCODE','DIVISIONCODE',<<COLUMN_NAME>>)
+UNION ALL
+SELECT 'PISPREV.'||COLUMN_NAME COMPONENT, COLUMN_NAME FROM COLS WHERE TABLE_NAME = 'PISPREV' AND COLUMN_NAME NOT IN ('COMPANYCODE','DIVISIONCODE',<<COLUMN_NAME>>)  
+) WHERE 1=1 ORDER BY COLUMN_NAME
+
+PISMAST
+
+---------------------------------------------------------------------------------------------
+
+
+ 
+ SELECT COL_TO_DISPLAY  FROM SYS_RPT_QRY  WHERE COMPANYCODE='0001'  
+ 
+ 
+ SELECT DISTINCT COMPONENTCODE, COMPONENTSHORTNAME, PHASE, CALCULATIONINDEX 
+  FROM PISCOMPONENTMASTER 
+ WHERE COMPANYCODE='0001' 
+   AND DIVISIONCODE ='001' 
+   AND YEARMONTH <= '202004' 
+UNION ALL
+SELECT DISTINCT 'MISC_BF' COMPONENTCODE, 'MISC BF' COMPONENTSHORTNAME, 9999 PHASE,99999 CALCULATIONINDEX FROM DUAL
+
+SELECT * FROM 
+PISCOMPONENTASSIGNMENT
+WHERE 1=1
+--AND TOKENNO='00134'
+AND NVL(HRA_PER,0) > 0
+
+
+UPDATE PISCOMPONENTASSIGNMENT SET 
+HRA_PER = 25
+
+
+---------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE PRC_OUTPUT_TEST(P_IN IN  VARCHAR2, P_OUT OUT VARCHAR2)
+AS
+BEGIN
+P_OUT := P_IN;
+
+DBMS_OUTPUT.PUT_LINE('P_IN = '|| P_IN);
+DBMS_OUTPUT.PUT_LINE('P_OUT = '|| P_OUT);
+END;
+/
+
+DECLARE
+LV_IN VARCHAR2(100);
+LV_OUT VARCHAR2(100);
+
+BEGIN
+
+LV_IN := 'TEST';
+PRC_OUTPUT_TEST(LV_IN, LV_OUT);
+
+DBMS_OUTPUT.PUT_LINE(LV_OUT);
+
+END;
+
+---------------------------------------------------------------------------------------------------------------
+
+--BIRLA
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='PISEMPLOYEEMASTER'
+
+UPDATE SYS_TFMAP SET
+SYS_COLUMNNAME='MARITIALSTATUS'
+WHERE SYS_TABLENAME_ACTUAL='PISEMPLOYEEMASTER'
+AND SYS_COLUMNNAME='MARRIED'
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(10014,0)
+
+---------------------------------------------------------------------------------------------
+
+--LUDLOW UPDATE
+
+
+---------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE FILE_ID
+(
+  FILE_ID        VARCHAR2(100 BYTE),
+  DATA_FILE      BLOB,
+  FILE_TYPE      VARCHAR2(100 BYTE),
+  UID_DATE       DATE                           DEFAULT SYSDATE,
+  FILE_MENUCODE  VARCHAR2(50 BYTE)
+)
+
+---------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE procedure prc_upload_key_wise_document
+(
+    p_keyTable varchar2
+)
+as
+lv_cnt                  number;
+lv_result               varchar2(10);
+lv_error_remark         varchar2(4000) := '';
+lv_master               gbl_sys_upload_memo%rowtype;
+lv_dbuser               varchar2(50);
+lv_dbtable              varchar2(30);
+lv_sql                  varchar2(4000) :='';
+lv_keycols              varchar2(4000) :='';
+begin
+    lv_result:='#SUCCESS#';
+    
+    select count(*)
+    into lv_cnt
+    from gbl_sys_upload_memo;
+    
+    if lv_cnt > 0  then
+       lv_keycols := fn_get_Key_column_names(p_keyTable);
+       lv_sql := 'select distinct ' || replace(lv_keycols,',','||'',''||') || ' from ' || p_keyTable;
+       execute immediate lv_sql into lv_keycols;
+       
+       update gbl_sys_upload_memo set key_column=lv_keycols,
+                                      uid_date=nvl(uid_date,trunc(sysdate));
+        
+       for c1 in (    
+                   select distinct db_username, tablename
+                   from gbl_sys_upload_memo
+                 )
+       loop
+            select count(*) into lv_cnt from dba_tables 
+            where upper(owner) = upper(c1.db_username)
+            and upper(table_name) = upper(c1.tablename)
+            and nvl(status,'XX')='VALID';
+            
+            if lv_cnt=0 then
+                lv_sql := 'CREATE TABLE ' || c1.db_username||'.'||c1.tablename || chr(10);
+                lv_sql := lv_sql || '(' || chr(10);
+                lv_sql := lv_sql || 'UID_NO VARCHAR2(200), ' || chr(10);
+                lv_sql := lv_sql || 'UID_DATE DATE, ' || chr(10);
+                lv_sql := lv_sql || 'DATA_FILE BLOB, ' || chr(10);
+                lv_sql := lv_sql || 'DATA_TYPE VARCHAR2(50), ' || chr(10);
+                lv_sql := lv_sql || 'MODULE VARCHAR2(100), ' || chr(10);
+                lv_sql := lv_sql || 'LASTMODIFIED DATE DEFAULT SYSDATE ' || chr(10);
+                lv_sql := lv_sql || ')' || chr(10);
+                execute immediate lv_sql;
+            end if;
+            
+            for c2 in (
+                        select a.uid_no, a.uid_date, a.key_column, b.data_file, b.file_type, a.module, a.operationmode
+                        from gbl_sys_upload_memo a, file_id b
+                        where a.uid_no=b.file_id
+                      )
+            loop
+                lv_sql := 'DELETE FROM ' || c1.db_username||'.'||c1.tablename || ' WHERE UID_NO = '''|| c2.uid_no||''' ';
+                execute immediate lv_sql;
+                
+                if c2.operationmode <> 'D' then
+                    lv_sql := 'insert into ' || c1.db_username||'.'||c1.tablename || ' (uid_no, uid_date, data_file, data_type, module) ' || chr(10);
+                    lv_sql := lv_sql || 'select a.uid_no, a.uid_date, b.data_file, b.file_type, a.module ' || chr(10);
+                    lv_sql := lv_sql || 'from gbl_sys_upload_memo a, file_id b ' || chr(10);
+                    lv_sql := lv_sql || 'where a.uid_no=b.file_id ' || chr(10);
+                    lv_sql := lv_sql || 'and a.uid_no='''||c2.uid_no||''' ';
+                    execute immediate lv_sql;
+                end if;
+                
+                delete from file_id where file_id=c2.uid_no;
+            end loop;
+       end loop;
+       --proc_sd_GTTVSACTUAL_sync('GBL_SYS_UPLOAD_MEMO', 'M');
+    end if;      
+end;
+/
+
+
+---------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE USERWISE_DATA_ACCESS
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  MENUCODE       VARCHAR2(50 BYTE),
+  LOGINID        VARCHAR2(10 BYTE),
+  KEYFIELD       VARCHAR2(30 BYTE),
+  KEYFIELDVALUE  VARCHAR2(100 BYTE),
+  USERNAME       VARCHAR2(50 BYTE),
+  LASTMODIFIED   DATE                           DEFAULT SYSDATE,
+  SYSROWID       VARCHAR2(50 BYTE)
+)
+
+
+---------------------------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE FUNCTION FN_USERWISE_DATA_ACCESS(P_COMPCODE VARCHAR2, P_DIVCODE VARCHAR2, P_MENUCODE VARCHAR2, P_USER VARCHAR2, P_KEYCODE VARCHAR2, P_KEYVALUE VARCHAR2) RETURN VARCHAR2
+AS
+lv_Sql        varchar2(10000):= '';
+lv_TableName  varchar2(30) := 'USERWISE_DATA_ACCESS';
+lv_Cnt        number(2) := 0;
+lv_IsAdmin    varchar2(1) := 'N';
+lv_Return     varchar2(100) := '';
+lv_KEYFIELD   varchar2(30):=''; 
+KEYFIELDVALUE varchar2(10) := '';
+BEGIN
+    SELECT NVL(ISADMINISTRATOR,'N')  INTO lv_IsAdmin 
+    FROM LOGIN 
+    WHERE COMPANYCODE = P_COMPCODE AND USERNAME = P_USER;
+    IF lv_IsAdmin = 'Y' THEN
+        lv_Return := 'SUCCESS';
+    ELSE
+        SELECT COUNT(*) INTO lv_Cnt FROM COLS WHERE TABLE_NAME =  lv_TableName;
+        IF lv_Cnt <=0 then
+           lv_Return := 'SUCCESS';       --- no need to check the
+        else
+            SELECT COUNT(*) INTO lv_Cnt from USERWISE_DATA_ACCESS 
+            WHERE COMPANYCODE = P_COMPCODE AND DIVISIONCODE = P_DIVCODE AND MENUCODE = P_MENUCODE;
+            if lv_Cnt <=0 then
+                lv_Return := 'SUCCESS';
+            else          
+               SELECT COUNT(*) INTO lv_Cnt
+               FROM USERWISE_DATA_ACCESS  
+               WHERE COMPANYCODE = P_COMPCODE AND MENUCODE = P_MENUCODE
+                 AND KEYFIELD = P_KEYCODE AND KEYFIELDVALUE = P_KEYVALUE;
+               IF lv_Cnt > 0 then
+                lv_Return := 'SUCCESS'; 
+               else
+                lv_Return := 'DENIED, USER - '||P_USER||' IS NOT AUTHORZIED TO ACCESS THE DATA'; 
+               end if;
+            end if;     
+        end if;
+    END IF;
+    RETURN lv_Return;
+END ;
+/
+
 ---------------------------------------------------------------------------------------------
 --VOUCHER PRINTING
 
