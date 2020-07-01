@@ -61,7 +61,12 @@ Data Migration should be in Birla server.
 ANYDESK - 400326309 , PWD - birla#2020
  
 
+ANYDESK - 648464804 , PWD - 123@swtbjm
+ 
+
 ORACLE
 
 USER - BIRLANEW, PWD - Cl0udBirPwd, DATABASE = BIRLANEW_CLOUD
+
+
 

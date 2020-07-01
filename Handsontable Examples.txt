@@ -1,0 +1,66 @@
+ afterLoadData: function () {
+                var data = $container.data('handsontable').getData();
+                var Interest = parseInt($('[ID*=txtINTEREST]').val());
+                var rindex = 0;
+                for (rindex = 0; rindex < data.length; rindex++) {
+                    data[rindex].INTEREST = (data[rindex].PREVOPENNING * (Interest / 100.0));
+                    data[rindex].BAL_CARRIED_OVER = data[rindex].PREVOPENNING + data[rindex].CREDIT_BAL_INCOMING + data[rindex].CONTRIBUTION + data[rindex].INTEREST - data[rindex].REFUND_ADV;
+                    data[rindex].BAL_CARRIED_FORWARD = data[rindex].BAL_CARRIED_OVER - data[rindex].SETTLEMENTS - data[rindex].CREDIT_BAL_OUTGOING - data[rindex].LAPSED_CONTRIBUTION
+                }
+                $container.data('handsontable').render();
+            }
+        });
+
+        function AfterChange(changes, data) {
+            if (!changes) {
+                return;
+            }
+
+            $.each(changes, function (index, element) {
+                var change = element;
+                var rowIndex = change[0];
+                var columnIndex = change[1];
+                console.log(changes);
+                var data = $container.data('handsontable').getData();
+                console.log(data);
+                console.log(element);
+
+                var rindex = element[0];
+                console.log(element);
+                //data[rindex].
+                var Interest = parseInt($('[ID*=txtINTEREST]').val());
+
+                data[rindex].INTEREST = (data[rindex].PREVOPENNING * (Interest / 100.0));
+
+
+                data[rindex].BAL_CARRIED_OVER = data[rindex].PREVOPENNING + data[rindex].CREDIT_BAL_INCOMING + data[rindex].CONTRIBUTION + data[rindex].INTEREST - data[rindex].REFUND_ADV;
+
+                data[rindex].BAL_CARRIED_FORWARD = data[rindex].BAL_CARRIED_OVER - data[rindex].SETTLEMENTS - data[rindex].CREDIT_BAL_OUTGOING - data[rindex].LAPSED_CONTRIBUTION
+                $container.data('handsontable').render();
+
+            });
+            document.getElementById('<%=txtGRIDDATA.ClientID%>').value = '';
+            fn_GetGridData();
+        }
+		
+----------------------------------------------------------------------------------------------------------------
+
+
+            function ResetSerialNo() {
+                var rowCount = $("#dataTable").handsontable('countRows');
+                if (rowCount > 0) {
+                    var $container = $("div").find("#dataTable");
+                    var handsontable = $container.data('handsontable');
+                    var myData = handsontable.getSourceData();
+                    var srlNo = 0;
+                    $.each(myData, function (i, obj) {
+                        if ((Number(i) + 1) < rowCount) {
+                            obj.SRL = parseInt(srlNo) + 1;
+                            srlNo = parseInt(srlNo) + 1;
+                        }
+                    });
+                    $("div").find("#dataTable").handsontable('loadData', myData);
+                }
+            }
+
+		
