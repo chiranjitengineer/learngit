@@ -4,6 +4,758 @@
 
 Dear Chiranjit,
 
+Do the needful and talk to Sunil Sharma.
+
+ 
+
+Thanks,
+
+Amalesh Das
+
+ 
+
+From: Sunil K Sharma [mailto:sunil.k.sharma@birlacorp.com]
+Sent: 02 July 2020 11:49
+To: Varun Kasat; Amalesh Das; Anupam Mitra; Birendrakumar Giri
+Cc: 'Sujit Singh Softweb'; Ghisaram Verma
+Subject: Re: PIS Data Template
+
+ 
+
+ 
+
+Dear Amalesh da
+
+ 
+
+After again reprocessing it we had few initial observation which is as follows
+
+ 
+
+ 
+
+1 .Compulsory Savings  --(DONE)
+
+ 
+
+Basic salary<10000, deduct 200, else 500 (Only for BJM Staff other than trainee). In HO to be deducted for employee code 01069 Rs. 500
+
+ 
+
+2. Club dedn  ---(DONE)
+
+Basic salary<2000, deduct 5,
+Basic salary between 2000 and 2999, deduct 8
+Basic salary between 3000 and 7499, deduct 10
+else 15 (Only for BJM Staff other than trainee).
+
+ 
+
+ 
+
+3 Lic Dedn is not done properly  --(DONE)
+
+ 
+
+4) Pf loan ,Bank loan ,Advance  Loan not deducted properly --(DONE)
+
+
+Please Look into it
+
+
+---------------------------------------------------------------------------------------------
+
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '10047';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '10736';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '11723';
+update pfloantransaction set capitalinstallmentamount=13333, graceperioddays=28 where pfno = '11444';
+update pfloantransaction set capitalinstallmentamount=4000, graceperioddays=42 where pfno = '12072';
+update pfloantransaction set capitalinstallmentamount=6000, graceperioddays=28 where pfno = '12080';
+update pfloantransaction set capitalinstallmentamount=1043, graceperioddays=28 where pfno = '12103';
+update pfloantransaction set capitalinstallmentamount=12500, graceperioddays=42 where pfno = '12105';
+update pfloantransaction set capitalinstallmentamount=7917, graceperioddays=28 where pfno = '12115';
+update pfloantransaction set capitalinstallmentamount=6667, graceperioddays=28 where pfno = '12124';
+update pfloantransaction set capitalinstallmentamount=2500, graceperioddays=28 where pfno = '13114';
+update pfloantransaction set capitalinstallmentamount=7500, graceperioddays=42 where pfno = '13117';
+update pfloantransaction set capitalinstallmentamount=12500, graceperioddays=28 where pfno = '13254';
+update pfloantransaction set capitalinstallmentamount=13000, graceperioddays=28 where pfno = '13386';
+update pfloantransaction set capitalinstallmentamount=5000, graceperioddays=28 where pfno = '13534';
+update pfloantransaction set capitalinstallmentamount=10500, graceperioddays=42 where pfno = '14183';
+update pfloantransaction set capitalinstallmentamount=4584, graceperioddays=28 where pfno = '14271';
+update pfloantransaction set capitalinstallmentamount=3334, graceperioddays=28 where pfno = '14451';
+update pfloantransaction set capitalinstallmentamount=2083, graceperioddays=42 where pfno = '14458';
+update pfloantransaction set capitalinstallmentamount=5000, graceperioddays=42 where pfno = '14483';
+update pfloantransaction set capitalinstallmentamount=3334, graceperioddays=28 where pfno = '14615';
+update pfloantransaction set capitalinstallmentamount=2917, graceperioddays=28 where pfno = '14785';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '15177';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '15215';
+update pfloantransaction set capitalinstallmentamount=3959, graceperioddays=28 where pfno = '15338';
+update pfloantransaction set capitalinstallmentamount=4000, graceperioddays=28 where pfno = '11338';
+update pfloantransaction set capitalinstallmentamount=3750, graceperioddays=42 where pfno = '15559';
+update pfloantransaction set capitalinstallmentamount=5625, graceperioddays=42 where pfno = '15771';
+update pfloantransaction set capitalinstallmentamount=2500, graceperioddays=28 where pfno = '15791';
+update pfloantransaction set capitalinstallmentamount=7084, graceperioddays=28 where pfno = '15792';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '15797';
+update pfloantransaction set capitalinstallmentamount=8333, graceperioddays=28 where pfno = '12130';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '15904';
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '15982';
+update pfloantransaction set capitalinstallmentamount=2709, graceperioddays=28 where pfno = '16142';
+update pfloantransaction set capitalinstallmentamount=2917, graceperioddays=28 where pfno = '16359';
+update pfloantransaction set capitalinstallmentamount=2500, graceperioddays=42 where pfno = '16325';
+update pfloantransaction set capitalinstallmentamount=2500, graceperioddays=28 where pfno = '16324';
+update pfloantransaction set capitalinstallmentamount=3334, graceperioddays=28 where pfno = '16461';
+update pfloantransaction set capitalinstallmentamount=1250, graceperioddays=42 where pfno = '16514';
+update pfloantransaction set capitalinstallmentamount=5334, graceperioddays=28 where pfno = '16530';
+update pfloantransaction set capitalinstallmentamount=7084, graceperioddays=28 where pfno = '16555';
+update pfloantransaction set capitalinstallmentamount=7500, graceperioddays=28 where pfno = '342';
+update pfloantransaction set capitalinstallmentamount=1650, graceperioddays=42 where pfno = '443';
+update pfloantransaction set capitalinstallmentamount=1667, graceperioddays=28 where pfno = '16537';
+update pfloantransaction set capitalinstallmentamount=9167, graceperioddays=28 where pfno = '16603';
+update pfloantransaction set capitalinstallmentamount=2000, graceperioddays=28 where pfno = '16620';
+update pfloantransaction set capitalinstallmentamount=4000, graceperioddays=28 where pfno = '16624';
+update pfloantransaction set capitalinstallmentamount=1667, graceperioddays=28 where pfno = '16732';
+update pfloantransaction set capitalinstallmentamount=834, graceperioddays=28 where pfno = '16790';
+update pfloantransaction set capitalinstallmentamount=2688, graceperioddays=28 where pfno = '16892';
+update pfloantransaction set capitalinstallmentamount=1917, graceperioddays=28 where pfno = '17178';
+update pfloantransaction set capitalinstallmentamount=6000, graceperioddays=42 where pfno = '10061';
+update pfloantransaction set capitalinstallmentamount=3000, graceperioddays=42 where pfno = '10972';
+update pfloantransaction set capitalinstallmentamount=6000, graceperioddays=28 where pfno = '13107';
+update pfloantransaction set capitalinstallmentamount=6250, graceperioddays=42 where pfno = '14994';
+update pfloantransaction set capitalinstallmentamount=2917, graceperioddays=28 where pfno = '12134';
+update pfloantransaction set capitalinstallmentamount=2708, graceperioddays=42 where pfno = '13427';
+update pfloantransaction set capitalinstallmentamount=2500, graceperioddays=42 where pfno = '331';
+update pfloantransaction set capitalinstallmentamount=2200, graceperioddays=28 where pfno = '438';
+
+SELECT * FROM PFLOANTRANSACTION
+
+WHERE TOKENNO LIKE '01031'
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE TOKENNO ='01031'
+
+
+
+
+SELECT TOKENNO,CAPITALINSTALLMENTAMT,INTERESTINSTALLMENTAMT,CAPITALINSTALLMENTAMOUNT,INTERESTINSTALLMENTAMOUNT,TOTALEMIAMOUNT FROM PFLOANTRANSACTION
+
+UPDATE PFLOANTRANSACTION SET
+CAPITALINSTALLMENTAMT = CAPITALINSTALLMENTAMOUNT,
+INTERESTINSTALLMENTAMT = CAPITALINSTALLMENTAMOUNT,
+INTERESTINSTALLMENTAMOUNT = CAPITALINSTALLMENTAMOUNT,
+TOTALEMIAMOUNT = CAPITALINSTALLMENTAMOUNT
+WHERE 1=1
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+SELECT * FROM WPS_ERROR_LOG
+
+SELECT * FROM PIS_ERROR_LOG
+
+DELETE FROM WPS_ERROR_LOG
+
+
+DELETE FROM PIS_ERROR_LOG
+
+
+SELECT * FROM PFLOANTRANSACTION
+
+SELECT LOAN_PFL, A.* FROM PISPAYTRANSACTION A
+WHERE LOAN_PFL > 0
+
+
+
+SELECT * FROM LOANTRANSACTION
+
+SELECT LOAN_BL, A.* FROM PISPAYTRANSACTION A
+WHERE LOAN_BL > 0
+
+SELECT  A.* FROM PISPAYTRANSACTION A
+WHERE TOKENNO='00473'
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+
+SELECT DISTINCT UNITCODE, GRADECODE, CATEGORYCODE FROM PISCOMPONENTASSIGNMENT
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+WHERE UNITCODE='02'
+AND GRADECODE='C'
+
+
+SELECT * FROM BJM_COMP_ASSIGN
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+WHERE UNITCODE='02'
+AND TRANSACTIONTYPE='ASSIGNMENT'
+AND BASIC > 0
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE UNITCODE='03'
+
+UNIT - 01 -215 - 215
+    -   02 - 5 - 12
+    -   02 - 0 - 2
+    
+SELECT DISTINCT UNITCODE, CATEGORYCODE, GRADECODE FROM PISGRADECOMPONENTMAPPING
+    
+
+
+SELECT * FROM BJM_EMP_MAST
+WHERE UNITCODE='02'
+
+SELECT 
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISCOMPONENTMASTER
+
+COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, UNITCODE, DEPARTMENTCODE, 
+CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO, TRANSACTIONTYPE, SYSROWID, 
+LASTMODIFIED, USERNAME, 
+BASIC, DA, HRA_GROSS, HRA_PER, HRA, PF_GROSS, PEN_GROSS, ESI_GROSS, 
+PTAX_GROSS, PF_E, PF_C, FPF, VPF_PERC, VPF, ESI_E, ESI_C, PTAX, LWF, 
+SARR_ARRE, SARR_ARRD, SARR_PF_GROSS, SARR_NPF_GROSS, GROSSEARN, 
+GROSSDEDN, MISC_BF, MISC_CF, TOTEARN, TOTDEDN, NETSALARY, 
+LOAN_PFLN, LINT_PFLN, LOAN_SADV, LINT_SADV, LOAN_VADV, 
+LINT_VADV, LOAN_HLOAN, LINT_HLOAN, EPF, ITAX, FUEL, 
+OTH_ALLOW, CHILD_ALOW, CONV_ALOW, HRA_FIXED, MISC_EARN, 
+ESI_RT, LTA, ADHOC, SPL_ALLOW, OT_AMT, OEPF, OE_NPF, 
+HRA_PERC, ACT_PF_GRS, LIC, ELECTRIC, OTHR_DEDN, MEDICAL, 
+LVENCSH_DAYS, LEAVE_ENC, ATN_INCNT, ATN_INCAMT, CLUB, CUMM_DAYS, CUM_PFGROS, 
+ESI_RATE, CUMMPFEBAL, CUMMPFCBAL, CUMMVPFBAL, RT_BASIC, LNBL_BL, PER_ALLOW, 
+MED_ALLOW, COMPSAVING, CHOWKIDARI, FURNITURE, CAR, LOTTERY, RECREATION, GAMES, 
+SCHOOL_BUS, CONV_RT, LADIESCLUB, DAIRY, LIBRARY, OT_HRS, SUBSCRIPTION, HR_DEDN,
+ SAL_ADV, LOAN_BL, LINT_BL, LIBL_BL, LOAN_STADV, LINT_STADV, LNBL_STADV, 
+ LIBL_STADV, LOAN_SA, LINT_SA, LNBL_SA, LIBL_SA, LOAN_PFL, LINT_PFL, LNBL_PFL, 
+ LIBL_PFL, ATTN_SALD, ATTN_HOLD, ATTN_WRKD, ATTN_LDAY, LDAY_PL, LDAY_SL, LDAY_CL,
+  CUMM_PF_E, CUMM_PF_C, CUMM_VPF, LOAN_HPF, LINT_HPF, LNBL_HPF, LIBL_HPF
+  
+  BASIC, DA, ADHOC, PERSONAL_PAY, SPL_ALLOW, VPF_PERCENT, SCHOOL_BUS
+  
+  
+  BASIC, DA, ADHOC, PERSONAL_PAY, SPL_ALLOW, VPF_PERCENT, SCHOOL_BUS
+  
+  
+  SELECT EMPCODE, BASIC, DA, ADHOC, PERSONAL_PAY PER_ALLOW, SPL_ALLOW, VPF_PERCENT VPF_PERC, SCHOOL_BUS
+  FROM BJM_EMP_MAST
+  
+  
+COMPANYCODE, DIVISIONCODE, '2020-2021' YEARCODE, '202004' YEARMONTH, UNITCODE, DEPARTMENTCODE, 
+CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO,'ASSIGNMENT' TRANSACTIONTYPE, SYS_GUID() SYSROWID, 
+SYSDATE LASTMODIFIED,'SWT' USERNAME
+
+INSERT INTO PISCOMPONENTASSIGNMENT
+(
+COMPANYCODE, DIVISIONCODE, YEARCODE,  YEARMONTH, UNITCODE, DEPARTMENTCODE, 
+CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO, TRANSACTIONTYPE,  SYSROWID, 
+ LASTMODIFIED, USERNAME,
+BASIC, ADHOC,SPL_ALLOW,  PER_ALLOW,HRA_PER,HR_DEDN,FURNITURE, CHOWKIDARI
+)
+
+  SELECT    COMPANYCODE, DIVISIONCODE, '2020-2021' YEARCODE, '202004' YEARMONTH, UNITCODE, DEPARTMENTCODE, 
+CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO,'ASSIGNMENT' TRANSACTIONTYPE, SYS_GUID() SYSROWID, 
+SYSDATE LASTMODIFIED,'SWT' USERNAME,
+   BASIC_RT, ADHOC_RT, SP_ALLOWN_RT, PERS_ALLOW, HRA_RT HRA_PER, HS_RENT HR_DEDN, FURN_RENT FURNITURE, CHOW_RT CHOWKIDARI 
+  FROM BJM_COMP_ASSIGN A, PISEMPLOYEEMASTER B
+  WHERE A.EMP_CD=B.TOKENNO
+  AND B.TOKENNO NOT IN 
+  ( 
+    SELECT DISTINCT TOKENNO FROM PISCOMPONENTASSIGNMENT WHERE 1=1
+AND TRANSACTIONTYPE='ASSIGNMENT'
+  )
+  
+  
+  UPDATE PISCOMPONENTASSIGNMENT A SET 
+  (
+  BASIC, ADHOC,SPL_ALLOW,  PER_ALLOW,HRA_PER,HR_DEDN,FURNITURE, CHOWKIDARI) = (
+  SELECT BASIC_RT, ADHOC_RT, SP_ALLOWN_RT, PERS_ALLOW, HRA_RT HRA_PER, HS_RENT HR_DEDN, FURN_RENT FURNITURE, CHOW_RT CHOWKIDARI 
+  FROM BJM_COMP_ASSIGN
+  WHERE 1=1 --EMP_CD='01068'
+  AND EMP_CD=A. TOKENNO
+  )
+  WHERE NVL(BASIC,0) = 0
+  AND UNITCODE='02'
+  
+    SELECT * FROM PISCOMPONENTASSIGNMENT
+    WHERE TOKENNO='01068'
+	
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+ INSERT INTO GBL_LOANBLNC 
+ 
+ SELECT B.COMPANYCODE, B.DIVISIONCODE,B.WORKERSERIAL, B.TOKENNO, B.MODULE, A.LOANCODE, A.LOANDATE, SUM(A.ACTUALLOANAMOUNT) AMOUNT, SUM(A.AMOUNT) LOAN_BAL, 
+CASE WHEN SUM(INTERESTAMOUNT) > 0 THEN SUM(INTERESTAMOUNT) ELSE 0 END LOAN_INT_BAL, 
+ SUM(LN_CAP_DEDUCT) LN_CAP_DEDUCT, SUM(LN_INT_DEDUCT) LN_CAP_DEDUCT,  
+ /*NVL(X.CAP_EMI,0) CAP_EMI, NVL(X.INT_EMI,0) INT_EMI, */
+ CASE WHEN M.DEDUCTIONTYPE = 'DEDUCT INTEREST FULL THEN CAPITAL' AND SUM(INTERESTAMOUNT) > 0 THEN 0 ELSE DECODE(DEDUCTIONTYPE,'DEDUCT CAPITAL AND INTEREST SAMETIME',NVL(X.CAP_EMI,0),NVL(X.TOT_EMI,0)) END CAP_EMI, 
+ CASE WHEN M.DEDUCTIONTYPE = 'DEDUCT CAPITAL FULL THEN INTEREST' AND SUM(A.AMOUNT) > 0 THEN 0 ELSE DECODE(DEDUCTIONTYPE,'DEDUCT CAPITAL AND INTEREST SAMETIME',NVL(X.INT_EMI,0),NVL(X.TOT_EMI,0))  END INT_EMI, 
+ NVL(X.TOT_EMI,0) TOT_EMI, NVL(STP.CAPITAL,'N') CAP_STOP, NVL(STP.INTEREST,'N') INT_STOP, 
+ M.CAP_EMI_DEDUCT_TYPE, M.INT_EMI_DEDUCT_TYPE 
+ FROM (  
+         SELECT DISTINCT A.WORKERSERIAL, A.LOANCODE, A.LOANDATE, AMOUNT, 0 INTERESTAMOUNT , 0 LN_CAP_DEDUCT, 0 LN_INT_DEDUCT, A.AMOUNT ACTUALLOANAMOUNT 
+         FROM LOANTRANSACTION A,  
+         (  
+            SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+            FROM LOANTRANSACTION  
+            WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+             AND LOANDATE <=  TO_DATE('30/04/2020','DD/MM/YYYY')
+             AND LOANTYPE ='REFUNDABLE'
+             GROUP BY WORKERSERIAL, LOANCODE  
+         ) B  
+         WHERE A.WORKERSERIAL = B.WORKERSERIAL AND A.LOANCODE = B.LOANCODE AND A.LOANDATE = B.LOANDATE  AND AMOUNT > 0 
+         UNION ALL     
+         SELECT A.WORKERSERIAL, A.LOANCODE, A.LOANDATE,   
+           (CASE WHEN TRANSACTIONTYPE ='CAPITAL' THEN AMOUNT  
+                WHEN TRANSACTIONTYPE ='REPAY' THEN REPAYCAPITAL  
+                WHEN TRANSACTIONTYPE ='REPAYCAP' THEN AMOUNT  
+                ELSE 0  
+           END)*(-1) AMOUNT, 0 INTERESTAMOUNT 
+           , 0 LN_CAP_DEDUCT, 0 LN_INT_DEDUCT, 0 ACTUALLOANAMOUNT     
+         FROM LOANBREAKUP A,  
+         (  
+             SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+             FROM LOANTRANSACTION  
+             WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE ='0001' 
+             AND LOANDATE <=  TO_DATE('30/04/2020','DD/MM/YYYY')  
+            AND LOANTYPE ='REFUNDABLE'                     
+             GROUP BY WORKERSERIAL, LOANCODE  
+         ) B  
+         WHERE A.WORKERSERIAL = B.WORKERSERIAL AND A.LOANCODE = B.LOANCODE AND A.LOANDATE = B.LOANDATE  
+         AND NVL(A.PAIDON,A.EFFECTFORTNIGHT) <=  TO_DATE('30/04/2020','DD/MM/YYYY')  
+         AND TRANSACTIONTYPE <> 'INTEREST'  
+         UNION ALL  
+         SELECT DISTINCT A.WORKERSERIAL, A.LOANCODE, A.LOANDATE, 0 AMOUNT, SUM(NVL(C.INTERESTAMOUNT,0)) INTERESTAMOUNT 
+         , 0 LN_CAP_DEDUCT, 0 LN_INT_DEDUCT, 0 ACTUALLOANAMOUNT  
+         FROM ( SELECT WORKERSERIAL, LOANCODE, LOANDATE 
+                FROM LOANTRANSACTION 
+                WHERE COMPANYCODE ='BJ0056' AND DIVISIONCODE = '0001'
+              ) A, 
+            (  
+                 SELECT  WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE 
+                FROM LOANTRANSACTION  
+                WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001'  
+                AND LOANDATE <=  TO_DATE('30/04/2020','DD/MM/YYYY')  
+                AND LOANTYPE ='REFUNDABLE'
+                GROUP BY WORKERSERIAL, LOANCODE  
+            ) B, LOANINTEREST C  
+         WHERE A.WORKERSERIAL = B.WORKERSERIAL AND A.LOANCODE= B.LOANCODE AND A.LOANDATE = B.LOANDATE  
+         AND A.WORKERSERIAL = C.WORKERSERIAL AND A.LOANCODE= C.LOANCODE AND  A.LOANDATE = C.LOANDATE 
+         AND C.FORTNIGHTENDDATE <= TO_DATE('30/04/2020','DD/MM/YYYY') 
+         AND C.TRANSACTIONTYPE = 'ADD'  
+         GROUP BY A.WORKERSERIAL, A.LOANCODE, A.LOANDATE  
+         UNION ALL  
+         SELECT A.WORKERSERIAL, A.LOANCODE, A.LOANDATE, 0 AMOUNT,   
+           (CASE WHEN TRANSACTIONTYPE ='INTEREST' THEN AMOUNT  
+                WHEN TRANSACTIONTYPE ='REPAY' THEN REPAYINTEREST  
+                WHEN TRANSACTIONTYPE ='REPAYINT' THEN AMOUNT  
+                ELSE 0  
+           END)*(-1) INTERESTAMOUNT 
+           , 0 LN_CAP_DEDUCT, 0 LN_INT_DEDUCT, 0 ACTUALLOANAMOUNT   
+         FROM LOANBREAKUP A,  
+         (  
+             SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+             FROM LOANTRANSACTION  
+             WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001'  
+             AND LOANDATE <=  TO_DATE('30/04/2020','DD/MM/YYYY')  
+             AND LOANTYPE ='REFUNDABLE'
+             GROUP BY WORKERSERIAL, LOANCODE  
+         ) B  
+         WHERE A.WORKERSERIAL = B.WORKERSERIAL AND A.LOANCODE = B.LOANCODE AND A.LOANDATE = B.LOANDATE  
+         AND NVL(A.PAIDON,A.EFFECTFORTNIGHT) <= TO_DATE('30/04/2020','DD/MM/YYYY') 
+         AND TRANSACTIONTYPE <> 'CAPITAL' 
+         UNION ALL 
+         SELECT A.WORKERSERIAL, A.LOANCODE, A.LOANDATE, 0 AMOUNT,  0 INTERESTAMOUNT,  
+         DECODE(TRANSACTIONTYPE,'CAPITAL',AMOUNT,0) LN_CAP_DEDUCT, DECODE(TRANSACTIONTYPE,'INTEREST',AMOUNT,0) LN_INT_DEDUCT, 0 ACTUALLOANAMOUNT 
+         FROM LOANBREAKUP A,  
+         (  
+             SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+             FROM LOANTRANSACTION  
+             WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001'  
+             AND LOANDATE <=  TO_DATE('30/04/2020','DD/MM/YYYY') 
+             AND LOANTYPE ='REFUNDABLE'
+             GROUP BY WORKERSERIAL, LOANCODE  
+         ) B  
+         WHERE A.WORKERSERIAL = B.WORKERSERIAL AND A.LOANCODE= B.LOANCODE AND A.LOANDATE = B.LOANDATE  
+         AND A.EFFECTFORTNIGHT <= TO_DATE('30/04/2020','DD/MM/YYYY')
+         AND TRANSACTIONTYPE IN ('CAPITAL','INTEREST')  
+     ) A, WORKERVIEW B, 
+     (  
+        SELECT M.WORKERSERIAL, M.LOANCODE, M.LOANDATE,  
+        NVL(M.CAPITALINSTALLMENTAMT,0) CAP_EMI,  
+        NVL(M.INTERESTINSTALLMENTAMT,0) INT_EMI, NVL(M.TOTALEMIAMOUNT,0) TOT_EMI  
+        FROM LOANTRANSACTION M, ( SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+                                  FROM LOANTRANSACTION  
+                                  WHERE LOANDATE <= TO_DATE('30/04/2020','DD/MM/YYYY')  
+                                  GROUP BY WORKERSERIAL, LOANCODE  
+                                ) N   
+        WHERE M.WORKERSERIAL = N.WORKERSERIAL AND M.LOANCODE=N.LOANCODE AND M.LOANDATE = N.LOANDATE 
+--         AND M.WORKERSERIAL=' 000041' 
+     )  X,   
+     ( 
+        SELECT DISTINCT LOANCODE, DEDUCTIONTYPE, 
+        NVL(CAP_EMI_DEDUCT_TYPE,'PARTIAL') CAP_EMI_DEDUCT_TYPE, NVL(INT_EMI_DEDUCT_TYPE,'PARTIAL') INT_EMI_DEDUCT_TYPE  
+        FROM LOANMASTER 
+        WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+          AND REFUNDTYPE ='REFUNDABLE' 
+     ) M, 
+     ( 
+        SELECT WORKERSERIAL, TOKENNO, LOANCODE, LOANSTOPFROMDATE, LOANSTOPTODATE, FULLMILL, CAPITAL, INTEREST 
+        FROM LOANDEDUCTIONSTOP 
+        WHERE LOANSTOPFROMDATE <= TO_DATE('30/04/2020','DD/MM/YYYY') AND LOANSTOPTODATE >= TO_DATE('30/04/2020','DD/MM/YYYY') 
+     ) STP 
+ WHERE A.WORKERSERIAL = B.WORKERSERIAL  
+   AND A.WORKERSERIAL = X.WORKERSERIAL  AND A.LOANCODE = X.LOANCODE AND A.LOANDATE = X.LOANDATE 
+   AND A.LOANCODE = M.LOANCODE 
+AND A.WORKERSERIAL  = STP.WORKERSERIAL (+) 
+  GROUP BY B.COMPANYCODE, B.DIVISIONCODE, B.WORKERSERIAL, B.TOKENNO, B.MODULE, A.LOANCODE, A.LOANDATE 
+  ,NVL(X.CAP_EMI,0), NVL(X.INT_EMI,0), NVL(X.TOT_EMI,0), B.MODULE, 
+  STP.CAPITAL, STP.INTEREST,STP.LOANCODE, M.DEDUCTIONTYPE, M.CAP_EMI_DEDUCT_TYPE, M.INT_EMI_DEDUCT_TYPE 
+  
+  
+  
+  
+   SELECT M.WORKERSERIAL, M.LOANCODE, M.LOANDATE,  
+        NVL(M.CAPITALINSTALLMENTAMT,0) CAP_EMI,  
+        NVL(M.INTERESTINSTALLMENTAMT,0) INT_EMI, NVL(M.TOTALEMIAMOUNT,0) TOT_EMI  
+        FROM LOANTRANSACTION M, ( SELECT WORKERSERIAL, LOANCODE, MAX(LOANDATE) LOANDATE  
+                                  FROM LOANTRANSACTION  
+                                  WHERE LOANDATE <= TO_DATE('30/04/2020','DD/MM/YYYY')  
+                                  GROUP BY WORKERSERIAL, LOANCODE  
+                                ) N   
+        WHERE M.WORKERSERIAL = N.WORKERSERIAL AND M.LOANCODE=N.LOANCODE AND M.LOANDATE = N.LOANDATE 
+        AND M.WORKERSERIAL=' 000041'
+        
+        
+        
+        SELECT * FROM LOANTRANSACTION
+        WHERE WORKERSERIAL IN (
+        SELECT WORKERSERIAL FROM PISEMPLOYEEMASTER
+        )
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+
+SELECT BJM_EMP_MAST
+
+
+
+SELECT * FROM LOANTRANSACTION
+
+
+DELETE FROM PIS_ERROR_LOG
+
+DELETE FROM WPS_ERROR_LOG
+
+SELECT * FROM WPS_ERROR_LOG
+
+SELECT * FROM PIS_ERROR_LOG
+
+WHERE PROC_NAME LIKE '%VIEW%'
+
+
+PROC_NAME
+
+PIS_GTT_SWT_PHASE_DEDN
+
+
+CASE WHEN PISMAST.CATEGORYCODE='10' THEN
+    CASE WHEN PISASSIGN.BASIC < 2000 THEN 5
+        WHEN PISASSIGN.BASIC BETWEEN 2000 AND 2999 THEN 8
+        WHEN PISASSIGN.BASIC BETWEEN 3000 AND 7499 THEN 10
+    ELSE 15
+    END
+END
+
+SELECT TOKENNO, LIC FROM PISCOMPONENTASSIGNMENT
+WHERE LIC > 0
+AND GRADECODE='D'
+
+CREATE TABLE BJM_COMP_ASSIGN
+(
+    EMP_CD     VARCHAR2(10),
+    EMP_NAME     VARCHAR2(100),
+    BASIC_RT    NUMBER(15,2),
+    ADHOC_RT    NUMBER(15,2),
+    SP_ALLOWN_RT    NUMBER(15,2),
+    PERS_ALLOW    NUMBER(15,2),
+    HRA_RT    NUMBER(15,2),
+    NPS_CONTR    NUMBER(15,2),
+    HS_RENT    NUMBER(15,2),
+    FURN_RENT    NUMBER(15,2),
+    CHOW_RT    NUMBER(15,2),
+    LIC_RT NUMBER(15,2)
+)
+
+
+SELECT * FROM PFLOANTRANSACTION
+
+
+alter table pfloantransaction
+add graceperioddays number(10)
+
+update pfloantransaction set capitalinstallmentamount=4167, graceperioddays=28 where pfno = '10736';
+
+gracepeioddays
+graceperioddays
+
+
+SELECT * FROM BJM_COMP_ASSIGN
+
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+WHERE TOKENNO IN (
+SELECT DISTINCT EMP_CD FROM BJM_COMP_ASSIGN
+)
+
+UPDATE PISCOMPONENTASSIGNMENT SET 
+LIC = (
+    SELECT LIC_RT FROM BJM_COMP_ASSIGN
+    WHERE EMP_CD=TOKENNO
+)
+WHERE TOKENNO IN (
+SELECT DISTINCT EMP_CD FROM BJM_COMP_ASSIGN
+)
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+SELECT NVL(SUM(AMT),0) 
+FROM 
+(
+	SELECT WORKERSERIAL, SUM(NVL(LOAN_PF,0)+NVL(LINT_PF,0)) AMT FROM GPSPAYSHEETDETAILS WHERE DIVISIONCODE='A16'
+	AND PERIODFROM = '05-APR-20'  AND PERIODTO='18-APR-20'
+	GROUP BY WORKERSERIAL
+	HAVING SUM(NVL(LOAN_PF,0)+NVL(LINT_PF,0)) > 0
+	UNION ALL 
+	SELECT WORKERSERIAL, -1*SUM(AMOUNT) AMT FROM PFLOANBREAKUP WHERE DIVISIONCODE = 'A16'
+	AND EFFECTFORTNIGHT = '18-APR-20'
+	AND MODULE = 'GPS' AND TRANSACTIONTYPE IN ('CAPITAL','INTEREST')
+	AND WORKERSERIAL IN 
+	( 
+		SELECT DISTINCT WORKERSERIAL FROM GPSPAYSHEETDETAILS WHERE DIVISIONCODE = 'A16'
+		AND PERIODFROM = '05-APR-20'  AND PERIODTO='18-APR-20' 
+	) 
+	GROUP BY WORKERSERIAL
+)
+
+
+DELETE FROM PFLOANBREAKUP WHERE EFFECTFORTNIGHT = TO_DATE('18/04/2020','DD/MM/YYYY') 
+ AND MODULE = 'GPS' AND TRANSACTIONTYPE IN ('CAPITAL','INTEREST') 
+ AND WORKERSERIAL IN ( SELECT DISTINCT WORKERSERIAL FROM GPSPAYSHEETDETAILS WHERE DIVISIONCODE = 'A16' 
+ AND PERIODFROM = TO_DATE('05/04/2020','DD/MM/YYYY')  AND PERIODTO=TO_DATE('18/04/2020','DD/MM/YYYY') ) 
+
+INSERT INTO PFLOANBREAKUP ( 
+ COMPANYCODE, DIVISIONCODE, EMPLOYEECOMPANYCODE, EMPLOYEEDIVISIONCODE, YEARCODE, YEARMONTH, CATEGORYCODE, GRADECODE, 
+ PFNO, TOKENNO, WORKERSERIAL, LOANCODE, LOANDATE, EFFECTYEARMONTH, AMOUNT, TRANSACTIONTYPE, 
+ EFFECTFORTNIGHT, PAIDON, ISPAID, REMARKS, MODULE, USERNAME, LASTMODIFIED,SYSROWID,DEDUCTFROM) 
+ SELECT M.COMPANYCODE, M.DIVISIONCODE, 'AM0082' EMPLOYEECOMPANYCODE, 'A16' EMPLOYEEDIVISIONCODE, '2020-2021' YEARCODE, '202004' YEARMONTH, M.CATEGORYCODE, M.GRADECODE, 
+ A.PFNO, A.TOKENNO, A.WORKERSERIAL, A.LOANCODE, A.LOANDATE, '202004' EFFECTYEARMONTH, B.AMOUNT, B.TRANTYPE, 
+ TO_DATE('18/04/2020','DD/MM/YYYY') EFFECTFORTNIGHT, TO_DATE('18/04/2020','DD/MM/YYYY') PAION, 'Y' ISPAID,'SALARY','GPS', 'SWT', SYSDATE, 
+ A.PFNO||'-'||B.TRANTYPE||'-'||A.LOANCODE||'-'||REPLACE('18/04/2020','/','') SYSROWID,'SALARY' DEDUCTFROM 
+ FROM GBL_PFLOANBLNC A, PFEMPLOYEEMASTER M, 
+ ( 
+    SELECT WORKERSERIAL, TOKENNO, substr('LINT_PF',6) LOANCODE, LINT_PF AS AMOUNT, 'INTEREST' TRANTYPE 
+   FROM GPSPAYSHEETDETAILS 
+   WHERE 1=1 
+     AND DIVISIONCODE = 'A16' 
+     AND PERIODFROM = '05-APR-20' 
+     AND PERIODTO = '18-APR-20' 
+     AND nvl(LINT_PF,0) > 0 
+   UNION ALL 
+   SELECT WORKERSERIAL, TOKENNO, substr('LOAN_PF',6) LOANCODE, LOAN_PF AS AMOUNT, 'CAPITAL' TRANTYPE 
+   FROM GPSPAYSHEETDETAILS 
+   WHERE 1=1 
+     AND DIVISIONCODE = 'A16' 
+     AND PERIODFROM = '05-APR-20' 
+     AND PERIODTO = '18-APR-20' 
+     AND nvl(LOAN_PF,0) > 0 
+ 
+ ) B
+ WHERE A.WORKERSERIAL = B.WORKERSERIAL 
+   AND A.LOANCODE = B.LOANCODE 
+   /*AND A.PFNO = M.PFNO */
+   AND M.COMPANYCODE = 'AM0082' 
+   AND M.DIVISIONCODE = 'A16' 
+   AND A.WORKERSERIAL = M.WORKERSERIAL 
+ ORDER BY A.PFNO, A.LOANCODE,B.TRANTYPE 
+
+DIVCODE : A16, FROMDATE : 05-APR-20, TO DATE : 18-APR-20, LOAN CODE : PF, BALANCE : 43063
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+DROP TABLE ASIANTEA.GTT_EXCEL_REPORT CASCADE CONSTRAINTS;
+
+CREATE TABLE GTT_EXCEL_REPORT
+(
+  ROWINDEX       NUMBER(20),
+  EXCELROWTYPE   VARCHAR2(50 BYTE),
+  EXCELROWSTYLE  VARCHAR2(500 BYTE),
+  EXCELVALUES    VARCHAR2(3000 BYTE),
+  EXCELTAG       VARCHAR2(500 BYTE)
+)
+
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+GTT_PAYSLIP_CDM
+
+
+DROP TABLE GTT_PAYSLIP_CDM CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PAYSLIP_CDM
+(
+  SLNO            NUMBER(18,2),
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  COMPANYNAME     VARCHAR2(100 BYTE),
+  DIVISIONNAME    VARCHAR2(100 BYTE),
+  DIVISIONSTATE   VARCHAR2(50 BYTE),
+  TOKENNO         VARCHAR2(10 BYTE),
+  EMPLOYEENAME    VARCHAR2(100 BYTE),
+  ATTNBOOKCODE    VARCHAR2(10 BYTE),
+  ATTNBOOKDESC    VARCHAR2(100 BYTE),
+  CLUSTERCODE     VARCHAR2(10 BYTE),
+  CLUSTERDESC     VARCHAR2(100 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  CATEGORYDESC     VARCHAR2(100 BYTE),
+  HAZIRA          NUMBER(11,2),
+  PLAN            NUMBER(11,2),
+  REAL            NUMBER(11,2),
+  DAILYWAGE       NUMBER(15,4),
+  SUNDAY          NUMBER(11,2),
+  TOTAL           NUMBER(11,2),
+  BONUS_KGS       NUMBER(11,2),
+  BONUS_VALUE     NUMBER(11,2),
+  DISCOUNT_KG     NUMBER(11,2),
+  DISCOUNT_VALUE  NUMBER(11,2),
+  GROSS_SALARY    NUMBER(11,2),
+  INSS            NUMBER(11,2),
+  OTM             NUMBER(11,2),
+  NET_SALARY      NUMBER(11,2),
+  ADVANCE         NUMBER(11,2),
+  AMOUNT_PAYABLE  NUMBER(11,2),
+  SIGNATURE       VARCHAR2(100 BYTE),
+  REPORTHEADER    VARCHAR2(200 BYTE),
+  TOPHEADER       VARCHAR2(100 BYTE),
+  COLUMNHEADER    VARCHAR2(1000 BYTE),
+  COLUMNVALUE     VARCHAR2(1000 BYTE),
+  EX1             VARCHAR2(10 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE; 
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+declare
+
+lv_StrSql varchar2(2000):= '';
+lv_Remarks varchar2(1000) := '';
+lv_cnt      number(3) := 0;
+begin
+
+    select COUNT(*) CNT into lv_cnt
+    FROM ( 
+            SELECT DISTINCT COMPONENTCODE FROM PISCOMPONENTMASTER
+            MINUS
+            SELECT column_name FROM COLS where table_name = 'PISCOMPONENTASSIGNMENT'
+         );
+    if lv_cnt > 0 then
+        for c1 in (             
+                    select * from piscomponentmaster
+                     where componentcode in (
+                                             select distinct componentcode from piscomponentmaster
+                                             minus
+                                             select column_name from cols where table_name = 'PISCOMPONENTASSIGNMENT'
+                                            )
+                  )
+        loop                  
+--            lv_StrSql := 'ALTER TABLE PISPAYTRANSACTION ADD '||c1.COMPONENTCODE||' number (15,5) default 0';
+--            --dbms_output.put_line ('1 - '||lv_StrSql);
+--            BEGIN
+--                execute immediate lv_StrSql;
+--            EXCEPTION WHEN OTHERS THEN NULL;
+--            END;
+--            
+--            lv_StrSql := 'ALTER TABLE PISPAYTRANSACTION_SWT ADD '||c1.COMPONENTCODE||' number (15,5) default 0';
+--            --dbms_output.put_line ('1 - '||lv_StrSql);
+--            BEGIN
+--                execute immediate lv_StrSql;
+--            EXCEPTION WHEN OTHERS THEN NULL;
+--            END;
+--            
+--            
+--            
+--            lv_StrSql := 'ALTER TABLE PISOTHERTRANSACTION ADD '||c1.COMPONENTCODE||' number (15,5) default 0';
+--            --dbms_output.put_line ('1 - '||lv_StrSql);
+--            BEGIN
+--                execute immediate lv_StrSql;
+--            EXCEPTION WHEN OTHERS THEN NULL;
+--            END;
+--            
+--            
+--            
+--            lv_StrSql := 'ALTER TABLE PISARREARTRANSACTION ADD '||c1.COMPONENTCODE||' number (15,5) default 0';
+--            --dbms_output.put_line ('1 - '||lv_StrSql);
+--            BEGIN
+--                execute immediate lv_StrSql;
+--            EXCEPTION WHEN OTHERS THEN NULL;
+--            END;
+
+            lv_StrSql := 'ALTER TABLE PISCOMPONENTASSIGNMENT ADD '||c1.COMPONENTCODE||' number (15,5) default 0';
+            dbms_output.put_line ('1 - '||lv_StrSql);
+            BEGIN
+                execute immediate lv_StrSql;
+            EXCEPTION WHEN OTHERS THEN NULL;
+            END;
+
+            BEGIN
+                     
+            Insert into sys_tfmap
+               (SYS_TABLE_SEQUENCIER, SYS_TABLENAME_ACTUAL, SYS_TABLENAME_TEMP, SYS_COLUMNNAME, SYS_COLUMN_SEQUENCE, 
+                SYS_DATATYPE, SYS_COLUMN_LENGTH, SYS_COLUMN_PRECISION, SYS_KEYCOLUMN, SYS_MAPFIELD, 
+                SYS_TIMESTAMP, SYS_USEMAP, SYS_DEFAULT, TDSCODE)
+             Values
+               (10013, 'PISCOMPONENTASSIGNMENT', 'GBL_PISCOMPONENTASSIGNMENT', c1.COMPONENTCODE, 99, 
+                'NUMBER', 15, 5, 'N', c1.COMPONENTCODE, 
+                sysdate, 'Y', NULL, NULL);
+            commit;
+            proc_create_gbl_tmp_tables(10013,0);
+            EXCEPTION WHEN OTHERS THEN NULL;
+            END;
+           
+            prc_pisviewcreation( c1.companycode  ,c1.divisioncode,'ALL',0,c1.yearmonth,'SALARY','PISPAYTRANSACTION'); 
+            
+        end loop; 
+                                 
+    end if;
+                                                               
+end ;
+/
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+Dear Chiranjit,
+
  
 
 Please check the trailing mail and solve issue for Birla
@@ -129,6 +881,94 @@ UPDATE PISPAYTRANSACTION_SWT SET LNBL_PFL=0, LIBL_PFL=0
     WHERE GRADECODE='B'
 	
 	
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+INSERT INTO GTT_COMPONENTASSINREPORT
+
+ 
+SELECT A.WORKERSERIAL, A.TOKENNO, A.EMPLOYEENAME, A.UNITCODE, A.CATEGORYCODE CAT_CD, A.GRADECODE GRD_CD, A.DEPARTMENTCODE DEPT_CD, 
+       A.ESINO, A.PFNO, A.PENSIONNO, A.SEX, A.EMPLOYEESTATUS, A.DATEOFBIRTH, A.DATEOFJOIN, A.DATEOFCONFIRMATION, A.PFENTITLEDATE,  
+       A.EXTENDEDRETIREDATE, B.COMPONENTCODE, B.PHASE, B.CALCULATIONINDEX, M.COMPANYNAME, V.DIVISIONNAME, B.COMPONENTSHORTNAME,   
+       fn_get_compvalue(C.COMPANYCODE,C.DIVISIONCODE,C.YEARMONTH,C.WORKERSERIAL,B.COMPONENTCODE,'MASTER ASSIGNMENT') COMPVALUE, TO_CHAR(TO_DATE('202004','YYYYMM'),'MON-YYYY') PRINTDATE, 
+       NVL(B.PRINTSERIAL,0) EX1, 'Run Date ' || TO_CHAR(SYSDATE,'DD/MM/YYYY  HH:MI:SS AM') EX2,CASE WHEN 'MASTER ASSIGNMENT'='PIS COMPONENT REGISTER' THEN C.ATTN_SALD ELSE NULL END  EX3, B.COLHEADER EX4, NULL EX5, NULL EX6, NULL EX7, NULL EX8, NULL EX9, NULL EX10 
+  FROM PISEMPLOYEEMASTER A,  
+       ( SELECT DISTINCT COMPONENTCODE, COMPONENTSHORTNAME, PHASE, CALCULATIONINDEX,PRINTSERIAL,COLHEADER FROM PISCOMPONENTMASTER  
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = ( 
+                             SELECT MAX(YEARMONTH) FROM PISCOMPONENTMASTER  
+                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                AND YEARMONTH<='202004' 
+                            ) 
+            AND ROLLOVERAPPLICABLE = 'Y' 
+       ORDER BY PHASE, CALCULATIONINDEX) B, 
+       ( SELECT * FROM PISCOMPONENTASSIGNMENT 
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND TRANSACTIONTYPE = 'ASSIGNMENT' 
+            AND WORKERSERIAL||YEARMONTH IN ( SELECT WORKERSERIAL||MAX(YEARMONTH) 
+                                               FROM PISCOMPONENTASSIGNMENT 
+                                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                                AND TRANSACTIONTYPE = 'ASSIGNMENT' 
+                                                AND YEARMONTH<='202004' 
+                                              GROUP BY WORKERSERIAL 
+                                           ) 
+       ) C, COMPANYMAST M, DIVISIONMASTER V 
+WHERE A.COMPANYCODE = C.COMPANYCODE  
+  AND A.DIVISIONCODE = C.DIVISIONCODE 
+  AND A.WORKERSERIAL = C.WORKERSERIAL  
+  AND A.COMPANYCODE=M.COMPANYCODE 
+  AND A.COMPANYCODE=V.COMPANYCODE 
+  AND A.DIVISIONCODE=V.DIVISIONCODE 
+  AND A.COMPANYCODE = 'BJ0056'  
+  AND A.DIVISIONCODE = '0001' 
+  AND B.COMPONENTCODE IN ('BASIC','DA','ADHOC','ATN_INCNT','PER_ALLOW','SPL_ALLOW','HRA_PERC','VPF_PERC','COMPSAVING','HR_DEDN','FURNITURE','CHOWKIDARI','ITAX','LIC','LADIESCLUB','SCHOOL_BUS') 
+  AND C.UNITCODE IN ('01') 
+  AND C.CATEGORYCODE IN ('10') 
+  AND C.GRADECODE IN ('A') 
+ ORDER BY A.TOKENNO, B.PHASE, B.CALCULATIONINDEX
+ 
+ 
+ 
+ --------------------------------------------------------------------------------------------------------
+ 
+ INSERT INTO GTT_COMPONENTASSINREPORT 
+SELECT A.WORKERSERIAL, A.TOKENNO, A.EMPLOYEENAME, A.UNITCODE, A.CATEGORYCODE CAT_CD, A.GRADECODE GRD_CD, A.DEPARTMENTCODE DEPT_CD, 
+       A.ESINO, A.PFNO, A.PENSIONNO, A.SEX, A.EMPLOYEESTATUS, A.DATEOFBIRTH, A.DATEOFJOIN, A.DATEOFCONFIRMATION, A.PFENTITLEDATE,  
+       A.EXTENDEDRETIREDATE, B.COMPONENTCODE, B.PHASE, B.CALCULATIONINDEX, M.COMPANYNAME, V.DIVISIONNAME, B.COMPONENTSHORTNAME,   
+       fn_get_compvalue(C.COMPANYCODE,C.DIVISIONCODE,C.YEARMONTH,C.WORKERSERIAL,B.COMPONENTCODE,'PIS COMPONENT REGISTER') COMPVALUE, TO_CHAR(TO_DATE('202004','YYYYMM'),'MON-YYYY') PRINTDATE, 
+       NVL(B.PRINTSERIAL,0) EX1, 'Run Date ' || TO_CHAR(SYSDATE,'DD/MM/YYYY  HH:MI:SS AM') EX2,CASE WHEN 'PIS COMPONENT REGISTER'='PIS COMPONENT REGISTER' THEN C.ATTN_SALD ELSE NULL END  EX3, B.COLHEADER EX4, NULL EX5, NULL EX6, NULL EX7, NULL EX8, NULL EX9, NULL EX10 
+  FROM PISEMPLOYEEMASTER A,  
+       ( SELECT DISTINCT COMPONENTCODE, COMPONENTSHORTNAME, PHASE, CALCULATIONINDEX,PRINTSERIAL,COLHEADER FROM PISCOMPONENTMASTER  
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = ( 
+                             SELECT MAX(YEARMONTH) FROM PISCOMPONENTMASTER  
+                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                AND YEARMONTH<='202004' 
+                            ) 
+       ORDER BY PHASE, CALCULATIONINDEX) B, 
+       ( SELECT * FROM PISPAYTRANSACTION 
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND WORKERSERIAL||YEARMONTH IN ( SELECT WORKERSERIAL||MAX(YEARMONTH) 
+                                               FROM PISPAYTRANSACTION 
+                                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                                AND YEARMONTH<='202004' 
+                                              GROUP BY WORKERSERIAL 
+                                           ) 
+       ) C, COMPANYMAST M, DIVISIONMASTER V 
+WHERE A.COMPANYCODE = C.COMPANYCODE  
+  AND A.DIVISIONCODE = C.DIVISIONCODE 
+  AND A.WORKERSERIAL = C.WORKERSERIAL  
+  AND A.COMPANYCODE=M.COMPANYCODE 
+  AND A.COMPANYCODE=V.COMPANYCODE 
+  AND A.DIVISIONCODE=V.DIVISIONCODE 
+  AND A.COMPANYCODE = 'BJ0056'  
+  AND A.DIVISIONCODE = '0001' 
+  AND B.COMPONENTCODE IN ('CONV_RT','BASIC','DA') 
+  AND C.UNITCODE IN ('01') 
+  AND C.CATEGORYCODE IN ('10') 
+  AND C.GRADECODE IN ('C') 
+ ORDER BY A.TOKENNO, B.PHASE, B.CALCULATIONINDEX
+ 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
  CREATE TABLE PISPAYTRANSACTION_PHASE_5 AS 
