@@ -1,0 +1,260 @@
+ASP.NET CheckBoxList Operations with jQuery
+https://techbrij.com/checkboxlist-jquery-asp-net-operations#:~:text=click(function%20()%20%7B%20var%20%24,based%20index%20of%20selected%20items.
+-------------------------------------------------------------------
+ASP.NET CheckBoxList Operations with jQuery
+ By Brij Mohan
+This post explains how to perform common operations (like check/uncheck checkboxes by value/text/index, min/max selection limit..etc) on ASP.NET CheckBoxList control using jQuery.
+
+
+Let’s have following aspx code:
+?
+<asp:CheckBoxList ID="CheckBoxList1" runat="server">
+</asp:CheckBoxList>
+<input type="button" value="OK" id="demo" />  
+On server side:
+
+?
+Dictionary<int,string>  dictItems = new Dictionary<int,string>();
+ dictItems.Add(1, "Item-1");
+ dictItems.Add(2, "Item-2");
+ dictItems.Add(3, "Item-3");
+ dictItems.Add(4, "Item-4");
+ dictItems.Add(5, "Item-5");
+ 
+ CheckBoxList1.DataSource = dictItems;
+ CheckBoxList1.DataTextField = "Value";
+ CheckBoxList1.DataValueField = "Key";
+ CheckBoxList1.DataBind(); 
+Rendered HTML: The following is the rendered source of above code:
+
+?
+<table id="MainContent_CheckBoxList1">
+    <tr>
+        <td><input id="MainContent_CheckBoxList1_0" type="checkbox" name="ctl00$MainContent$CheckBoxList1$0" value="1" /><label for="MainContent_CheckBoxList1_0">Item-1</label></td>
+    </tr><tr>
+        <td><input id="MainContent_CheckBoxList1_1" type="checkbox" name="ctl00$MainContent$CheckBoxList1$1" value="2" /><label for="MainContent_CheckBoxList1_1">Item-2</label></td>
+    </tr><tr>
+        <td><input id="MainContent_CheckBoxList1_2" type="checkbox" name="ctl00$MainContent$CheckBoxList1$2" value="3" /><label for="MainContent_CheckBoxList1_2">Item-3</label></td>
+    </tr><tr>
+        <td><input id="MainContent_CheckBoxList1_3" type="checkbox" name="ctl00$MainContent$CheckBoxList1$3" value="4" /><label for="MainContent_CheckBoxList1_3">Item-4</label></td>
+    </tr><tr>
+        <td><input id="MainContent_CheckBoxList1_4" type="checkbox" name="ctl00$MainContent$CheckBoxList1$4" value="5" /><label for="MainContent_CheckBoxList1_4">Item-5</label></td>
+    </tr>
+</table>
+<input type="button" value="OK" id="demo" />  
+1. Get Value of Selected Items:
+?
+//Get value of selected items
+$("#demo").click(function () {      
+    var selectedValues = [];
+    $("[id*=CheckBoxList1] input:checked").each(function () {           
+        selectedValues.push($(this).val());
+    });
+    if (selectedValues.length>0) {
+        alert("Selected Value(s): " + selectedValues);
+    } else {
+        alert("No item has been selected.");
+    }
+});
+checkboxlist-techbrij
+
+2. Get Index of selected items:
+?
+//Get index of selected items
+   $("#demo").click(function () {
+       var $ctrls = $("[id*=CheckBoxList1] input:checkbox");
+       $("[id*=CheckBoxList1] input:checked").each(function () {
+          alert($ctrls.index($(this)));
+       });       
+   });
+It will display 0 based index of selected items. Suppose I select Item-1,Item-3,Item-4 then It’ll give output 0,2,3 in alert boxes.
+
+3. Get Text of Selected Items:
+?
+//Get text of selected items
+ $("#demo").click(function () {       
+     $("[id*=CheckBoxList1] input:checked").each(function () {
+         alert($(this).next().html());
+     });
+ });
+As you’ve seen, Text is placed in label control(next of checkbox) in rendered HTML. So, $(this).next().html() is used to get text.
+
+4. Check/Uncheck All Checkboxes:
+?
+$("[id*=CheckBoxList1] input:checkbox").prop('checked',true); //To check all
+$("[id*=CheckBoxList1] input:checkbox").prop('checked',false);// To uncheck all 
+Note: For jQuery 1.6+,use prop and for older version use attr.
+
+Read Also: jQuery .attr() vs .prop()
+
+5. Check Items By Index:
+Suppose you have to check items by the given index.
+
+?
+//Check Items by index
+   var selIndex = [0, 2, 3];
+   for (var i = 0; i < selIndex.length; i++) {
+       $("[id*=CheckBoxList1] input:checkbox").eq(selIndex[i]).prop('checked', true);
+   }
+Similarly, you can uncheck items by setting false in prop.
+
+6. Check Items By Value:
+?
+//Check Items by value
+   var selValue = [1, 2, 4];
+   var $ctrls = $("[id*=CheckBoxList1]");
+   for (var i = 0; i < selValue.length; i++) {
+       $ctrls.find('input:checkbox[value=' + selValue[i] + ']').prop('checked', true);
+   }
+In above code, checkbox is selected if value exist in selValue array.
+
+7. Check Items By Text:
+?
+//Check Items by Text
+    var selText = ['Item-1','Item-3'];
+    var $ctrls = $("[id*=CheckBoxList1]");
+    for (var i = 0; i < selText.length; i++) {
+        $ctrls.find('label:contains("' + selText[i] + '")').prev().prop('checked', true);
+    }
+In this Label text is compared and if text exists then corresponding checkbox is checked. The above code will select Item-1 and Item-3.
+
+8. Max Selection Limit:
+The following code limits the number of checkboxes a user can select simultaneously:
+
+?
+$("[id*=CheckBoxList1] input:checkbox").change(function () {
+          var maxSelection = 3;
+          if ($("[id*=CheckBoxList1] input:checkbox:checked").length > maxSelection) {
+              $(this).prop("checked", false);
+              alert("Please select a maximum of " + maxSelection + " items.");
+          }
+      })
+max limit asp.net checkboxlist
+
+Similarly, you can implement Min Selection criteria.
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+lstReportOption
+
+lstReportOutput
+
+
+-------------------------------------------------------------------
+Get selected Text and Value of ASP.Net DropDownList on Button click using jQuery 
+https://www.aspsnippets.com/Articles/Get-selected-Text-and-Value-of-ASPNet-DropDownList-using-JavaScript-and-jQuery.aspx
+-------------------------------------------------------------------
+
+
+<asp:DropDownList ID="ddlFruits" runat="server">
+    <asp:ListItem Text="Please Select" Value=""></asp:ListItem>
+    <asp:ListItem Text="Mango" Value="1"></asp:ListItem>
+    <asp:ListItem Text="Apple" Value="2"></asp:ListItem>
+    <asp:ListItem Text="Orange" Value="3"></asp:ListItem>
+</asp:DropDownList>
+<asp:Button ID="btnGet" Text="Get Selected Text Value" runat="server" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("[id*=btnGet]").click(function () {
+            var ddlFruits = $("[id*=ddlFruits]");
+            var selectedText = ddlFruits.find("option:selected").text();
+            var selectedValue = ddlFruits.val();
+            alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+            return false;
+        });
+    });
+</script>
+
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Add (Insert) Items to ASP.Net ListBox using JavaScript
+https://www.aspsnippets.com/Articles/Add-Insert-Items-to-ASPNet-ListBox-using-JavaScript-and-jQuery.aspx
+-------------------------------------------------------------------
+
+
+<asp:ListBox ID="ListBox1" runat="server" Width="150" Height="60"></asp:ListBox>
+<br />
+<hr />
+<asp:TextBox ID="txtValue" runat="server" />
+<asp:Button ID="btnAdd" Text="Add" runat="server" OnClientClick="return AddValues()" />
+<script type="text/javascript">
+function AddValues() {
+    var txtValue = document.getElementById("<%=txtValue.ClientID %>");
+    var listBox = document.getElementById("<%= ListBox1.ClientID%>");
+    var option = document.createElement("OPTION");
+    option.innerHTML = txtValue.value;
+    option.value = txtValue.value;
+    listBox.appendChild(option);
+    txtValue.value = "";
+    return false;
+}
+</script>
+
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Add (Insert) Items to ASP.Net ListBox using jQuery
+
+-------------------------------------------------------------------
+
+<asp:ListBox ID="ListBox1" runat="server" Width="150" Height="60" SelectionMode = "Multiple"></asp:ListBox>
+<br />
+<hr />
+<asp:TextBox ID="txtValue" runat="server" />
+<asp:Button ID="btnAdd" Text="Add" runat="server" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    $("[id*=btnAdd]").bind("click", function () {
+        var value = $("[id*=txtValue]").val();
+        var listBox = $("[id*=ListBox1]");
+        var option = $("<option />").val(value).html(value);
+        listBox.append(option);
+        $("[id*=txtValue]").val("");
+        return false;
+    });
+});
+</script>
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+Get Text and Value of selected items of ASP.Net ListBox using jQuery
+http://www.jqueryfaqs.com/Articles/Get-Text-and-Value-of-selected-items-of-ASPNet-ListBox-using-jQuery.aspx
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+<asp:ListBox ID="ListBox1" runat="server" Width="150" Height="60" SelectionMode="Multiple">
+    <asp:ListItem Text="Mango" Value="1"></asp:ListItem>
+    <asp:ListItem Text="Apple" Value="2"></asp:ListItem>
+    <asp:ListItem Text="Banana" Value="3"></asp:ListItem>
+    <asp:ListItem Text="Guava" Value="4"></asp:ListItem>
+    <asp:ListItem Text="Pineapple" Value="5"></asp:ListItem>
+    <asp:ListItem Text="Papaya" Value="6"></asp:ListItem>
+    <asp:ListItem Text="Grapes" Value="7"></asp:ListItem>
+</asp:ListBox>
+<br />
+<hr />
+<asp:Button ID="btnGetValues" Text="Get values" runat="server" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("[id*=btnGetValues]").click(function () {
+            var values = "";
+            var selected = $("[id*=ListBox1] option:selected");
+            selected.each(function () {
+                values += $(this).html() + " " + $(this).val() + "\n";
+            });
+            alert(values);
+            return false;
+        });
+    });   
+</script>
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
