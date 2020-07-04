@@ -1,6 +1,264 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+select * from login
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%INCOME%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '01070210'
+
+
+SELECT * FROM ROLEDETAILS
+WHERE MENUCODE = '01070210'
+
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('1', '01070210', 'Y', 'X', 'X', 
+    'X', 'X', 'N', 'X', 'PIS', 
+    '202002141245040004444469');
+COMMIT;
+
+
+GBL_PISITAXPARAM
+
+
+PISITAXPARAM
+
+SELECT * FROM PISITAXPARAM
+ORDER BY COLUMNNO
+
+SELECT DISTINCT  COLUMNNO FROM PISITAXPARAM
+
+EXEC PRC_PIS_ITAXPREVYRSAVE('0001', '0002', '2020-2021','PISITAXPARAM','SWT')
+
+
+SELECT MIN(LASTMODIFIED) FROM PISITAXPARAM WHERE COLUMNNO='01_01_02'
+AND TO_CHAR(LASTMODIFIED,'DD-MON-YYYY') = '04-JUL-2020'
+
+DELETE FROM PISITAXPARAM WHERE LASTMODIFIED>'03-JUL-2020'
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM SYS_HELP_QRY
+WHERE QRY_ID = '7012'
+
+SELECT * FROM PISEMPLOYEEMASTER
+where employeename like 'PRAVA%'
+
+WHERE COMPANYCODE=<<COMPANYCODE>>
+  AND DIVISIONCODE=<<DIVISIONCODE>>
+  ORDER BY TOKENNO,EMPLOYEENAME
+
+
+
+ SELECT COMPONENTHEADER, COMPONENTCODE, COMPACTUALVALUE, COMPPROJCTEDVALUE, COMPMANUALVALUE,
+ COMPARREARVALUE, COLUMNFORSUBTOTAL, COLUMNNO, COMPVALUE,
+ COMPONENTTYPE, COMPFORMULA, ACTUALCOMPCODE, FORMULARATE,
+ MANUALFORMULA, SERIALNO, COMPANYCODE, DIVISIONCODE, YEARCODE,
+ WORKERSERIAL, TOKENNO, CATEGORYCODE, GRADECODE, 'SWT' USERNAME, NULL SYSROWID, 'A' OPERATIONMODE, 'N' ISPROCESSALL
+ FROM GTTPISITAXCOMPUTATION
+ WHERE 1=1 --AND NVL(DISPLAYINGRID,'N')='Y'
+ ORDER BY COLUMNNO
+ 
+ PROC_PISITAX_COMPUTATION
+ 
+ EXEC PROC_PISITAX_COMPUTATION ('0001', '0002', '2020-2021','SS','STSS', '00378')
+ 
+ EXEC PROC_PISITAX_COMPUTATION ('0001', '0002', '2019-2020','SS','SREG', '00378')
+ 
+ 
+ EXEC PRC_PISVIEWCREATION ('0001','0002','PISASSIGN',0,'202006','202006', 'SALARY', 'PISPAYTRANSACTION_SWT')
+ 
+ CREATE OR REPLACE PROCEDURE GLOSTER_WEB.PRC_PISVIEWCREATION ( P_COMPCODE Varchar2, 
+                                                  P_DIVCODE Varchar2, 
+                                                  P_ViewName Varchar2,
+                                                  P_Phase Number,
+                                                  P_YEARMONTH Varchar2,
+                                                  P_EFFECTYEARMONTH Varchar2,
+                                                  P_TRANTYPE VARCHAR2 DEFAULT 'SALARY', 
+                                                  P_SALRAYTABLENAME VARCHAR2 DEFAULT 'PISPAYTRANSACTION_SWT')
+as 
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+DECLARE
+P_UNITCODE VARCHAR2(10);
+P_YEARMONTH VARCHAR2(10);
+BEGIN
+
+P_UNITCODE := '01';
+P_YEARMONTH := '202004';
+
+--SELECT * FROM MENUMASTER_RND
+--WHERE menudesc like '%Salary%'
+
+--prcSalary_Bf_MainSave
+
+FOR C1 IN 
+(
+    SELECT A.COMPANYCODE, A.DIVISIONCODE, B.UNITCODE, A.CATEGORYCODE, A.GRADECODE 
+    FROM PISGRADEMASTER A, PISUNITMASTER B
+    WHERE A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND B.UNITCODE=P_UNITCODE
+    ORDER BY B.UNITCODE, A.CATEGORYCODE, A.GRADECODE
+)
+LOOP
+
+    DBMS_OUTPUT.PUT_LINE(CHR(10)||' PRC_PIS_SALARY_PROCESS('''||C1.COMPANYCODE||''','''||C1.DIVISIONCODE||''',''SALARY'',''SWT'','''||P_YEARMONTH||''','''||P_YEARMONTH||''','''||C1.UNITCODE||''','''||C1.CATEGORYCODE||''','''||C1.GRADECODE||''','''');');
+  
+--    PRC_PIS_SALARY_PROCESS(C1.COMPANYCODE,C1.DIVISIONCODE,'SALARY','SWT',P_YEARMONTH,P_YEARMONTH,C1.UNITCODE,C1.CATEGORYCODE,C1.GRADECODE ,'');
+END LOOP; 
+
+END;                 
+
+
+---------------------------------------------------------------------------------------------
+BEGIN
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','A','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','B','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','C','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','A','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','B','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','C','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','G','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','H','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','20','E','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','20','F','');
+ END;
+ 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+DECLARE
+P_UNITCODE VARCHAR2(10);
+P_YEARMONTH VARCHAR2(10);
+BEGIN
+
+P_UNITCODE := '01';
+P_YEARMONTH := '202004';
+
+--SELECT * FROM MENUMASTER_RND
+--WHERE menudesc like '%Salary%'
+
+--prcSalary_Bf_MainSave
+
+FOR C1 IN 
+(
+    SELECT A.COMPANYCODE, A.DIVISIONCODE, B.UNITCODE, A.CATEGORYCODE, A.GRADECODE 
+    FROM PISGRADEMASTER A, PISUNITMASTER B
+    WHERE A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND B.UNITCODE=P_UNITCODE
+    ORDER BY B.UNITCODE, A.CATEGORYCODE, A.GRADECODE
+)
+LOOP
+
+    DBMS_OUTPUT.PUT_LINE(' PRC_PIS_SALARY_PROCESS('''||C1.COMPANYCODE||''','''||C1.DIVISIONCODE||''',''SALARY'',''SWT'','||''','''||P_YEARMONTH||''','''||P_YEARMONTH||''','''||C1.UNITCODE||''','''||C1.CATEGORYCODE||''','''||C1.GRADECODE||''','''');');
+  
+    PRC_PIS_SALARY_PROCESS(C1.COMPANYCODE,C1.DIVISIONCODE,'SALARY','SWT',P_YEARMONTH,P_YEARMONTH,C1.UNITCODE,C1.CATEGORYCODE,C1.GRADECODE ,'');
+END LOOP; 
+--  lv_Master.COMPANYCODE,
+--                                lv_Master.DIVISIONCODE, 
+--                                'SALARY', 
+--                                lv_Master.USERNAME,
+--                                lv_Master.YEARMONTH, 
+--                                lv_Master.YEARMONTH,
+--                                lv_Master.UNITCODE,
+--                                lv_Master.CATEGORYCODE,
+--                                lv_Master.GRADECODE,
+--                                '',
+--                                lv_Master.WORKERSERIAL                                           
+--                              );
+
+-- SELECT A.COMPANYCODE, A.DIVISIONCODE, B.UNITCODE, A.CATEGORYCODE, A.GRADECODE 
+--    FROM PISGRADEMASTER A, PISUNITMASTER B
+--    WHERE A.COMPANYCODE=B.COMPANYCODE
+--    AND A.DIVISIONCODE=B.DIVISIONCODE
+--    AND B.UNITCODE='01'
+--    ORDER BY B.UNITCODE, A.CATEGORYCODE, A.GRADECODE 
+
+--SELECT * FROM PISUNITMASTER
+END                              
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+Dear Sunil,
+
+ 
+
+This is reference to our telecom as per your trailing mail, please provide bank loan interest EMI ( when employee not working  two or more months or any others) and Compensatory allowance logic which is not covered in the SRS and rectify the other points as early as possible.
+
+ 
+
+Thanks,
+
+Amalesh Das.
+
+ 
+
+ 
+
+From: Sunil K Sharma [mailto:sunil.k.sharma@birlacorp.com]
+Sent: 04 July 2020 10:11
+To: Amalesh Das; Varun Kasat; Anupam Mitra; Birendrakumar Giri
+Cc: 'Sujit Singh Softweb'; Ghisaram Verma; chiranjit.ghosh@softweb.co.in
+Subject: Re: PIS Data Template
+
+ 
+
+Dear Amalesh da
+
+ 
+
+we have following further observation
+
+ 
+
+1) Ptax not deducted in some cases (e.g.  emp_cd 00794)
+
+2) Bank Loan interest not deducted ( e.g.  emp_cd 00597)
+
+3) Hra _amount not showing        ( emp_cd 01214)
+
+4) Compensatory Allowance not calculated ( e.g. emp_cd  01074)
+
+5) wrong esi deducted (emp_Cd 00763)
+
+we will let you know further mismatch if come as our  reconcile  is going on
+
+ 
+ 
+ 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+select * from querymaster
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 Dear Chiranjit,
 
