@@ -1,6 +1,7 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 
 PROC_RPT_GPSPFREGISTER('JT0069','0004','01/04/2020','31/03/2021','','')
 
@@ -16,6 +17,502 @@ SELECT NVL(B.FPF, A.FPF) FROM
     AND DIVISIONCODE='00041'
 ) B
 WHERE A.C = B.C(+)
+=======
+CHANGE GRADECODE JOONKTOLLEE
+
+
+PRODMILLINGPROCDETAILS
+
+PRODGRABLINGPROCDETAILS
+
+CREATE TABLE GTT_EXCEL_REPORT
+(
+  ROWINDEX       NUMBER(20),
+  EXCELROWTYPE   VARCHAR2(50 BYTE),
+  EXCELROWSTYLE  VARCHAR2(500 BYTE),
+  EXCELVALUES    VARCHAR2(3000 BYTE),
+  EXCELTAG       VARCHAR2(500 BYTE)
+)
+
+-------------------------
+DOCUMENTDATE : 26.06.2020		
+	
+DOCUMENTNO				OLDGRADE		NEW GRADE
+------------------------------------------------------	
+DBA/0032/2020			RP-BULK			RP-BBB
+						
+CDY/0033/2020			RP-BULK			RP-BBB
+						
+GMK/0034/2020			AC-BULK			AC-BBB
+						
+GMK/0035/2020			AC-BULK			AC-BBB
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+CREATE TABLE GTT_EXCEL_REPORT
+(
+  ROWINDEX       NUMBER(20),
+  EXCELROWTYPE   VARCHAR2(50 BYTE),
+  EXCELROWSTYLE  VARCHAR2(500 BYTE),
+  EXCELVALUES    VARCHAR2(3000 BYTE),
+  EXCELTAG       VARCHAR2(500 BYTE)
+)
+
+-------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE PROC_INSERT_EXCEL_REPORT
+(
+    P_ROWINDEX NUMBER,
+    P_EXCELROWTYPE VARCHAR2,
+    P_EXCELROWSTYLE VARCHAR2,
+    P_EXCELVALUES VARCHAR2,
+    P_EXCELTAG VARCHAR2
+)
+AS
+BEGIN
+
+
+    INSERT INTO GTT_EXCEL_REPORT(ROWINDEX, EXCELROWTYPE, EXCELROWSTYLE, EXCELVALUES, EXCELTAG)
+    VALUES (P_ROWINDEX, P_EXCELROWTYPE, P_EXCELROWSTYLE, P_EXCELVALUES, P_EXCELTAG);
+    
+END;
+/
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+GBL_PISITAXCOMPUTATION
+
+
+select * from PISITAXCOMPUTATION
+
+select * from GBL_PISITAXCOMPUTATION
+
+delete from PISITAXCOMPUTATION
+where tokenno='00385'
+
+
+
+select * from PISITAXCOMPUTATION
+
+
+
+delete from GBL_PISITAXCOMPUTATION
+
+select * from GBL_PISITAXCOMPUTATION
+
+where tokenno='00385'
+
+delete from PISITAXCOMPUTATION
+where tokenno='00385'
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE='0107021002'
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%income%')
+
+SELECT * FROM ROLEDETAILS
+WHERE MENUCODE=''
+
+SELECT * FROM REPORTPARAMETERMASTER
+WHERE REPORTTAG=''
+
+PRCWPS_ITAXCOMPUTATION_B4SAVE
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER='20094'
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER='20136'
+
+delete from SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER='20136'
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL=''
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_TEMP='GBL_PISITAXCOMPUTATION'
+
+SELECT * from PISITAXCOMPUTATION
+where tokenno='00378'
+
+SELECT * FROM 
+
+exec PROC_CREATE_GBL_TMP_TABLES(20094,0)
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISITAXSLAB
+WHERE YEARCODE='2019-2020'
+
+ORDER BY CATEGORY,SLABFROM
+
+FN_GET_ITAX_PERCENTAGE
+
+
+SELECT  FN_GET_ITAX_PERCENTAGE('0001','0002','2019-2020','00378','600000') TAXAMOUNT FROM DUAL
+
+
+SELECT SLABFROM, SLABTO,TAXPERCENTAGE,CFFROMLASTSLAB, LASTSLAB, 600000 AMT, CFFROMLASTSLAB + (600000-LASTSLAB)*(TAXPERCENTAGE/100) A
+FROM (
+    SELECT SLABFROM, SLABTO,TAXPERCENTAGE FROM PISITAXSLAB
+    WHERE YEARCODE='2019-2020'
+    AND 600000 BETWEEN SLABFROM AND SLABTO
+    AND CATEGORY='MALE'
+) A,
+(
+    SELECT MAX(SLABTO) LASTSLAB, MAX(CFFROMLASTSLAB) CFFROMLASTSLAB FROM PISITAXSLAB
+    WHERE YEARCODE='2019-2020'
+    --AND 300000 BETWEEN SLABFROM AND SLABTO
+    AND CATEGORY='MALE'
+    AND SLABFROM < 
+    (
+        SELECT SLABFROM FROM PISITAXSLAB
+        WHERE YEARCODE='2019-2020'
+        AND 600000 BETWEEN SLABFROM AND SLABTO
+        AND CATEGORY='MALE'
+    )
+)
+WHERE 1=1
+
+
+---------------------------------------------------------------------------------------------
+
+EXEC PROC_PISITAX_COMPUTATION ('0001', '0002', '2019-2020','SS','SREG', '00378') 
+
+SELECT * FROM GTTPISITAXCOMPUTATION
+
+PISITAXPARAM
+
+352200	1501200	1501200
+
+
+EXEC PROC_CREATE_SYSTFMAP('PISITAXPARAM', 'COMPANYCODE, DIVISIONCODE, YEARCODE, COLUMNNO', 'GBL_PISITAXPARAMBULK')
+
+PROC_CREATE_SYSTFMAP(P_TABLE_NAME IN VARCHAR2, P_SYS_COLUMNNAMES IN VARCHAR2, 'GBL_PISITAXPARAMBULK')A
+
+GBL_PISITAXPARAM
+
+DELETE FROM SYS_TFMAP WHERE  SYS_TABLE_SEQUENCIER = 20135
+
+
+SELECT * FROM SYS_TFMAP WHERE  SYS_TABLE_SEQUENCIER = 20135
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(20135,0)
+
+
+select * from PISITAXPARAM
+where yearcode='2019-2020'
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+--NEW  table script COMPMAXAMOUNT ADDED 
+CREATE TABLE GLOSTER_WEB.GTTPISITAXCOMPUTATION
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  COMPONENTHEADER    VARCHAR2(200 BYTE),
+  COMPONENTCODE      VARCHAR2(100 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  COMPARREARVALUE    NUMBER(15,2),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COMPVALUE          VARCHAR2(200 BYTE),
+  COMPONENTTYPE      VARCHAR2(50 BYTE),
+  COMPFORMULA        VARCHAR2(500 BYTE),
+  ACTUALCOMPCODE     VARCHAR2(50 BYTE),
+  FORMULARATE        NUMBER(15,2),
+  MANUALFORMULA      VARCHAR2(50 BYTE),
+  SERIALNO           NUMBER,
+  DISPLAYINGRID      VARCHAR2(1 BYTE),
+  CATEGORYCODE       VARCHAR2(10 BYTE),
+  GRADECODE          VARCHAR2(10 BYTE),
+  COMPMAXAMOUNT          NUMBER(15,2) --NEW ADDED
+)
+
+---------------------------------------------------------------------------------------------
+--old table script
+
+DROP TABLE GLOSTER_WEB.GTTPISITAXCOMPUTATION CASCADE CONSTRAINTS;
+
+CREATE TABLE GLOSTER_WEB.GTTPISITAXCOMPUTATION
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  COMPONENTHEADER    VARCHAR2(200 BYTE),
+  COMPONENTCODE      VARCHAR2(100 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  COMPARREARVALUE    NUMBER(15,2),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COMPVALUE          VARCHAR2(200 BYTE),
+  COMPONENTTYPE      VARCHAR2(50 BYTE),
+  COMPFORMULA        VARCHAR2(500 BYTE),
+  ACTUALCOMPCODE     VARCHAR2(50 BYTE),
+  FORMULARATE        NUMBER(15,2),
+  MANUALFORMULA      VARCHAR2(50 BYTE),
+  SERIALNO           NUMBER,
+  DISPLAYINGRID      VARCHAR2(1 BYTE),
+  CATEGORYCODE       VARCHAR2(10 BYTE),
+  GRADECODE          VARCHAR2(10 BYTE)
+)
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+INSERT INTO GTT_RPT_PFUPLOAD 
+
+              SELECT C.COMPANYNAME, D.DIVISIONNAME, 'JUNE-2020',B.UANNO, B.EMPLOYEENAME || ' ',ROUND(A.GROSSWAGES,0) GROSSWAGES, ROUND(A.PF_GROSS,0) PF_GROSS, 
+              ( 
+                    CASE WHEN ROUND(A.PF_GROSS,0) >=15000  THEN 15000 ELSE ROUND(A.PF_GROSS,0) END 
+              ) PF_GROSS1, 
+              ( 
+                    CASE WHEN ROUND(A.PF_GROSS,0) >=15000   THEN (ROUND(A.PF_GROSS,0)-15000) ELSE 0 END 
+              ) PF_TMP, 
+              ROUND(A.PF_E,0),0 PF_E1, 0 PF1, 0 PF2,CATEGORYTYPE EX1,NULL,NULL 
+             FROM ( 
+                            SELECT COMPANYCODE, DIVISIONCODE,  MAX(CATEGORYTYPE) CATEGORYTYPE, WORKERSERIAL, TOKENNO,SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E
+                            FROM (  
+                            SELECT COMPANYCODE, DIVISIONCODE , CATEGORYTYPE, WORKERSERIAL, TOKENNO,GROSSWAGES,PF_GROSS, PF_E   
+                            FROM GPSPAYSHEETDETAILS WHERE PERIODTO >=TO_DATE('01/06/2020','DD/MM/YYYY')
+                            AND PERIODTO <=TO_DATE('30/06/2020','DD/MM/YYYY') 
+                            AND DIVISIONCODE ='0006' 
+                            AND COMPANYCODE ='JT0069' 
+                            AND PF_E>0  
+                            UNION ALL
+                            SELECT A.COMPANYCODE, A.DIVISIONCODE ,NULL CATEGORYTYPE, A.WORKERSERIAL, B.TOKENNO,A.NETLEAVEAMOUNT GROSSWAGES, A.PFGROSS ,  A.PFAMOUNT PF_E    
+                            FROM GPSLEAVEPROCALCULATION A, GPSEMPLOYEEMAST B
+                            WHERE A.COMPANYCODE=B.COMPANYCODE
+                            AND A.DIVISIONCODE=B.DIVISIONCODE
+                            AND A.WORKERSERIAL= B.WORKERSERIAL 
+                            AND A.PFDATE >=TO_DATE('01/06/2020','DD/MM/YYYY')
+                            AND A.PFDATE <=TO_DATE('30/06/2020','DD/MM/YYYY') 
+                            AND A.DIVISIONCODE ='0006' 
+                            AND A.COMPANYCODE ='JT0069'
+                            AND A.PFAMOUNT>0  
+                            )
+                            GROUP BY COMPANYCODE, DIVISIONCODE, WORKERSERIAL, TOKENNO
+                          ) A, GPSEMPLOYEEMAST B, COMPANYMAST C, DIVISIONMASTER D 
+              WHERE A.COMPANYCODE=B.COMPANYCODE 
+              AND A.DIVISIONCODE=B.DIVISIONCODE 
+              AND A.WORKERSERIAL=B.WORKERSERIAL 
+              AND A.COMPANYCODE=C.COMPANYCODE 
+              AND A.COMPANYCODE=D.COMPANYCODE 
+              AND A.DIVISIONCODE=D.DIVISIONCODE 
+   ORDER BY B.EMPLOYEENAME
+
+EPF_PERCENTAGE :.0167,PF_PERCENTAGE :.1
+
+
+---------------------------------------------------------------------------------------------
+
+EXEC PROC_RPT_PFUPLOAD('JT0069','0006','202006','')
+
+SELECT * FROM GTT_RPT_PFUPLOAD
+
+    
+    SELECT * FROM GPSPAYSHEETDETAILS
+    WHERE DIVISIONCODE='0006'
+    AND PF_E=1211
+    AND PERIODFROM='01-JUN-2020'
+    
+    
+    ABDULKADER P K 	12120	12120	12120	0	1211	1212	1010	202
+
+
+---------------------------------------------------------------------------------------------
+
+SELECT NVL(B.PARAMETER_VALUE,'N') XX
+--   INTO   LV_STAFF_PF_FORMULA_APPLICABLE
+FROM 
+(
+    SELECT '1' DVAL FROM DUAL
+) A,
+(
+    SELECT '1' DVAL,  PARAMETER_VALUE  FROM SYS_PARAMETER
+    WHERE PARAMETER_NAME='STAFF_PFUPLOAD_APPLICABLE'
+    AND COMPANYCODE='JT0069'
+    AND DIVISIONCODE='0006'
+    AND ROWNUM=1
+)  B
+WHERE A.DVAL = B.DVAL(+) ;
+
+INSERT INTO  SYS_PARAMETER
+(
+    PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, COMPANYCODE, LASTMODIFIED, SYSROWID, 
+    DIVISIONCODE, USERNAME, ALLOW_CHANGE_FROM_INTERFACE
+)
+SELECT PARAMETER_NAME, PARAMETER_DESC, PARAMETER_VALUE, PROJECTNAME, B.COMPANYCODE, SYSDATE LASTMODIFIED,SYS_GUID() SYSROWID, 
+B.DIVISIONCODE, A.USERNAME, ALLOW_CHANGE_FROM_INTERFACE  
+FROM SYS_PARAMETER A, DIVISIONMASTER B
+WHERE A.PARAMETER_NAME='STAFF_PFUPLOAD_APPLICABLE'
+AND A.DIVISIONCODE='0001'
+AND B.DIVISIONCODE <> '0001'
+
+
+SELECT * FROM SYS_PARAMETER A
+WHERE  A.PARAMETER_NAME='STAFF_PFUPLOAD_APPLICABLE'
+AND SYSROWID='06647D8F630944DE8AC7A81328B65EA0'
+
+
+    
+STAFF_PFUPLOAD_APPLICABLE
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+07/07/2020
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+Imcome tax parameter
+-------------------------
+Points to be checked
+--------------------
+
+
+1. xml parsing problem
+
+note : 
+In new handsontable getData() method returns only array of columns not json data
+but in new version of handsontable (0.30.*) getSourceData used to return data with json format.
+
+2. Type not showing correct data
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+exec PROC_RPT_PFUPLOAD('JT0069','0006','202006','')
+
+---------------------------------------------------------------------------------------------
+
+INSERT INTO GTT_RPT_PFUPLOAD 
+              
+              SELECT C.COMPANYNAME, D.DIVISIONNAME, 'JUNE-2020',B.UANNO, B.EMPLOYEENAME || ' ',ROUND(A.GROSSWAGES,0) GROSSWAGES, ROUND(A.PF_GROSS,0) PF_GROSS, 
+              ( 
+                    CASE WHEN ROUND(A.PF_GROSS,0) >=15000 OR NVL(A.CATEGORYTYPE,'STAFF') = 'WORKER' THEN 15000 ELSE ROUND(A.PF_GROSS,0) END 
+              ) PF_GROSS1, 
+              ( 
+                    CASE WHEN ROUND(A.PF_GROSS,0) >=15000 OR NVL(A.CATEGORYTYPE,'STAFF') = 'WORKER' THEN (ROUND(A.PF_GROSS,0)-15000) ELSE 0 END 
+              ) PF_TMP, 
+              ROUND(A.PF_E,0),0 PF_E1, 0 PF1, 0 PF2,NULL,NULL,NULL 
+             FROM ( 
+                            SELECT COMPANYCODE, DIVISIONCODE,  MAX(CATEGORYTYPE) CATEGORYTYPE, WORKERSERIAL, TOKENNO,SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E
+                            FROM (  
+                            SELECT COMPANYCODE, DIVISIONCODE , CATEGORYTYPE, WORKERSERIAL, TOKENNO,GROSSWAGES,PF_GROSS, PF_E   
+                            FROM GPSPAYSHEETDETAILS WHERE PERIODTO >=TO_DATE('01/06/2020','DD/MM/YYYY')
+                            AND PERIODTO <=TO_DATE('30/06/2020','DD/MM/YYYY') 
+                            AND DIVISIONCODE ='0006' 
+                            AND COMPANYCODE ='JT0069' 
+                            AND PF_E>0  
+                            UNION ALL
+                            SELECT A.COMPANYCODE, A.DIVISIONCODE ,NULL CATEGORYTYPE, A.WORKERSERIAL, B.TOKENNO,A.NETLEAVEAMOUNT GROSSWAGES, A.PFGROSS ,  A.PFAMOUNT PF_E    
+                            FROM GPSLEAVEPROCALCULATION A, GPSEMPLOYEEMAST B
+                            WHERE A.COMPANYCODE=B.COMPANYCODE
+                            AND A.DIVISIONCODE=B.DIVISIONCODE
+                            AND A.WORKERSERIAL= B.WORKERSERIAL 
+                            AND A.PFDATE >=TO_DATE('01/06/2020','DD/MM/YYYY')
+                            AND A.PFDATE <=TO_DATE('30/06/2020','DD/MM/YYYY') 
+                            AND A.DIVISIONCODE ='0006' 
+                            AND A.COMPANYCODE ='JT0069'
+                            AND A.PFAMOUNT>0  
+                            )
+                            GROUP BY COMPANYCODE, DIVISIONCODE, WORKERSERIAL, TOKENNO
+                          ) A, GPSEMPLOYEEMAST B, COMPANYMAST C, DIVISIONMASTER D 
+              WHERE A.COMPANYCODE=B.COMPANYCODE 
+              AND A.DIVISIONCODE=B.DIVISIONCODE 
+              AND A.WORKERSERIAL=B.WORKERSERIAL 
+              AND A.COMPANYCODE=C.COMPANYCODE 
+              AND A.COMPANYCODE=D.COMPANYCODE 
+              AND A.DIVISIONCODE=D.DIVISIONCODE 
+   ORDER BY B.EMPLOYEENAME
+ 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT TAXPERCENTAGE FROM PISITAXSLAB
+WHERE COMPANYCODE='0001'
+AND DIVISIONCODE='0002'
+AND YEARCODE='2019-2020'
+AND SUBSTR(CATEGORY,1,1) = 
+(
+    SELECT SUBSTR(SEX,1,1) SEX FROM PISEMPLOYEEMASTER
+    WHERE TOKENNO='00378'
+    AND COMPANYCODE='0001'
+    AND DIVISIONCODE='0002'
+)
+AND TO_NUMBER('2000000') BETWEEN SLABFROM AND SLABTO
+
+SELECT SEX FROM PISEMPLOYEEMASTER
+WHERE TOKENNO='00378'
+
+SELECT FN_GET_ITAX_PERCENTAGE('0001','0002','2019-2020','00378','400000') TAXPERC FROM DUAL
+
+SELECT FN_GET_ITAX_PERCENTAGE('0001','0002','2019-2020','00378','310018.5') TAXPERC FROM DUAL
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION GLOSTER_WEB.FN_GET_ITAX_PERCENTAGE
+(
+    P_COMPANYCODE VARCHAR2,
+    P_DIVISIONCODE VARCHAR2,
+    P_YEARCODE VARCHAR2,
+    P_TOKENNO VARCHAR2 ,
+    P_INCOME VARCHAR2 
+)
+RETURN NUMBER
+AS
+LV_STLBAL NUMBER;
+BEGIN
+LV_STLBAL := 0;
+BEGIN
+    SELECT TAXPERCENTAGE INTO LV_STLBAL 
+    FROM PISITAXSLAB
+    WHERE COMPANYCODE=P_COMPANYCODE
+    AND DIVISIONCODE=P_DIVISIONCODE
+    AND YEARCODE=P_YEARCODE
+    AND SUBSTR(CATEGORY,1,1) = 
+    (
+        SELECT SUBSTR(SEX,1,1) SEX FROM PISEMPLOYEEMASTER
+        WHERE TOKENNO=P_TOKENNO
+        AND COMPANYCODE=P_COMPANYCODE
+        AND DIVISIONCODE=P_DIVISIONCODE
+    )
+    AND TO_NUMBER(P_INCOME) BETWEEN SLABFROM AND SLABTO;
+EXCEPTION WHEN OTHERS THEN
+    LV_STLBAL := 0;
+END;
+    
+RETURN LV_STLBAL;
+END;
+/
+
+>>>>>>> 8a2d0dbafba17f6124ed691856e5f9b4d9158905
 
 
 ---------------------------------------------------------------------------------------------
