@@ -1,6 +1,85 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+EXEC PROC_PISITAX_COMPUTATION ('0001', '0002', '2019-2020','SS','SREG', '00378')
+
+SELECT * FROM GTTPISITAXCOMPUTATION
+
+SELECT
+  REGEXP_SUBSTR('500 Oracle Parkway, Redwood Shores, CA DFD, SA',
+                ',[^,]+,') "REGEXPR_SUBSTR"
+  FROM DUAL;
+  
+  
+SELECT
+  REGEXP_SUBSTR('<<100>><<100>><<100>><<100>>',
+                '<<(\d|\w)*>>+/g') "REGEXPR_SUBSTR"
+  FROM DUAL;
+  
+
+SELECT DISTINCT REGEXP_SUBSTR ('23,34,45,56','[^,]+',1,LEVEL) as "token"
+FROM   DUAL
+CONNECT BY REGEXP_SUBSTR ('23,34,45,56','[^,]+',1,LEVEL) IS NOT NULL
+order by 1
+
+SELECT DISTINCT REGEXP_SUBSTR ('(<<23_11>>+<<34>>)-(<<45>>)*<<56>>','[^<<(w)>>$]+',1,LEVEL) as columnNo
+FROM   DUAL
+CONNECT BY REGEXP_SUBSTR ('(<<23>>+<<34>>)-<<45>>*<<56>>','[^<<(w)>>]+',1,LEVEL) IS NOT NULL
+
+order by 1
+
+
+select columnNo from (
+SELECT DISTINCT REGEXP_SUBSTR ('<<01_02_04>>+<<01_02_05>>+<<01_02_06>>+<<01_02_07>>','[^<<(w)>>$]+',1,LEVEL) as columnNo
+FROM   DUAL
+CONNECT BY REGEXP_SUBSTR ('<<01_02_04>>+<<01_02_05>>+<<01_02_06>>+<<01_02_07>>','[^<<(w)>>]+',1,LEVEL) IS NOT NULL
+)
+where columnNo not in ('*','+','-','/')
+
+select replace(replace('<<01_02_04>>+<<01_02_05>>+<<01_02_06>>+<<01_02_07>>','<<',' '),'>>',' ') from dual
+
+select  01_02_04 + 01_02_05 + 01_02_06 + 01_02_07  from GTTPISITAXCOMPUTATION
+
+
+SELECT DISTINCT REGEXP_SUBSTR ('(<<01_01_01>>-<<01_01_02>>)*.085','[^<<w>>$]+',1,LEVEL) as columnNo
+FROM   DUAL
+CONNECT BY REGEXP_SUBSTR ('(<<01_01_01>>-<<01_01_02>>)*.085','[^<<w>>]+',1,LEVEL) IS NOT NULL
+
+SELECT COLUMNNO FROM (
+            SELECT DISTINCT REGEXP_SUBSTR ('(<<01_01_01>>-<<01_01_02>>)*.085','[^<<(w)>>$]+',1,LEVEL) AS COLUMNNO
+            FROM   DUAL
+            CONNECT BY REGEXP_SUBSTR ('(<<01_01_01>>-<<01_01_02>>)*.085','[^<<(w)>>]+',1,LEVEL) IS NOT NULL
+        )
+        WHERE COLUMNNO NOT LIKE ('%*%') 
+        AND COLUMNNO NOT LIKE ('%-%') 
+        AND COLUMNNO NOT LIKE ('%+%') 
+        AND COLUMNNO NOT LIKE ('%/%')
+        
+SELECT NVL(COMPPROJCTEDVALUE,0) FROM GTTPISITAXCOMPUTATION
+                    WHERE COLUMNNO='09_01_01_03'        
+                    
+SELECT * FROM PISITAXPARAM                     
+WHERE COLUMNNO='09_01_01_03'       
+
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%INCOME%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107021002'
+
+PRCWPS_ITAXCOMPUTATION_B4SAVE
+
+
+SELECT 
+TRUNC(MONTHS_BETWEEN (CASE WHEN TO_NUMBER(SUBSTR('202002',5,2)) <=3  THEN TO_DATE('31/03/'||(SUBSTR('202002',0,4)),'DD/MM/YYYY') ELSE TO_DATE('31/03/'||(SUBSTR('202002',0,4)+1),'DD/MM/YYYY') END ,TO_DATE('01/'||SUBSTR('202002',5,2)||SUBSTR('202002',0,4) ,'DD/MM/YY')),0) B
+FROM DUAL;
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 <<<<<<< HEAD
 
 PROC_RPT_GPSPFREGISTER('JT0069','0004','01/04/2020','31/03/2021','','')
