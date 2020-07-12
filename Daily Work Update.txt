@@ -1,6 +1,23 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+
+PROC_RPT_GPSPFREGISTER('JT0069','0004','01/04/2020','31/03/2021','','')
+
+
+SELECT NVL(B.FPF, A.FPF) FROM 
+(
+    SELECT 'A' C, 8.33111 FPF FROM DUAL
+) A,
+(
+    SELECT 'A' C, PARAMETER_VALUE FPF FROM SYS_PARAMETER
+    WHERE PARAMETER_NAME LIKE 'FPF%'
+    AND COMPANYCODE='JT0069'
+    AND DIVISIONCODE='00041'
+) B
+WHERE A.C = B.C(+)
+
+
 ---------------------------------------------------------------------------------------------
 
 select * from login
