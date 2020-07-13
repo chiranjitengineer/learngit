@@ -1,6 +1,99 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='01069'
+
+SELECT PISCOMP.BASIC,PISCOMP.DA,PISCOMP.ADHOC,PISCOMP.OEPF, PISCOMP.BASIC+PISCOMP.DA+PISCOMP.ADHOC+PISCOMP.OEPF  TOTal
+FROM PISPAYTRANSACTION PISCOMP
+WHERE TOKENNO='01069'
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='HRA_GROSS'
+
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='ADHOC'
+
+
+PISCOMP.BASIC+PISCOMP.DA+PISCOMP.ADHOC+PISCOMP.OEPF
+
+select adhoc from piscomponentassignment
+where tokenno='01069'
+
+-------------------------------------------------------------------------
+
+please also note hra wrong calculation e.g emp cd 01069
+
+-------------------------------------------------------------------------
+
+BASIC	DA	ADHOC	OEPF	TOTAL
+265110	0	224309	0		489419
+
+-------------------------------------------------------------------------
+HRA_GROSS : 489419
+HRA_PERC : 35%  =  
+
+HRA = 489419 * 35% = 171296.65
+-------------------------------------------------------------------------
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='01069'
+
+SELECT PISCOMP.BASIC,PISCOMP.DA,PISCOMP.ADHOC,PISCOMP.OEPF, PISCOMP.BASIC+PISCOMP.DA+PISCOMP.ADHOC+PISCOMP.OEPF  TOTal
+FROM PISPAYTRANSACTION PISCOMP
+WHERE TOKENNO='01069'
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='HRA_GROSS'
+
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='ADHOC'
+
+
+PISCOMP.BASIC+PISCOMP.DA+PISCOMP.ADHOC+PISCOMP.OEPF
+
+select adhoc from piscomponentassignment
+where tokenno='01069'
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='01069'
+
+select adhoc from piscomponentassignment
+where tokenno='01069'
+
+
+
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='COMPSAVING'
+
+CASE WHEN PISMAST.CATEGORYCODE='10' THEN CASE WHEN PISASSIGN.BASIC < 10000 THEN 200 ELSE 500 END END
+
+
+SELECT 
+PISCOMP.BASIC, PISCOMP.ADHOC, PISCOMP.CONV_ALOW,
+CASE WHEN (PISCOMP.BASIC+PISCOMP.ADHOC+PISCOMP.CONV_ALOW)>15000
+THEN (15000*12/100)-(PISCOMP.BASIC*12/100)
+ELSE ((PISCOMP.BASIC+PISCOMP.ADHOC+PISCOMP.CONV_ALOW)*12/100)-(PISCOMP.BASIC*12/100)
+END CALC
+FROM PISPAYTRANSACTION PISCOMP
+WHERE tokenno='01203'
+
+
+Basic+Adhoc+Convence  >15000
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE BASIC < 10000
+
+
+-------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 <<<<<<< HEAD
 
 proc_pisitax_computation
