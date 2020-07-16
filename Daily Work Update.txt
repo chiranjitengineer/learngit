@@ -1,6 +1,311 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+--GLOSTER
+
+SELECT * FROM SYS_HELP_QRY
+WHERE QRY_ID = '7503'
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='PISITAXPARAM'
+
+GBL_PISITAXPARAM
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(20093,0)
+
+
+ EXEC PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','');
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+--BIRLA
+SELECT * FROM PISPAYTRANSACTION
+WHERE GRADECODE='D';
+
+
+DELETE FROM LOANBREAKUP
+
+
+
+SELECT *  FROM LOANBREAKUP
+
+SELECT * FROM GBL_LOANBLNC
+WHERE TOKENNO='00473'
+
+SELECT * FROM LOANINTEREST
+WHERE TOKENNO='00473'
+
+AND WORKERSERIAL='000041'
+
+
+ EXEC PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','')
+ 
+ EXEC PRC_GEN_LOAN_INT_CALC('BJ0056','0001','SWT',NULL,'01/04/2020','01/04/2020','PIS','YES','PISPAYTRANSACTION_SWT');
+
+EXEC PROC_LOANBLNC('BJ0056','0001','01/04/2020','30/04/2020','','','PIS','YES');
+ 
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE='LINT_BL'
+
+SELECT LINT_BL FROM PISPAYTRANSACTION
+WHERE GRADECODE='D'
+AND LINT_BL > 0
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE GRADECODE='D';
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+ SELECT NVL(B.PARAMETER_VALUE, A.PARAMETER_VALUE) into lv_IntCalcProcName FROM 
+    (
+        SELECT 1 OPT, 'NA' PARAMETER_VALUE FROM DUAL
+    ) A,
+    (
+        SELECT 1 OPT, PARAMETER_VALUE FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME='GENERAL LOAN INTEREST CALCULATION'
+        AND PROJECTNAME='PIS' AND ROWNUM=1
+    )B
+    WHERE A.OPT=B.OPT(+);
+
+    --LOAN INT CALCULATION
+    IF lv_IntCalcProcName <> 'NA' THEN
+        PRC_GEN_LOAN_INT_CALC(P_COMPCODE,P_DIVCODE,'SWT',NULL,P_END_DT,P_END_DT,P_MODULE,'YES',P_UPDT_TABLENAME);
+--        lv_SqlStr := lv_IntCalcProcName||'('''||P_COMPCODE||''','''||P_DIVCODE||''',''SWT'',NULL,'''||P_END_DT||''','''||P_END_DT||''','''||P_MODULE||''',''YES'','''||P_UPDT_TABLENAME||''')';
+--        lv_SqlStr := 'BEGIN '||lv_SqlStr||' END';
+--        EXECUTE IMMEDIATE lv_SqlStr;
+    END IF
+	
+	
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PIS_ERROR_LOG
+WHERE PROC_NAME='PRC_LOANBALANCE_UPDT_WAGES'
+
+
+PRC_LOANBALANCE_UPDT_WAGES
+
+PRC_GEN_LOAN_INT_CALC
+
+DELETE FROM PIS_ERROR_LOG
+
+SELECT * FROM LOANINTEREST
+
+DELETE FROM LOANINTEREST
+
+
+SELECT DISTINCT LOANCODE FROM LOANMASTER 
+                WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                AND INTERESTPERCENTAGE > 0
+
+SELECT LINT_BL, LIBL_BL FROM PISPAYTRANSACTION
+WHERE TOKENNO='00415' 
+
+SELECT *  FROM LOANINTEREST 
+WHERE TOKENNO='00415'     
+
+SELECT TOKENNO,INTERESTAMOUNT, YEARMONTH  FROM LOANINTEREST 
+WHERE TOKENNO='00415'
+AND COMPANYCODE='BJ0056'
+AND DIVISIONCODE='0001'
+
+UPDATE PISPAYTRANSACTION SET LINT_BL =
+(
+SELECT INTERESTAMOUNT  FROM LOANINTEREST 
+WHERE TOKENNO='00415'
+AND COMPANYCODE='BJ0056'
+AND DIVISIONCODE='0001'
+AND YEARMONTH='202004'
+)          
+WHERE TOKENNO='00415'
+AND COMPANYCODE='BJ0056'
+AND DIVISIONCODE='0001'
+AND YEARMONTH='202004'
+
+
+ --ADDED FOR INTEREST EMI BALANCE 
+IF (C1.INTERESTTYPE = 'R') THEN
+                
+    lv_ColName := lv_ColName || 'LNBL_'||c1.LOANCODE|| ' = '||nvl(c1.LOAN_BAL,0)||',LIBL_'||c1.LOANCODE||' = '||nvl(c1.LOAN_INT_BAL,0)||',';
+    lv_ColName := lv_ColName || 'LINT_'||c1.LOANCODE|| ' = '||nvl(c1.LOAN_INT_BAL,0)||',';
+ELSE
+ lv_ColName := lv_ColName || 'LNBL_'||c1.LOANCODE|| ' = '||nvl(c1.LOAN_BAL,0)||',LIBL_'||c1.LOANCODE||' = '||nvl(c1.LOAN_INT_BAL,0)||',';
+END IF;
+                
+
+                    ,INTERESTTYPE, DEDUCTIONTYPE,INTERESTCALCULATIONTYPE
+                        
+SELECT  NVL(LOAN_INT_BAL,0) LOAN_INT_BAL
+FROM GBL_LOANBLNC A, LOANMASTER B
+WHERE (NVL(LOAN_BAL,0) + NVL(LOAN_INT_BAL,0))>0
+AND A.COMPANYCODE=B.COMPANYCODE
+AND A.DIVISIONCODE=B.DIVISIONCODE
+AND A.LOANCODE=B.LOANCODE
+AND B.INTERESTTYPE='R'
+ORDER BY WORKERSERIAL
+  
+FOR C1 IN (
+ SELECT  DISTINCT A.LOANCODE
+    FROM GBL_LOANBLNC A, LOANMASTER B
+    WHERE (NVL(LOAN_INT_BAL,0))>0
+    AND A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND A.LOANCODE=B.LOANCODE
+    AND B.INTERESTTYPE='R'      
+)
+LOOP                        
+                            
+lv_SqlStr := lv_SqlStr 
+||'UPDATE '||P_UPDT_TABLENAME||' P SET LINT_'||C1.LOANCODE||' =
+(
+    SELECT  NVL(LOAN_INT_BAL,0) LOAN_INT_BAL
+    FROM GBL_LOANBLNC A, LOANMASTER B
+    WHERE (NVL(LOAN_BAL,0) + NVL(LOAN_INT_BAL,0))>0
+    AND A.COMPANYCODE=B.COMPANYCODE
+    AND A.DIVISIONCODE=B.DIVISIONCODE
+    AND A.LOANCODE=B.LOANCODE
+    AND A.COMPANYCODE=P.COMPANYCODE
+    AND A.DIVISIONCODE=P.DIVISIONCODE
+    AND A.WORKERSERIAL=P.WORKERSERIAL 
+    AND B.INTERESTTYPE=''R''
+)          
+WHERE 1=1 
+AND COMPANYCODE='''||P_COMPCODE||'''
+AND DIVISIONCODE='''||P_DIVCODE||'''
+AND YEARMONTH='''||lv_YYYYMM||'''';
+
+   
+          insert into pIs_error_log(PROC_NAME,ORA_ERROR_MESSG,ERROR_QUERY,PAR_VALUES,FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, REMARKS ) values( lv_ProcName,'',lv_SqlStr,lv_parvalues, lv_fn_stdt, lv_fn_endt, lv_Remarks);
+          COMMIT;
+          
+          execute immediate lv_SqlStr ;
+END LOOP;
+
+
+                            
+                
+select  WORKERSERIAL,A.LOANCODE,NVL(LOAN_BAL,0) LOAN_BAL, NVL(LOAN_INT_BAL,0) LOAN_INT_BAL
+,INTERESTTYPE, DEDUCTIONTYPE,INTERESTCALCULATIONTYPE
+                        FROM GBL_LOANBLNC A, LOANMASTER B
+                        WHERE (NVL(LOAN_BAL,0) + NVL(LOAN_INT_BAL,0))>0
+                        AND A.COMPANYCODE=B.COMPANYCODE
+                        AND A.DIVISIONCODE=B.DIVISIONCODE
+                        AND A.LOANCODE=B.LOANCODE
+                        ORDER BY WORKERSERIAL
+                        
+                        (SELECT INTERESTTYPE, DEDUCTIONTYPE,INTERESTCALCULATIONTYPE FROM LOANMASTER WHERE LOANCODE=A.LOANCODE) INTERESTTYPE
+                        
+UPDATE PISPAYTRANSACTION_SWT SET LNBL_PFL=0, LIBL_PFL=0 
+ WHERE COMPANYCODE='BJ0056' AND DIVISIONCODE = '0001' 
+   AND FORTNIGHTSTARTDATE =  '01-APR-20' AND FORTNIGHTENDDATE = '30-APR-20' 
+   AND (NVL(LNBL_PFL,0)+NVL(LIBL_PFL,0))>0 
+   AND WORKERSERIAL IN ( SELECT WORKERSERIAL FROM WPSWORKERMAST WHERE COMPANYCODE='BJ0056' AND DIVISIONCODE = '0001' 
+                         AND PFSETTELMENTDATE IS NOT NULL )
+                         
+UPDATE PISPAYTRANSACTION_SWT SET LNBL_STADV = 14880,LIBL_STADV = 0 WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001'  AND YEARMONTH = '202004'  AND WORKERSERIAL = ' 000229' 
+
+UPDATE PISPAYTRANSACTION_SWT P SET LINT_BL =
+            (
+                SELECT  NVL(LOAN_INT_BAL,0) LOAN_INT_BAL
+                FROM GBL_LOANBLNC A, LOANMASTER B
+                WHERE (NVL(LOAN_BAL,0) + NVL(LOAN_INT_BAL,0))>0
+                AND A.COMPANYCODE=B.COMPANYCODE
+                AND A.DIVISIONCODE=B.DIVISIONCODE
+                AND A.LOANCODE=B.LOANCODE
+                AND A.COMPANYCODE=P.COMPANYCODE
+                AND A.DIVISIONCODE=P.DIVISIONCODE
+                AND A.WORKERSERIAL=P.WORKERSERIAL 
+                AND B.INTERESTTYPE='R'
+            )          
+            WHERE 1=1 
+            AND COMPANYCODE='BJ0056'
+            AND DIVISIONCODE='0001'
+            AND YEARMONTH='202004'                                                  
+			
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+select COMPONENTCODE from pisgradecomponentmapping
+where unitcode='01'
+and CATEGORYCODE='10'
+and gradecode='D'
+MINUS
+
+select COMPONENTCODE from pisgradecomponentmapping
+where unitcode='02'
+and CATEGORYCODE='20'
+and gradecode='E'
+MINUS
+select COMPONENTCODE from pisgradecomponentmapping
+where unitcode='01'
+and CATEGORYCODE='10'
+and gradecode='D'
+
+
+select * from piscomponentassignment
+where unitcode='02'
+and GRADECODE='E'
+
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE CATEGORYCODE='20'
+AND UNITCODE='02'
+
+
+
+SELECT   CATEGORYCODE, GRADECODE FROM PISGRADEMASTER
+
+WHERE CATEGORYCODE='20'
+
+SELECT * FROM BJM_EMP_MAST
+
+SELECT * FROM PISCATEGORYMASTER 
+
+SELECT DISTINCT UNITCODE, CATEGORYCODE, GRADECODE FROM PISEMPLOYEEMASTER
+
+
+CATEGORYCODE    GRADECODE
+10    A
+10    B
+10    C
+10    D
+11    A
+11    B
+11    C
+11    D
+12    G
+12    H
+20    E
+20    F
+
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE CATEGORYCODE='12'
+AND GRADECODE='D'
+
+UPDATE  PISEMPLOYEEMASTER SET
+--CATEGORYCODE='12'
+GRADECODE='E'
+WHERE CATEGORYCODE='20'
+AND GRADECODE='G'
+
+
+CREATE  TABLE  PISEMPLOYEEMASTER_150720 AS
+SELECT * FROM PISEMPLOYEEMASTER 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+Meeting Sunil Sharma
+--------------------
+
+1. 
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 SELECT * FROM PISCOMPONENTMASTER
 WHERE COMPONENTCODE IN ('BASIC','ADHOC','CONV_ALOW','COMPSAVING')
