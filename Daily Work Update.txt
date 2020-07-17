@@ -1,5 +1,305 @@
 
 ---------------------------------------------------------------------------------------------
+--BIRLA LOAN INTEREST INTERFACE
+
+swterp/PIS/Pages/Transaction/pgLoanInterestCalculation.aspx
+
+
+
+
+--menu update
+
+PRC_GEN_LOAN_INT_CALC
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%LOAN E%')
+
+SELECT * FROM ROLEDETAILS
+WHERE MENUCODE = '0107020703'
+
+
+
+Insert into MENUMASTER_RND
+   (MENUCODE, MENUNAME, MENUDESC, MENUTYPE, MENUTAG, 
+    MENUTAG1, MENUTAG2, ENTRYPOSSIBLE, EDITPOSSIBLE, DELETEPOSSIBLE, 
+    REPORTSPOSSIBLE, UTILITIESPOSSIBLE, ACTIVE, PROJECTNAME, MENUDETAILS, 
+    EFFECTIVEDIVISION, EFFECTIVEINDIVISION, PROCEDURE_SAVE_EDIT, URLSRC, FRM_HEIGHT, 
+    FRM_WIDTH, FUNCTIONCALL_BEFORE, FUNCTIONCALL_AFTER, VIEWPOSSIBLE, PRINTPOSSIBLE, 
+    DOCDATEVALIDATEFIELD, KEY_TABLE)
+ Values
+   ('0107020704', NULL, 'Loan Interrest Calculation', 'TRANSACTIONS', 'LOAN INT CALCULATION', 
+    NULL, NULL, 'Y', 'N', 'N', 
+    'N', 'N', 'Y', 'PIS', NULL, 
+    '''0001'',''0002'',''0003'',''0004''', '''0001'',''0002'',''0003'',''0004''', NULL, 'PIS/Pages/Transaction/pgLoanInterestCalculation.aspx', NULL, 
+    NULL, NULL, NULL, 'Y', NULL, 
+    NULL, NULL);
+COMMIT;
+
+
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('1', '0107020704', 'Y', 'X', 'X', 
+    'X', 'X', 'Y', 'X', 'PIS', 
+    '202005081119420010404577');
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('54', '0107020704', 'Y', 'X', 'X', 
+    'X', 'X', 'Y', 'X', 'PIS', 
+    '202003131131450010180952');
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('52', '0107020704', 'Y', 'X', 'X', 
+    'X', 'X', 'N', 'X', 'PIS', 
+    '202005070846440010402086');
+Insert into ROLEDETAILS
+   (ROLEID, MENUCODE, ACCESSENTRY, ACCESSEDIT, ACCESSDELETE, 
+    ACCESSREPORT, ACCESSUTILITIES, ACCESSVIEW, ACCESSPRINT, PROJECTNAME, 
+    SYSROWID)
+ Values
+   ('59', '0107020704', 'Y', 'X', 'X', 
+    'X', 'X', 'Y', 'X', 'PIS', 
+    '202005061003380010395143');
+COMMIT;
+
+
+SELECT * FROM SYS_HELP_QRY
+WHERE QRY_ID LIKE '7%'
+
+ MODULENAME='PIS'
+
+
+SELECT LOANCODE,LOANDESC,DEDUCTIONTYPE FROM LOANMASTER
+WHERE COMPANYCODE=<<COMPANYCODE>>  
+AND DIVISIONCODE=<<DIVISIONCODE>> 
+AND MODULE='PIS'
+
+
+
+Insert into SYS_HELP_QRY
+   (QRY_ID, QRY_STRING, PARAMETER_STRING, QRY_SHORTDESC, QRY_RETURN_TABLE_NAME, 
+    WEB_QRY_STRING, SEARCH_COLUMNLIST, MODULENAME)
+ Values
+   (7071, '""', 'COMPANYCODE~DIVISIONCODE~PATTERN', 'LOAN INFORMATION', NULL, 
+    'SELECT LOANCODE,LOANDESC,DEDUCTIONTYPE FROM LOANMASTER'||CHR(13)||CHR(10)||'WHERE COMPANYCODE=<<COMPANYCODE>>  '||CHR(13)||CHR(10)||'AND DIVISIONCODE=<<DIVISIONCODE>> '||CHR(13)||CHR(10)||'AND MODULE=''PIS'''||CHR(13)||CHR(10)||'ORDER BY LOANCODE'||CHR(13)||CHR(10)||'', 'LOANCODE~LOANDESC~', 'PIS');
+COMMIT;
+
+
+EXEC PROC_LOANBLNC('BJ0056','0001','30/04/2020','30/04/2020','BL','','PIS','','')
+
+SELECT * FROM GBL_LOANBLNC
+
+SELECT * FROM LOANINTEREST
+
+
+SELECT A.TOKENNO, B.EMPLOYEENAME,  A.LOANCODE, A.LOANDATE, A.LOANAMOUNT, A.LOAN_BAL, C.INTERESTPERCENTAGE , C.INTERESTAMOUNT 
+FROM GBL_LOANBLNC A, PISEMPLOYEEMASTER B, LOANINTEREST C
+WHERE A.COMPANYCODE=B.COMPANYCODE
+AND A.DIVISIONCODE=B.DIVISIONCODE
+AND A.TOKENNO=B.TOKENNO
+AND A.COMPANYCODE=C.COMPANYCODE(+)
+AND A.DIVISIONCODE=C.DIVISIONCODE(+)
+AND A.TOKENNO=C.TOKENNO(+)
+AND A.LOANCODE=C.LOANCODE(+)
+AND A.LOANDATE=C.LOANDATE(+)
+
+PROC_LOANBLNC 
+(
+    P_COMPANYCODE  VARCHAR2,
+    P_DIVISIONCODE VARCHAR2,
+    P_STARTDATE    VARCHAR2,
+    P_ENDDATE      VARCHAR2,    
+    P_LOANCODE     VARCHAR2,
+    P_WORKERSERIAL VARCHAR2 DEFAULT NULL,
+    P_MODULE       VARCHAR2 default 'WPS',
+    P_WAGEPROCESS  VARCHAR2 DEFAULT 'NO', 
+    P_TRANTYPE     VARCHAR2 DEFAULT 'SALARY'
+)
+
+
+
+EXEC PRC_GEN_LOAN_INT_CALC('BJ0056','0001','SWT','','','01/04/2020','PIS','','','10','D','')
+
+SELECT * FROM LOANINTEREST
+
+
+
+SELECT * FROM LOANTRANSACTION 
+
+
+SELECT * FROM SYS_HELP_QRY
+WHERE QRY_ID = '7029'
+
+SELECT A.TOKENNO, B.EMPLOYEENAME,  A.LOANCODE, TO_CHAR(A.LOANDATE,'DD/MM/YYYY') LOANDATE, A.LOANAMOUNT, A.LOAN_BAL, NVL(C.INTERESTAMOUNT,0) INTERESTAMOUNT
+FROM GBL_LOANBLNC A, PISEMPLOYEEMASTER B, LOANINTEREST C
+WHERE A.COMPANYCODE=B.COMPANYCODE
+AND A.DIVISIONCODE=B.DIVISIONCODE
+AND A.COMPANYCODE=C.COMPANYCODE(+)
+AND A.DIVISIONCODE=C.DIVISIONCODE(+)
+AND A.TOKENNO=C.TOKENNO(+)
+AND A.LOANCODE=C.LOANCODE(+)
+AND A.LOANDATE=C.LOANDATE(+)
+AND A.TOKENNO=B.TOKENNO
+AND A.LOANCODE= 'BL'
+AND B.UNITCODE = '01'
+AND B.CATEGORYCODE = '10'
+AND B.GRADECODE = 'D'
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+--BIRLA
+
+ALTER TABLE PISCOMPONENTMASTER MODIFY PAYFORMULA VARCHAR2(1000);
+
+--FOR CONVEYANCE ALLOWANCE
+
+CASE WHEN PISMAST.CATEGORYCODE <> '12' THEN
+CASE WHEN PISCOMP.CONV_RT >=25000 THEN 4000
+WHEN PISCOMP.CONV_RT BETWEEN 17500 AND 24999.99 THEN 3600
+WHEN PISCOMP.CONV_RT BETWEEN 12500 AND 17499.99 THEN 3100
+WHEN PISCOMP.CONV_RT BETWEEN 7500 AND 12499.99 THEN 2900
+WHEN PISCOMP.CONV_RT BETWEEN 6500 AND 7499.99 THEN 2400
+WHEN PISCOMP.CONV_RT BETWEEN 5000 AND 6499.99 THEN 1800
+WHEN PISCOMP.CONV_RT BETWEEN 3501 AND 5000.99 THEN 1200
+WHEN PISCOMP.CONV_RT BETWEEN 1601 AND 3500 THEN 600
+ELSE 0 END
+ELSE 0
+END
+
+
+Dear Sunil,
+
+Today I have checked a few employees Salary Register for the month of Apr 20 following discrepancies have been found.
+Bank Loan interest not deducted- ex- K L Choubey
+P.Tax not Deducted- ex. H S Dutta
+Gross Salary and net salary should be round off- ex-Rajesh Khanna
+ESI deducted from out of ESi Staff- ex- Arunesh Shaw
+Compensatory Allowance not found and wrong PF dedution.ex Snehansu Datta.
+
+
+Bank Loan interest not deducted- ex- K L Choubey  --DONE
+------------------------------------------------
+
+select * FROM pisemployeemaster
+where employeename like UPPER('%K%L%Choubey%')
+
+ K L Choubey
+ 
+ KANHAIYA LAL CHOUBEY
+ 00597
+  000004
+ 01,10,B
+ 
+--LOAN INTEREST AMOUNT 161.0 --  
+ --2500.00	0.00	161.00
+
+ 
+P.Tax not Deducted- ex. H S Dutta --DONE
+------------------------------------------------
+
+select * FROM pisemployeemaster
+where employeename like '%H%S%DUTTA%'
+
+HARI SANKAR DUTTA
+00967
+ 000102
+ 01,10,B
+ 
+ --PTAX 200
+ 
+ Gross Salary and net salary should be round off- ex-Rajesh Khanna
+------------------------------------------------
+
+select * FROM pisemployeemaster
+where employeename like UPPER('%Rajesh%Khanna%')
+
+ RAJESH KHANNA
+ 
+ 00696
+   000139
+ 01,10,C
+ 
+ 
+ ------------------------------------------------
+
+ ESI deducted from out of ESi Staff- ex- Arunesh Shaw
+  ------------------------------------------------
+
+select * FROM pisemployeemaster
+where employeename like UPPER('%Arunesh%Shaw%')
+
+ ARUNESH KUMAR SHAW
+ 
+ 00909
+ 000143
+ 01,10,C
+ 
+ esi - 139
+ 
+ (PISASSIGN.BASIC+PISASSIGN.ADHOC+PISASSIGN.SPL_ALLOW.DA+PISASSIGN.PER_ALLOW)+ ROUND((PISASSIGN.BASIC)*0.01*(NVL(PISASSIGN.HRA_PERC,0)),0)
+ 
+ 
+ select tokenno, yearmonth, esi_rate, esi_gross, ESI_E from pispaytransaction wherE tokenno = '00909'
+ 
+ SELECT * FROM PISCOMPONENTASSIGNMENT WHERE 1=1
+-- AND TOKENNO = '00909' 
+-- AND TRANSACTIONTYPE='ASSIGNMENT'
+ AND da > 0
+ 
+ SELECT * FROM PISCOMPONENTMASTER WHERE COMPONENTCODE='ESI_RATE' 
+ 
+ SELECT * FROM PISCOMPONENTMASTER WHERE  ROLLOVERAPPLICABLE='Y' AND PHASE <6 --COMPONENTCODE='ESI_GROSS' 
+ 
+ (PISASSIGN.BASIC+PISASSIGN.ADHOC+PISASSIGN.SPL_ALLOW.DA+PISASSIGN.PER_ALLOW)+ ROUND((PISASSIGN.BASIC)*0.01*(NVL(PISASSIGN.HRA_PERC,0)),0) 
+ 
+ 
+ PISASSIGN.BASIC+ ROUND(PISASSIGN.BASIC*0.01*(NVL(PISASSIGN.HRA_PERC,0)),0) 
+ 
+ select * from piscomponentmaster
+ where componentcode like '%SPL_ALL%'
+ 
+ 
+ 
+Compensatory Allowance not found and wrong PF dedution.ex Snehansu Datta.
+ ------------------------------------------------
+
+select * FROM pisemployeemaster
+where employeename like UPPER('S%D%A')
+
+ 
+ 
+ 00785
+ 000154
+ 01,10,D
+ 
+ compensatory allowance - 208
+ pf. e - 2507
+ 
+---------------------------------------------------------------------------------------------
+
+
+ EXEC PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','A','');
+
+ EXEC PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','B','');
+
+ EXEC  PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','C','');
+
+ EXEC  PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','');
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 --GLOSTER
 
