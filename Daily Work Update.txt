@@ -1,5 +1,51 @@
 
 ---------------------------------------------------------------------------------------------
+
+--BIRLA
+
+
+delete from loanbreakup
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','A','');
+
+exec  PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','B','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','C','');
+
+exec  PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','A','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','B','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','C','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','D','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','G','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','H','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','20','E','');
+
+ exec PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','20','F','');
+ 
+ select * from loanbreakup
+ 
+ select * from LOANMASTER
+ 
+ proc_loanblnc
+ 
+ SELECT 17500*0.9167 FROM DUAL
+ 
+ ALTER TABLE LOANMASTER
+ MODIFY INTERESTPERCENTAGE NUMBER(5,4)
+ 
+ UPDATE LOANMASTER SET INTERESTPERCENTAGE = (11/12)
+ WHERE LOANCODE='BL'
+ 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 --BIRLA LOAN INTEREST INTERFACE
 
 swterp/PIS/Pages/Transaction/pgLoanInterestCalculation.aspx
