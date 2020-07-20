@@ -1,5 +1,157 @@
 
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+--BIRLA LIC UPDATE
+
+select * from piscomponentassignment
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+
+and tokenno='00734'
+
+select * from piscomponentassignment
+where lic > 0
+and tokenno='01233'
+
+select * from pispaytransaction
+where lic > 0
+and tokenno='00734'
+
+SELECT A.LIC FROM 
+(
+select * from piscomponentassignment
+where 1=1
+and TRANSACTIONTYPE='ASSIGNMENT'
+) A,
+(
+select * from piscomponentassignment
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+)B
+WHERE A.TOKENNO=B.TOKENNO
+AND A.YEARMONTH=B.YEARMONTH
+
+UPDATE piscomponentassignment A SET 
+LIC =
+(
+select LIC from PISCOMPONENTASSIGNMENT_BK
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+AND A.TOKENNO=TOKENNO
+AND A.YEARMONTH=YEARMONTH
+)
+where 1=1
+AND lic = 0
+and TRANSACTIONTYPE='ASSIGNMENT'
+AND TOKENNO IN 
+(
+select TOKENNO from PISCOMPONENTASSIGNMENT_BK
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+)
+
+UPDATE PISCOMPONENTASSIGNMENT SET LIC = 0
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+
+
+select TOKENNO from PISCOMPONENTASSIGNMENT_BK
+where lic > 0
+and TRANSACTIONTYPE='ATTENDANCE'
+
+
+
+
+CREATE TABLE PISCOMPONENTASSIGNMENT_BK AS
+
+SELECT * FROM PISCOMPONENTASSIGNMENT
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE IN ('BASIC','LIC')
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_TEMP='GBL_PISCOMPONENTASSIGNMENT'
+
+
+CREATE TABLE SYS_TFMAP_COMASSIGN AS
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER='10013'
+AND SYS_KEYCOLUMN = 'Y'
+
+
+EXEC PROC_CREATE_SYSTFMAP('PISCOMPONENTASSIGNMENT', 'COMPANYCODE,DIVISIONCODE,YEARCODE,YEARMONTH,CATEGORYCODE,GRADECODE,TRANSACTIONTYPE','GBL_PISCOMPONENTASSIGNMENT','10013')
+
+SELECT * FROM SYS_TFMAP WHERE  SYS_TABLE_SEQUENCIER = 10013
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(10013,0)
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+DECLARE
+P_UNITCODE VARCHAR2(10);
+P_YEARMONTH VARCHAR2(10);
+BEGIN
+
+P_UNITCODE := '01';
+P_YEARMONTH := '202004';
+
+--SELECT * FROM MENUMASTER_RND
+--WHERE menudesc like '%Salary%'
+
+--prcSalary_Bf_MainSave
+
+FOR C1 IN 
+(
+    SELECT DISTINCT COMPANYCODE, DIVISIONCODE,UNITCODE, CATEGORYCODE, GRADECODE FROM PISEMPLOYEEMASTER
+    ORDER BY UNITCODE, CATEGORYCODE, GRADECODE
+)
+LOOP
+
+    DBMS_OUTPUT.PUT_LINE(CHR(10)||' PRC_PIS_SALARY_PROCESS('''||C1.COMPANYCODE||''','''||C1.DIVISIONCODE||''',''SALARY'',''SWT'','''||P_YEARMONTH||''','''||P_YEARMONTH||''','''||C1.UNITCODE||''','''||C1.CATEGORYCODE||''','''||C1.GRADECODE||''','''');');
+  
+--    PRC_PIS_SALARY_PROCESS(C1.COMPANYCODE,C1.DIVISIONCODE,'SALARY','SWT',P_YEARMONTH,P_YEARMONTH,C1.UNITCODE,C1.CATEGORYCODE,C1.GRADECODE ,'');
+END LOOP; 
+
+END;                 
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','A','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','B','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','C','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','10','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','11','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','12','H','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','01','20','F','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','02','10','A','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','02','10','C','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','02','10','D','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','02','20','G','');
+
+ PRC_PIS_SALARY_PROCESS('BJ0056','0001','SALARY','SWT','202004','202004','03','20','F','');
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 --BIRLA
 
