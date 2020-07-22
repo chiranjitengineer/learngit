@@ -53,6 +53,14 @@ IP   			:		1.6.37.187:8083
 PASSWORD 		: 		NAIHATI
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
+USER 			: 		BAGGAGE_WEB/BAGGAGE_WEB  (LOCAL)
+IP   			:		1.6.37.242:8083
+PASSWORD 		: 		000
+SERVICE NAME 	: 		OR12CSE2
+---------------------------------------------------------------------
+
+user/pass -> BAGGAGE_WEB/
+---------------------------------------------------------------------
 
 
 Data Migration should be in Birla server.
