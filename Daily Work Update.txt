@@ -6,6 +6,81 @@
 
 --PIS ACCOUNTS POSTING
 ---------------------------------------------------------------------------------------------
+
+
+select distinct acccode from piscomponentmaster
+where acccode  is not null
+and acccode not in (
+select distinct accode from acacledger
+)
+
+
+select  acccode from acacledger
+
+where accode='I000010'
+
+---acc code not found
+S000033
+I000010
+
+piscomponentmaster
+
+
+select componentcode, acccode from piscomponentmaster
+where acccode  is not null
+and acccode not in (
+select distinct accode from acacledger
+)
+
+
+PISSALARY_POSTINGDATA
+
+prc_pissalary_postingdata
+
+select * from 
+SYS_PARAM_ACPOST_GPS
+where QUALITY_GROUP_CODE in 
+(
+select distinct componentcode from piscomponentmaster
+where acccode  is not null
+)
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='SYS_PARAM_ACPOST_GPS'
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER='20163'
+
+FN_PISSALARY_COMP_AMT
+
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='SYS_PARAM_ACPOST_GPS'
+
+select * from 
+SYS_PARAM_ACPOST_GPS
+where QUALITY_GROUP_CODE in 
+(
+select distinct componentcode from piscomponentmaster
+where acccode  is not null
+)
+
+update SYS_PARAM_ACPOST_GPS set
+ACCODE =
+(
+    select distinct acccode from piscomponentmaster
+    where acccode  is not null
+    and componentcode=QUALITY_GROUP_CODE
+    and rownum=1
+)
+where QUALITY_GROUP_CODE in 
+(
+select distinct componentcode from piscomponentmaster
+where acccode  is not null
+)
+
 ---------------------------------------------------------------------------------------------
 
 
@@ -17,6 +92,37 @@ EXEC PROC_DAILY_MANUFACTURE('JT0069','0009','28/06/2020','2020', '2020-2021','FI
 SELECT * FROM DAILY_MANUFACTURE_QRY
 
 EXEC PROC_FACTORYREPORT('JT0069','0009','28/06/2020','28/06/2020')
+
+EXEC PROC_DAILY_MANUFACTURE('JT0069','0009','28/06/2020','2020', '2020-2021','FINANCIAL YEAR WISE','')
+
+EXEC PROC_DAILY_MANUFACTURE('JT0069','0009','28/06/2020','2020', '2020-2021','FINANCIAL YEAR WISE','')
+
+SELECT * FROM DAILY_MANUFACTURE_QRY
+
+SELECT * FROM GTT_DAILY_MANUFACTURE
+
+EXEC PROC_FACTORYREPORT('JT0069','0009','28/06/2020','28/06/2020')
+
+--as on date - 28/06/2020
+--current year 2020 ---- 2020-2021
+--financian year start date -- 01/04/2020
+
+--prev as on date 28/06/2019
+--prev year 2019 ----2019 ---2019-2020
+--prev financial year start date -- 01/04/2019
+ 
+
+SELECT SUBSTR('28/06/2020',-4) INTO LV_CYEAR FROM DUAL
+SELECT TO_CHAR(ADD_MONTHS(TO_DATE('28/06/2020','DD/MM/YYYY'),-12),'DD/MM/YYYY') INTO LV_LY_ASON FROM DUAL
+SELECT ADD_MONTHS(TO_DATE('01/04/2020','DD/MM/YYYY'),-12) INTO LV_LY_STARTDATE FROM DUAL
+
+
+SELECT TO_DATE('01/'|| SUBSTR('28/06/2020', 4, 10), 'DD/MM/YYYY') FROM DUAL 
+
+
+SELECT TO_DATE(SUBSTR('01/04/2020', 1, 6) || TO_CHAR(SUBSTR('01/04/2020', -4) -1), 'DD/MM/YYYY')   FROM DUAL 
+
+
 
 ---------------------------------------------------------------------------------------------
 
@@ -45,7 +151,10 @@ SELECT * FROM GTT_ACCASHBANKBOOKRPT
 
 WHERE UPPER(NARRATION) LIKE '%OPENIN%' 
 
+exec prc_pissalary_postingdata('0001','001','SALARY PROCESS','202004','01') 
 
+
+FN_PISSALARY_COMP_AMT_CC
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
