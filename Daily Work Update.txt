@@ -1,5 +1,173 @@
 
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+--gloster
+
+select * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00090'
+AND YEARCODE='2020-2021'
+
+SELECT 25800*3 FROM DUAL
+
+GLOSTER_WEB.PROC_PISITAX_COMPUTATION
+
+DELETE from PIS_ERROR_LOG
+
+
+select * from PIS_ERROR_LOG
+
+PRCWPS_ITAXCOMPUTATION_B4SAVE
+
+PRC_PISVIEWCREATION
+
+
+EXEC PROC_PISITAX_COMPUTATION ('0001', '0002', '2019-2020', 'SS', 'SREG', '00552');
+
+SELECT fn_get_itax_calc_value('0001' ,'0002','06','<<03>>-<<05>>','PROJECTED')
+FROM DUAL
+
+SELECT fn_get_itax_calc_value('0001' ,'0002','06','<<03>>-<<05>>','ACTUAL','2019-2020')
+FROM DUAL
+
+SELECT fn_get_itax_calc_value('0001' ,'0002','06','<<03>>-<<05>>','ACTUAL')
+FROM DUAL
+
+select YEARCODE,columnno, nvl(COMPACTUALVALUE,0) amount 
+from pisitaxattributevalue   
+where companycode='0001'
+and divisioncode='0002'  
+and columnno=trim(substr('03>>-',1,instr('03>>-','>>',1,1)-1)) 
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+--birla
+
+
+ SELECT * FROM PISCOMPONENTMASTER
+ WHERE COMPONENTSHORTNAME LIKE '%TOTAL%'
+ 
+ 
+ SELECT * FROM PISCOMPONENTMASTER
+ WHERE PHASE = 5
+ 
+ COMPS_ALLOW
+ 
+ SELECT * FROM PIS_ERROR_LOG
+ 
+ SELECT TOTEARN, PISCOMP.BASIC+PISCOMP.DA+PISCOMP.COMPS_ALLOW+PISCOMP.PER_ALLOW+PISCOMP.ADHOC+PISCOMP.OEPF+PISCOMP.SPL_ALLOW+PISCOMP.CONV_ALOW+PISCOMP.HRA+PISCOMP.MED_ALLOW+PISCOMP.LEAVE_ENC+PISCOMP.OT_AMT+PISCOMP.OE_NPF 
+ FROM PISPAYTRANSACTION PISCOMP
+ WHERE TOKENNO='01113'
+ 
+ 
+ SELECT * 
+ FROM PISPAYTRANSACTION PISCOMP
+ WHERE TOKENNO='01113'
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM BJM_EMP_MAST
+WHERE EMPCODE='00781'
+
+
+EXEC proc_componentassinreport('BJ0056','0001','202004','''BASIC'',''DA'',''ADHOC'',''PER_ALLOW'',''SPL_ALLOW'',''OEPF'',''OE_NPF'',''OT_AMT'',''LEAVE_ENC'',''CONV_ALOW'',''MED_ALLOW'',''HRA'',''COMPS_ALLOW'',''MISC_BF''','','','','PIS COMPONENT REGISTER','Customs')
+
+
+---------------------------------------------------------------------------------------------
+
+DROP TABLE BIRLANEW.GTT_COMPONENTASSINREPORT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE BIRLANEW.GTT_COMPONENTASSINREPORT
+(
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  EMPLOYEENAME        VARCHAR2(50 BYTE),
+  UNITCODE            VARCHAR2(10 BYTE),
+  CAT_CD              VARCHAR2(10 BYTE),
+  GRD_CD              VARCHAR2(10 BYTE),
+  DEPT_CD             VARCHAR2(10 BYTE),
+  ESINO               VARCHAR2(20 BYTE),
+  PFNO                VARCHAR2(20 BYTE),
+  PENSIONNO           VARCHAR2(20 BYTE),
+  SEX                 VARCHAR2(10 BYTE),
+  EMPLOYEESTATUS      VARCHAR2(20 BYTE),
+  DATEOFBIRTH         DATE,
+  DATEOFJOIN          DATE,
+  DATEOFCONFIRMATION  DATE,
+  PFENTITLEDATE       DATE,
+  EXTENDEDRETIREDATE  DATE,
+  COMPONENTCODE       VARCHAR2(15 BYTE),
+  PHASE               NUMBER(4),
+  CALCULATIONINDEX    NUMBER(10),
+  COMPANYNAME         VARCHAR2(100 BYTE),
+  DIVISIONNAME        VARCHAR2(100 BYTE),
+  COMPONENTSHORTNAME  VARCHAR2(15 BYTE),
+  COMPVALUE           NUMBER,
+  PRINTDATE           VARCHAR2(50 BYTE),
+  EX1                 NUMBER(10,2),  ------------------------------change varchar2 to number
+  EX2                 VARCHAR2(100 BYTE),
+  EX3                 VARCHAR2(100 BYTE),
+  EX4                 VARCHAR2(100 BYTE),
+  EX5                 VARCHAR2(100 BYTE),
+  EX6                 VARCHAR2(100 BYTE),
+  EX7                 VARCHAR2(100 BYTE),
+  EX8                 VARCHAR2(100 BYTE),
+  EX9                 VARCHAR2(100 BYTE),
+  EX10                VARCHAR2(100 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+INSERT INTO GTT_COMPONENTASSINREPORT 
+
+SELECT A.WORKERSERIAL, A.TOKENNO, A.EMPLOYEENAME, A.UNITCODE, A.CATEGORYCODE CAT_CD, A.GRADECODE GRD_CD, A.DEPARTMENTCODE DEPT_CD, 
+       A.ESINO, A.PFNO, A.PENSIONNO, A.SEX, A.EMPLOYEESTATUS, A.DATEOFBIRTH, A.DATEOFJOIN, A.DATEOFCONFIRMATION, A.PFENTITLEDATE,  
+       A.EXTENDEDRETIREDATE, B.COMPONENTCODE, B.PHASE, B.CALCULATIONINDEX, M.COMPANYNAME, V.DIVISIONNAME, B.COMPONENTSHORTNAME,   
+       round(fn_get_compvalue(C.COMPANYCODE,C.DIVISIONCODE,C.YEARMONTH,C.WORKERSERIAL,B.COMPONENTCODE,'PIS COMPONENT REGISTER'),0) COMPVALUE, TO_CHAR(TO_DATE('202004','YYYYMM'),'MON-YYYY') PRINTDATE, 
+       NVL(B.PRINTSERIAL,0) EX1, 'Run Date ' || TO_CHAR(SYSDATE,'DD/MM/YYYY  HH:MI:SS AM') EX2,CASE WHEN 'PIS COMPONENT REGISTER'='PIS COMPONENT REGISTER' THEN C.ATTN_SALD ELSE NULL END  EX3, B.COLHEADER EX4, NULL EX5, NULL EX6, NULL EX7, NULL EX8, NULL EX9, NULL EX10 
+  FROM PISEMPLOYEEMASTER A,  
+       ( SELECT DISTINCT COMPONENTCODE, COMPONENTSHORTNAME, PHASE, CALCULATIONINDEX,PRINTSERIAL,COLHEADER FROM PISCOMPONENTMASTER  
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = ( 
+                             SELECT MAX(YEARMONTH) FROM PISCOMPONENTMASTER  
+                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                AND YEARMONTH<='202004' 
+                            ) 
+            AND PRINTSERIAL IS NOT NULL 
+       ORDER BY PRINTSERIAL) B, 
+       ( SELECT * FROM PISPAYTRANSACTION 
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND WORKERSERIAL||YEARMONTH IN ( SELECT WORKERSERIAL||MAX(YEARMONTH) 
+                                               FROM PISPAYTRANSACTION 
+                                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                                AND YEARMONTH<='202004' 
+                                              GROUP BY WORKERSERIAL 
+                                           ) 
+       ) C, COMPANYMAST M, DIVISIONMASTER V 
+WHERE A.COMPANYCODE = C.COMPANYCODE  
+  AND A.DIVISIONCODE = C.DIVISIONCODE 
+  AND A.WORKERSERIAL = C.WORKERSERIAL  
+  AND A.COMPANYCODE=M.COMPANYCODE 
+  AND A.COMPANYCODE=V.COMPANYCODE 
+  AND A.DIVISIONCODE=V.DIVISIONCODE 
+  AND A.COMPANYCODE = 'BJ0056'  
+  AND A.DIVISIONCODE = '0001' 
+  AND B.COMPONENTCODE IN ('BASIC','DA','ADHOC','PER_ALLOW','SPL_ALLOW','OEPF','OE_NPF','OT_AMT','LEAVE_ENC','CONV_ALOW','MED_ALLOW','HRA','COMPS_ALLOW','MISC_BF') 
+ ORDER BY A.TOKENNO, B.PRINTSERIAL
+ 
+ SELECT * FROM GTT_COMPONENTASSINREPORT
+ ORDER BY TOKENNO,CALCULATIONINDEX
+ 
+ ORDER BY TOKENNO, TO_NUMBER(EX1)
+ 
+ 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
 --BIRLA
 
