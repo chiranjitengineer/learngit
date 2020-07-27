@@ -56,7 +56,7 @@ SERVICE NAME 	: 		OR12CSE2
 USER 			: 		BAGGAGE_WEB/BAGGAGE_WEB  (LOCAL)
 IP   			:		1.6.37.242:8083
 PASSWORD 		: 		000
-SERVICE NAME 	: 		OR12CSE2
+SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
 
 user/pass -> BAGGAGE_WEB/
