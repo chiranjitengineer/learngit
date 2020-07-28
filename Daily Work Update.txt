@@ -1,6 +1,141 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+--WORKUPDATE ON 28/07/2020
+---------------------------------------------------------------------------------------------
+--NAIHATI PF ACCOUNTS LOAN ENTRY
+---------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION FN_GET_PARAMVALUE
+(
+    P_PARAMS VARCHAR2,
+    P_PARAMNAME VARCHAR2
+)
+RETURN VARCHAR2
+AS
+LV_RESULT   VARCHAR2(4000); 
+BEGIN
+    LV_RESULT := NULL;
+    --SELECT FN_GET_PARAMVALUE('COMPANYCODE:0001~DIVISIONCODE:0002','COMPANYCODE') FROM DUAL
+ 
+    SELECT PARAMVALUE INTO LV_RESULT FROM (
+    SELECT REC1,SUBSTR(REC1,0,INSTR(REC1,':')-1) PARAMNAME,
+        SUBSTR(REC1,INSTR(REC1,':')+1, LENGTH(REC1)) PARAMVALUE 
+        FROM 
+        (
+            select regexp_substr(P_PARAMS,'[^~]+', 1, level) REC1
+            from dual 
+            connect BY regexp_substr(P_PARAMS, '[^~]+', 1, level) 
+            is not null
+        ) 
+    )
+    WHERE PARAMNAME=P_PARAMNAME;
+    
+    RETURN LV_RESULT;
+EXCEPTION WHEN OTHERS THEN   
+    LV_RESULT := NULL; 
+    
+    RETURN LV_RESULT;
+END;
+/
+
+CREATE OR REPLACE FUNCTION FN_GET_QRYSTRING
+(
+    P_PARAMS VARCHAR2,
+    P_QUERY VARCHAR2
+)
+RETURN VARCHAR2
+AS
+LV_RESULT   VARCHAR2(4000); 
+BEGIN
+    LV_RESULT := P_QUERY;
+        
+    --LV_PARAMS := 'COMPANYCODE:0001~DIVISIONCODE:0002';
+    --LV_QRY := 'SELECT <<COMPANYCODE>>,<<DIVISIONCODE>> FROM DUAL';
+--SELECT FN_GET_QRYSTRING('COMPANYCODE:0001~DIVISIONCODE:0002','SELECT <<COMPANYCODE>>,<<DIVISIONCODE>> FROM DUAL') FROM DUAL
+
+    FOR C1 IN 
+    (  
+        SELECT REC1,SUBSTR(REC1,0,INSTR(REC1,':')-1) PARAMNAME,
+        SUBSTR(REC1,INSTR(REC1,':')+1, LENGTH(REC1)) PARAMVALUE 
+        FROM 
+        (
+            SELECT REGEXP_SUBSTR(P_PARAMS,'[^~]+', 1, LEVEL) REC1
+            FROM DUAL 
+            CONNECT BY REGEXP_SUBSTR(P_PARAMS, '[^~]+', 1, LEVEL) 
+            IS NOT NULL
+        ) 
+    )
+    LOOP
+        LV_RESULT := REPLACE(LV_RESULT,'<<'||C1.PARAMNAME||'>>',C1.PARAMVALUE);
+    END LOOP; 
+    RETURN LV_RESULT;
+END;
+/
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+DECLARE
+
+LV_PARAMS VARCHAR2(1000);
+LV_QRY VARCHAR2(1000);
+
+BEGIN
+LV_PARAMS := 'COMPANYCODE:0001~DIVISIONCODE:0002';
+LV_QRY := 'SELECT <<COMPANYCODE>>,<<DIVISIONCODE>> FROM DUAL';
+--
+--select regexp_substr('COMPANYCODE:0001~DIVISIONCODE:0002','[^~]+', 1, level) REC1
+--   from dual 
+--   connect BY regexp_substr('COMPANYCODE:0001~DIVISIONCODE:0002', '[^~]+', 1, level) 
+--   is not null
+--   
+--   
+--select regexp_substr('COMPANYCODE:0001','[^:]+', 1, level) REC1
+--   from dual 
+--   connect BY regexp_substr('COMPANYCODE:0001', '[^:]+', 1, level) 
+--   is not null
+--   
+
+DBMS_OUTPUT.PUT_LINE(LV_PARAMS);
+DBMS_OUTPUT.PUT_LINE(LV_QRY);
+FOR C1 IN (  
+    SELECT REC1,SUBSTR(REC1,0,INSTR(REC1,':')-1) PARAMNAME,
+    SUBSTR(REC1,INSTR(REC1,':')+1, LENGTH(REC1)) PARAMVALUE 
+    FROM 
+    (
+        select regexp_substr(LV_PARAMS,'[^~]+', 1, level) REC1
+        from dual 
+        connect BY regexp_substr(LV_PARAMS, '[^~]+', 1, level) 
+        is not null
+    ) 
+)
+LOOP
+    LV_QRY := REPLACE(LV_QRY,'<<'||C1.PARAMNAME||'>>',C1.PARAMVALUE);
+END LOOP;  
+
+DBMS_OUTPUT.PUT_LINE(LV_QRY);
+--   
+--   SELECT SUBSTR('DIVISIONCODE:0002',INSTR('DIVISIONCODE:0002',':')+1, LENGTH('DIVISIONCODE:0002')) PARAMVALUE FROM DUAL
+--   
+--   SELECT SUBSTR('DIVISIONCODE:0002',0,INSTR('DIVISIONCODE:0002',':')-1) PARAMNAME FROM DUAL
+END;
+
+SELECT PARAMVALUE FROM (
+SELECT REC1,SUBSTR(REC1,0,INSTR(REC1,':')-1) PARAMNAME,
+    SUBSTR(REC1,INSTR(REC1,':')+1, LENGTH(REC1)) PARAMVALUE 
+    FROM 
+    (
+        select regexp_substr('COMPANYCODE:0001~DIVISIONCODE:0002','[^~]+', 1, level) REC1
+        from dual 
+        connect BY regexp_substr('COMPANYCODE:0001~DIVISIONCODE:0002', '[^~]+', 1, level) 
+        is not null
+    ) 
+)
+WHERE PARAMNAME='COMPANYCODE'
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 --WORK UPDATE ON 27/07/2020
 
 ---------------------------------------------------------------------------------------------
@@ -80,7 +215,7 @@ AND TOKENNO = '00024'
 ---------------------------------------------------------------------------------------------
 --NAIHATI PFACCOUNTS LOANTRANSACTION ENRTY
 ---------------------------------------------------------------------------------------------
-
+EXEC PRC_PF_COMPONENT_SHARE('0002','0010' ,'2020-2021','','PFL','17/06/2019','M')
 
 --TABLES
 PFLOANSANCTIONPARAM
