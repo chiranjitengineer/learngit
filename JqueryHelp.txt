@@ -255,6 +255,20 @@ http://www.jqueryfaqs.com/Articles/Get-Text-and-Value-of-selected-items-of-ASPNe
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
+
+//  assign value to control
+function AssignControlValues(htData) {
+	$.each(htData, function (key, value) {
+		console.log('key : ' + key);
+		console.log('value : ' + value);
+		var cntName = 'txt' + key;
+		if (String(key).toUpperCase().indexOf("DATE") > -1) cntName = 'msk' + key;
+		console.log('Control : ' + cntName);
+		$('[ID*=' + cntName + ']').val(value);//  assign value to control
+	});
+}
+
+
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 -------------------------------------------------------------------
