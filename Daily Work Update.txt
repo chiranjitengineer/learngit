@@ -1,5 +1,174 @@
 
 
+TRANSFER IN
+
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM SYS_HELP_QRY
+WHERE QRY_ID='7503'
+
+SELECT * FROM PISREIMBURSEMENTDETAILS
+WHERE LTA>0
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE Tution>0
+AND CATEGORYCODE='SS'
+
+
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00378'
+and YEARCODE='2020-2021'
+
+
+SELECT * FROM 
+GTTPISITAXCOMPUTATION
+
+
+UPDATE GTTPISITAXCOMPUTATION SET
+COMPPROJCTEDVALUE = COMPACTUALVALUE,
+COMPMANUALVALUE = COMPACTUALVALUE
+WHERE NVL(COMPPROJCTEDVALUE,0) = 0;
+
+exec PROC_PISITAX_COMPUTATION ('0001', '0002', '2020-2021','HO','02', 'H002')
+
+
+exec PROC_PISITAX_COMPUTATION ('0001', '0002', '2020-2021','OSS','OSREG', '09431')
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+insert into gtt_accountdebitorscreditors
+
+alter table gtt_accountdebitorscreditors add EX3 VARCHAR2(100)
+
+DROP TABLE gtt_accountdrcr_tmp
+
+
+
+
+create table gtt_accountdrcr_tmp as
+SELECT GROUPHEAD,GROUPIDENTIFIER,ACCODE, 
+       ACHEAD,BILLNO,BILLDATE,REFBILLNO,REFBILLDATE, 
+       DECODE(ORIGINALDRCR,'D',ORIGINALBILLAMOUNT,-ORIGINALBILLAMOUNT) AS ORIGINALBILLAMOUNT, 
+       SUM(DECODE(DRCR,'D',BILLAMOUNT,-BILLAMOUNT)) AS OUTSTANDING, 
+       C.COMPANYNAME, C.COMPANYADDRESS, C.COMPANYADDRESS1, C.CINNO, D.DIVISIONNAME, '27/08/2020' PRINTDATE, 1 EX1, 2 EX2,A.IS_MSME EX3 
+FROM ( 
+SELECT A.COMPANYCODE,A.DIVISIONCODE,A.TRANSACTIONDATE,D.GROUPCODE,D.GROUPHEAD,D.GROUPIDENTIFIER,A.ACCODE, 
+       C.ACHEAD,A.BILLNO,A.BILLDATE,A.REFBILLNO,A.REFBILLDATE, 
+       A.ORIGINALBILLAMOUNT,A.ORIGINALDRCR,A.TRANSACTIONTYPE, 
+       A.DRCR,A.BILLAMOUNT,C.IS_MSME 
+FROM ACBILLDETAILS A, ACACLEDGER C, ACACGROUP D 
+WHERE A.COMPANYCODE = C.COMPANYCODE 
+  AND A.ACCODE = C.ACCODE 
+  AND A.COMPANYCODE = D.COMPANYCODE 
+  AND C.MAINGROUPCODE = D.GROUPCODE 
+  AND C.GROUPTYPE IN ('DEBTORS','CREDITORS') 
+  AND NVL(C.FORADVANCEBOOKING,'N')='N' 
+  AND INSTR('DEBTORS^CREDITORS',C.GROUPTYPE)>0 
+  AND A.SYSTEMVOUCHERNO LIKE 'OPB%' 
+  AND A.COMPANYCODE = '0001' 
+  AND A.DIVISIONCODE = '002' 
+UNION ALL 
+SELECT A.COMPANYCODE,A.DIVISIONCODE,A.TRANSACTIONDATE,D.GROUPCODE,D.GROUPHEAD,D.GROUPIDENTIFIER,A.ACCODE, 
+       C.ACHEAD,A.BILLNO,A.BILLDATE,A.REFBILLNO,A.REFBILLDATE, 
+       A.ORIGINALBILLAMOUNT,A.ORIGINALDRCR,A.TRANSACTIONTYPE, 
+       A.DRCR,A.BILLAMOUNT,C.IS_MSME 
+FROM ACBILLDETAILS A, ACVOUCHER B, ACACLEDGER C, ACACGROUP D, (SELECT COMPANYCODE||DIVISIONCODE||SYSTEMVOUCHERNO XX 
+                                                              FROM ACVOUCHER 
+                                                              WHERE SYSTEMVOUCHERNO NOT LIKE 'OPB%' 
+                                                                AND VOUCHERNO IS NOT NULL 
+                                                                AND VOUCHERDATE <= TO_DATE('27/08/2020','DD/MM/YYYY') 
+                                                                AND COMPANYCODE = '0001' 
+                                                                AND DIVISIONCODE = '002' 
+                                                               MINUS 
+                                                               SELECT XX FROM ( 
+                                                                              SELECT COMPANYCODE||DIVISIONCODE||SYSTEMVOUCHERNO XX 
+                                                                              FROM ACVOUCHER 
+                                                                              WHERE SYSTEMVOUCHERNO NOT LIKE 'OPB%' 
+                                                                                AND VOUCHERNO IS NOT NULL 
+                                                                                AND REFSYSTEMVOUCHERNO IS NOT NULL 
+                                                                                AND VOUCHERDATE <= TO_DATE('27/08/2020','DD/MM/YYYY') 
+                                                                                AND COMPANYCODE = '0001' 
+                                                                                AND DIVISIONCODE = '002' 
+                                                                                AND NVL(DOCUMENTTYPE,'~NA~') <> 'DIVISION REPLICATE'
+                                                                              UNION ALL 
+                                                                              SELECT COMPANYCODE||DIVISIONCODE||REFSYSTEMVOUCHERNO XX 
+                                                                              FROM ACVOUCHER 
+                                                                              WHERE SYSTEMVOUCHERNO NOT LIKE 'OPB%' 
+                                                                                AND VOUCHERNO IS NOT NULL 
+                                                                                AND REFSYSTEMVOUCHERNO IS NOT NULL 
+                                                                                AND VOUCHERDATE <= TO_DATE('27/08/2020','DD/MM/YYYY') 
+                                                                                AND COMPANYCODE = '0001' 
+                                                                                AND DIVISIONCODE = '002' 
+                                                                                AND NVL(DOCUMENTTYPE,'~NA~') <> 'DIVISION REPLICATE'
+                                                                              ) 
+                                                             ) E 
+WHERE A.COMPANYCODE = B.COMPANYCODE 
+  AND A.DIVISIONCODE = B.DIVISIONCODE 
+  AND A.YEARCODE = B.YEARCODE 
+  AND A.SYSTEMVOUCHERNO = B.SYSTEMVOUCHERNO 
+  AND A.COMPANYCODE = C.COMPANYCODE 
+  AND A.ACCODE = C.ACCODE 
+  AND A.COMPANYCODE = D.COMPANYCODE 
+  AND C.MAINGROUPCODE = D.GROUPCODE 
+  AND C.GROUPTYPE IN ('DEBTORS','CREDITORS') 
+  AND NVL(C.FORADVANCEBOOKING,'N')='N' 
+  AND INSTR('DEBTORS^CREDITORS',C.GROUPTYPE)>0 
+  AND A.SYSTEMVOUCHERNO NOT LIKE 'OPB%' 
+  AND B.VOUCHERNO IS NOT NULL 
+  AND A.TRANSACTIONDATE <= TO_DATE('27/08/2020','DD/MM/YYYY') 
+  AND A.COMPANYCODE = '0001' 
+  AND A.DIVISIONCODE = '002' 
+  AND A.COMPANYCODE||A.DIVISIONCODE||A.SYSTEMVOUCHERNO = E.XX 
+) A, COMPANYMAST C, DIVISIONMASTER D 
+WHERE A.COMPANYCODE=C.COMPANYCODE 
+  AND A.COMPANYCODE=D.COMPANYCODE 
+  AND A.DIVISIONCODE=D.DIVISIONCODE 
+  AND A.GROUPCODE IN ('T000003') 
+  AND A.ACCODE IN ('A000217') 
+GROUP BY GROUPCODE,GROUPHEAD,GROUPIDENTIFIER,ACCODE, 
+       ACHEAD,BILLNO,BILLDATE,REFBILLNO,REFBILLDATE,IS_MSME, 
+       C.COMPANYNAME, C.COMPANYADDRESS, C.COMPANYADDRESS1, C.CINNO, D.DIVISIONNAME,DECODE(ORIGINALDRCR,'D',ORIGINALBILLAMOUNT,-ORIGINALBILLAMOUNT) 
+HAVING SUM(DECODE(DRCR,'D',BILLAMOUNT,-BILLAMOUNT)) <> 0 
+ORDER BY GROUPIDENTIFIER,GROUPHEAD,ACHEAD,BILLDATE,BILLNO
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+--GLOSTER 27/08/2020 INCOME TAX CALCULATION
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+exec PROC_PISITAX_COMPUTATION ('0001', '0002', '2020-2021','SS','SREG', '00538')
+
+SELECT * FROM GTTPISITAXCOMPUTATION
+WHERE COLUMNNO IN ('01_01_15','01_01_20') -- '01_01%'
+
+UPDATE GTTPISITAXCOMPUTATION SET
+COMPPROJCTEDVALUE = COMPACTUALVALUE,
+COMPMANUALVALUE = COMPACTUALVALUE
+WHERE COMPPROJCTEDVALUE = 0;
+
+DELETE  FROM GTTPISITAXCOMPUTATION
+
+----------------------------------------------------------
+
+
+SELECT DISTINCT COLUMNNO, COLUMNFORMULA ,COLUMNSOURCE,COLUMNATTRIBUTE ,COLUMNBASIS,COLUMNSUBHEADING1 ,COLUMNSUBHEADING2,
+          decode(TRIM(TYPE),'YEARLY',1,'HALF YEARLY',2,'QUATERLY',3,12) TYPE, MAXAMOUNT
+                    FROM PISITAXPARAM
+                    WHERE COMPANYCODE= '0001'
+                    AND DIVISIONCODE='0002'
+                    AND YEARCODE='2020-2021'  
+                    AND (COLUMNFORMULA IS NOT NULL OR COLUMNSOURCE IS NOT NULL)    
+                    --UJJWAL
+                   -- AND COLUMNATTRIBUTE='BASIC'     
+                    ORDER BY COLUMNNO
+
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
