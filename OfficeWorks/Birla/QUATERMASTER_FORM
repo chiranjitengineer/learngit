@@ -1,0 +1,214 @@
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+create taBLE BJM_QTR_MAST
+(
+    LINENO    
+    QUARTERNO    
+    LOCALITY 
+    FLOR    
+    FLOORAREA    
+    FACE    
+    QUARTERSTATUS    
+    QUARTERRENT    
+    FURNITURERENT    
+    FREEELECREADING    
+    CHOWKIDARIRENT    
+    ELECTRICITYRATE    
+    QUARTERTYPE    
+    METERNO    
+    BENEFICIARY_AC_NO    
+    NOOFEMPLOYEEALLOCATE
+)
+    
+SELECT * FROM WPSQUATERMASTER
+
+LINENO               
+QUARTERNO            
+LOCALITY             
+FLOR                 
+FLOORAREA            
+FACE                 
+QUARTERSTATUS        
+QUARTERRENT          
+FURNITURERENT        
+FREEELECREADING      
+CHOWKIDARIRENT       
+ELECTRICITYRATE      
+QUARTERTYPE          
+METERNO              
+NOOFEMPLOYEEALLOCATE 
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+
+
+create taBLE BJM_QTR_MAST
+(
+    LINENO    
+    QUARTERNO    
+    LOCALITY 
+    FLOR    
+    FLOORAREA    
+    FACE    
+    QUARTERSTATUS    
+    QUARTERRENT    
+    FURNITURERENT    
+    FREEELECREADING    
+    CHOWKIDARIRENT    
+    ELECTRICITYRATE    
+    QUARTERTYPE    
+    METERNO    
+    BENEFICIARY_AC_NO    
+    NOOFEMPLOYEEALLOCATE
+)
+
+
+SELECT * FROM BJM_QTR_MAST
+
+
+CREATE TABLE BJM_QTR_MAST
+(
+    LINENO                VARCHAR2(10 BYTE),
+    QUARTERNO             VARCHAR2(10 BYTE)       NOT NULL,
+    LOCALITY              VARCHAR2(10 BYTE),
+    FLOR                  VARCHAR2(10 BYTE),
+    FLOORAREA             VARCHAR2(10 BYTE),
+    FACE                  VARCHAR2(10 BYTE),
+    QUARTERSTATUS         VARCHAR2(50 BYTE)       DEFAULT 'VACANT'              NOT NULL,
+    QUARTERRENT           NUMBER(9,2)             DEFAULT 0,
+    FURNITURERENT         NUMBER(9,2)             DEFAULT 0,
+    FREEELECREADING       NUMBER(9,2)             DEFAULT 0,
+    CHOWKIDARIRENT        NUMBER(9,2)             DEFAULT 0,
+    ELECTRICITYRATE       NUMBER(9,2)             DEFAULT 0,
+    QUARTERTYPE           VARCHAR2(50 BYTE)       NOT NULL,
+    METERNO               VARCHAR2(50 BYTE)       NOT NULL,
+    BENEFICIARY_AC_NO     VARCHAR2(50 BYTE)       NOT NULL,
+    NOOFEMPLOYEEALLOCATE  NUMBER(3)               DEFAULT 1
+)
+
+
+    
+SELECT * FROM WPSQUATERMASTER
+
+LINENO               
+QUARTERNO            
+LOCALITY             
+FLOR                 
+FLOORAREA            
+FACE                 
+QUARTERSTATUS        
+QUARTERRENT          
+FURNITURERENT        
+FREEELECREADING      
+CHOWKIDARIRENT       
+ELECTRICITYRATE      
+QUARTERTYPE          
+METERNO              
+NOOFEMPLOYEEALLOCATE 
+
+
+
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+DROP TABLE BIRLANEW.BJM_QTR_MAST CASCADE CONSTRAINTS;
+
+CREATE TABLE BIRLANEW.BJM_QTR_MAST
+(
+  LINENO                VARCHAR2(10 BYTE),
+  QUARTERNO             VARCHAR2(10 BYTE)       NOT NULL,
+  LOCALITY              VARCHAR2(10 BYTE),
+  FLOR                  VARCHAR2(10 BYTE),
+  FLOORAREA             VARCHAR2(10 BYTE),
+  FACE                  VARCHAR2(10 BYTE),
+  QUARTERSTATUS         VARCHAR2(50 BYTE)       DEFAULT 'VACANT'              NOT NULL,
+  QUARTERRENT           NUMBER(9,2)             DEFAULT 0,
+  FURNITURERENT         NUMBER(9,2)             DEFAULT 0,
+  FREEELECREADING       NUMBER(9,2)             DEFAULT 0,
+  CHOWKIDARIRENT        NUMBER(9,2)             DEFAULT 0,
+  ELECTRICITYRATE       NUMBER(9,2)             DEFAULT 0,
+  QUARTERTYPE           VARCHAR2(50 BYTE)       DEFAULT NULL,
+  METERNO               VARCHAR2(50 BYTE)       DEFAULT NULL,
+  BENEFICIARY_AC_NO     VARCHAR2(50 BYTE)       DEFAULT NULL,
+  NOOFEMPLOYEEALLOCATE  NUMBER(3)               DEFAULT 1
+)
+
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+DROP TABLE QUARTERLINEMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE QUARTERLINEMASTER
+(
+  COMPANYCODE   VARCHAR2(10 BYTE)               NOT NULL,
+  DIVISIONCODE  VARCHAR2(10 BYTE)               DEFAULT NULL                  NOT NULL,
+  LINENO        VARCHAR2(10 BYTE)               NOT NULL,
+  LINEDESC      VARCHAR2(50 BYTE)               NOT NULL,
+  USERNAME      VARCHAR2(100 BYTE),
+  LASTMODIFIED  DATE                            DEFAULT SYSDATE,
+  SYSROWID      VARCHAR2(50 BYTE)               NOT NULL
+)
+
+
+
+
+
+
+DROP TABLE QUARTERALLOCATIONDETAILS CASCADE CONSTRAINTS;
+
+CREATE TABLE QUARTERALLOCATIONDETAILS
+(
+  COMPANYCODE    VARCHAR2(10 BYTE)              NOT NULL,
+  DIVISIONCODE   VARCHAR2(10 BYTE)              NOT NULL,
+  EFFECTIVEDATE  DATE,
+  LINENO         VARCHAR2(10 BYTE),
+  QUARTERNO      VARCHAR2(10 BYTE)              NOT NULL,
+  WORKERSERIAL   VARCHAR2(10 BYTE),
+  TOKENNO        VARCHAR2(10 BYTE),
+  QUARTERSTATUS  VARCHAR2(50 BYTE)              NOT NULL,
+  RELEASEDATE    DATE,
+  USERNAME       VARCHAR2(100 BYTE)             NOT NULL,
+  LASTMODIFIED   DATE                           DEFAULT SYSDATE,
+  SYSROWID       VARCHAR2(50 BYTE)              NOT NULL
+)
+
+
+
+
+DROP TABLE QUARTERELECTRICREADING CASCADE CONSTRAINTS;
+
+CREATE TABLE QUARTERELECTRICREADING
+(
+  COMPANYCODE         VARCHAR2(10 BYTE)         NOT NULL,
+  DIVISIONCODE        VARCHAR2(10 BYTE)         NOT NULL,
+  LINENO              VARCHAR2(10 BYTE),
+  QUARTERNO           VARCHAR2(10 BYTE)         NOT NULL,
+  METERNO             VARCHAR2(50 BYTE)         NOT NULL,
+  READINGFROMDATE     DATE,
+  READINGTODATE       DATE,
+  NOOFUNIT            NUMBER(9,2)               DEFAULT 0,
+  TOTALBILLDAYS       NUMBER(9,2)               DEFAULT 0,
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  EFFECTIVEDATE       DATE,
+  RELEASEDATE         DATE,
+  BILLAMOUNT          NUMBER(9,5)               DEFAULT 0,
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  NOOFALLOCATIONDAYS  NUMBER(9,2)               DEFAULT 0,
+  PREVIOUSDUEAMOUNT   NUMBER(9,5)               DEFAULT 0,
+  CONTRIBUTIONAMOUNT  NUMBER(9,5)               DEFAULT 0,
+  EMIAMOUNT           NUMBER(9,5)               DEFAULT 0,
+  USERNAME            VARCHAR2(100 BYTE)        NOT NULL,
+  LASTMODIFIED        DATE                      DEFAULT SYSDATE,
+  SYSROWID            VARCHAR2(50 BYTE)         NOT NULL
+)
+
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------

@@ -85,6 +85,7 @@ USER - BIRLANEW, PWD - Cl0udBirPwd, DATABASE = BIRLANEW_CLOUD
 Gloster ANYDESK- 301042907 - PWD- Gloster@123
 
 
+<<<<<<< HEAD
 
 BOWREAH_WPS 
 
@@ -95,3 +96,10 @@ BOWREAH_WPS
 
 
 
+=======
+---------------------------------------------------------------
+https://myindinet.indinet.co.in/servlet/CWSCInit
+
+ep_chiranjit2
+9LUZ9ZTG
+>>>>>>> d24c38c648edd044ccea0054db9ad9b281da9241
