@@ -1,10 +1,40 @@
 
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+--generic report template
+---------------------------------------------------------------------------------------------
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%%')
+
+select * from SYS_RPT_TEMPLATE_DETAILS
+
+select * from SYS_SWT_RPT_QUERY_MAST
+
+select * from SYS_RPT_QRY
+
+
+select * from querymaster
+
+
+SELECT TOKENNO, TOKENNO||' '||WORKERNAME WORKERNAME FROM WPSWORKERMAST
+WHERE COMPANYCODE = <<COMPANYCODE>>
+AND DIVISIONCODE = <<DIVISIONCODE>>
+AND unitcode in( <<btnUnit>>)
+AND ACTIVE = 'Y'
+AND TAKEPARTINWAGES = 'Y'
+ORDER BY TOKENNO
+
+
+
+
+---------------------------------------------------------------------------------------------
 
 TRANSFER IN
 
 
 
----------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
 prc_execute_query

@@ -1,0 +1,889 @@
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%ARREAR%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE = '0107020602'
+
+prcSalary_Bf_MainSave
+
+prcArrear_Bf_MainSave
+
+
+prcArrear_Bf_MainSave
+
+SELECT * FROM PISARREARTRANSACTION
+
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+DROP TABLE JOONK.PISARREAR_TEMP CASCADE CONSTRAINTS;
+
+CREATE TABLE PISARREAR_TEMP
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(50 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  ARREARFROM       VARCHAR2(10 BYTE),
+  ARREARTO         VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)
+)
+
+
+
+DROP TABLE JOONK.PISARREAR_TEMP CASCADE CONSTRAINTS;
+
+CREATE TABLE PISARREAR_TEMP
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(50 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  ARREARFROM       VARCHAR2(10 BYTE),
+  ARREARTO         VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)
+) 
+
+
+DROP TABLE DHUNSERI_STRU.GTT_PISARREARTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISARREARTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  GROSSDEDN         NUMBER(11,2),
+  GROSSEARN         NUMBER(11,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(11,2),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  PEN_GROSS         NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  MISC_DEDN         NUMBER(15,5),
+  HRA_FIXED         NUMBER(15,5),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  ATTN_HOLD         NUMBER(11,2),
+  CONV_ALLW         NUMBER(15,5),
+  EDU_ALLW          NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  LIBL_CRLN         NUMBER(15,5),
+  LIBL_HSLN         NUMBER(15,5),
+  LINT_CRLN         NUMBER(15,5),
+  LINT_HSLN         NUMBER(15,5),
+  LINT_SADV         NUMBER(15,5),
+  LNBL_CRLN         NUMBER(15,5),
+  LNBL_HSLN         NUMBER(15,5),
+  LNBL_SADV         NUMBER(15,5),
+  LOAN_CRLN         NUMBER(15,5),
+  LOAN_HSLN         NUMBER(15,5),
+  LOAN_SADV         NUMBER(15,5),
+  SANNF             NUMBER(15,5),
+  TOTALDED          NUMBER(15,5),
+  VPF_PER           NUMBER(15,5),
+  FUEL_EXP          NUMBER(15,5),
+  LIBL_SADV         NUMBER(15,5),
+  PHONE_EXP         NUMBER(15,5),
+  ACT_MGR_ALLW      NUMBER(15,5),
+  VDA               NUMBER(15,5),
+  GAS_ALLW          NUMBER(15,5),
+  PER_PAY           NUMBER(15,5),
+  MEDICAL_EXP       NUMBER(15,5),
+  ESI_GROSS         NUMBER(11,2)                DEFAULT 0,
+  ESI_E             NUMBER(11,2)                DEFAULT 0,
+  ESI_C             NUMBER(11,2)                DEFAULT 0,
+  LVDAYS_RET        NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(11,2),
+  SARR_ARRE         NUMBER(15,2),
+  SARR_ARRD         NUMBER(15,2),
+  SARR_PF_GROSS     NUMBER(15,2),
+  SARR_NETPAY       NUMBER(15,2)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE  PISARREARTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISARREARTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  GROSSDEDN         NUMBER(11,2),
+  GROSSEARN         NUMBER(11,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(11,2),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  PEN_GROSS         NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  MISC_DEDN         NUMBER(15,5),
+  HRA_FIXED         NUMBER(15,5),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  ATTN_HOLD         NUMBER(11,2),
+  CONV_ALLW         NUMBER(15,5),
+  EDU_ALLW          NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  LIBL_CRLN         NUMBER(15,5),
+  LIBL_HSLN         NUMBER(15,5),
+  LINT_CRLN         NUMBER(15,5),
+  LINT_HSLN         NUMBER(15,5),
+  LINT_SADV         NUMBER(15,5),
+  LNBL_CRLN         NUMBER(15,5),
+  LNBL_HSLN         NUMBER(15,5),
+  LNBL_SADV         NUMBER(15,5),
+  LOAN_CRLN         NUMBER(15,5),
+  LOAN_HSLN         NUMBER(15,5),
+  LOAN_SADV         NUMBER(15,5),
+  SANNF             NUMBER(15,5),
+  TOTALDED          NUMBER(15,5),
+  VPF_PER           NUMBER(15,5),
+  FUEL_EXP          NUMBER(15,5),
+  LIBL_SADV         NUMBER(15,5),
+  PHONE_EXP         NUMBER(15,5),
+  ACT_MGR_ALLW      NUMBER(15,5),
+  VDA               NUMBER(15,5),
+  GAS_ALLW          NUMBER(15,5),
+  PER_PAY           NUMBER(15,5),
+  MEDICAL_EXP       NUMBER(15,5),
+  ESI_GROSS         NUMBER(11,2)                DEFAULT 0,
+  ESI_E             NUMBER(11,2)                DEFAULT 0,
+  ESI_C             NUMBER(11,2)                DEFAULT 0,
+  LVDAYS_RET        NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(11,2),
+  SARR_ARRE         NUMBER(15,2),
+  SARR_ARRD         NUMBER(15,2),
+  SARR_PF_GROSS     NUMBER(15,2),
+  SARR_NETPAY       NUMBER(15,2),
+  EDLI              NUMBER(15,2),
+  ADM_CHRG          NUMBER(15,2)
+) 
+
+
+
+DROP TABLE GTT_PISARREARTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISARREARTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  GROSSDEDN         NUMBER(11,2),
+  GROSSEARN         NUMBER(11,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(11,2),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  PEN_GROSS         NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  MISC_DEDN         NUMBER(15,5),
+  HRA_FIXED         NUMBER(15,5),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  ATTN_HOLD         NUMBER(11,2),
+  CONV_ALLW         NUMBER(15,5),
+  EDU_ALLW          NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  LIBL_CRLN         NUMBER(15,5),
+  LIBL_HSLN         NUMBER(15,5),
+  LINT_CRLN         NUMBER(15,5),
+  LINT_HSLN         NUMBER(15,5),
+  LINT_SADV         NUMBER(15,5),
+  LNBL_CRLN         NUMBER(15,5),
+  LNBL_HSLN         NUMBER(15,5),
+  LNBL_SADV         NUMBER(15,5),
+  LOAN_CRLN         NUMBER(15,5),
+  LOAN_HSLN         NUMBER(15,5),
+  LOAN_SADV         NUMBER(15,5),
+  SANNF             NUMBER(15,5),
+  TOTALDED          NUMBER(15,5),
+  VPF_PER           NUMBER(15,5),
+  FUEL_EXP          NUMBER(15,5),
+  LIBL_SADV         NUMBER(15,5),
+  PHONE_EXP         NUMBER(15,5),
+  ACT_MGR_ALLW      NUMBER(15,5),
+  VDA               NUMBER(15,5),
+  GAS_ALLW          NUMBER(15,5),
+  PER_PAY           NUMBER(15,5),
+  MEDICAL_EXP       NUMBER(15,5),
+  ESI_GROSS         NUMBER(11,2)                DEFAULT 0,
+  ESI_E             NUMBER(11,2)                DEFAULT 0,
+  ESI_C             NUMBER(11,2)                DEFAULT 0,
+  LVDAYS_RET        NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(11,2),
+  SARR_ARRE         NUMBER(15,2),
+  SARR_ARRD         NUMBER(15,2),
+  SARR_PF_GROSS     NUMBER(15,2),
+  SARR_NETPAY       NUMBER(15,2),
+  EDLI              NUMBER(15,2),
+  ADM_CHRG          NUMBER(15,2)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+-----------------------------------------------------------------
+
+CREATE TABLE LOANADJFROMARREAR
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  YEARCODE        VARCHAR2(10 BYTE),
+  YEARMONTH       VARCHAR2(10 BYTE),
+  SALDATEFROM     VARCHAR2(10 BYTE),
+  SALDATETO       VARCHAR2(10 BYTE),
+  WORKERSERIAL    VARCHAR2(10 BYTE),
+  TOKENNO         VARCHAR2(10 BYTE),
+  LOANCODE        VARCHAR2(10 BYTE),
+  LOANDATE        DATE,
+  LOANAMOUNT      NUMBER(10,2),
+  LOANPAIDAMOUNT  NUMBER(10,2),
+  LOANBALAMOUNT   NUMBER(10,2),
+  INTERESTAMOUNT  NUMBER(10,2),
+  INTPAIDAMOUNT   NUMBER(10,2),
+  INTBALAMOUNT    NUMBER(10,2),
+  CAPEMIAMOUNT    NUMBER(10,2),
+  INTEMIAMOUNT    NUMBER(10,2),
+  CAPREPAYAMOUNT  NUMBER(10,2),
+  INTREPAYAMOUNT  NUMBER(10,2),
+  USERNAME        VARCHAR2(100 BYTE),
+  LASTMODIFIED    DATE                          DEFAULT SYSDATE,
+  SYSROWID        VARCHAR2(50 BYTE)
+)
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+CREATE OR REPLACE procedure prcArrear_Bf_MainSave
+is
+lv_cnt                  number;
+lv_result               varchar2(10);
+lv_error_remark         varchar2(4000) := '' ;
+lv_Master               GBL_PISPROCESS%rowtype;
+lv_DocumentNo           varchar2(100) := '';
+lv_MaxDocumentDate      date;
+
+begin
+    lv_result:='#SUCCESS#';
+    --Master
+    select count(*)
+    into lv_cnt
+    from GBL_PISPROCESS;
+   
+
+DELETE PISARREAR_TEMP;
+
+INSERT INTO PISARREAR_TEMP
+SELECT * FROM GBL_PISPROCESS;   
+
+     if lv_cnt = 0 then
+        lv_error_remark := 'Validation Failure : [No row found in Salary Process Entry]';
+        raise_application_error(to_number(FN_DISPLAY_ERROR( 'COMMON')),FN_DISPLAY_ERROR( 'COMMON',6,lv_error_remark));
+    end if;
+    
+    select *
+    into lv_Master
+    from GBL_PISPROCESS
+    WHERE ROWNUM<=1;   
+
+-----------------------  Auto Number
+
+    if nvl(lv_Master.OPERATIONMODE,'NA') = 'A' then
+--        PRC_PIS_SALARY_PROCESS( lv_Master.COMPANYCODE,
+--                                lv_Master.DIVISIONCODE, 
+--                                'ARREAR', 
+--                                lv_Master.USERNAME,
+--                                lv_Master.YEARMONTH, 
+--                                lv_Master.YEARMONTH,
+--                                lv_Master.UNITCODE,
+--                                lv_Master.CATEGORYCODE,
+--                                lv_Master.GRADECODE,
+--                                '',
+--                                lv_Master.WORKERSERIAL                                           
+--                              );
+
+
+    FOR C1 IN (
+        SELECT DISTINCT TO_CHAR(LAST_DAY((TD.END_DATE + 1 - ROWNUM)),'YYYYMM') YRMONTH
+        FROM ALL_OBJECTS,
+        (
+--            SELECT TO_DATE('201904','YYYYMM') START_DATE, TO_DATE('202009','YYYYMM') END_DATE
+            SELECT TO_DATE(lv_Master.ARREARFROM,'YYYYMM') START_DATE, TO_DATE(lv_Master.ARREARTO,'YYYYMM') END_DATE
+            FROM   DUAL  
+        ) TD
+        WHERE
+        TRUNC ( TD.END_DATE + 1 - ROWNUM,'MM') >= TRUNC(TD.START_DATE,'MM')
+        ORDER BY 1
+    )
+    LOOP
+    
+        PRC_PIS_SALARY_PROCESS( lv_Master.COMPANYCODE,
+                                lv_Master.DIVISIONCODE, 
+                                'ARREAR', 
+                                lv_Master.USERNAME,
+                                C1.YRMONTH, 
+                                lv_Master.YEARMONTH,
+                                lv_Master.UNITCODE,
+                                lv_Master.CATEGORYCODE,
+                                lv_Master.GRADECODE,
+                                '',
+                                lv_Master.WORKERSERIAL                                           
+                              );
+    END LOOP;
+
+--    PRC_PISSALARYPROCESS_ARREAR('JT0069','0001','ARREAR', '1002','201909','201909','PISARREARTRANSACTION','PISARREARTRANSACTION','HO','HO','MANAGERIAL','','');
+    PRC_PISSALARYPROCESS_ARREAR(lv_Master.COMPANYCODE,lv_Master.DIVISIONCODE,'ARREAR', '1002',
+                                lv_Master.ARREARFROM,lv_Master.ARREARTO,lv_Master.YEARMONTH,
+                                'PISARREARTRANSACTION','PISARREARTRANSACTION',lv_Master.UNITCODE,lv_Master.CATEGORYCODE,lv_Master.GRADECODE,'',lv_Master.WORKERSERIAL);
+
+    end if;
+end;
+/
+
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE  PRC_PISSALARYPROCESS_ARREAR 
+(
+      P_COMPCODE Varchar2,  
+      P_DIVCODE Varchar2,
+      P_TRANTYPE Varchar2, 
+      P_PHASE  number, 
+      P_YEARMONTH_FR Varchar2,
+      P_YEARMONTH_TO Varchar2,
+      P_EFFECTYEARMONTH Varchar2, 
+      P_TABLENAME Varchar2,
+      P_PHASE_TABLENAME Varchar2,
+      P_UNIT  Varchar2,
+      P_CATEGORY    Varchar2  DEFAULT NULL,
+      P_GRADE       Varchar2  DEFAULT NULL,
+      P_DEPARTMENT  Varchar2  DEFAULT NULL,
+      P_WORKERSERIAL VARCHAR2 DEFAULT NULL
+)
+as
+/*
+BEGIN
+PRC_PISSALARYPROCESS_ARREAR 
+(
+      'JT0069',  
+      '0001',
+      'ARREAR', 
+      0, 
+      '201904',
+      '201908',
+      '201909', 
+      '',
+      '',
+      'HO',
+      'HO',
+      'MANAGERIAL',
+      '',
+      '00013'
+);
+END;
+*/
+LV_SQLSTR VARCHAR2(4000);
+lv_companycode varchar2(10) := LTRIM(TRIM(P_COMPCODE)) ; -- 'LJ0054'    
+lv_locationcode varchar2(10) := LTRIM(TRIM(P_DIVCODE))  ; -- 0001'
+lv_yearmonth varchar2(6) :=  LTRIM(TRIM(P_EFFECTYEARMONTH)) ;      --'201705';
+lv_yearmonth_fr varchar2(6) := LTRIM(TRIM(P_YEARMONTH_FR));
+lv_yearmonth_to varchar2(6) :=  LTRIM(TRIM(P_YEARMONTH_TO));
+--lv_yearmonth_fr varchar2(6) := substr(lv_yearmonth,1,4)||'04';
+--lv_yearmonth_to varchar2(6) := substr(lv_yearmonth,1,4)||lpad(substr(lv_yearmonth,-2)-1,2,'0') ;
+lv_workerserial varchar2(10):=  LTRIM(TRIM(P_WORKERSERIAL)) ;           --'000040' ;
+lv_totarrcomp int;
+lv_rowcnt int:=1;
+lv_cnt int;
+lv_per number := 80;
+lv_sql varchar2(4000);
+lv_inssql_cols varchar2(10000)  ;
+lv_inssql_vals varchar2(10000)  ;     
+lv_inssql_cols_1  varchar2(10000)  ;
+lv_inssql_vals_1 varchar2(10000)  ;
+lv_col_val varchar2(10000);
+lv_colval_str varchar2(10000);
+lv_sum_grossdedn_colval varchar2(10000);
+lv_sum_netsalary_colval varchar2(10000);
+lv_colval_sum_str varchar2(10000);
+lv_dedcolsum_str varchar2(10000);
+lv_dedcolval_sum_str varchar2(10000);
+lv_netsalcolval_sum_str varchar2(10000);
+lv_colval_sum_str_val varchar2(10000);
+lv_colval_neg_str varchar2(10000);
+lv_comparrearamt number(19,2);
+lv_yearmonth_tmp varchar2(6) := '';
+lv_insert_fixed_col varchar2(10000) ;
+lv_insert_fixed_col_val varchar2(10000) ;
+lv_effective_ym varchar2(10)   ;
+lv_yearcode varchar2(10)   ;
+lv_startdate varchar2(10);
+lv_enddate   varchar2(10);
+
+-- to generate as arrear row with yearmonth > '201704'
+--- non comp cols remaining same as '201704'
+--- 
+--BEGIN
+--PRC_PISSALARYPROCESS_ARREAR ('LJ0054', '0001','','','201704','201704','201704','','','') ;
+-- EXEC PRC_PISSALARYPROCESS_ARREAR('LJ0054', '0001','','','201704','201704','201705','','','');
+--END;
+--
+BEGIN
+--select count(distinct COMPONENTCODE) into lv_totarrcomp from piscomponentmaster where INCLUDEARREAR = 'Y' ;
+
+select count(*) into lv_totarrcomp from ( select  distinct COMPONENTCODE COL from piscomponentmaster
+                     --where INCLUDEARREAR = 'Y' 
+                      intersect 
+                      select column_name col from cols where table_name = 'PISARREARTRANSACTION'   
+                      );
+
+
+/*LV_SQLSTR := 'UPDATE PISARREARTRANSACTION_TEMP SET ' ;
+for c1 in ( select distinct COMPONENTCODE from piscomponentmaster
+where INCLUDEARREAR = 'Y' ) loop
+  if lv_rowcnt < lv_totarrcomp then
+   LV_SQLSTR := LV_SQLSTR||c1.COMPONENTCODE||' = '||c1.COMPONENTCODE||'+ ('||c1.COMPONENTCODE||'*('||lv_per||'/100)) , '||chr(10) ;
+  else
+   LV_SQLSTR := LV_SQLSTR||c1.COMPONENTCODE||' = '||c1.COMPONENTCODE||'+ ('||c1.COMPONENTCODE||'*('||lv_per||'/100))'||chr(10) ;
+  end if;
+  lv_rowcnt:=lv_rowcnt+1;
+end loop;
+  LV_SQLSTR := LV_SQLSTR||' WHERE COMPANYCODE = '''||lv_companycode||''' '||chr(10)
+                        ||' AND DIVISIONCODE = '''||lv_locationcode||'''  '||chr(10)
+                        ||' AND YEARMONTH = '''||lv_yearmonth||'''  '||chr(10)  
+                        ||' AND WORKERSERIAL = '''||lv_workerserial||'''  '||chr(10) ;
+ ---DBMS_output.put_line( LV_SQLSTR );
+ --execute immediate LV_SQLSTR ; */
+ 
+-- yearmonth , WORHER loop
+
+DELETE GTT_PISARREARTRANSACTION;
+ 
+        DELETE FROM PISARREARTRANSACTION
+         WHERE companycode = NVL2(lv_companycode,lv_companycode ,companycode )
+           and divisioncode = NVL2(lv_locationcode,lv_locationcode ,divisioncode )
+           and WORKERSERIAL = NVL2(lv_workerserial,lv_workerserial ,WORKERSERIAL )
+           AND UNITCODE =  NVL2(P_UNIT , P_UNIT , UNITCODE)
+           AND CATEGORYCODE = NVL2(P_CATEGORY , P_CATEGORY , CATEGORYCODE )
+           AND GRADECODE  =  NVL2(P_GRADE , P_GRADE , GRADECODE)
+           and DEPARTMENTCODE =  NVL2(P_DEPARTMENT,P_DEPARTMENT,DEPARTMENTCODE)
+          -- and ( YEARMONTH BETWEEN  lv_yearmonth_fr AND lv_yearmonth_to or YEARMONTH = lv_yearmonth  ) 
+           AND EFFECT_YEARMONTH = lv_yearmonth
+           and WORKERSERIAL = NVL2(lv_workerserial,lv_workerserial ,WORKERSERIAL ) 
+           and TRANSACTIONTYPE <> 'NEW SALARY'  ;      
+
+
+----DBMS_OUTPUT.PUT_LINE('ABC' || lv_yearmonth_fr || ',' || lv_yearmonth_to || ',' || lv_companycode  || ',' || lv_locationcode  || ',' || lv_workerserial) ;
+
+--DBMS_OUTPUT.PUT_LINE(' WORKER WISE YEARMONTH WISE INSERT INTO GTT QUERY :- ') ;   
+ 
+
+for c1 in (select companycode , DIVISIONCODE , UNITCODE, DEPARTMENTCODE, CATEGORYCODE, GRADECODE , YEARMONTH , EFFECT_YEARMONTH ,WORKERSERIAL  from PISARREARTRANSACTION
+           where EFFECT_YEARMONTH = lv_yearmonth  AND YEARMONTH <= lv_yearmonth_to
+           /*YEARMONTH between lv_yearmonth_fr and lv_yearmonth_to*/
+           AND companycode = NVL2(lv_companycode,lv_companycode ,companycode )
+           and divisioncode = NVL2(lv_locationcode,lv_locationcode ,divisioncode )
+           and WORKERSERIAL = NVL2(lv_workerserial,lv_workerserial ,WORKERSERIAL )
+           AND UNITCODE =  NVL2(P_UNIT , P_UNIT , UNITCODE)
+           AND CATEGORYCODE = NVL2(P_CATEGORY , P_CATEGORY , CATEGORYCODE )
+           AND GRADECODE  =  NVL2(P_GRADE , P_GRADE , GRADECODE)
+           and DEPARTMENTCODE =  NVL2(P_DEPARTMENT,P_DEPARTMENT,DEPARTMENTCODE)
+           order by companycode , DIVISIONCODE , UNITCODE, DEPARTMENTCODE, CATEGORYCODE, GRADECODE , YEARMONTH , WORKERSERIAL ) loop      
+       
+    --  --DBMS_OUTPUT.PUT_LINE('INSIDE LOOP 1') ;       
+       
+
+       lv_inssql_cols := 'INSERT INTO GTT_PISARREARTRANSACTION( ' ;
+       lv_inssql_vals  := ' VALUES( ';             
+       lv_col_val := '';
+       lv_colval_str := '''';
+       
+   
+       for c3 in (
+                   select column_name col from cols where table_name = 'PISARREARTRANSACTION'
+                   minus
+                   select distinct COMPONENTCODE from piscomponentmaster
+                    -- where INCLUDEARREAR = 'Y'  
+                 ) loop                    
+                 lv_inssql_cols := lv_inssql_cols||c3.col||' , '||chr(10) ;
+                 if ltrim(trim(c3.col)) = 'TRANSACTIONTYPE' then
+                   lv_colval_str := lv_colval_str||'''''''||''MONTHLYARR''||'''''','  ;
+                  else
+                   lv_colval_str := lv_colval_str||'''''''||'||c3.col||'||'''''','  ;
+                  end if;                           
+        end loop;
+        lv_colval_str := lv_colval_str||'''' ;        
+        lv_sql := 'select '||lv_colval_str||'  from PISARREARTRANSACTION  where  companycode = '''||c1.companycode||'''  and DIVISIONCODE = '''||c1.DIVISIONCODE||''' and  UNITCODE = '''||c1.UNITCODE||''' and  DEPARTMENTCODE = '''||c1.DEPARTMENTCODE||''' and  CATEGORYCODE = '''||c1.CATEGORYCODE||''' and  GRADECODE  = '''||c1.GRADECODE||''' and YEARMONTH = '''||c1.YEARMONTH||''' and WORKERSERIAL = '''||c1.WORKERSERIAL||'''  ';
+        
+      --  DBMS_OUTPUT.PUT_LINE(  lv_sql );       
+        execute immediate lv_sql into lv_col_val;
+        
+        lv_inssql_vals := lv_inssql_vals||lv_col_val;        
+      
+        ----DBMS_OUTPUT.PUT_LINE(lv_inssql_vals);
+          
+      --  exit; 
+         lv_colval_str := '';
+         lv_colval_sum_str := '';
+         lv_colval_neg_str := '';
+         lv_rowcnt :=1;
+         for c2 in ( select distinct COMPONENTCODE COL from piscomponentmaster
+                     --where INCLUDEARREAR = 'Y' 
+                     intersect 
+                      select column_name col from cols where table_name = 'PISARREARTRANSACTION'         
+         ) loop   
+              if lv_rowcnt < lv_totarrcomp then
+                lv_inssql_cols := lv_inssql_cols||c2.col||' , '||chr(10) ;
+                lv_colval_str := lv_colval_str||''||c2.col||','  ;
+                lv_colval_sum_str := lv_colval_sum_str||'''''''||SUM('||c2.col||')||'''''','  ;
+                lv_colval_neg_str := lv_colval_neg_str||''||c2.col||'*-1,'  ;
+              else
+                lv_inssql_cols := lv_inssql_cols||c2.col||' ) '||chr(10) ;
+                lv_colval_str := lv_colval_str||''||c2.col  ;
+                lv_colval_sum_str := lv_colval_sum_str||'''''''||SUM('||c2.col||')||'''''''  ;
+                lv_colval_neg_str := lv_colval_neg_str||''||c2.col||'*-1'  ;
+              end if;  
+              lv_rowcnt:=lv_rowcnt+1;
+--             select c2.COMPONENTCODE into x from tab a where --- ;
+--             select c2.COMPONENTCODE into y from tab b where --- ;
+--             lv_comparrearamt = x-y ;
+--             lv_insertsql =
+--             insert into gtt_arreartab( c2.COMPONENTCODE ,
+--                                   values(  lv_comparrearamt ,           
+         end loop;
+          
+          lv_inssql_cols_1 := replace(lv_inssql_cols,'GTT_PISARREARTRANSACTION' ,'PISARREARTRANSACTION') ;
+          --lv_inssql_vals_1 := replace(lv_inssql_vals ,'MONTHLYARR','ARREAR'); 
+          --lv_inssql_vals_1 := replace(lv_inssql_vals ,'MONTHLYARR','TOT ARREAR');         
+          lv_sql := 'select '''||lv_colval_sum_str||''' from (
+                            (      
+                            select '||lv_colval_str||' from PISARREARTRANSACTION where companycode = '''||c1.companycode||'''  and DIVISIONCODE = '''||c1.DIVISIONCODE||''' and  UNITCODE = '''||c1.UNITCODE||''' and  DEPARTMENTCODE = '''||c1.DEPARTMENTCODE||''' and  CATEGORYCODE = '''||c1.CATEGORYCODE||''' and  GRADECODE  = '''||c1.GRADECODE||''' and YEARMONTH = '''||c1.YEARMONTH||''' and TRANSACTIONTYPE = ''NEW SALARY'' and WORKERSERIAL = '''||c1.WORKERSERIAL||''' 
+                            union all
+                            select '||lv_colval_neg_str||' from PISPAYTRANSACTION  where companycode = '''||c1.companycode||'''  and DIVISIONCODE = '''||c1.DIVISIONCODE||''' and  UNITCODE = '''||c1.UNITCODE||''' and  DEPARTMENTCODE = '''||c1.DEPARTMENTCODE||''' and  CATEGORYCODE = '''||c1.CATEGORYCODE||''' and  GRADECODE  = '''||c1.GRADECODE||''' and YEARMONTH = '''||c1.YEARMONTH||''' and TRANSACTIONTYPE = ''SALARY'' and WORKERSERIAL = '''||c1.WORKERSERIAL||'''  
+                            ) )' ;     
+          --DBMS_OUTPUT.PUT_LINE('xxx'||lv_sql);   
+           --RETURN;             
+           
+           
+                
+           execute immediate lv_sql into lv_colval_sum_str_val ;      
+           lv_inssql_vals := lv_inssql_vals||lv_colval_sum_str_val||')' ;
+           ----DBMS_OUTPUT.PUT_LINE(lv_inssql_cols||lv_inssql_vals);
+           execute immediate lv_inssql_cols||lv_inssql_vals;
+           
+           
+           ----DBMS_OUTPUT.PUT_LINE(lv_inssql_cols||lv_inssql_vals) ;     
+        --  --DBMS_OUTPUT.PUT_LINE('INSIDE LOOP 2') ;      
+end loop; -- c1    
+commit; 
+
+--DBMS_OUTPUT.PUT_LINE(' query for consolidation from ARRIL till ARREAR PROCESSING MONTH for above arrear processed workers :- ') ;   
+
+-- end yearmonth , WORKER loop 
+-- start consolidation from ARRIL till ARREAR PROCESSING MONTH for above arrear processed workers --
+insert into PISARREARTRANSACTION select * from GTT_PISARREARTRANSACTION ;
+--return;
+lv_effective_ym   := lv_yearmonth ; 
+begin    
+  for c1 in ( select distinct COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, DEPARTMENTCODE, CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO from GTT_PISARREARTRANSACTION WHERE transactiontype = 'MONTHLYARR') loop
+  lv_yearcode := c1.yearcode ;
+  lv_insert_fixed_col := 'INSERT INTO PISARREARTRANSACTION (COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, DEPARTMENTCODE, CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO , YEARMONTH, EFFECT_YEARMONTH,TRANSACTIONTYPE ,' ;
+  lv_insert_fixed_col_val :=   ' VALUES ( '''||c1.COMPANYCODE||''','''|| c1.DIVISIONCODE||''','''||lv_yearcode||''','''||c1.UNITCODE||''','''||c1.DEPARTMENTCODE||''','''||c1.CATEGORYCODE||''','''||c1.GRADECODE||''','''||c1.WORKERSERIAL||''','''||c1.TOKENNO||''','''||lv_effective_ym||''','''||lv_effective_ym||''',''ARREAR'' , ';
+  lv_inssql_cols :=''  ;
+  lv_inssql_vals :=''  ; 
+  lv_colval_str  :='' ;
+  lv_colval_sum_str := '' ;
+  lv_dedcolval_sum_str := '';
+  lv_dedcolsum_str := '';
+  lv_rowcnt :=1;
+        
+        
+  select count(distinct COMPONENTCODE) into lv_totarrcomp from piscomponentmaster a where COMPANYCODE = c1.COMPANYCODE and DIVISIONCODE = c1.DIVISIONCODE and
+               INCLUDEARREAR = 'Y'  
+               and yearmonth = (select max(yearmonth) from PISCOMPONENTMASTER b where 
+                               a.COMPANYCODE = b.companycode
+                               and a.DIVISIONCODE = b.DIVISIONCODE
+                               and a.COMPONENTCODE = b.COMPONENTCODE 
+                               --and COMPONENTTYPE = 'DEDUCTION' 
+                               AND INCLUDEARREAR = 'Y' );
+  for c3 in ( SELECT distinct COMPONENTCODE COL
+              FROM PISCOMPONENTMASTER a
+              WHERE COMPANYCODE = c1.COMPANYCODE
+              and   DIVISIONCODE = c1.DIVISIONCODE
+              and COMPONENTTYPE = 'DEDUCTION' 
+              AND INCLUDEARREAR = 'Y'
+              and yearmonth = (select max(yearmonth) from PISCOMPONENTMASTER b where 
+                               a.COMPANYCODE = b.companycode
+                               and a.DIVISIONCODE = b.DIVISIONCODE
+                               and a.COMPONENTCODE = b.COMPONENTCODE 
+                               and COMPONENTTYPE = 'DEDUCTION' 
+                               AND INCLUDEARREAR = 'Y' )  
+                    
+                    
+                    ) loop       
+      if lv_rowcnt = 1 then
+        lv_dedcolval_sum_str :=  lv_dedcolval_sum_str||'''''''||SUM('||c3.col||')' ; 
+        lv_dedcolsum_str := lv_dedcolsum_str||'SUM(NVL('||c3.col||',0))' ;               
+      else
+        lv_dedcolval_sum_str :=  lv_dedcolval_sum_str||'+SUM('||c3.col||')' ;
+        lv_dedcolsum_str := lv_dedcolsum_str||'+SUM(NVL('||c3.col||',0))' ; 
+      end if;                    
+  lv_rowcnt := lv_rowcnt+1;
+  end loop; -- c3
+  lv_netsalcolval_sum_str := '''''''||( SUM(NVL(GROSSEARN,0)) - ('||lv_dedcolsum_str||'))||'''''' '; 
+  lv_dedcolval_sum_str:= '''''''||('||lv_dedcolsum_str||')||'''''' ';
+  ----DBMS_output.put_line(lv_netsalcolval_sum_str);
+  ----DBMS_output.put_line(lv_dedcolval_sum_str);
+  --return;
+  lv_rowcnt :=1;
+  for c2 in ( select distinct COMPONENTCODE COL from piscomponentmaster a
+              where COMPANYCODE = c1.COMPANYCODE and DIVISIONCODE = c1.DIVISIONCODE and
+               INCLUDEARREAR = 'Y'  
+               and yearmonth = (select max(yearmonth) from PISCOMPONENTMASTER b where 
+                               a.COMPANYCODE = b.companycode
+                               and a.DIVISIONCODE = b.DIVISIONCODE
+                               and a.COMPONENTCODE = b.COMPONENTCODE 
+                               --and COMPONENTTYPE = 'DEDUCTION' 
+                               AND INCLUDEARREAR = 'Y' )         
+               ) loop   
+              if lv_rowcnt < lv_totarrcomp then
+                lv_inssql_cols := lv_inssql_cols||c2.col||' , '||chr(10) ;
+                lv_colval_str := lv_colval_str||''||c2.col||','  ;
+                lv_colval_sum_str := lv_colval_sum_str||'''''''||SUM('||c2.col||')||'''''','  ;                 
+              else
+                lv_inssql_cols := lv_inssql_cols||c2.col||'  '||chr(10) ; -- prev )
+                lv_colval_str := lv_colval_str||''||c2.col  ;
+                lv_colval_sum_str := lv_colval_sum_str||'''''''||SUM('||c2.col||')||'''''''  ;                 
+              end if;  
+              lv_rowcnt:=lv_rowcnt+1;                
+         end loop;      -- c2    
+   -- --DBMS_output.put_line(   lv_inssql_cols );
+   -- --DBMS_output.put_line(   lv_colval_str );
+    ----DBMS_output.put_line(   lv_colval_sum_str );  
+    lv_sql := 'select '''||lv_colval_sum_str||','||lv_netsalcolval_sum_str||','||lv_dedcolval_sum_str||''' from GTT_PISARREARTRANSACTION where  '||chr(10)
+               ||' COMPANYCODE = '''||c1.COMPANYCODE ||'''  '||chr(10)
+               ||' AND DIVISIONCODE = '''||c1.DIVISIONCODE ||'''  '||chr(10)
+               ||' AND UNITCODE = '''||c1.UNITCODE ||'''  '||chr(10)
+               ||' AND DEPARTMENTCODE = '''||c1.DEPARTMENTCODE ||'''  '||chr(10)
+               ||' AND CATEGORYCODE = '''||c1.CATEGORYCODE ||'''  '||chr(10)
+               ||' AND GRADECODE = '''||c1.GRADECODE ||'''  '||chr(10)
+               ||' AND WORKERSERIAL = '''||c1.WORKERSERIAL ||'''  '||chr(10)
+               ||' AND  TOKENNO = '''||c1.TOKENNO ||'''  '||chr(10) ;       
+    --DBMS_output.put_line( ' nEt sal - ' || lv_sql );  
+    --return;  
+    
+    execute immediate  lv_sql into lv_colval_str   ;
+   -- --DBMS_output.put_line(  lv_insert_fixed_col||lv_inssql_cols||lv_insert_fixed_col_val||lv_colval_str||')' ); 
+   --DBMS_output.put_line( lv_insert_fixed_col||lv_inssql_cols||',NETSALARY,GROSSDEDN)'||lv_insert_fixed_col_val||lv_colval_str||')' ) ;
+   --return;
+   
+--    DBMS_output.put_line(lv_insert_fixed_col);
+--    DBMS_output.put_line(lv_inssql_cols);
+--    DBMS_output.put_line(',NETSALARY,GROSSDEDN)');
+--    DBMS_output.put_line(lv_insert_fixed_col_val);
+--    DBMS_output.put_line(lv_colval_str);
+    
+   
+   
+ 
+   execute immediate lv_insert_fixed_col||lv_inssql_cols||',NETSALARY,GROSSDEDN)'||lv_insert_fixed_col_val||lv_colval_str||')' ;
+    
+   --DBMS_output.put_line('1111'||lv_insert_fixed_col||lv_inssql_cols||',NETSALARY,GROSSDEDN)'||lv_insert_fixed_col_val||lv_colval_str||')' );
+   
+   --execute immediate lv_insert_fixed_col||lv_inssql_cols||',NETSALARY,TOTALDED)'||lv_insert_fixed_col_val||lv_colval_str||')' ;
+   
+   --DBMS_output.put_line('1111'||lv_insert_fixed_col||lv_inssql_cols||lv_insert_fixed_col_val||lv_colval_str||')' );
+    
+   
+  end loop; --c1
+  --RETURN;
+  --- update CAPREPAYAMOUNT , loanintamount , grossdeduction , netsalary ---
+  for c_wrk in( select COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, DEPARTMENTCODE, CATEGORYCODE, GRADECODE, WORKERSERIAL, TOKENNO from PISARREARTRANSACTION 
+                        WHERE yearmonth = lv_effective_ym
+                        and transactiontype = 'ARREAR'
+                        AND UNITCODE =  P_UNIT 
+                        AND CATEGORYCODE =  P_CATEGORY 
+                        AND GRADECODE  =   P_GRADE  
+                        -- and WORKERSERIAL = '00013' 
+              ) loop               
+      lv_sql := 'UPDATE PISARREARTRANSACTION set '||chr(10) ; 
+      lv_cnt := 1;
+      select count(*) into lv_rowcnt from LOANADJFROMARREAR
+                      where   companycode  = c_wrk.COMPANYCODE
+                           and   divisioncode = c_wrk.DIVISIONCODE
+                           and   yearmonth    = lv_effective_ym
+                           and   workerserial = c_wrk.WORKERSERIAL ;  
+     
+    IF lv_rowcnt > 0 THEN                             
+      for c_lint in(  select LOANCODE, CAPREPAYAMOUNT, INTREPAYAMOUNT from LOANADJFROMARREAR
+                      where   companycode  = c_wrk.COMPANYCODE
+                           and   divisioncode = c_wrk.DIVISIONCODE
+                           and   yearmonth    = lv_effective_ym
+                           and   workerserial = c_wrk.WORKERSERIAL ) loop
+                              
+       if lv_cnt < lv_rowcnt then
+        lv_sql :=  lv_sql||' LOAN_'||c_lint.LOANCODE||' = '||nvl(c_lint.CAPREPAYAMOUNT,0)||' , LINT_'||c_lint.LOANCODE||' = '||nvl(c_lint.INTREPAYAMOUNT,0)||' , GROSSDEDN = NVL(GROSSDEDN,0) + NVL('||c_lint.CAPREPAYAMOUNT||',0) + NVL('||c_lint.INTREPAYAMOUNT||',0) , NETSALARY = NETSALARY -'||nvl(c_lint.CAPREPAYAMOUNT,0)||'-'||nvl(c_lint.INTREPAYAMOUNT,0)||' , ';
+       else
+        lv_sql :=  lv_sql||' LOAN_'||c_lint.LOANCODE||' = '||nvl(c_lint.CAPREPAYAMOUNT,0)||' , LINT_'||c_lint.LOANCODE||' = '||nvl(c_lint.INTREPAYAMOUNT,0)||' , GROSSDEDN = NVL(GROSSDEDN,0) + NVL('||c_lint.CAPREPAYAMOUNT||',0) + NVL('||c_lint.INTREPAYAMOUNT||',0) , NETSALARY = NETSALARY -'||nvl(c_lint.CAPREPAYAMOUNT,0)||'-'||nvl(c_lint.INTREPAYAMOUNT,0)||'  '||chr(10);
+       end if;
+       lv_cnt:=lv_cnt+1;
+      end loop;              
+      lv_sql :=  lv_sql||' WHERE  COMPANYCODE = '''||c_wrk.COMPANYCODE||''' '||chr(10)
+                       ||' AND    DIVISIONCODE = '''||c_wrk.DIVISIONCODE||''' '||chr(10)    
+                       ||' AND    YEARCODE =     '''||c_wrk.YEARCODE||''' '||chr(10)   
+                       ||' AND    YEARMONTH =     '''||lv_effective_ym||''' '||chr(10)  
+                       ||' AND    TRANSACTIONTYPE =     ''ARREAR'' '||chr(10)
+                       ||' AND    WORKERSERIAL =     '''||c_wrk.WORKERSERIAL||''' ' ;
+     --dbms_output.put_line( ' UPDATE LOAN / DEDN '||lv_sql);         
+     execute immediate  lv_sql;   
+       
+    END IF; 
+  end loop;
+  
+  lv_startdate := '01/' || SUBSTR(P_EFFECTYEARMONTH,5,2) || '/' || SUBSTR(P_EFFECTYEARMONTH,1,4);   
+  lv_enddate := TO_CHAR(ADD_MONTHS(to_date(lv_startdate,'dd/mm/yyyy'),1) -1,'DD/MM/YYYY');
+    
+  PRC_LOANBREAKUP_INSERT_WAGES 
+  ( 
+      P_COMPCODE ,  
+      P_DIVCODE ,
+      'XXXX-YYYY',
+      lv_startdate, 
+      lv_enddate,
+      'PIS',
+      'PISARREARTRANSACTION',
+      'SALARY',
+      NULL,
+      NULL,
+      NULL,
+      'ARREAR'
+  );
+  
+end;
+commit;
+-- end consolidation from ARRIL till ARREAR PROCESSING MONTH   --
+----DBMS_output.put_line(lv_inssql_cols||lv_inssql_vals); 
+END;
+/
+
+
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+
