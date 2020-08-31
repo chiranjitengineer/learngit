@@ -18,7 +18,8 @@ AS
     P_INT1  NUMBER(20);
     P_BLOCKS  NUMBER(10);
     
-    
+    LV_LASTUNIT VARCHAR2(100);
+    LV_LASTCATEGORY VARCHAR2(100);
     
     g_pBoldOn VARCHAR2(20);
     g_tBoldOn VARCHAR2(20);
@@ -175,32 +176,111 @@ BEGIN
         IF P_BLOCKS = 1 THEN     
 
 
-        LV_INSERTSTR := FMTALIGN(C1.UNITSHORTDESC,30,'C')||' '|| FMTALIGN('STAFF(BIRLA INDUSTRIES) P.F. & LOAN DEDN. STATEMENT ',100,'C')||
-         FMTALIGN('MONTH - '||TO_CHAR(TO_DATE(P_YEARMONTH,'YYYYMM'),'MON-YYYY'),50,'C') ;
-        P_INT1 := P_INT1 + 1;
-        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
-        
-        
-        LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
-        P_INT1 := P_INT1 + 1;
-        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            LV_INSERTSTR := FMTALIGN(C1.UNITSHORTDESC,30,'C')||' '|| FMTALIGN('STAFF(BIRLA INDUSTRIES) P.F. & LOAN DEDN. STATEMENT ',100,'C')||
+            FMTALIGN('MONTH - '||TO_CHAR(TO_DATE(P_YEARMONTH,'YYYYMM'),'MON-YYYY'),50,'C') ;
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+            
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
 
-        LV_INSERTSTR := '                                                              GROSS         M.CONTR            YTD            EMPLOYER                                                   INTEREST |';
-        P_INT1 := P_INT1 + 1;
-        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            LV_INSERTSTR := '                                                              GROSS         M.CONTR            YTD            EMPLOYER                                                   INTEREST |';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
 
-        LV_INSERTSTR := ' SLN  DEP             EMPLN   PF.NO   NAME                   AMOUNT      PF       VPF      PF      VPF      CONTR    YTD      LOAN.DT     ORG.LN         PBAL     PDED   BAL DEDN.|';
-        P_INT1 := P_INT1 + 1;
-        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            LV_INSERTSTR := ' SLN  DEP             EMPLN   PF.NO   NAME                   AMOUNT      PF       VPF      PF      VPF      CONTR    YTD      LOAN.DT     ORG.LN         PBAL     PDED   BAL DEDN.|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
 
-
-        LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
-        P_INT1 := P_INT1 + 1;
-        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
-        
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            LV_INSERTSTR := '  UNIT - ['||C1.UNITCODE||'] '||C1.UNITSHORTDESC||'        CATEGORY - ['||C1.CATEGORYCODE||'] '||C1.CATEGORYDESC;
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+            LV_LASTUNIT := C1.UNITCODE;
+            LV_LASTCATEGORY := C1.CATEGORYCODE;
         END IF;
         --LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
 
+        IF LV_LASTCATEGORY <> C1.CATEGORYCODE  OR LV_LASTUNIT <> C1.UNITCODE THEN
+            FOR C2 IN 
+            ( 
+        --        SELECT * FROM GTT_PAYSLIP_ASIANTEA WHERE rownum < 3
+                SELECT * FROM (
+                    SELECT SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E, SUM(VPF)VPF, SUM(PF_C) PF_C, SUM(FPF) FPF, 
+                    SUM(LOAN_PFL) LOAN_PFL, SUM(LINT_PFL) LINT_PFL, SUM(LNBL_PFL) LNBL_PFL,  
+                    SUM(LOANAMOUNT) LOANAMOUNT, SUM(PF_E_YTD) PF_E_YTD, SUM(VPF_YTD) VPF_YTD, SUM(PF_C_YTD) PF_C_YTD, SUM(FPF_YTD) FPF_YTD 
+                    FROM GTT_PIS_PF_LOANDEDN_REP 
+                    WHERE UNITCODE = LV_LASTUNIT
+                    AND CATEGORYCODE = LV_LASTCATEGORY
+                    --ORDER BY UNITCODE, CATEGORYCODE, DEPARTMENTCODE, TOKENNO
+                )
+        --        WHERE rownum < 11
+            )
+            LOOP
+             
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+          
+            
+                LV_INSERTSTR := '          '||FMTALIGN('GROUP',46,'L')||' '||
+                                FMTALIGN(C2.PF_GROSS,12,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.VPF,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.VPF_YTD,10,'R',2)||' '||
+                                FMTALIGN(' ',5,'R',2)||' '||
+                                FMTALIGN((C2.PF_C_YTD+C2.FPF_YTD),12,'R',2)||' '||
+                                FMTALIGN(' ',10,'R',2)||' '||
+                                FMTALIGN(C2.LOANAMOUNT,12,'R',2)||' '||
+                                FMTALIGN(' ',8,'R',2)||' '||
+                                FMTALIGN(C2.LOAN_PFL,10,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2);
+                P_INT1 := P_INT1 + 1;
+                PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+                LV_INSERTSTR := '          '||FMTALIGN('TOTAL',48,'L')||' '||
+                                FMTALIGN(' ',8,'R',2)||' '||
+                                FMTALIGN(C2.PF_E,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.PF_E_YTD,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN((C2.PF_C+C2.FPF),10,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2)||' '||
+                                FMTALIGN(' ',11,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2)||' '||
+                                FMTALIGN(C2.LNBL_PFL,12,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.LINT_PFL,11,'R',2);
+                P_INT1 := P_INT1 + 1;
+                PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            END LOOP;
+             
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+             LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            LV_INSERTSTR := '  UNIT - ['||C1.UNITCODE||'] '||C1.UNITSHORTDESC||'        CATEGORY - ['||C1.CATEGORYCODE||'] '||C1.CATEGORYDESC;
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+            
+        END IF; 
         
         LV_INSERTSTR := FMTALIGN(C1.SLNO,4,'R')||' '||
                         FMTALIGN(C1.DEPARTMENTDESC,15,'L')||' '||
@@ -225,14 +305,129 @@ BEGIN
          P_INT1 := P_INT1 + 1;
         PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
      
-        
+        LV_LASTUNIT := C1.UNITCODE;
+        LV_LASTCATEGORY := C1.CATEGORYCODE;
         
     END LOOP;
     
-    LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------|';
-    P_INT1 := P_INT1 + 1;
+     LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+     P_INT1 := P_INT1 + 1;
     PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
 
+
+
+        IF LV_LASTCATEGORY IS NOT NULL  AND LV_LASTUNIT IS NOT NULL THEN
+            FOR C2 IN 
+            ( 
+        --        SELECT * FROM GTT_PAYSLIP_ASIANTEA WHERE rownum < 3
+                SELECT * FROM (
+                    SELECT SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E, SUM(VPF)VPF, SUM(PF_C) PF_C, SUM(FPF) FPF, 
+                    SUM(LOAN_PFL) LOAN_PFL, SUM(LINT_PFL) LINT_PFL, SUM(LNBL_PFL) LNBL_PFL,  
+                    SUM(LOANAMOUNT) LOANAMOUNT, SUM(PF_E_YTD) PF_E_YTD, SUM(VPF_YTD) VPF_YTD, SUM(PF_C_YTD) PF_C_YTD, SUM(FPF_YTD) FPF_YTD 
+                    FROM GTT_PIS_PF_LOANDEDN_REP 
+                    WHERE UNITCODE = LV_LASTUNIT
+                    AND CATEGORYCODE = LV_LASTCATEGORY
+                    --ORDER BY UNITCODE, CATEGORYCODE, DEPARTMENTCODE, TOKENNO
+                )
+        --        WHERE rownum < 11
+            )
+            LOOP
+             
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+          
+            
+                LV_INSERTSTR := '          '||FMTALIGN('GROUP',46,'L')||' '||
+                                FMTALIGN(C2.PF_GROSS,12,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.VPF,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.VPF_YTD,10,'R',2)||' '||
+                                FMTALIGN(' ',5,'R',2)||' '||
+                                FMTALIGN((C2.PF_C_YTD+C2.FPF_YTD),12,'R',2)||' '||
+                                FMTALIGN(' ',10,'R',2)||' '||
+                                FMTALIGN(C2.LOANAMOUNT,12,'R',2)||' '||
+                                FMTALIGN(' ',8,'R',2)||' '||
+                                FMTALIGN(C2.LOAN_PFL,10,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2);
+                P_INT1 := P_INT1 + 1;
+                PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+                LV_INSERTSTR := '          '||FMTALIGN('TOTAL',48,'L')||' '||
+                                FMTALIGN(' ',8,'R',2)||' '||
+                                FMTALIGN(C2.PF_E,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.PF_E_YTD,10,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN((C2.PF_C+C2.FPF),10,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2)||' '||
+                                FMTALIGN(' ',11,'R',2)||' '||
+                                FMTALIGN(' ',9,'R',2)||' '||
+                                FMTALIGN(C2.LNBL_PFL,12,'R',2)||' '||
+                                FMTALIGN(' ',6,'R',2)||' '||
+                                FMTALIGN(C2.LINT_PFL,11,'R',2);
+                P_INT1 := P_INT1 + 1;
+                PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            END LOOP;
+             
+            LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+            P_INT1 := P_INT1 + 1;
+            PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+            
+        END IF; 
+        
+        
+        
+
+    FOR C1 IN 
+    ( 
+--        SELECT * FROM GTT_PAYSLIP_ASIANTEA WHERE rownum < 3
+        SELECT * FROM (
+            SELECT SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E, SUM(VPF)VPF, SUM(PF_C) PF_C, SUM(FPF) FPF, 
+            SUM(LOAN_PFL) LOAN_PFL, SUM(LINT_PFL) LINT_PFL, SUM(LNBL_PFL) LNBL_PFL,  
+            SUM(LOANAMOUNT) LOANAMOUNT, SUM(PF_E_YTD) PF_E_YTD, SUM(VPF_YTD) VPF_YTD, SUM(PF_C_YTD) PF_C_YTD, SUM(FPF_YTD) FPF_YTD 
+            FROM GTT_PIS_PF_LOANDEDN_REP 
+            --ORDER BY UNITCODE, CATEGORYCODE, DEPARTMENTCODE, TOKENNO
+        )
+--        WHERE rownum < 11
+    )
+    LOOP
+        LV_INSERTSTR := '          '||FMTALIGN('GRAND',46,'L')||' '||
+                        FMTALIGN(C1.PF_GROSS,12,'R',2)||' '||
+                        FMTALIGN(' ',6,'R',2)||' '||
+                        FMTALIGN(C1.VPF,10,'R',2)||' '||
+                        FMTALIGN(' ',6,'R',2)||' '||
+                        FMTALIGN(C1.VPF_YTD,10,'R',2)||' '||
+                        FMTALIGN(' ',5,'R',2)||' '||
+                        FMTALIGN((C1.PF_C_YTD+C1.FPF_YTD),12,'R',2)||' '||
+                        FMTALIGN(' ',10,'R',2)||' '||
+                        FMTALIGN(C1.LOANAMOUNT,12,'R',2)||' '||
+                        FMTALIGN(' ',8,'R',2)||' '||
+                        FMTALIGN(C1.LOAN_PFL,10,'R',2)||' '||
+                        FMTALIGN(' ',9,'R',2);
+        P_INT1 := P_INT1 + 1;
+        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+        LV_INSERTSTR := '          '||FMTALIGN('TOTAL',48,'L')||' '||
+                        FMTALIGN(' ',8,'R',2)||' '||
+                        FMTALIGN(C1.PF_E,10,'R',2)||' '||
+                        FMTALIGN(' ',6,'R',2)||' '||
+                        FMTALIGN(C1.PF_E_YTD,10,'R',2)||' '||
+                        FMTALIGN(' ',6,'R',2)||' '||
+                        FMTALIGN((C1.PF_C+C1.FPF),10,'R',2)||' '||
+                        FMTALIGN(' ',9,'R',2)||' '||
+                        FMTALIGN(' ',11,'R',2)||' '||
+                        FMTALIGN(' ',9,'R',2)||' '||
+                        FMTALIGN(C1.LNBL_PFL,12,'R',2)||' '||
+                        FMTALIGN(' ',6,'R',2)||' '||
+                        FMTALIGN(C1.LINT_PFL,11,'R',2);
+        P_INT1 := P_INT1 + 1;
+        PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
+    END LOOP;
+    
+     
+     LV_INSERTSTR := '|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|';
+     P_INT1 := P_INT1 + 1;
+    PROC_INSERT_TEXT_REPORT(LV_INSERTSTR);
 --commit;
 
 -------end text report----
