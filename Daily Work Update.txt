@@ -2,6 +2,183 @@
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+--BIRLA COMPONENT ASSIGNMENT 
+
+---------------------------------------------------------------------------------------------
+
+^COMPANYCODE^,^DIVISIONCODE^,^SYSROWID^,^YEARCODE^,^YEARMONTH^,^UNITCODE^,^CATEGORYCODE^,^GRADECODE^,^WORKERSERIAL^,^TOKENNO^,^EMPLOYEENAME^,^DEPARTMENTCODE^,^DEPARTMENTDESC^,^DATEOFJOIN^,^UPDATESTATUS^,^HIDDEN_COL^
+---------------------------------------------------------------------------------------------
+
+
+SELECT * FROM (SELECT EMPMAST.COMPANYCODE,EMPMAST.DIVISIONCODE,ASSIGN.SYSROWID,ASSIGN.YEARCODE,ASSIGN.YEARMONTH,EMPMAST.UNITCODE,EMPMAST.CATEGORYCODE,EMPMAST.GRADECODE,EMPMAST.WORKERSERIAL,EMPMAST.TOKENNO,EMPMAST.EMPLOYEENAME,EMPMAST.DEPARTMENTCODE,DEPT.DEPARTMENTDESC,EMPMAST.DATEOFJOIN,'N' UPDATESTATUS,ASSIGN.CONV_FLAG,ASSIGN.BASIC,ASSIGN.DA,ASSIGN.ADHOC,ASSIGN.ATN_INCNT,ASSIGN.PER_ALLOW,ASSIGN.SPL_ALLOW,ASSIGN.HRA_PERC,ASSIGN.VPF_PERC,ASSIGN.HR_DEDN,ASSIGN.FURNITURE,ASSIGN.CHOWKIDARI,ASSIGN.ITAX,ASSIGN.LIC,ASSIGN.LADIESCLUB,ASSIGN.SCHOOL_BUS 
+  FROM PISEMPLOYEEMASTER EMPMAST, PISDEPARTMENTMASTER DEPT,  
+       ( 
+        SELECT * 
+          FROM PISCOMPONENTASSIGNMENT 
+         WHERE COMPANYCODE='BJ0056' 
+           AND DIVISIONCODE='0001' 
+           AND TRANSACTIONTYPE='ASSIGNMENT' 
+           AND WORKERSERIAL||YEARMONTH IN ( 
+                                            SELECT WORKERSERIAL||MAX(YEARMONTH) FROM PISCOMPONENTASSIGNMENT 
+                                             WHERE COMPANYCODE='BJ0056' AND DIVISIONCODE='0001' 
+                                               AND TO_NUMBER(YEARMONTH)<=TO_NUMBER('202006') 
+                                               AND TRANSACTIONTYPE='ASSIGNMENT' 
+                                            GROUP BY WORKERSERIAL 
+                                          ) 
+       ) ASSIGN 
+ WHERE EMPMAST.COMPANYCODE=DEPT.COMPANYCODE 
+   AND EMPMAST.DIVISIONCODE=DEPT.DIVISIONCODE 
+   AND EMPMAST.DEPARTMENTCODE=DEPT.DEPARTMENTCODE 
+   AND EMPMAST.COMPANYCODE=ASSIGN.COMPANYCODE(+) 
+   AND EMPMAST.DIVISIONCODE=ASSIGN.DIVISIONCODE(+) 
+   AND EMPMAST.TOKENNO=ASSIGN.TOKENNO(+) 
+   AND EMPMAST.WORKERSERIAL=ASSIGN.WORKERSERIAL(+) 
+   AND EMPMAST.COMPANYCODE='BJ0056' 
+   AND EMPMAST.DIVISIONCODE='0001' 
+   AND EMPMAST.EMPLOYEESTATUS='ACTIVE' 
+   AND EMPMAST.UNITCODE='01' 
+   AND EMPMAST.CATEGORYCODE='10' 
+   AND EMPMAST.GRADECODE='A' 
+   AND TO_NUMBER(TO_CHAR(EMPMAST.DATEOFJOIN,'YYYYMM'))<=TO_NUMBER('202006') 
+   AND TO_NUMBER(NVL(TO_CHAR(EMPMAST.STATUSDATE,'YYYYMM'),NVL(TO_CHAR(EMPMAST.EXTENDEDRETIREDATE,'YYYYMM'),'202006')))>=TO_NUMBER('202006') ) ORDER BY TOKENNO 
+   
+   
+   
+   
+   
+   SELECT * FROM (SELECT EMPMAST.COMPANYCODE,EMPMAST.DIVISIONCODE,ASSIGN.SYSROWID,ASSIGN.YEARCODE,ASSIGN.YEARMONTH,EMPMAST.UNITCODE,EMPMAST.CATEGORYCODE,EMPMAST.GRADECODE,EMPMAST.WORKERSERIAL,EMPMAST.TOKENNO,EMPMAST.EMPLOYEENAME,EMPMAST.DEPARTMENTCODE,DEPT.DEPARTMENTDESC,EMPMAST.DATEOFJOIN,'N' UPDATESTATUS,ASSIGN.CONV_FLAG,ASSIGN.BASIC,ASSIGN.DA,ASSIGN.ADHOC,ASSIGN.ATN_INCNT,ASSIGN.PER_ALLOW,ASSIGN.SPL_ALLOW,ASSIGN.HRA_PERC,ASSIGN.VPF_PERC,ASSIGN.HR_DEDN,ASSIGN.FURNITURE,ASSIGN.CHOWKIDARI,ASSIGN.ITAX,ASSIGN.LIC,ASSIGN.LADIESCLUB,ASSIGN.SCHOOL_BUS 
+  FROM PISEMPLOYEEMASTER EMPMAST, PISDEPARTMENTMASTER DEPT,  
+       ( 
+        SELECT * 
+          FROM PISCOMPONENTASSIGNMENT 
+         WHERE COMPANYCODE='BJ0056' 
+           AND DIVISIONCODE='0001' 
+           AND TRANSACTIONTYPE='ASSIGNMENT' 
+           AND WORKERSERIAL||YEARMONTH IN ( 
+                                            SELECT WORKERSERIAL||MAX(YEARMONTH) FROM PISCOMPONENTASSIGNMENT 
+                                             WHERE COMPANYCODE='BJ0056' AND DIVISIONCODE='0001' 
+                                               AND TO_NUMBER(YEARMONTH)<=TO_NUMBER('202006') 
+                                               AND TRANSACTIONTYPE='ASSIGNMENT' 
+                                            GROUP BY WORKERSERIAL 
+                                          ) 
+       ) ASSIGN 
+ WHERE EMPMAST.COMPANYCODE=DEPT.COMPANYCODE 
+   AND EMPMAST.DIVISIONCODE=DEPT.DIVISIONCODE 
+   AND EMPMAST.DEPARTMENTCODE=DEPT.DEPARTMENTCODE 
+   AND EMPMAST.COMPANYCODE=ASSIGN.COMPANYCODE(+) 
+   AND EMPMAST.DIVISIONCODE=ASSIGN.DIVISIONCODE(+) 
+   AND EMPMAST.TOKENNO=ASSIGN.TOKENNO(+) 
+   AND EMPMAST.WORKERSERIAL=ASSIGN.WORKERSERIAL(+) 
+   AND EMPMAST.COMPANYCODE='BJ0056' 
+   AND EMPMAST.DIVISIONCODE='0001' 
+   AND EMPMAST.EMPLOYEESTATUS='ACTIVE' 
+   AND EMPMAST.UNITCODE='01' 
+   AND EMPMAST.CATEGORYCODE='10' 
+   AND EMPMAST.GRADECODE='A' 
+   AND TO_NUMBER(TO_CHAR(EMPMAST.DATEOFJOIN,'YYYYMM'))<=TO_NUMBER('202006') 
+   AND TO_NUMBER(NVL(TO_CHAR(EMPMAST.STATUSDATE,'YYYYMM'),NVL(TO_CHAR(EMPMAST.EXTENDEDRETIREDATE,'YYYYMM'),'202006')))>=TO_NUMBER('202006') ) ORDER BY TOKENNO 
+   
+   
+   
+   
+select rtrim(xmlagg(xmlelement(e,x.componentcode||',') order by srl).extract('//text()'),',') xx 
+  from ( 
+        select srl, columnname componentcode from pistagwisefixedcolumnshow 
+         where companycode='BJ0056' 
+           and divisioncode='0001' 
+           and tagtype='ASSIGNMENT' 
+        union all 
+        select to_number(50||phase||calculationindex) srl, 'ASSIGN.'||A.componentcode componentcode from piscomponentmaster A
+        ,(
+            SELECT DISTINCT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+            WHERE COMPANYCODE = 'BJ0056'  AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = (
+                                SELECT MAX(YEARMONTH) FROM PISGRADECOMPONENTMAPPING
+                                WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001'
+--                                AND CATEGORYCODE='10' 
+                            )
+            AND CATEGORYCODE = '10'
+            AND GRADECODE ='A' 
+            AND APPLICABLE LIKE 'Y%' 
+        ) B 
+         where companycode='BJ0056' 
+           and divisioncode='0001' 
+           and A.componentcode||yearmonth in ( 
+                                            select distinct componentcode||max(yearmonth) from piscomponentmaster 
+                                             where companycode='BJ0056' 
+                                               and divisioncode='0001' 
+                                               and to_number(yearmonth)<=to_number('202006') 
+                                             group by componentcode 
+                                           ) 
+          AND A.COMPONENTCODE = B.COMPONENTCODE
+           and nvl(includepayroll,'N')='Y' 
+           and nvl(rolloverapplicable,'N')='Y' 
+       ) x 
+	   
+	   
+	   
+	   SELECT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202005'
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+MINUS
+SELECT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202004'
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+
+AND COMPONENTCODE IN ('COMPS_ALLOW','CONV_FLAG')
+
+COMPONENTCODE
+
+COMPS_ALLOW
+CONV_FLAG
+
+DELETE FROM  PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202005'
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+
+
+
+SELECT * FROM PISCOMPONENTMASTER
+WHERE COMPONENTCODE LIKE 'MED%'
+
+SELECT * FROM PISGRADECOMPONENTMAPPING
+
+
+
+SELECT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202005'
+
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+
+
+MINUS
+SELECT COMPONENTCODE FROM PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202004'
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+
+AND COMPONENTCODE IN ('COMPS_ALLOW','CONV_FLAG')
+
+COMPONENTCODE
+
+COMPS_ALLOW
+CONV_FLAG
+
+DELETE FROM  PISGRADECOMPONENTMAPPING
+WHERE YEARMONTH='202005'
+AND CATEGORYCODE='20'
+AND UNITCODE='01'
+
+
+select * FROM PISCOMPONENTMASTER
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 --NAIHATI HOUSE BUILDING LOAN (HBLDG) DATA MIGRATION SCRIPT ON 31/08/2020
 ---------------------------------------------------------------------------------------------
 
