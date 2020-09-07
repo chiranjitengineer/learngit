@@ -1,5 +1,86 @@
 
 ---------------------------------------------------------------------------------------------
+LOANDATE
+ASONCAPITALBAL
+ASONINTERESTBAL
+SANCTIONAMOUNT
+INTERESTAMOUNT
+MERGELOANAMOUNT
+ADJINTERESTAMOUNT
+ADJCAPITALAMOUNT
+ADUJSTMENTDATE
+REMARKS
+
+
+Loan Date	As on Capital Bal	As On Int. Bal	Sanction Amount	Interest Amount against Sanction Amount	Merge Loan Amount	Adjustment Interest
+
+
+
+D:\SWTERP\SWTERP_WPS\swterp\swterp\PF ACCOUNTS\Pages\Transaction\pgPFLoanInterestAdjustment.aspx.vb
+
+
+
+chiranjit.ghosh@softweb.co.in
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+--BIRLA SUNIL SHARMA
+---------------------------------------------------------------------------------
+INSERT INTO GTT_COMPONENTASSINREPORT 
+SELECT A.WORKERSERIAL, A.TOKENNO, A.EMPLOYEENAME, A.UNITCODE, A.CATEGORYCODE CAT_CD, A.GRADECODE GRD_CD, A.DEPARTMENTCODE DEPT_CD, 
+       A.ESINO, A.PFNO, A.PENSIONNO, A.SEX, A.EMPLOYEESTATUS, A.DATEOFBIRTH, A.DATEOFJOIN, A.DATEOFCONFIRMATION, A.PFENTITLEDATE,  
+       A.EXTENDEDRETIREDATE, B.COMPONENTCODE, B.PHASE, B.CALCULATIONINDEX, M.COMPANYNAME, V.DIVISIONNAME, B.COMPONENTSHORTNAME,   
+       fn_get_compvalue(C.COMPANYCODE,C.DIVISIONCODE,C.YEARMONTH,C.WORKERSERIAL,B.COMPONENTCODE,'PIS COMPONENT REGISTER') COMPVALUE, TO_CHAR(TO_DATE('202006','YYYYMM'),'MON-YYYY') PRINTDATE, 
+       NVL(B.PRINTSERIAL,99) EX1, 'Run Date ' || TO_CHAR(SYSDATE,'DD/MM/YYYY  HH:MI:SS AM') EX2,CASE WHEN 'PIS COMPONENT REGISTER'='PIS COMPONENT REGISTER' THEN C.ATTN_SALD ELSE NULL END  EX3, B.COLHEADER EX4, NULL EX5, NULL EX6, NULL EX7, NULL EX8, NULL EX9, NULL EX10 
+  FROM PISEMPLOYEEMASTER A,  
+       ( SELECT DISTINCT COMPONENTCODE, COMPONENTSHORTNAME, PHASE, CALCULATIONINDEX,PRINTSERIAL,COLHEADER FROM PISCOMPONENTMASTER  
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND YEARMONTH = ( 
+                             SELECT MAX(YEARMONTH) FROM PISCOMPONENTMASTER  
+                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                AND YEARMONTH<='202006' 
+                            ) 
+       ORDER BY PHASE, CALCULATIONINDEX) B, 
+       ( SELECT * FROM PISPAYTRANSACTION 
+          WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+            AND WORKERSERIAL||YEARMONTH IN ( SELECT WORKERSERIAL||MAX(YEARMONTH) 
+                                               FROM PISPAYTRANSACTION 
+                                              WHERE COMPANYCODE = 'BJ0056' AND DIVISIONCODE = '0001' 
+                                                AND YEARMONTH<='202006' 
+                                              GROUP BY WORKERSERIAL 
+                                           ) 
+       ) C, COMPANYMAST M, DIVISIONMASTER V 
+WHERE A.COMPANYCODE = C.COMPANYCODE  
+  AND A.DIVISIONCODE = C.DIVISIONCODE 
+  AND A.WORKERSERIAL = C.WORKERSERIAL  
+  AND A.COMPANYCODE=M.COMPANYCODE 
+  AND A.COMPANYCODE=V.COMPANYCODE 
+  AND A.DIVISIONCODE=V.DIVISIONCODE 
+  AND A.COMPANYCODE = 'BJ0056'  
+  AND A.DIVISIONCODE = '0001' 
+  AND B.COMPONENTCODE IN ('CONV_RT') 
+ ORDER BY A.TOKENNO, B.PHASE, B.CALCULATIONINDEX
+ 
+ ---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+CATEGORYCODE: "B"
+??
+EMPLOYEENAME: "ASISH MAHATO"
+??
+GRADECODE: "257P"
+??
+PFNO: "WS1546"
+??
+PROJNAME: "WPS"
+??
+TOKENNO: "85830"
+??
+WORKERSERIAL: "008622"
+
+
+---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
 
 SELECT 'UPDATE '||TABLE_NAME|| ' SET WORKERSERIAL=''000230'' WHERE WORKERSERIAL=''05599'';' FROM (
