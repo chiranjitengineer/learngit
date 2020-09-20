@@ -4,11 +4,11 @@
 
 ---------------------------------------------------------------------
 USER/PASWORD    :		JOONK / EELL0TKN00J
-IP   			:		1.6.189.9:8000
+IP   			:		1.6.189.9:8000		ABC@765XYZ
 PASSWORD 		: 		EELL0TKN00J
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		DHUNSERI_STRU
+USER 			: 		DHUNSERI_STRU		123098
 IP   			:		1.6.37.187:8050
 PASSWORD 		: 		123098
 SERVICE NAME 	: 		OR12CSE2
@@ -18,27 +18,27 @@ IP   			:		1.6.189.9:8040
 PASSWORD 		: 		123098
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		AMBOOTIA / AIT00BMA
+USER 			: 		AMBOOTIA / AIT00BMA		123098
 IP   			:		1.6.37.242
 PASSWORD 		: 		000
 SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
-USER 			: 		ASIANTEA
+USER 			: 		ASIANTEA				123098
 IP   			:		223.31.219.122
 PASSWORD 		: 		123098
 SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
-USER 			: 		JIAJURI
+USER 			: 		JIAJURI					123
 IP   			:		1.6.37.187:8444
 PASSWORD 		: 		000
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		KANCO_WEB
+USER 			: 		KANCO_WEB				123098
 IP   			:		1.6.37.187:8086
 PASSWORD 		: 		123098
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		KARNAFULI
+USER 			: 		KARNAFULI				111
 IP   			:		35.185.146.232
 PASSWORD 		: 		EELL0TKN00J
 SERVICE NAME 	: 		ORCL11G
@@ -48,12 +48,12 @@ IP   			:		1.6.37.187:9000
 PASSWORD 		: 		9354
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		NJMCL_WEB/NJMCL_WEB  
+USER 			: 		NJMCL_WEB/NJMCL_WEB		NAIHATI  
 IP   			:		1.6.37.187:8083
 PASSWORD 		: 		NAIHATI
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
-USER 			: 		BAGGAGE_WEB/BAGGAGE_WEB  (LOCAL)
+USER 			: 		BAGGAGE_WEB/BAGGAGE_WEB  (LOCAL) 	000
 IP   			:		1.6.37.242:8083
 PASSWORD 		: 		000
 SERVICE NAME 	: 		OR11G2SE
