@@ -1,5 +1,95 @@
 
 ---------------------------------------------------------------------------------------------
+--BIRLA DATA UPDATE
+---------------------------------------------------------------------------------------------
+
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE TOKENNO='00543'
+
+WHERE EMPLOYEENAME LIKE '%GIRI%'
+
+select * from pisleaveapplication
+where tokenno='00781'
+
+select * from menumaster_rnd
+where menudesc like 'Leave%'
+
+
+select LASTPROMOTIONDATE from PISEMPLOYEEMASTER
+
+select to_date(to_char(LASTPROMOTIONDATE,'mm/dd/yyyy'),'dd/mm/yyyy') from PISEMPLOYEEMASTER
+
+
+update PISEMPLOYEEMASTER set LASTPROMOTIONDATE= to_date(to_char(LASTPROMOTIONDATE,'mm/dd/yyyy'),'dd/mm/yyyy') 
+where LASTPROMOTIONDATE is not null
+
+
+select distinct tokenno, employeename, LASTPROMOTIONDATE from 
+PISEMPLOYEEMASTER
+where LASTPROMOTIONDATE is not null
+order by tokenno
+
+update PISEMPLOYEEMASTER set GRATUITYSETTELMENTDATE= null
+where GRATUITYSETTELMENTDATE is not null
+
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='PISEMPLOYEEMASTER'
+AND SYS_COLUMNNAME LIKE '%PROM%'
+
+LASTPROMOTIONDATE
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(10014,0)
+
+SET DEFINE OFF;
+Insert into BIRLANEW.SYS_TFMAP
+   (SYS_TABLE_SEQUENCIER, SYS_TABLENAME_ACTUAL, SYS_TABLENAME_TEMP, SYS_COLUMNNAME, SYS_COLUMN_SEQUENCE, 
+    SYS_DATATYPE, SYS_COLUMN_LENGTH, SYS_COLUMN_PRECISION, SYS_KEYCOLUMN, SYS_MAPFIELD, 
+    SYS_TIMESTAMP, SYS_USEMAP, SYS_DEFAULT, TDSCODE)
+ Values
+   (10014, 'PISEMPLOYEEMASTER', 'GBL_PISEMPLOYEEMASTER', 'LASTPROMOTIONDATE', 0, 
+    'DATE', 10, 0, 'N', 'mskPromotionDate', 
+    TO_TIMESTAMP('25/11/2016 7:07:37.000000 PM','DD/MM/YYYY fmHH12fm:MI:SS.FF AM'), 'Y', NULL, NULL);
+COMMIT;
+
+SELECT * FROM PISEMPLOYEEMASTER WHERE TOKENNO='01069'
+
+select * from pisleaveapplication
+WHERE TOKENNO='00845'
+
+PRCPIS_EMP_B4SAVE
+
+select * from PISPAYTRANSACTION
+WHERE TOKENNO='00550' AND YEARMONTH='202008'
+
+
+
+
+select * from pis
+
+
+
+prcLeave_Bf_MainSave
+
+
+
+select dictinct tokenno from pisleaveapplication
+
+
+WHERE TOKENNO='00845'
+
+
+
+SELECT * FROM PISCOMPONENTMASTER
+
+
+
+EXEC PROC_RPT_PIS_PAYSLIP_ED('BJ0056','0001','2020-2021','202008','','','','')
+
+
+---------------------------------------------------------------------------------------------
 LOANDATE
 ASONCAPITALBAL
 ASONINTERESTBAL
