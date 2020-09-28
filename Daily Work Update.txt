@@ -1,9 +1,188 @@
 
 ---------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 Prepare an interface based on attached sheet.
 After PF or Token No. entered display the last token loan outstanding. Adjustment amount ( less) can't be less than interest outstanding and actual loan interest charged amount. applicable date can't be greater than current date and can't be less than loan date.
 Data save in PF loan interest table. Transaction type is "Manual Adjustment"
 ---------------------------------------------------------------------------------------------
+=======
+---------------------------------------------------------------------------------------------
+
+
+We have checked the Excel Sheet of Salary data from PIS of Sep'20 and following errors have been found -
+  1. Salary advance of employees 00899, 00969 and 01082 
+  2. P.F. Loan of employees 01001 and 00749
+  3. Bank loan of employee 00535
+  4. Medical Allowance of employees 1205, 00749
+  5. Unrealised Dedn. of employees 01218, 00820, 10323
+  6. H.Rent , F.Rent & Chowkidary Chg. of employee 00929  
+  7.  Compensatory Allw. of employee 01074
+  8. Difference in Gross dedn of employees 01181 and 01222
+
+Please take necessary action from your end.
+
+
+DELETE PISPAYTRANSACTION_TEST
+WHERE YEARMONTH=202009
+
+
+INSERT INTO  PISPAYTRANSACTION_TEST
+SELECT * FROM PISPAYTRANSACTION@AWS_1
+WHERE YEARMONTH=202009
+
+00535
+00749
+00899
+00929
+01205
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00535'
+AND LOANCODE='BL'
+
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE YEARMONTH = '202009'
+AND TOKENNO='00535'
+
+
+
+EXEC PROC_LOANBLNC('BJ0056','0001','01/09/2020','30/09/2020','STADV')
+
+
+DELETE FROM  GBL_LOANBLNC 
+
+SELECT * FROM GBL_LOANBLNC WHERE TOKENNO='00899'
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00899'
+
+
+SELECT * FROM LOANTRANSACTION
+WHERE TOKENNO='00899'
+AND LOANCODE='STADV'
+
+--AMOUNT        30000
+
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00899'
+AND LOANCODE='STADV'
+
+--AMOUNT        30000
+
+ GBL_LOANBLNC 
+-- 
+--  P_COMPANYCODE  VARCHAR2,
+--    P_DIVISIONCODE VARCHAR2,
+--    P_STARTDATE    VARCHAR2,
+--    P_ENDDATE      VARCHAR2,    
+--    P_LOANCODE     VARCHAR2,
+--    P_WORKERSERIAL VARCHAR2 DEFAULT NULL,
+--    P_MODULE       VARCHAR2 default 'WPS',
+--    P_WAGEPROCESS  VARCHAR2 DEFAULT 'NO', 
+--    P_TRANTYPE     VARCHAR2 DEFAULT 'SALARY'
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00535'
+AND LOANCODE='BL'
+
+
+
+---------------------------------------------------------------------------------------------
+--BIRLA DATA UPDATE
+---------------------------------------------------------------------------------------------
+
+
+SELECT * FROM PISEMPLOYEEMASTER
+WHERE TOKENNO='00543'
+
+WHERE EMPLOYEENAME LIKE '%GIRI%'
+
+select * from pisleaveapplication
+where tokenno='00781'
+
+select * from menumaster_rnd
+where menudesc like 'Leave%'
+
+
+select LASTPROMOTIONDATE from PISEMPLOYEEMASTER
+
+select to_date(to_char(LASTPROMOTIONDATE,'mm/dd/yyyy'),'dd/mm/yyyy') from PISEMPLOYEEMASTER
+
+
+update PISEMPLOYEEMASTER set LASTPROMOTIONDATE= to_date(to_char(LASTPROMOTIONDATE,'mm/dd/yyyy'),'dd/mm/yyyy') 
+where LASTPROMOTIONDATE is not null
+
+
+select distinct tokenno, employeename, LASTPROMOTIONDATE from 
+PISEMPLOYEEMASTER
+where LASTPROMOTIONDATE is not null
+order by tokenno
+
+update PISEMPLOYEEMASTER set GRATUITYSETTELMENTDATE= null
+where GRATUITYSETTELMENTDATE is not null
+
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL='PISEMPLOYEEMASTER'
+AND SYS_COLUMNNAME LIKE '%PROM%'
+
+LASTPROMOTIONDATE
+
+EXEC PROC_CREATE_GBL_TMP_TABLES(10014,0)
+
+SET DEFINE OFF;
+Insert into BIRLANEW.SYS_TFMAP
+   (SYS_TABLE_SEQUENCIER, SYS_TABLENAME_ACTUAL, SYS_TABLENAME_TEMP, SYS_COLUMNNAME, SYS_COLUMN_SEQUENCE, 
+    SYS_DATATYPE, SYS_COLUMN_LENGTH, SYS_COLUMN_PRECISION, SYS_KEYCOLUMN, SYS_MAPFIELD, 
+    SYS_TIMESTAMP, SYS_USEMAP, SYS_DEFAULT, TDSCODE)
+ Values
+   (10014, 'PISEMPLOYEEMASTER', 'GBL_PISEMPLOYEEMASTER', 'LASTPROMOTIONDATE', 0, 
+    'DATE', 10, 0, 'N', 'mskPromotionDate', 
+    TO_TIMESTAMP('25/11/2016 7:07:37.000000 PM','DD/MM/YYYY fmHH12fm:MI:SS.FF AM'), 'Y', NULL, NULL);
+COMMIT;
+
+SELECT * FROM PISEMPLOYEEMASTER WHERE TOKENNO='01069'
+
+select * from pisleaveapplication
+WHERE TOKENNO='00845'
+
+PRCPIS_EMP_B4SAVE
+
+select * from PISPAYTRANSACTION
+WHERE TOKENNO='00550' AND YEARMONTH='202008'
+
+
+
+
+select * from pis
+
+
+
+prcLeave_Bf_MainSave
+
+
+
+select dictinct tokenno from pisleaveapplication
+
+
+WHERE TOKENNO='00845'
+
+
+
+SELECT * FROM PISCOMPONENTMASTER
+
+
+
+EXEC PROC_RPT_PIS_PAYSLIP_ED('BJ0056','0001','2020-2021','202008','','','','')
+
+
+>>>>>>> 8f31d20b22b3664d3ae98cd4f6f8f453d5ebf1d0
 ---------------------------------------------------------------------------------------------
 LOANDATE
 ASONCAPITALBAL

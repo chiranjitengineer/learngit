@@ -1,7 +1,11 @@
 CREATE OR REPLACE PROCEDURE AMBOOTIA.prcProd_CatgoryTransfer_b4Save
 is
 lv_cnt                  number;
+<<<<<<< HEAD
 lv_result               varchar2(10);
+=======
+lv_result               varchar2(1000);
+>>>>>>> 8f31d20b22b3664d3ae98cd4f6f8f453d5ebf1d0
 lv_error_remark         varchar2(4000) := '' ;
 lv_Master               GBL_PRODCATEGORYTRANSFERDTLS%rowtype;
 lv_MaxDRCRdate          date;
@@ -46,6 +50,10 @@ begin
             IF nvl(lv_TransactionNo,'NA') <> 'NA' then
                 update GBL_PRODCATEGORYTRANSFERDTLS
                 set DOCUMENTNO = lv_TransactionNo;
+<<<<<<< HEAD
+=======
+                lv_result := ' [DOCUMENT NO GENERATED AS : '||lv_TransactionNo||' ON '||SYSDATE||' ]';
+>>>>>>> 8f31d20b22b3664d3ae98cd4f6f8f453d5ebf1d0
             else
                 lv_error_remark := 'DOCUMENT No not generated. Check Parameters for Auto Gen.';
                 raise_application_error(to_number(FN_DISPLAY_ERROR( 'COMMON')),FN_DISPLAY_ERROR( 'COMMON',6,lv_error_remark));
@@ -53,6 +61,13 @@ begin
             
         end if;
         
+<<<<<<< HEAD
+=======
+        DELETE FROM SYS_GBL_PROCOUTPUT_INFO WHERE 1=1;
+        
+        INSERT INTO SYS_GBL_PROCOUTPUT_INFO(SYS_SAVE_INFO) VALUES(lv_result);	
+        
+>>>>>>> 8f31d20b22b3664d3ae98cd4f6f8f453d5ebf1d0
  --exception when others then
 --    lv_error_remark:= lv_error_remark || '#UNSUCC#ESSFULL#';
 --    raise_application_error(to_number(FN_DISPLAY_ERROR( 'COMMON')),FN_DISPLAY_ERROR( 'COMMON',6,lv_error_remark));
