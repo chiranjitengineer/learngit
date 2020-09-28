@@ -1,0 +1,40 @@
+CREATE OR REPLACE PROCEDURE JOONK.PROC_GPSTAXCALCULATION (p_companycode     VARCHAR2,
+                                                    p_divisioncode    VARCHAR2,
+                                                    p_fromdate        VARCHAR2,
+                                                    p_todate          VARCHAR2,
+                                                    p_deddate          VARCHAR2,
+                                                    p_category        VARCHAR2,
+                                                    p_uname         VARCHAR2)
+AS
+   QRY_STRING   VARCHAR2 (10000);
+BEGIN
+   DELETE FROM GPSTAXCALCULATION
+   WHERE COMPANYCODE= p_companycode
+   AND DIVISIONCODE = p_divisioncode
+   AND PERIODSTART = TO_DATE(p_fromdate,'DD/MM/YYYY')
+   AND PERIODEND = TO_DATE(p_todate,'DD/MM/YYYY')
+   AND TYPEOFCATEGORY = p_category;
+
+
+   QRY_STRING :=
+         'INSERT INTO GPSTAXCALCULATION(COMPANYCODE,DIVISIONCODE,YEARCODE,TYPEOFCATEGORY,TOKENNO,PERIODSTART,PERIODEND,DEDUCTIONDATE,PTAXGROSS,PTAXAMOUNT,USERNAME,SYSROWID) '||CHR(10)  
+      || 'SELECT COMPANYCODE, DIVISIONCODE,YEARCODE,TYPEOFCATEGORY, TOKENNO,TO_DATE('''||p_fromdate||''',''dd/MM/yyyy'') PERIODSTART ,TO_DATE('''||p_todate||''',''dd/MM/yyyy'') PERIODEND,TO_DATE('''||p_deddate||''',''dd/MM/yyyy'') DEDUCTIONDATE,PTAXGROSS, FN_GET_GPSPTAXAMOUNT(COMPANYCODE,DIVISIONCODE,PTAXGROSS) PTAXAMOUNT,'''||p_uname||''',FN_GENERATE_SYSROWID SYSROWID FROM'||CHR(10)
+      || '(SELECT PTAX.COMPANYCODE,PTAX.DIVISIONCODE,MAX(PTAX.YEARCODE)YEARCODE ,TYPEOFCATEGORY,PTAX.TOKENNO,'||CHR(10)
+      || '  SUM (PTAX.PTAXGROSS) PTAXGROSS FROM VW_PERIODICALPTAX PTAX, GPSEMPLOYEEMAST MAST, GPSCATEGORYMAST CAT'||CHR(10)
+      || 'WHERE  PTAX.EFFECTIVEDATE >=TO_DATE('''||p_fromdate||''',''dd/MM/yyyy'') AND PTAX.EFFECTIVEDATE <= TO_DATE('''|| p_todate || ''',''dd/MM/yyyy'')'||CHR(10)
+      || ' AND PTAX.COMPANYCODE = '''|| p_companycode|| ''''||CHR(10)
+      || ' AND PTAX.DIVISIONCODE = '''|| p_divisioncode|| ''''||CHR(10)
+      || ' AND PTAX.TOKENNO = MAST.TOKENNO'||CHR(10)
+      || ' AND PTAX.COMPANYCODE = MAST.COMPANYCODE'||CHR(10)
+      || ' AND PTAX.DIVISIONCODE = MAST.DIVISIONCODE'||CHR(10)
+      || ' AND MAST.CATEGORYCODE = CAT.CATEGORYCODE'||CHR(10)
+      || ' AND MAST.COMPANYCODE = CAT.COMPANYCODE'||CHR(10)
+      || ' AND MAST.DIVISIONCODE = CAT.DIVISIONCODE'||CHR(10)
+      || ' AND CAT.TYPEOFCATEGORY ='''|| p_category|| ''''||CHR(10)
+      || ' AND MAST.PTAXAPPLICABLE =''Y'''||CHR(10)
+--      || 'GROUP BY PTAX.COMPANYCODE, PTAX.DIVISIONCODE, PTAX.TOKENNO,PTAX.YEARCODE,TYPEOFCATEGORY)'||CHR(10);
+      || 'GROUP BY PTAX.COMPANYCODE, PTAX.DIVISIONCODE, PTAX.TOKENNO,TYPEOFCATEGORY)'||CHR(10);
+   --dbms_output.put_line(QRY_STRING);
+   EXECUTE IMMEDIATE QRY_STRING;
+END;
+/

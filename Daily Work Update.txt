@@ -1,5 +1,10 @@
 
 ---------------------------------------------------------------------------------------------
+Prepare an interface based on attached sheet.
+After PF or Token No. entered display the last token loan outstanding. Adjustment amount ( less) can't be less than interest outstanding and actual loan interest charged amount. applicable date can't be greater than current date and can't be less than loan date.
+Data save in PF loan interest table. Transaction type is "Manual Adjustment"
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 LOANDATE
 ASONCAPITALBAL
 ASONINTERESTBAL

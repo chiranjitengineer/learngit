@@ -1,0 +1,177 @@
+CREATE OR REPLACE PROCEDURE BAGGAGE_WEB.PROC_RPT_PIS_MONTHLYSALDTLS
+(
+    P_COMPANYCODE         VARCHAR2,
+    P_DIVISIONCODE        VARCHAR2,
+    P_YEARCODE            VARCHAR2,
+    P_YEARMONTH           VARCHAR2,
+    P_UNIT                VARCHAR2 DEFAULT NULL,
+    P_CATEGORY            VARCHAR2 DEFAULT NULL,
+    P_GRADE               VARCHAR2 DEFAULT NULL,
+    P_WORKERSERIAL        VARCHAR2 DEFAULT NULL,
+    P_FILE                VARCHAR2 
+)
+AS
+    LV_RPT_CAPTION        VARCHAR2(500);
+    L_DIR                 VARCHAR2(10) := 'ORA_DIR';
+    L_FILE                VARCHAR2(100) := P_FILE||'.xlsx'; 
+    LV_ROWNUM             NUMBER := 0;
+    LV_MONTH              VARCHAR2(15); 
+    LV_YEAR               VARCHAR2(15); 
+    LV_COMPANYNAME        VARCHAR2(100);   
+    LV_DIVISIONNAME       VARCHAR2(100);    
+    LV_PRINTDATE          VARCHAR2(100);  
+    LV_NETSALARY           NUMBER(10,2);  
+    LV_SQLSTR             VARCHAR2(5000);
+    LV_COMPADDRESS            VARCHAR2(500);
+    LV_FACTADDRESS            VARCHAR2(500);
+     
+BEGIN
+
+    SELECT TRIM(TO_CHAR(TO_DATE(P_YEARMONTH,'YYYYMM'),'MONTH')), 
+    TO_CHAR(TO_DATE(P_YEARMONTH,'YYYYMM'),'YYYY') ,'Run Date : '||TO_CHAR(SYSDATE,'DD/MM/YYYY HH24:MI:ss')
+    INTO LV_MONTH, LV_YEAR,LV_PRINTDATE  FROM  DUAL;
+
+    SELECT COMPANYNAME, DIVISIONNAME, COMPANYADDRESS, COMPANYADDRESS1 
+    INTO LV_COMPANYNAME,LV_DIVISIONNAME,LV_COMPADDRESS,LV_FACTADDRESS
+    FROM COMPANYMAST CM, DIVISIONMASTER DM                      
+    WHERE CM.COMPANYCODE=DM.COMPANYCODE
+    AND CM.COMPANYCODE=P_COMPANYCODE
+    AND DM.DIVISIONCODE= P_DIVISIONCODE;
+   
+    LV_RPT_CAPTION:= 'MONTHLY SALARY DETAILS FOR THE YEAR '||P_YEARCODE;
+
+    AS_XLSX.CLEAR_WORKBOOK;
+    AS_XLSX.NEW_SHEET;
+    
+
+
+    -- Set column Width
+    AS_XLSX.SET_COLUMN_WIDTH(1,7,1);
+    AS_XLSX.SET_COLUMN_WIDTH(2,20,1);
+    AS_XLSX.SET_COLUMN_WIDTH(3,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(4,35,1);
+    AS_XLSX.SET_COLUMN_WIDTH(5,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(6,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(7,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(8,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(9,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(10,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(11,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(12,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(13,15,1);
+    AS_XLSX.SET_COLUMN_WIDTH(14,15,1);
+    
+    AS_XLSX.MERGECELLS(1, 1, 14, 1, 1);   
+    AS_XLSX.CELL( 1, 1, LV_COMPANYNAME  , P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_FONTID => AS_XLSX.get_font('TAHOMA',p_BOLD => TRUE) );              --,p_borderid => as_xlsx.get_border( 'double', 'double', 'double', 'double' )             
+
+    AS_XLSX.MERGECELLS(1, 2, 14, 2, 1);   
+    AS_XLSX.CELL( 1, 2, LV_COMPADDRESS , P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 8, p_BOLD => TRUE) );--,p_borderid => as_xlsx.get_border( 'double', 'double', 'double', 'double' )
+    --AS_XLSX.FREEZE_PANE(2, 5);
+ 
+
+    AS_XLSX.MERGECELLS(1, 3, 14, 3, 1);   
+    AS_XLSX.CELL( 1, 4, LV_RPT_CAPTION , P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 8, p_BOLD => TRUE) );--,p_borderid => as_xlsx.get_border( 'double', 'double', 'double', 'double' )
+
+
+
+
+    AS_XLSX.CELL( 1, 4,'SL NO.', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center', p_vertical => 'center' ),P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 2, 4,'YEARMONTH', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 3, 4,'TOKEN NO', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 4, 4,'NAME', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 5, 4,'DEPARTMENT', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 6, 4,'DEPARTMENT', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 7, 4,'CATEGORY', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 8, 4,'PF', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 9, 4,'EPS', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 10, 4,'PFLOAN', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 11, 4,'OTHERLOAN', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 12, 4,'ESI_GROSS', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 13, 4,'ESI', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    AS_XLSX.CELL( 14, 4,'WORKINGDAYS', P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'center' ), P_BORDERID => AS_XLSX.GET_BORDER( 'double', 'double', 'thin', 'thin' ),P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 10, p_BOLD => TRUE) );
+    
+    LV_ROWNUM := 4;
+ 
+DELETE FROM GTT_MONTHLYSALDTLS WHERE 1=1;
+
+LV_SQLSTR := NULL;
+LV_SQLSTR := LV_SQLSTR || 'INSERT INTO GTT_MONTHLYSALDTLS' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || '(' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || '     SLNO, TOKENNO, WORKERSERIAL, EMPLOYEENAME, YEARMONTH, YYYY_MM, ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || '     DEPARTMENTCODE, CATEGORYCODE, CATEGORYDESC, PFGROSS, PF_E, EPS, ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || '     LOAN_PF, LOAN_OTLN, ESI_GROSS, ESI_E, ATTN_WRKD' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || ')' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'SELECT ROW_NUMBER() OVER (ORDER BY A.TOKENNO) SLNO,A.TOKENNO, A.WORKERSERIAL,A.EMPLOYEENAME, ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'YEARMONTH, TRIM(TO_CHAR(TO_DATE(YEARMONTH,''YYYYMM''),''MONTH''))||'',''||TRIM(TO_CHAR(TO_DATE(YEARMONTH,''YYYYMM''),''YY'')) YYYY_MM,' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'B.DEPARTMENTCODE, B.CATEGORYCODE, C.CATEGORYDESC, NVL(B.PF_GROSS,0) PFGROSS, NVL(B.PF_E,0) PF_E, ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'ROUND(NVL(B.PF_GROSS,0)*0.0367,2) EPS, NVL(B.LOAN_PF,0) LOAN_PF, nvl(B.LOAN_OTLN,0) LOAN_OTLN, ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'NVL(B.ESI_GROSS,0) ESI_GROSS, NVL(B.ESI_E,0) ESI_E, NVL(B.ATTN_WRKD,0) ATTN_WRKD ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'FROM PISEMPLOYEEMASTER  A, /*PISPAYTRANSACTION*/ (SELECT * FROM PISPAYTRANSACTION WHERE YEARCODE = '''||P_YEARCODE||''') B, PISCATEGORYMASTER C' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'WHERE A.COMPANYCODE=B.COMPANYCODE(+)' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.DIVISIONCODE=B.DIVISIONCODE(+)' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.WORKERSERIAL=B.WORKERSERIAL (+)' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.COMPANYCODE=C.COMPANYCODE' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.DIVISIONCODE=C.DIVISIONCODE' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.CATEGORYCODE=C.CATEGORYCODE ' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.COMPANYCODE='''||P_COMPANYCODE ||'''' || CHR(10);
+LV_SQLSTR := LV_SQLSTR || 'AND A.DIVISIONCODE='''||P_DIVISIONCODE||'''' || CHR(10);
+--LV_SQLSTR := LV_SQLSTR || 'AND B.YEARMONTH='''||P_YEARMONTH||'''' || CHR(10);
+--LV_SQLSTR := LV_SQLSTR || 'AND B.YEARCODE='''||P_YEARCODE||'''' || CHR(10);
+
+IF P_UNIT IS NOT NULL THEN
+    LV_SQLSTR := LV_SQLSTR || 'AND A.UNITCODE IN ('||P_UNIT||') ' || CHR(10);
+END IF;
+
+IF P_CATEGORY IS NOT NULL THEN
+    LV_SQLSTR := LV_SQLSTR || 'AND A.CATEGORYCODE IN ('||P_CATEGORY||') ' || CHR(10);
+END IF;
+
+IF P_GRADE IS NOT NULL THEN
+    LV_SQLSTR := LV_SQLSTR || 'AND A.GRADECODE  IN ('||P_GRADE||')  ' || CHR(10);
+END IF;
+IF P_WORKERSERIAL IS NOT NULL THEN
+    LV_SQLSTR := LV_SQLSTR || 'AND A.WORKERSERIAL  IN ('||P_WORKERSERIAL||')   ' || CHR(10);
+END IF;
+
+
+--DBMS_OUTPUT.PUT_LINE(LV_SQLSTR);
+
+EXECUTE IMMEDIATE LV_SQLSTR;
+ 
+    LV_NETSALARY := 0;
+
+    FOR C1 IN (  
+        SELECT ROW_NUMBER() OVER (ORDER BY YEARMONTH, TOKENNO) SLNO, TOKENNO, WORKERSERIAL, EMPLOYEENAME, YEARMONTH, YYYY_MM, 
+        DEPARTMENTCODE, CATEGORYCODE, CATEGORYDESC, PFGROSS, PF_E, EPS, LOAN_PF, 
+        LOAN_OTLN, ESI_GROSS, ESI_E, ATTN_WRKD
+        FROM GTT_MONTHLYSALDTLS   
+        ORDER BY YEARMONTH, TOKENNO  
+    )
+    LOOP
+        LV_ROWNUM := LV_ROWNUM+1;
+        
+        AS_XLSX.CELL( 1, LV_ROWNUM, C1.SLNO, P_BORDERID => AS_XLSX.GET_BORDER( '','thin','', 'thin' ) );
+        AS_XLSX.CELL( 2, LV_ROWNUM,C1.YYYY_MM, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ) );
+        AS_XLSX.CELL( 3, LV_ROWNUM,C1.TOKENNO, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ) );
+        AS_XLSX.CELL( 4, LV_ROWNUM,C1.EMPLOYEENAME, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ) );
+        AS_XLSX.CELL( 5, LV_ROWNUM,C1.DEPARTMENTCODE, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ));
+        AS_XLSX.CELL( 6, LV_ROWNUM,C1.CATEGORYCODE, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ));
+        AS_XLSX.CELL( 7, LV_ROWNUM,C1.PFGROSS, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 8, LV_ROWNUM,C1.PF_E, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 9, LV_ROWNUM,C1.EPS, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 10, LV_ROWNUM,C1.LOAN_PF, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 11, LV_ROWNUM,C1.LOAN_OTLN, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 12, LV_ROWNUM,C1.ESI_GROSS, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 13, LV_ROWNUM,C1.ESI_E, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+        AS_XLSX.CELL( 14, LV_ROWNUM,C1.ATTN_WRKD, P_BORDERID => AS_XLSX.GET_BORDER( 'thin', 'thin', 'thin', 'thin' ), p_numFmtId => as_xlsx.get_numFmt( '0.00' ) );
+       
+    END LOOP;       
+   
+    LV_ROWNUM := LV_ROWNUM + 1;  
+    
+    AS_XLSX.CELL( 1, LV_ROWNUM, LV_PRINTDATE , P_ALIGNMENT => AS_XLSX.GET_ALIGNMENT( P_HORIZONTAL => 'left' ), P_FONTID => AS_XLSX.get_font('TAHOMA', p_fontsize => 8, p_BOLD => TRUE) );--,p_borderid => as_xlsx.get_border( 'double', 'double', 'double', 'double' )
+    AS_XLSX.MERGECELLS(1, LV_ROWNUM, 14, LV_ROWNUM, 1);   
+        
+    AS_XLSX.SAVE( L_DIR, L_FILE );
+END;
+/
