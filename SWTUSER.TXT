@@ -80,12 +80,11 @@ ANYDESK - 648464804 , PWD - 123@swtbjm
 ORACLE
 
 USER - BIRLANEW, PWD - Cl0udBirPwd, DATABASE = BIRLANEW_CLOUD
-
+RDC password  PWD- Bjm@123#
 
 Gloster ANYDESK- 301042907 - PWD- Gloster@123
 
-
-Gloster RDC- 301042907 - PWD- Bjm@123#
+ 
 
 
 <<<<<<< HEAD

@@ -1,5 +1,92 @@
 
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+We have checked the Excel Sheet of Salary data from PIS of Sep'20 and following errors have been found -
+  1. Salary advance of employees 00899, 00969 and 01082 
+  2. P.F. Loan of employees 01001 and 00749
+  3. Bank loan of employee 00535
+  4. Medical Allowance of employees 1205, 00749
+  5. Unrealised Dedn. of employees 01218, 00820, 10323
+  6. H.Rent , F.Rent & Chowkidary Chg. of employee 00929  
+  7.  Compensatory Allw. of employee 01074
+  8. Difference in Gross dedn of employees 01181 and 01222
+
+Please take necessary action from your end.
+
+
+DELETE PISPAYTRANSACTION_TEST
+WHERE YEARMONTH=202009
+
+
+INSERT INTO  PISPAYTRANSACTION_TEST
+SELECT * FROM PISPAYTRANSACTION@AWS_1
+WHERE YEARMONTH=202009
+
+00535
+00749
+00899
+00929
+01205
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00535'
+AND LOANCODE='BL'
+
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE YEARMONTH = '202009'
+AND TOKENNO='00535'
+
+
+
+EXEC PROC_LOANBLNC('BJ0056','0001','01/09/2020','30/09/2020','STADV')
+
+
+DELETE FROM  GBL_LOANBLNC 
+
+SELECT * FROM GBL_LOANBLNC WHERE TOKENNO='00899'
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00899'
+
+
+SELECT * FROM LOANTRANSACTION
+WHERE TOKENNO='00899'
+AND LOANCODE='STADV'
+
+--AMOUNT        30000
+
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00899'
+AND LOANCODE='STADV'
+
+--AMOUNT        30000
+
+ GBL_LOANBLNC 
+-- 
+--  P_COMPANYCODE  VARCHAR2,
+--    P_DIVISIONCODE VARCHAR2,
+--    P_STARTDATE    VARCHAR2,
+--    P_ENDDATE      VARCHAR2,    
+--    P_LOANCODE     VARCHAR2,
+--    P_WORKERSERIAL VARCHAR2 DEFAULT NULL,
+--    P_MODULE       VARCHAR2 default 'WPS',
+--    P_WAGEPROCESS  VARCHAR2 DEFAULT 'NO', 
+--    P_TRANTYPE     VARCHAR2 DEFAULT 'SALARY'
+
+
+SELECT * FROM LOANBREAKUP
+WHERE TOKENNO='00535'
+AND LOANCODE='BL'
+
+
+
+---------------------------------------------------------------------------------------------
 --BIRLA DATA UPDATE
 ---------------------------------------------------------------------------------------------
 
