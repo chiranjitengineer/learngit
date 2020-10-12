@@ -1,0 +1,10 @@
+SELECT * FROM PISLEAVEENTITLEMENT
+
+select * from pisleaveapplication
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%leave app%')
+
+PRCLEAVE_AF_MAINSAVE
+
+prcLeave_Bf_MainSave

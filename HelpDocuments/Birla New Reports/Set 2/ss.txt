@@ -1,0 +1,25 @@
+ Volume in drive F is New Volume
+ Volume Serial Number is 5633-C7D4
+
+ Directory of F:\SWTERP\GitProjects\learngit\HelpDocuments\Birla New Reports\Set 2
+
+10/06/2020  11:58 AM    <DIR>          .
+10/06/2020  11:58 AM    <DIR>          ..
+08/28/2020  05:29 PM            10,839 ATM_CONTROL_template.xlsx
+08/28/2020  05:29 PM            19,968 AXIS_PAYROLL_JULY20.xls
+08/28/2020  05:29 PM            18,432 AXIS_SMART_JULY20.xls
+08/28/2020  05:29 PM            73,728 bonus_liabilty.xls
+08/28/2020  05:29 PM            11,383 cbank_template.xlsx
+08/28/2020  05:29 PM            11,829 dedn_template.xlsx
+08/28/2020  05:29 PM            10,525 eps_template.xlsx
+08/28/2020  05:29 PM             9,977 esi_template.xlsx
+08/28/2020  05:29 PM            12,598 pf_template.xlsx
+08/28/2020  05:29 PM            10,365 ptax.xlsx
+10/06/2020  11:58 AM                 0 ss.txt
+08/28/2020  05:29 PM            51,712 STAFF_EPS_JUL20.xls
+08/28/2020  05:29 PM            16,384 STAFF_EPS_JUL20_ARR.xls
+08/28/2020  05:29 PM            31,744 UCO_ATM_LIST.xls
+08/28/2020  05:29 PM            17,408 UCO_NONATM20.xls
+08/28/2020  05:29 PM            35,328 UCO_XL_JUL20.xls
+              16 File(s)        342,220 bytes
+               2 Dir(s)  312,191,754,240 bytes free
