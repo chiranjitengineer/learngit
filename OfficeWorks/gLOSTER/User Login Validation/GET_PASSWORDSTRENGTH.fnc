@@ -1,0 +1,29 @@
+CREATE OR REPLACE FUNCTION GET_PASSWORDSTRENGTH
+(
+    PASSWORDCOMPLEX VARCHAR2, 
+    USERPASSWORD VARCHAR2
+) RETURN VARCHAR2
+AS
+-- LV_PASSWORDCOMPLEX VARCHAR2(50):= '@/?';
+--LV_PASSWORDTYPED VARCHAR2(50):= 'ABC@33432';
+LV_RETURN VARCHAR2(10) := 'NOT OK';    
+BEGIN
+    FOR C1 IN
+    (
+        --   select regexp_substr('@!/ ?','[^ ]+', 1, level) XX from dual
+        --  connect by regexp_substr('@!/ ?', '[^ ]+', 1, level) is not null 
+        SELECT SUBSTR(PASSWORDCOMPLEX,LEVEL,1) XX FROM DUAL CONNECT BY LEVEL <= LENGTH(PASSWORDCOMPLEX)
+    )
+    LOOP
+        IF INSTR(USERPASSWORD,C1.XX) >0 THEN
+            LV_RETURN := 'OK';
+            EXIT;
+        END IF;
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE(LV_RETURN);
+    
+    RETURN LV_RETURN;
+END;
+
+
+SELECT REGEXP_INSTR('Semail@DDD.COM', '\w+@\w+(\.\S+)+')  FROM DUAL
