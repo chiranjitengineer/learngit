@@ -1,0 +1,168 @@
+CREATE OR REPLACE PROCEDURE PROC_RPT_PFUPLOAD
+(
+    P_COMPANYCODE VARCHAR2,
+    P_DIVISIONCODE VARCHAR2,
+    P_YEARMONTH VARCHAR2,
+    P_CLUSTERCODE VARCHAR2 DEFAULT NULL
+    )
+AS 
+    LV_SQLSTR VARCHAR2(15000);
+   
+    P_FROMDATE VARCHAR2(20);
+    P_TODATE VARCHAR2(20);
+    REPMONTH VARCHAR2(20);
+    LV_STAFF_PF_FORMULA_APPLICABLE VARCHAR2(20);
+    
+    EPF_PERCENTAGE NUMBER(10,5);
+    FPF_PERCENTAGE NUMBER(10,5);
+    PF_PERCENTAGE NUMBER(10,5);
+    
+    
+BEGIN
+
+
+  
+
+--EXEC PROC_RPT_PFUPLOAD('JT0069','0007','201907','')
+    DELETE FROM GTT_RPT_PFUPLOAD;   
+
+    SELECT TO_CHAR(TO_DATE(''||P_YEARMONTH||'','YYYYMM'),'DD/MM/YYYY') INTO  P_FROMDATE FROM DUAL;
+            
+    SELECT TRIM(TO_CHAR(TO_DATE(''|| P_FROMDATE ||'','DD/MM/YYYY'),'MONTH')) ||'-'||TO_CHAR(TO_DATE(''|| P_FROMDATE ||'','DD/MM/YYYY'),'YYYY')  INTO REPMONTH FROM DUAL;
+            
+    --FIRST DATE OF THE MONTH CURRENT YEAR
+    SELECT TO_CHAR(LAST_DAY(ADD_MONTHS(TO_DATE(''|| P_FROMDATE ||'','DD/MM/YYYY'),-1)), 'DD/MM/YYYY') INTO P_TODATE FROM DUAL;
+
+    SELECT TO_CHAR(LAST_DAY(TO_DATE(''|| P_FROMDATE ||'','DD/MM/YYYY')), 'DD/MM/YYYY') INTO P_TODATE FROM DUAL;
+         
+    LV_SQLSTR :=     '    INSERT INTO GTT_RPT_PFUPLOAD '|| CHR(10) 
+        || '              SELECT C.COMPANYNAME, D.DIVISIONNAME, '''||REPMONTH||''',B.UANNO, B.EMPLOYEENAME || '' '',FLOOR(A.GROSSWAGES) GROSSWAGES, FLOOR(A.PF_GROSS) PF_GROSS, '|| CHR(10)  
+        || '              ( '|| CHR(10) 
+        || '                    CASE WHEN FLOOR(A.PF_GROSS) >=15000  THEN 15000 ELSE FLOOR(A.PF_GROSS) END '|| CHR(10) 
+        || '              ) PF_GROSS1, '|| CHR(10) 
+        || '              ( '|| CHR(10) 
+        || '                    CASE WHEN FLOOR(A.PF_GROSS) >=15000   THEN (FLOOR(A.PF_GROSS)-15000) ELSE 0 END '|| CHR(10) 
+        || '              ) PF_TMP, '|| CHR(10) 
+        || '              ROUND(A.PF_E,0),0 PF_E1, 0 PF1, 0 PF2,CATEGORYTYPE EX1,NULL,NULL '|| CHR(10) 
+--                            || '              FROM  GPSPAYSHEETDETAILS A, 
+        || '             FROM ( 
+                            SELECT COMPANYCODE, DIVISIONCODE,  MAX(CATEGORYTYPE) CATEGORYTYPE, WORKERSERIAL, TOKENNO,SUM(GROSSWAGES) GROSSWAGES,SUM(PF_GROSS) PF_GROSS, SUM(PF_E) PF_E
+                            FROM (  
+                            SELECT COMPANYCODE, DIVISIONCODE , CATEGORYTYPE, WORKERSERIAL, TOKENNO,GROSSWAGES,PF_GROSS, PF_E   
+                            FROM GPSPAYSHEETDETAILS WHERE PERIODTO >=TO_DATE(''' || P_FROMDATE ||''',''DD/MM/YYYY'')
+                            AND PERIODTO <=TO_DATE(''' || P_TODATE ||''',''DD/MM/YYYY'') 
+                            AND DIVISIONCODE =''' || P_DIVISIONCODE || ''' 
+                            AND COMPANYCODE =''' || P_COMPANYCODE || ''' 
+                            AND PF_E>0  
+                            UNION ALL
+                            SELECT A.COMPANYCODE, A.DIVISIONCODE ,NULL CATEGORYTYPE, A.WORKERSERIAL, B.TOKENNO,A.NETLEAVEAMOUNT GROSSWAGES, A.PFGROSS ,  A.PFAMOUNT PF_E    
+                            FROM GPSLEAVEPROCALCULATION A, GPSEMPLOYEEMAST B
+                            WHERE A.COMPANYCODE=B.COMPANYCODE
+                            AND A.DIVISIONCODE=B.DIVISIONCODE
+                            AND A.WORKERSERIAL= B.WORKERSERIAL 
+                            AND A.PFDATE >=TO_DATE(''' || P_FROMDATE ||''',''DD/MM/YYYY'')
+                            AND A.PFDATE <=TO_DATE(''' || P_TODATE ||''',''DD/MM/YYYY'') 
+                            AND A.DIVISIONCODE =''' || P_DIVISIONCODE || ''' 
+                            AND A.COMPANYCODE =''' || P_COMPANYCODE || '''
+                            AND A.PFAMOUNT>0  
+                            UNION ALL
+                            SELECT A.COMPANYCODE, A.DIVISIONCODE ,NULL CATEGORYTYPE, A.WORKERSERIAL, B.TOKENNO,A.AMOUNT GROSSWAGES, A.AMOUNT ,  A.PFAMOUNT PF_E    
+                            FROM GPSARREARPROCALCULATION A, GPSEMPLOYEEMAST B
+                            WHERE A.COMPANYCODE=B.COMPANYCODE
+                            AND A.DIVISIONCODE=B.DIVISIONCODE
+                            AND A.WORKERSERIAL= B.WORKERSERIAL 
+                            AND A.PFDATE >=TO_DATE(''' || P_FROMDATE ||''',''DD/MM/YYYY'')
+                            AND A.PFDATE <=TO_DATE(''' || P_TODATE ||''',''DD/MM/YYYY'') 
+                            AND A.DIVISIONCODE =''' || P_DIVISIONCODE || ''' 
+                            AND A.COMPANYCODE =''' || P_COMPANYCODE || '''
+                            AND A.PFAMOUNT>0  
+                            )
+                            GROUP BY COMPANYCODE, DIVISIONCODE, WORKERSERIAL, TOKENNO
+
+                          ) A, GPSEMPLOYEEMAST B, COMPANYMAST C, DIVISIONMASTER D '|| CHR(10)
+        || '              WHERE A.COMPANYCODE=B.COMPANYCODE '|| CHR(10)
+        || '              AND A.DIVISIONCODE=B.DIVISIONCODE '|| CHR(10)
+        || '              AND A.WORKERSERIAL=B.WORKERSERIAL '|| CHR(10)
+        || '              AND A.COMPANYCODE=C.COMPANYCODE '|| CHR(10)
+        || '              AND A.COMPANYCODE=D.COMPANYCODE '|| CHR(10)
+        || '              AND A.DIVISIONCODE=D.DIVISIONCODE '|| CHR(10);
+    --                            || '              AND A.PF_E > 0 '|| CHR(10)
+    --                            || '              AND A.COMPANYCODE = ''' || P_COMPANYCODE || '''  '|| CHR(10) 
+    --                            || '              AND A.DIVISIONCODE = ''' || P_DIVISIONCODE || '''  '|| CHR(10);
+    --                            || '              AND A.PERIODFROM >=TO_DATE(''' || P_FROMDATE ||''',''DD/MM/YYYY'') '|| CHR(10) 
+    --                            || '              AND A.PERIODTO <=TO_DATE(''' || P_TODATE ||''',''DD/MM/YYYY'') '|| CHR(10);
+
+    IF P_CLUSTERCODE IS NOT NULL THEN
+        LV_SQLSTR := LV_SQLSTR || '   AND      B.CLUSTERCODE  IN ('|| P_CLUSTERCODE ||')' || CHR(10);
+    END IF;
+
+    LV_SQLSTR := LV_SQLSTR || '   ORDER BY B.EMPLOYEENAME' || CHR(10);
+    
+    
+             DBMS_OUTPUT.PUT_LINE(LV_SQLSTR);
+     EXECUTE IMMEDIATE LV_SQLSTR;    
+     
+     
+
+    SELECT ((NVL(EPF_PERC,3.67)/A.DVAL) + (NVL(FPF_PERC,8.33)/A.DVAL)) , (NVL(EPF_PERC,3.67)/A.DVAL) , (NVL(FPF_PERC,8.33)/A.DVAL)
+    INTO   PF_PERCENTAGE,EPF_PERCENTAGE,FPF_PERCENTAGE
+    FROM 
+    (
+        SELECT 100 DVAL FROM DUAL
+    ) A,
+    (
+        SELECT 100 DVAL, TO_NUMBER(PARAMETER_VALUE) EPF_PERC FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME='EPF_PERCENTAGE'
+        AND COMPANYCODE=P_COMPANYCODE
+        AND DIVISIONCODE=P_DIVISIONCODE
+        AND ROWNUM=1
+    ) EPF,
+    (
+        SELECT 100 DVAL, TO_NUMBER(PARAMETER_VALUE) FPF_PERC FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME='FPF_PERCENTAGE'
+        AND COMPANYCODE=P_COMPANYCODE
+        AND DIVISIONCODE=P_DIVISIONCODE
+        AND ROWNUM=1
+    ) FPF
+    WHERE A.DVAL = FPF.DVAL(+)
+    AND A.DVAL=EPF.DVAL(+);  
+
+
+--             DBMS_OUTPUT.PUT_LINE('EPF_PERCENTAGE :' || EPF_PERCENTAGE||',PF_PERCENTAGE :' || PF_PERCENTAGE);
+
+
+-- EPF_PERCENTAGE =1.67  
+-- FPF_PERCENTAGE =8.33  
+-- 
+--
+--    UPDATE GTT_RPT_PFUPLOAD SET PF_E1 = ROUND(PF_GROSS1*0.12,0), PF1= ROUND((PF_GROSS1*0.0833),0);
+--    UPDATE GTT_RPT_PFUPLOAD SET PF2=ROUND((PF_E-PF1),0);
+            
+    UPDATE GTT_RPT_PFUPLOAD SET PF_E1 = FLOOR(PF_GROSS1*PF_PERCENTAGE), PF1= ROUND((PF_GROSS1*FPF_PERCENTAGE),0) WHERE 1=1;
+    
+    
+    SELECT NVL(B.PARAMETER_VALUE,'N')
+    INTO   LV_STAFF_PF_FORMULA_APPLICABLE
+    FROM 
+    (
+        SELECT '1' DVAL FROM DUAL
+    ) A,
+    (
+        SELECT '1' DVAL,  PARAMETER_VALUE  FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME='STAFF_PFUPLOAD_APPLICABLE'
+        AND COMPANYCODE=P_COMPANYCODE
+        AND DIVISIONCODE=P_DIVISIONCODE
+        AND ROWNUM=1
+    )  B
+    WHERE A.DVAL = B.DVAL(+) ;
+
+
+    UPDATE GTT_RPT_PFUPLOAD SET PF2=ROUND((PF_E1-PF1),0)  WHERE EX1 = 'WORKER';
+    
+    IF LV_STAFF_PF_FORMULA_APPLICABLE = 'Y' THEN
+        UPDATE GTT_RPT_PFUPLOAD SET PF2=ROUND((PF_E-PF1),0)  WHERE EX1 <> 'WORKER';
+    ELSE
+        UPDATE GTT_RPT_PFUPLOAD SET PF2=ROUND((PF_E1-PF1),0)  WHERE EX1 <> 'WORKER';
+    END IF;
+END;
+/
