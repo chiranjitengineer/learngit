@@ -84,6 +84,8 @@ RDC password  PWD- Bjm@123#
 
 Gloster ANYDESK- 301042907 - PWD- Gloster@123
 
+Gloster ANYDESK- backupserver-586@ad - PWD- Gloster@123
+
  
 <<<<<<< HEAD
 =======
