@@ -1,6 +1,174 @@
 
 ---------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
+WORK UPDATE ON 30/10/2020
+---------------------------------------------------------------------------------------------
+
+SERVICE ALLOWANCE - 00102
+
+LEAVE ENCASHMENT - 61037, 61048
+
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+--
+--DELETE FROM PISPAYTRANSACTION
+--WHERE EFFECT_YEARMONTH = '202010'
+--and TRANSACTIONTYPE='NEW SALARY'
+
+SELECT * FROM PISARREARTRANSACTION
+WHERE 1=1 
+AND TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+SELECT DISTINCT TRANSACTIONTYPE FROM PISPAYTRANSACTION WHERE YEARMONTH='202010'
+
+
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUDESC LIKE '%Computa%'
+
+select * from pis_error_log
+
+
+select * from PISITAXCOMPUTATION
+where TOKENNO='00102'
+
+-------------------------------------------------------------
+--LEAVE ENCASHMENT 61037,61048
+-------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='61037'
+AND YEARMONTH >= '202004'
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+--
+--DELETE FROM PISPAYTRANSACTION
+--WHERE EFFECT_YEARMONTH = '202010'
+--and TRANSACTIONTYPE='NEW SALARY'
+
+SELECT * FROM PISARREARTRANSACTION
+WHERE 1=1 
+AND TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+SELECT DISTINCT TRANSACTIONTYPE FROM PISPAYTRANSACTION WHERE YEARMONTH='202010'
+
+
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUDESC LIKE '%Computa%'
+
+select * from pis_error_log
+
+
+select * from PISITAXCOMPUTATION
+where TOKENNO='00102'
+
+-------------------------------------------------------------
+--LEAVE ENCASHMENT 61037,61048
+-------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='61037'
+AND YEARMONTH >= '202004'
+
+
+
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+--
+--DELETE FROM PISPAYTRANSACTION
+--WHERE EFFECT_YEARMONTH = '202010'
+--and TRANSACTIONTYPE='NEW SALARY'
+
+SELECT * FROM PISARREARTRANSACTION
+WHERE 1=1 
+AND TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+SELECT DISTINCT TRANSACTIONTYPE FROM PISPAYTRANSACTION WHERE YEARMONTH='202010'
+
+
+WHERE TOKENNO='00102'
+AND YEARMONTH >= '202004'
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUDESC LIKE '%Computa%'
+
+select * from pis_error_log
+
+
+select * from PISITAXCOMPUTATION
+where TOKENNO='00102'
+
+-------------------------------------------------------------
+--LEAVE ENCASHMENT 61037,61048
+-------------------------------------------------------------
+
+SELECT * FROM PISPAYTRANSACTION
+WHERE TOKENNO='61037'
+AND YEARMONTH >= '202004'
+
+
+
+
+EXEC PROC_PISITAX_COMPUTATION ('0001', '0005', '2020-2021','SS','SREG', '00102')
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+GLOSTER INCOME TAX PARAMETER UPDATE FOR ANANNYA ON 30/10/2020
+---------------------------------------------------------------------------------------------
+
+SELECT * FROM PISITAXPARAM
+WHERE YEARCODE='2020-2021'
+
+
+INSERT INTO PISITAXPARAM
+SELECT
+COMPANYCODE,'0005' DIVISIONCODE, YEARCODE, COLUMNNO, COLUMNNOTOPRINT, COLUMNHEADING, COLUMNSUBHEADING, 
+COLUMNSUBHEADING1, COLUMNSUBHEADING2, COLUMNSUBHEADING3, COLUMNSOURCE, COLUMNATTRIBUTE, COLUMNBASIS, 
+COLUMNFORMULA, QUALIFIEDAMOUNT, MAXAMOUNT, MONTHLYEXMTLIMIT, SHORTDESCRIPTION, COLUMNFORTAX, 
+UPPERLIMITAPP, COLUMNFORSUBTOTAL, COLUMNFORPRQST, INCLUDEINFORM16, DISPLAYINGRID, USERNAME, 
+SYSDATE LASTMODIFIED,SYS_GUID() SYSROWID, SYSTEMCOMPONENT, COLUMNFORM16, TYPE, ISPROJECTED
+FROM PISITAXPARAM
+WHERE YEARCODE='2020-2021'
+
+
+
+CREATE TABLE PISITAXPARAM_BK30102020 AS
+
+SELECT * FROM PISITAXPARAM_BK30102020
+
+
+---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 --BIRLA SALARY PROCESS ON 29/10/2020
 ---------------------------------------------------------------------------------------------
 
