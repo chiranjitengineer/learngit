@@ -1,5 +1,66 @@
 
+--------------------------------------------------------------------------------
+--NAIHATI REQUEST FOR DELETE PF LOAN ENTRY BY KAMLESH RAO
+--------------------------------------------------------------------------------
+
+SELECT * FROM PFLOANAPPLICATION
+WHERE TOKENNO='04297'
+--AND LOANDATE='12-NOV-2020'
+AND YEARMONTH='202011'
+
+SELECT * FROM PFLOANTRANSACTION
+WHERE TOKENNO='04297'  
+--AND LOANDATE='12-NOV-2020'
+AND YEARMONTH='202011'
+
+SELECT * FROM PFLOANBREAKUP
+WHERE TOKENNO='04297'
+AND YEARMONTH='202011'
+
+AND LOANDATE='01-JUN-2020'
+
+
+SELECT * FROM PFLOANINTEREST
+WHERE TOKENNO='04297'
+AND YEARMONTH='202011'
+
+--------------------------------------------------------------------------------
+--DELETE
+--------------------------------------------------------------------------------
+DELETE FROM PFLOANAPPLICATION
+WHERE TOKENNO='04297'
+--AND LOANDATE='12-NOV-2020'
+AND YEARMONTH='202011'
+
+DELETE FROM PFLOANTRANSACTION
+WHERE TOKENNO='04297'
+--AND LOANDATE='12-NOV-2020'
+AND YEARMONTH='202011'
+
+DELETE FROM PFLOANBREAKUP
+WHERE TOKENNO='04297'
+AND YEARMONTH='202011'
+
+AND LOANDATE='01-JUN-2020'
+
+
+DELETE FROM PFLOANINTEREST
+WHERE TOKENNO='04297'
+AND YEARMONTH='202011'
 ---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+SELECT * FROM LOANTRANSACTION WHERE DIVISIONCODE ='0006' AND LOANCODE ='ADVGN' AND TOKENNO ='21508'
+
+
+SELECT * FROM LOANBREAKUP WHERE DIVISIONCODE ='0006' AND LOANCODE ='ADVGN' AND TOKENNO ='21508'
+
+
+SELECT PERIODto,LOAN_ADVGN,NETSALARY FROM GPSPAYSHEETDETAILS WHERE DIVISIONCODE ='0006' AND PERIODFROM >='01-MAR-2020' AND LOAN_ADVGN>0
+AND TOKENNO ='21508'
+
+
 ---------------------------------------------------------------------------------------------
 
 FOR C1 IN (
