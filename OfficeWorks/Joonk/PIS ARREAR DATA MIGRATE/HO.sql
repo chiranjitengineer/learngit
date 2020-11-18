@@ -1,3 +1,6 @@
+
+
+
 CREATE TABLE NEW_SAL_ARR_HO
 (
     NAME	        VARCHAR2(100),
@@ -20,7 +23,7 @@ CREATE TABLE NEW_SAL_ARR_HO
     NETSALARY	        NUMBER(15,2)
 )
 
-SELECT * from NEW_SAL_ARR_HO
+SELECT sum(ptax),sum(grossdedn), sum(ptax)-sum(grossdedn) from NEW_SAL_ARR_HO
 
 
 ALTER TABLE NEW_SAL_ARR_HO ADD EMP_NAME VARCHAR2(100)
@@ -185,4 +188,38 @@ AND A.COMPANYCODE=C.COMPANYCODE
 AND A.DIVISIONCODE=D.DIVISIONCODE 
 AND A.DIVISIONCODE=D.DIVISIONCODE 
 ORDER BY B.EMPLOYEENAME
+
+
+--------------------------------------------------------
+
+--update on 17/11/2020
+--------------------------------------------------------
+select sum(grossdedn), sum(netsalary) from pisarreartransaction
+where tokenno in (
+     select tokenno from   NEW_SAL_ARR_HO
+)
+and yearmonth='202010'
+
+--
+--update pisarreartransaction
+--set grossdedn = grossdedn-ptax,
+-- netsalary = netsalary-ptax
+--where tokenno in (
+--     select tokenno from   NEW_SAL_ARR_HO
+--)
+--and yearmonth='202010'
+--
+
+
+select 601692 -  602052 from dual 
+
+
+
+update pisarreartransaction
+set  
+ ptax = 0
+where tokenno in (
+     select tokenno from   NEW_SAL_ARR_HO
+)
+and yearmonth='202010'
 
