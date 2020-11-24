@@ -65,7 +65,7 @@ SERVICE NAME 	: 		BOWWAGES
 ---------------------------------------------------------------------
 USER 			: 		GLOSTER_WEB/GLOSTER_WEB   
 IP   			:		223.30.168.163:8045
-PASSWORD 		: 		000
+PASSWORD 		: 		TWS
 SERVICE NAME 	: 		GLOSTER
 ---------------------------------------------------------------------
 
