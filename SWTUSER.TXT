@@ -79,7 +79,7 @@ Data Migration should be in Birla server.
 ANYDESK - 400326309 , PWD - birla#2020
  
 
-ANYDESK - 648464804 , PWD - 123bjm@123
+ANYDESK - 648464804 , PWD - 123birla@123
  
 
 ORACLE
