@@ -54,7 +54,7 @@ begin
              lv_sql := lv_sql || ' AND QUALITY_GROUP_CODE IN ( '|| CHR(10); 
              lv_sql := lv_sql || ' SELECT DISTINCT COMPONENTCODE FROM PISCOMPONENTMASTER '|| CHR(10); 
              lv_sql := lv_sql || ' WHERE COMPANYCODE='''||p_compcode||'''  AND DIVISIONCODE = '''||p_divcode||''' '|| CHR(10); 
-             lv_sql := lv_sql || ' AND  (INCLUDEARREAR=''Y'' OR COMPONENTCODE=''NETSALARY'')'|| CHR(10); 
+             lv_sql := lv_sql || ' AND  INCLUDEARREAR=''Y'' '|| CHR(10); 
              lv_sql := lv_sql || ' ) '|| CHR(10); 
          END IF;
                  
@@ -95,9 +95,8 @@ begin
 --    lv_sql := lv_sql || CHR(10) || '            WHEN C.ACCCODE IN (''SYS0599'',''E000072'',''P000180'',''D000109'') THEN ''CR'' ';
     lv_sql := lv_sql || CHR(10) || '            ELSE ''DR'' ';
     lv_sql := lv_sql || CHR(10) || '        END AS DRCR, '; 
---    lv_sql := lv_sql || CHR(10) || '       FN_PISSALARY_COMP_AMT(C.COMPANYCODE,C.DIVISIONCODE,'''||p_processtype||''',C.COMPONENTCODE, ''' || p_yearmonth || ''' , ''' || p_categorycode || ''')  AMOUNT, ';
+    lv_sql := lv_sql || CHR(10) || '       FN_PISSALARY_COMP_AMT(C.COMPANYCODE,C.DIVISIONCODE,'''||p_processtype||''',C.COMPONENTCODE, ''' || p_yearmonth || ''' , ''' || p_categorycode || ''')  AMOUNT, ';
 --    lv_sql := lv_sql || CHR(10) || '       FN_PISSALARY_COMP_AMT_NEW(C.COMPANYCODE,C.DIVISIONCODE,''' || p_processtype || ''',C.COMPONENTCODE, ''' || p_yearmonth || ''' , ''' || p_categorycode || ''' , ''' || p_unitcode || ''' , ''' || p_gradecode || ''')  AMOUNT, '; 
-      lv_sql := lv_sql || CHR(10) || '       FN_PISSALARY_COMP_AMT(C.COMPANYCODE,C.DIVISIONCODE,''' || p_processtype || ''',C.COMPONENTCODE, ''' || p_yearmonth || ''' , ''' || p_categorycode || ''' , ''' || p_unitcode || ''' , ''' || p_gradecode || ''')  AMOUNT, '; 
     lv_sql := lv_sql || CHR(10) || '       NULL ACCOSTCENTRECODE, ''' || p_categorycode || ''' CATEGORYCODE, ''' || p_unitcode || ''' UNITCODE, ''' || p_gradecode || ''' GRADECODE ';
     lv_sql := lv_sql || CHR(10) || '  FROM PISCOMPONENTMASTER D, '; 
     lv_sql := lv_sql || CHR(10) || '        ( '; 
