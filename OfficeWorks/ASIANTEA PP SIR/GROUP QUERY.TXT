@@ -1,0 +1,126 @@
+
+SELECT 'I' TAG, A.CODE,A.DESCRIPTION,A.SL_NO,A.CATEGORY,A.SUB_CATEGORY,A.SORTINGQTY_TODAY ,A.SORTINGQTY_TODATE FROM                                                                                      
+(                                                                                                                                                                                                        
+     with main_query as                                                                                                                                                                                  
+   (                                                                                                                                                                                                     
+   SELECT /*+ MATERIALIZE */  CODE,DESCRIPTION,SL_NO,CATEGORY,SUB_CATEGORY,SUM(SORTINGQTY_TODAY) SORTINGQTY_TODAY ,SUM(SORTINGQTY_TODATE) SORTINGQTY_TODATE FROM                                         
+       (                                                                                                                                                                                                 
+       -----------THE FOLLOWING QUERY FOR TO_DAY QUANTITY                                                                                                                                                
+       SELECT CODE,DESCRIPTION, CASE WHEN SUB_CATEGORY='PRIMARY' THEN 1 WHEN SUB_CATEGORY='SECONDARY' THEN 2 ELSE 3 END SL_NO,CATEGORY,SUB_CATEGORY,QTY SORTINGQTY_TODAY,0 SORTINGQTY_TODATE FROM        
+        (                                                                                                                                                                                                
+            SELECT  B.CODE,B.DESCRIPTION,                                                                                                                                                                
+                    CASE WHEN B.CATEGORY='DUST' THEN 'CTC' ELSE B.CATEGORY END CATEGORY,                                                                                                                 
+                    CASE WHEN (B.CATEGORY='DUST' OR B.OTHER_CATEGORY='DUST') THEN 'DUST'                                                                                                                 
+                    WHEN B.SUB_CATEGORY='CLONE' THEN 'SECONDARY'                                                                                                                                         
+                    ELSE B.SUB_CATEGORY END SUB_CATEGORY,                                                                                                                                                
+                    SUM(NVL(A.SORTINGQTY,0)) QTY                                                                                                                                                         
+            FROM PRODDAILYSORTINGDETAILS A, SALESTEAGRADEMASTER B                                                                                                                                        
+            WHERE A.COMPANYCODE='DY0080'                                                                                                                                                  
+              AND A.DIVISIONCODE='0002'                                                                                                                                                                  
+              AND A.COMPANYCODE=B.COMPANYCODE                                                                                                                                                            
+              AND A.TEAGRADECODE=B.CODE                                                                                                                                                                  
+              AND A.SORTINGDATE = TO_DATE('30/10/2020','DD/MM/YYYY')                                                                                                                                                         
+              AND NVL(A.SORTINGQTY,0)<>0                                                                                                                                                                 
+              AND B.CODE NOT IN ('TW','TWO')                                                                                                                                                             
+              GROUP BY B.CODE,                                                                                                                                                                           
+                    B.DESCRIPTION,                                                                                                                                                                       
+                    B.CATEGORY,                                                                                                                                                                          
+                    B.SUB_CATEGORY,                                                                                                                                                                      
+                    B.OTHER_CATEGORY                                                                                                                                                                     
+        )                                                                                                                                                                                                
+       UNION ALL                                                                                                                                                                                         
+       -----------THE FOLLOWING QUERY FOR TO_DATE QUANTITY                                                                                                                                               
+       SELECT CODE,DESCRIPTION, CASE WHEN SUB_CATEGORY='PRIMARY' THEN 1 WHEN SUB_CATEGORY='SECONDARY' THEN 2 ELSE 3 END SL_NO,CATEGORY,SUB_CATEGORY,0 SORTINGQTY_TODAY,QTY SORTINGQTY_TODATE FROM        
+        (                                                                                                                                                                                                
+            SELECT  B.CODE,B.DESCRIPTION,                                                                                                                                                                
+                    CASE WHEN B.CATEGORY='DUST' THEN 'CTC' ELSE B.CATEGORY END CATEGORY,                                                                                                                 
+                    CASE WHEN (B.CATEGORY='DUST' OR B.OTHER_CATEGORY='DUST') THEN 'DUST'                                                                                                                 
+                    WHEN B.SUB_CATEGORY='CLONE' THEN 'SECONDARY'                                                                                                                                         
+                    ELSE B.SUB_CATEGORY END SUB_CATEGORY,                                                                                                                                                
+                    SUM(NVL(A.SORTINGQTY,0)) QTY                                                                                                                                                         
+            FROM PRODDAILYSORTINGDETAILS A, SALESTEAGRADEMASTER B                                                                                                                                        
+            WHERE A.COMPANYCODE='DY0080'                                                                                                                                                                 
+              AND A.DIVISIONCODE='0002'                                                                                                                                                                  
+              AND A.COMPANYCODE=B.COMPANYCODE                                                                                                                                                            
+              AND A.TEAGRADECODE=B.CODE                                                                                                                                                                  
+              AND A.SORTINGDATE BETWEEN TO_DATE('01/04/2020','DD/MM/YYYY') AND TO_DATE('30/10/2020','DD/MM/YYYY')                                                                                                                                
+              AND NVL(A.SORTINGQTY,0)<>0                                                                                                                                                                 
+              AND B.CODE NOT IN ('TW','TWO')                                                                                                                                                             
+              GROUP BY B.CODE,                                                                                                                                                                           
+                    B.DESCRIPTION,                                                                                                                                                                       
+                    B.CATEGORY,                                                                                                                                                                          
+                    B.SUB_CATEGORY,                                                                                                                                                                      
+                    B.OTHER_CATEGORY                                                                                                                                                                     
+        )                                                                                                                                                                                                
+        UNION ALL                                                                                                                                                                                        
+        -----------THE FOLLOWING QUERY FOR TEA WASTE TO_DAY                                                                                                                                              
+        SELECT CODE,DESCRIPTION, 4 SL_NO,'TEA WASTE' CATEGORY,SUB_CATEGORY,QTY SORTINGQTY_TODAY,0 SORTINGQTY_TODATE FROM                                                                                 
+        (                                                                                                                                                                                                
+            SELECT  B.CODE,B.DESCRIPTION,                                                                                                                                                                
+'' CATEGORY,                                                                                                                                                                                             
+                    CASE WHEN (B.CATEGORY='DUST' OR B.OTHER_CATEGORY='DUST') THEN 'DUST'                                                                                                                 
+                    WHEN B.SUB_CATEGORY='CLONE' THEN 'SECONDARY'                                                                                                                                         
+                    ELSE B.SUB_CATEGORY END SUB_CATEGORY,                                                                                                                                                
+                    SUM(NVL(A.SORTINGQTY,0)) QTY                                                                                                                                                         
+            FROM PRODDAILYSORTINGDETAILS A, SALESTEAGRADEMASTER B                                                                                                                                        
+            WHERE A.COMPANYCODE='DY0080'                                                                                                                                                                
+              AND A.DIVISIONCODE='0002'                                                                                                                                                                  
+              AND A.COMPANYCODE=B.COMPANYCODE                                                                                                                                                            
+              AND A.TEAGRADECODE=B.CODE                                                                                                                                                                  
+              AND A.SORTINGDATE = TO_DATE('30/10/2020','DD/MM/YYYY')                                                                                                                                                          
+              AND NVL(A.SORTINGQTY,0)<>0                                                                                                                                                                 
+              AND B.CODE IN ('TW','TWO')                                                                                                                                                                 
+              GROUP BY B.CODE,                                                                                                                                                                           
+                    B.DESCRIPTION,                                                                                                                                                                       
+                    B.CATEGORY,                                                                                                                                                                          
+                    B.SUB_CATEGORY,                                                                                                                                                                      
+                    B.OTHER_CATEGORY                                                                                                                                                                     
+        )                                                                                                                                                                                                
+        UNION ALL                                                                                                                                                                                        
+        -----------THE FOLLOWING QUERY FOR TEA WASTE TO_DATE                                                                                                                                             
+        SELECT CODE,DESCRIPTION, 4 SL_NO,'TEA WASTE' CATEGORY,SUB_CATEGORY,0 SORTINGQTY_TODAY,QTY SORTINGQTY_TODATE FROM                                                                                 
+        (                                                                                                                                                                                                
+            SELECT  B.CODE,B.DESCRIPTION,                                                                                                                                                                
+'' CATEGORY,                                                                                                                                                                                             
+                    CASE WHEN (B.CATEGORY='DUST' OR B.OTHER_CATEGORY='DUST') THEN 'DUST'                                                                                                                 
+                    WHEN B.SUB_CATEGORY='CLONE' THEN 'SECONDARY'                                                                                                                                         
+                    ELSE B.SUB_CATEGORY END SUB_CATEGORY,                                                                                                                                                
+                    SUM(NVL(A.SORTINGQTY,0)) QTY                                                                                                                                                         
+            FROM PRODDAILYSORTINGDETAILS A, SALESTEAGRADEMASTER B                                                                                                                                        
+            WHERE A.COMPANYCODE='DY0080'                                                                                                                                                                 
+              AND A.DIVISIONCODE='0002'                                                                                                                                                                  
+              AND A.COMPANYCODE=B.COMPANYCODE                                                                                                                                                            
+              AND A.TEAGRADECODE=B.CODE                                                                                                                                                                  
+              AND A.SORTINGDATE BETWEEN TO_DATE('01/04/2020','DD/MM/YYYY')AND TO_DATE('30/10/2020','DD/MM/YYYY')                                                                                                                                  
+              AND NVL(A.SORTINGQTY,0)<>0                                                                                                                                                                 
+              AND B.CODE IN ('TW','TWO')                                                                                                                                                                 
+              GROUP BY B.CODE,                                                                                                                                                                           
+                    B.DESCRIPTION,                                                                                                                                                                       
+                    B.CATEGORY,                                                                                                                                                                          
+                    B.SUB_CATEGORY,                                                                                                                                                                      
+                    B.OTHER_CATEGORY                                                                                                                                                                     
+            )                                                                                                                                                                                            
+       )                                                                                                                                                                                                 
+       GROUP BY CATEGORY,SUB_CATEGORY,ROLLUP(CODE,DESCRIPTION,SL_NO)                                                                                                                                     
+       HAVING (SL_NO IS NOT NULL OR CODE IS NULL) AND SUB_CATEGORY IS NOT NULL                                                                                                                           
+  ) ,                                                                                                                                                                                                    
+ GROUPING_QUERY AS                                                                                                                                                                                       
+ (                                                                                                                                                                                                       
+   SELECT NULL  CODE, NULL  DESCRIPTION , AVG(SL_NO) Sl_NO, CATEGORY,SUB_CATEGORY,sum( SORTINGQTY_TODAY ) SORTINGQTY_TODAY, sum(SORTINGQTY_TODATE) SORTINGQTY_TODATE                                     
+   FROM (                                                                                                                                                                                                
+   select CODE,DESCRIPTION,SL_NO,CATEGORY,SUB_CATEGORY, sum( SORTINGQTY_TODAY ) SORTINGQTY_TODAY  ,  sum(SORTINGQTY_TODATE) SORTINGQTY_TODATE from MAIN_QUERY                                            
+   where code is not null                                                                                                                                                                                
+   group by CODE,DESCRIPTION,SL_NO,CATEGORY,SUB_CATEGORY                                                                                                                                                 
+   )                                                                                                                                                                                                     
+   GROUP BY CATEGORY,SUB_CATEGORY                                                                                                                                                                        
+ )                                                                                                                                                                                                       
+   select /*+ MATERIALIZE */ * from (                                                                                                                                                                    
+   select  CODE, DESCRIPTION,  SL_NO,CATEGORY,SUB_CATEGORY ||' SUBTOTAL' SUB_CATEGORY, SORTINGQTY_TODAY , SORTINGQTY_TODATE from  GROUPING_QUERY                                                                                    
+   union all                                                                                                                                                                                             
+   select CODE,DESCRIPTION,SL_NO,CATEGORY,SUB_CATEGORY,SORTINGQTY_TODAY , SORTINGQTY_TODATE from MAIN_QUERY                                                                                              
+   where code is not null                                                                                                                                                                                
+   )                                                                                                                                                                                                     
+   order by  CATEGORY,SL_NO,SUB_CATEGORY,CODE,DESCRIPTION                                                                                                                                                
+) A                                                                                                                                                                                                      
+ORDER BY A.CATEGORY,SL_NO,A.SUB_CATEGORY,CODE,DESCRIPTION    
+
