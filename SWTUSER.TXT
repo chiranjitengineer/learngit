@@ -39,7 +39,7 @@ PASSWORD 		: 		000
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
 USER 			: 		KANCO_WEB				123098
-IP   			:		1.6.37.187:8086
+IP   			:		223.30.168.160:8086
 PASSWORD 		: 		123098
 SERVICE NAME 	: 		OR12CSE2
 ---------------------------------------------------------------------
@@ -72,6 +72,11 @@ USER 			: 		GLOSTER_WEB/GLOSTER_WEB
 IP   			:		223.30.168.163:8045
 PASSWORD 		: 		TWS
 SERVICE NAME 	: 		GLOSTER
+---------------------------------------------------------------------
+USER 			: 		DALHOUSIE_WEB/DALHOUSIE_WEB   
+IP   			:		122.163.121.140:8045
+PASSWORD 		: 		TWS
+SERVICE NAME 	: 		ORA11G2SE
 ---------------------------------------------------------------------
 
 user/pass -> BAGGAGE_WEB/
