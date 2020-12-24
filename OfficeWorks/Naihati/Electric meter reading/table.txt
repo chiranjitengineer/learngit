@@ -1,0 +1,259 @@
+    
+Data Not Saved ... ORA-20004: ~RAISE ERROR START~ERROR OCCURED WHILE APPENDING INTO QUARTERALLOCATIONDETAILS - > 
+ORA-02291: integrity constraint (NJMCL_WEB.QUARTERALLOCATIONDETAILS_R01) violated - 
+parent key not foundORA-02291: integrity constraint (NJMCL_WEB.QUARTERALLOCATIONDETAILS_R01) violated - 
+parent key not found ~RAISE ERROR END~ ORA-06512: at "NJMCL_WEB.PROC_SD_GTTVSACTUAL_SYNC", line 103 ORA-06512: at line 1
+
+QUARTERALLOCATIONDETAILS_R01
+
+ALTER TABLE NJMCL_WEB.QUARTERALLOCATIONDETAILS
+  DROP CONSTRAINT QUARTERALLOCATIONDETAILS_R01;
+
+
+ALTER TABLE NJMCL_WEB.QUARTERALLOCATIONDETAILS ADD (
+  CONSTRAINT QUARTERALLOCATIONDETAILS_R01 
+ FOREIGN KEY (COMPANYCODE, DIVISIONCODE, LINENO, QUARTERNO) 
+ REFERENCES NJMCL_WEB.QUARTERMASTER (COMPANYCODE,DIVISIONCODE,LINENO,QUARTERNO));
+
+
+
+select * from QUARTERALLOCATIONDETAILS
+where companycode='NJ0001'
+AND DIVISIONCODE='0002'
+AND LINENO='20'
+AND QUARTERNO='20/0010'
+
+
+select * from QUARTERMASTER
+where COMPANYCODE='NJ0001'
+AND DIVISIONCODE='0002'
+AND LINENO='20'
+AND QUARTERNO='20/0010'
+
+SELECT * FROM WORKERVIEW
+WHERE TOKENNO LIKE '75804'
+
+SELECT * FROM WORKERVIEW
+WHERE TOKENNO LIKE '75804'
+
+SELECT * FROM QUARTERALLOCATIONDETAILS
+WHERE TOKENNO LIKE '71540%'
+
+
+
+SELECT * FROM QUARTERALLOCATIONDETAILS
+WHERE TOKENNO LIKE '75804%'
+
+
+SELECT * FROM QUARTERALLOCATIONDETAILS
+WHERE WORKERSERIAL IS NULL -- '71540%'
+
+020173
+
+
+
+
+SELECT Q.QUARTERSTATUS||'~'||TO_CHAR(Q.EFFECTIVEDATE,'dd/mm/yyyy')||'~'||
+NVL(Q.TOKENNO,Q.COMPANYCODE)||'~'||NVL(WORKERNAME,Q.COMPANYCODE)||'~'||Q.QUARTERNO 
+FROM QUARTERALLOCATIONDETAILS Q,WORKERVIEW W 
+WHERE 1=1
+AND Q.COMPANYCODE=W.COMPANYCODE(+)
+AND Q.DIVISIONCODE=W.DIVISIONCODE(+)
+AND Q.WORKERSERIAL=W.WORKERSERIAL(+)
+AND Q.COMPANYCODE='NJ0001'
+AND Q.DIVISIONCODE='0002'
+AND Q.LINENO='20'
+AND Q.QUARTERNO='20/0085'
+AND Q.EFFECTIVEDATE=
+(
+    SELECT MAX(EFFECTIVEDATE) FROM QUARTERALLOCATIONDETAILS
+    WHERE 1=1
+    AND COMPANYCODE='NJ0001'
+    AND DIVISIONCODE='0002'
+    AND LINENO='20'
+    AND QUARTERNO='20/0085'
+)AND ROWNUM=1
+
+
+
+SELECT * FROM QUARTERALLOCATIONDETAILS
+WHERE WORKERSERIAL IS NULL
+
+
+SELECT * FROM WORKERVIEW
+WHERE WORKERSERIAL IS NULL
+
+UPDATE QUARTERALLOCATIONDETAILS A SET
+WORKERSERIAL = (
+    SELECT WORKERSERIAL FROM WORKERVIEW
+    WHERE A.TOKENNO=TOKENNO
+    AND COMPANYCODE=A.COMPANYCODE
+    AND DIVISIONCODE=A.DIVISIONCODE
+) 
+WHERE WORKERSERIAL IS NULL
+
+
+
+
+Data Not Saved ... Error From clsTableIUD.getMasterDetailsData System.Exception: 
+Error From TableIUD.insertGridData stape 2 System.Exception: 
+Error From TableIUD.insertGridData stape 1 System.Exception: ORA-01438: 
+value larger than specified precision allowed for this column at
+ SW_DBObject.DBManager.ExecuteNonQuery(CommandType commandType, String commandText) at 
+ SW_DTO.dto.clsTableIUD.insertGridData(String gridValue, List`1 tableIUDTOList, IDBManager dbManager) at 
+ SW_DTO.dto.clsTableIUD.insertGridData(String gridValue, List`1 tableIUDTOList, IDBManager dbManager) at 
+ SW_DTO.dto.clsTableIUD.insertGridData(String gridValue, List`1 tableIUDTOList, IDBManager dbManager) at 
+ SW_DTO.dto.clsTableIUD.setMasterDetailsData(String masterForm, List`1 formCollectionDTOList, IDBManager dbManager, String[] strDetails)
+ 
+ 
+ 
+ 
+ 
+ GBL_ELEMETERREAD
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLE_SEQUENCIER = ''
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_ACTUAL = 'ELECTRICMETERREADING'
+
+
+SELECT * FROM SYS_TFMAP
+WHERE SYS_TABLENAME_TEMP = 'GBL_ELEMETERREAD'
+
+
+/* Formatted on 21/12/2020 6:38:57 PM (QP5 v5.115.810.9015) */
+INSERT INTO GBL_ELEMETERREAD (LINENO,
+                              QUARTERNO,
+                              METERNO,
+                              TOKENNO,
+                              PREVIOUSDUEAMOUNT,
+                              CONTRIBUTIONAMOUNT,
+                              ELEC_EMI,
+                              EMIAMOUNT,
+                              EFFECTIVEDATE,
+                              RELEASEDATE,
+                              TOTALBILLDAYS,
+                              COMPANYCODE,
+                              DIVISIONCODE,
+                              YEARCODE,
+                              READINGFROMDATE,
+                              READINGTODATE,
+                              NOOFUNIT,
+                              FORTNIGHTSTARTDATE,
+                              FORTNIGHTENDDATE,
+                              ELEC_DED_AMT,
+                              BILLAMOUNT,
+                              WORKERSERIAL,
+                              NOOFALLOCATIONDAYS,
+                              USERNAME,
+                              SYSROWID,
+                              YEARMONTH,
+                              READINGDATE,
+                              DEPARTMENTCODE,
+                              MODULE,
+                              METERREADINGFROM,
+                              METERREADINGTO,
+                              PREV_DUE_AMT)
+  VALUES   (:LINENO,
+            :QUARTERNO,
+            :METERNO,
+            :TOKENNO,
+            :PREVIOUSDUEAMOUNT,
+            :CONTRIBUTIONAMOUNT,
+            :EMIAMOUNT,
+            :EMIAMOUNT,
+            TO_DATE (:EFFECTIVEDATE, 'DD/MM/YYYY'),
+            TO_DATE (:RELEASEDATE, 'DD/MM/YYYY'),
+            :TOTALBILLDAYS,
+            :COMPANYCODE,
+            :DIVISIONCODE,
+            :YEARCODE,
+            TO_DATE (:READINGFROMDATE, 'DD/MM/YYYY'),
+            TO_DATE (:READINGTODATE, 'DD/MM/YYYY'),
+            :NOOFUNIT,
+            TO_DATE (:FORTNIGHTSTARTDATE, 'DD/MM/YYYY'),
+            TO_DATE (:FORTNIGHTENDDATE, 'DD/MM/YYYY'),
+            :BILLAMOUNT,
+            :BILLAMOUNT,
+            :WORKERSERIAL,
+            :NOOFALLOCATIONDAYS,
+            :USERNAME,
+            :SYSROWID,
+            :YEARMONTH,
+            TO_DATE (:READINGDATE, 'DD/MM/YYYY'),
+            :DEPTMENTCODE,
+            :MODULE,
+            :METERREADINGFROM,
+            :METERREADINGTO,
+            :PREV_DUE_AMT)
+			
+			
+			
+			
+/* Formatted on 21/12/2020 7:22:21 PM (QP5 v5.115.810.9015) */
+INSERT INTO GBL_ELEMETERREAD (LINENO,
+                              QUARTERNO,
+                              METERNO,
+                              TOKENNO,
+                              PREVIOUSDUEAMOUNT,
+                              CONTRIBUTIONAMOUNT,
+                              ELEC_EMI,
+                              EMIAMOUNT,
+                              EFFECTIVEDATE,
+                              RELEASEDATE,
+                              TOTALBILLDAYS,
+                              COMPANYCODE,
+                              DIVISIONCODE,
+                              YEARCODE,
+                              READINGFROMDATE,
+                              READINGTODATE,
+                              NOOFUNIT,
+                              FORTNIGHTSTARTDATE,
+                              FORTNIGHTENDDATE,
+                              ELEC_DED_AMT,
+                              BILLAMOUNT,
+                              WORKERSERIAL,
+                              NOOFALLOCATIONDAYS,
+                              USERNAME,
+                              SYSROWID,
+                              YEARMONTH,
+                              READINGDATE,
+                              DEPARTMENTCODE,
+                              MODULE,
+                              METERREADINGFROM,
+                              METERREADINGTO,
+                              PREV_DUE_AMT)
+  VALUES   (:LINENO,
+            :QUARTERNO,
+            :METERNO,
+            :TOKENNO,
+            :PREVIOUSDUEAMOUNT,
+            :CONTRIBUTIONAMOUNT,
+            :EMIAMOUNT,
+            :EMIAMOUNT,
+            TO_DATE (:EFFECTIVEDATE, 'DD/MM/YYYY'),
+            TO_DATE (:RELEASEDATE, 'DD/MM/YYYY'),
+            :TOTALBILLDAYS,
+            :COMPANYCODE,
+            :DIVISIONCODE,
+            :YEARCODE,
+            TO_DATE (:READINGFROMDATE, 'DD/MM/YYYY'),
+            TO_DATE (:READINGTODATE, 'DD/MM/YYYY'),
+            :NOOFUNIT,
+            TO_DATE (:FORTNIGHTSTARTDATE, 'DD/MM/YYYY'),
+            TO_DATE (:FORTNIGHTENDDATE, 'DD/MM/YYYY'),
+            :BILLAMOUNT,
+            :BILLAMOUNT,
+            :WORKERSERIAL,
+            :NOOFALLOCATIONDAYS,
+            :USERNAME,
+            :SYSROWID,
+            :YEARMONTH,
+            TO_DATE (:READINGDATE, 'DD/MM/YYYY'),
+            :DEPTMENTCODE,
+            :MODULE,
+            :METERREADINGFROM,
+            :METERREADINGTO,
+            :PREV_DUE_AMT)			
