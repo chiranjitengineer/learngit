@@ -1,0 +1,71 @@
+Dear Mr. Amalesh,
+As per our auditor's requirement please modify the user master (Create User) form as per given
+points.
+1. User Activation and Deactivation field is required. (done)
+2. Administrator may change any user's password. (done)
+3. User Password must meet password complexity requirements.
+4. Minimum password length 7 characters and password can't match previous three passwords.
+5. User account will be locked after attempting three wrong / invalid password. (0)
+6. Only administrator can unlock the the user account.
+You are requested to incorporate the above into the system at the earliest.
+
+
+
+
+Dear Mr. Chiranjit,
+In reference to our below mails User Master module is not rec
+Point No. 1, 2, 3, 4, and 6 are not solved up 
+
+
+--(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;'"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}
+ 
+
+select regexp('112') from dual 
+
+
+
+SELECT 'aeiou' last_name
+FROM dual
+WHERE REGEXP_LIKE (last_name, '([aeiou])\1', 'i');
+
+select last_name from
+(
+    SELECT 'Greenberg' last_name FROM dual
+)
+WHERE REGEXP_LIKE (last_name, '([aeiou])\1', 'i');
+
+
+
+select last_name from
+(
+    SELECT 'helloWorld555@!' last_name FROM dual
+)
+WHERE REGEXP_LIKE (last_name, '(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;''"''<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}');
+
+
+
+SELECT 
+CASE 
+    WHEN NOT REGEXP_LIKE(VNEWPWD,'^.*[A-Z].*$') THEN 'ATLEAST 1 CAPITAL LETTER [A-Z] REQUIRED.'
+    WHEN NOT REGEXP_LIKE(VNEWPWD,'^.*[0-9].*$') THEN 'ATLEAST 1 DIGIT [0-9] REQUIRED'
+    WHEN NOT REGEXP_LIKE(VNEWPWD,'^.*[\!@#$%].*$') THEN 'ATLEAST 1 SPECIAL CHARACTER  LETTER [\!@#$%] REQUIRED '
+    WHEN NOT REGEXP_LIKE(VNEWPWD,'.{7,}') THEN 'ATLEAST 7 CHARACTERS REQUIRED'
+ELSE VNEWPWD 
+END PASSCODE FROM (
+SELECT VNEWPWD FROM
+(
+    SELECT 'aa@15656' VNEWPWD FROM DUAL
+)
+)
+WHERE 1=1
+
+
+and regexp_like(vNewPwd,'^.*[A-Z].*$')
+and regexp_like(vNewPwd,'.*[0-9].*$')
+--and regexp_like(vNewPwd,'.*[^A-Z,0-9].*$')
+--and regexp_like(vNewPwd,'.*[a-z]')
+and regexp_like(vNewPwd,'.*[\!@#$%]')
+and regexp_like(vNewPwd,'.{7,}')
+
+
+

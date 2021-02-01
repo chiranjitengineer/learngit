@@ -1,0 +1,105 @@
+SALEBILLNO, SALEBILLDATE, EXCISEINVNO, EXCISEINVDATE, PROFORMAINVNO, PROFORMAINVDATE, 
+SAUDANO, SAUDADATE, BUYERORDERNO, BUYERORDERDATE, BROKERCODE, BROKERNAME, BUYERCODE, 
+BUYERNAME, TRANSPORTERCODE, PARTYNAME, ADDRESSNAMEBILL, ADDRESSBILL, PINBILL, STATEBILL, 
+GSTNNOBILL, ADDRESSNAMESHIP, ADDRESSSHIP, PINSHIP, STATESHIP, GSTNNOSHIP, DESTINATION, 
+VEHICLENO, VESSELORFLIGHT, VESSELFLIGHTNO, CNOTENO, CNOTEDATE, CHALLANNO, CHANNELCODE, 
+BILLSERIALNO, QUALITYCODE, HSNCODE, QUALITYMANUALDESC, PACKINGCODE, PACKINGNAME, NOOFPACKINGUNIT, 
+UORCODE, UORNAME, MEASURECODE, TOTALQUANTITY, TOTALWEIGHT, PACKSHEETWEIGHT, GROSSWEIGHT, 
+INDIANRATE, TOTALINDIANAMOUNT, GROSSAMOUNTINR, AMTINWORDS, CHARGEDATA, SRL, TEXT, BANKCODE, 
+BANKNAME, BANKADDRESS, ACNO, IFCSCODE, COMPANYNAME, COMPANYADDRESS, COMPANYADDRESS1, 
+COMPANYADDRESS2, PANNO, COMPANYEMAIL, DIVISIONNAME, GSTNNO, GSTSTATECODE, LOGOPATH, 
+EX1, EX2, EX3, EX4, EX5, EWAYBILLNO, EWAYBILLDATE, TIME_STAMP, 
+EX6, EX7, EX8, EX9, EX10, EX11, EX12, EX13, EX14, EX15, 
+
+EX16, EX17, EX18, EX19, EX20, 
+EX21, EX22, EX23, EX24, EX25, EX26, EX27, EX28, EX29, EX30, EX31, EX32, EX33, EX34, 
+EX35, EX36, EX37, EX38, EX39, EX40
+
+
+="Invoice No.    : " & Fields!SALEBILLNO.Value & vbcrlf &
+"D.O. No.        : " & Fields!PROFORMAINVNO.Value & vbcrlf &
+"AmendmentNo. 1  : " & Fields!EX16.Value & vbcrlf &
+"AmendmentNo. 2  : " & Fields!EX17.Value & vbcrlf &
+"Shipping Bill No.  : " & Fields!EX18.Value & vbcrlf &
+"Custom Invoice No.  : " & Fields!EX19.Value & vbcrlf &
+"Sales Order No.    : " & Fields!SAUDANO.Value & vbcrlf &
+"DespatchChallan No  : " & Fields!EX20.Value & vbcrlf &
+"Buyer's order : " & Fields!BUYERORDERNO.Value &
+"Broker Name : " & Fields!EX21.Value &
+"Date & Time of removal : " & Fields!EX22.Value
+
+
+
+Invoice No.                :   2021/GJE0001
+D. O. No.                    :   2021/GJB0001
+AmendmentNo. 1      :
+AmendmentNo. 2      :
+Shipping Bill No.:
+Custom Invoice No.  :
+Sales Order No.         :   
+DespatchChallan No :   8720
+Buyer’s order            :   GJB/002
+Broker Name             :   XXXXXXXXXXX
+Date & Time of removal :  06/05/2020 15:00 hrs. 
+
+EX21, EX22, EX23, EX24, EX25, EX26, EX27, EX28, EX29, EX30, EX31, EX32, EX33, EX34, 
+EX35, EX36, EX37, EX38, EX39, EX40
+
+
+
+="Date : " & FORMAT(Fields!SALEBILLDATE.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!PROFORMAINVDATE.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!EX23.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!EX24.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!EX25.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!EX26.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!SAUDADATE.Value,"dd/MM/yyyy") & vbcrlf &
+"Date : " & FORMAT(Fields!EX27.Value,"dd/MM/yyyy")& vbcrlf &
+"Date : " & FORMAT(Fields!BUYERORDERDATE.Value,"dd/MM/yyyy")
+
+
+
+Mode of Transport:
+
+
+Despatch chln no :
+
+Vehicle No.           
+
+Container No.       :     
+
+E.Seal No.             :     
+
+Seal No.                :      
+
+E-way Bill No.       :      
+
+Booking Station   :      KOLKATA PORT
+Delivery Place      :      XXXXXXXXX, XX
+
+
+EX21, EX22, EX23, EX24, EX25, EX26, EX27, EX28, EX29, EX30, EX31, EX32, EX33, EX34, 
+EX35, EX36, EX37, EX38, EX39, EX40
+
+
+="Despatch chln no  : " & Fields!EX28.Value & vbcrlf &
+ "Vehicle No. : " & Fields!VEHICLENO.Value & vbcrlf &
+ "Container No.: " & Fields!CNOTENO.Value & vbcrlf &
+ "Transporter Name.: " & Fields!PARTYNAME.Value& vbcrlf &
+ "E.Seal No.: " & Fields!EX29.Value
+ 
+ 
+="Seal No.: " & Fields!EX30.Value & vbcrlf &
+ "E-way Bill No. : " & Fields!EWAYBILLNO.Value & vbcrlf &
+ "Booking Station: " & Fields!EX31.Value & vbcrlf &
+ "Delivery Place: " & Fields!DESTINATION.Value
+
+
+="Delivery Place : " & Fields!DESTINATION.Value & vbcrlf &
+"Transporter Name : " & Fields!PARTYNAME.Value
+
+="Vehicle No. : " & Fields!VEHICLENO.Value & vbcrlf &
+"C.N. No. & Date : " & Fields!CNOTENO.Value & " & " & FORMAT(Fields!CNOTEDATE.Value,"dd/MM/yyyy")
+
+="e-Way Bill No. : " & Fields!EWAYBILLNO.Value & vbcrlf &
+"Date & Time    : " & format(Fields!EWAYBILLDATE.Value,"dd/MM/yyyy") & " " & Fields!TIME_STAMP.Value
