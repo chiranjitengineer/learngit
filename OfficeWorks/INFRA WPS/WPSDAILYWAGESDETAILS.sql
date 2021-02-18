@@ -1,0 +1,122 @@
+DROP TABLE INFRA_WPS.WPSDAILYWAGESDETAILS CASCADE CONSTRAINTS;
+
+CREATE TABLE INFRA_WPS.WPSDAILYWAGESDETAILS_MV
+(
+  COMPANYCODE          VARCHAR2(10 BYTE)        NOT NULL,
+  DIVISIONCODE         VARCHAR2(10 BYTE)        NOT NULL,
+  YEARCODE             VARCHAR2(10 BYTE),
+  FORTNIGHTSTARTDATE   DATE                     NOT NULL,
+  FORTNIGHTENDDATE     DATE                     NOT NULL,
+  DEPARTMENTCODE       VARCHAR2(10 BYTE),
+  SECTIONCODE          VARCHAR2(10 BYTE),
+  OCCUPATIONCODE       VARCHAR2(10 BYTE),
+  WORKERTYPECODE       VARCHAR2(10 BYTE),
+  WORKERCATEGORYCODE   VARCHAR2(10 BYTE),
+  SHIFTCODE            VARCHAR2(10 BYTE),
+  WORKERSERIAL         VARCHAR2(10 BYTE)        NOT NULL,
+  TOKENNO              VARCHAR2(10 BYTE),
+  LASTMODIFIED         DATE,
+  ATTENDANCEHOURS      NUMBER(18,2),
+  OVERTIMEHOURS        NUMBER(18,2),
+  OTHERHOURS           NUMBER(18,2),
+  FESTIVALHOURS        NUMBER(18,2),
+  PFADJHOURS           NUMBER(18,2),
+  NPFADJHOURS          NUMBER(18,2),
+  HOLIDAYHOURS         NUMBER(18,2),
+  LAYOFFHOURS          NUMBER(18,2),
+  NIGHTALLOWANCEHOURS  NUMBER(18,2),
+  STATUTORYHOURS       NUMBER(18,2),
+  STLHOURS             NUMBER(18,2),
+  FBKHOURS             NUMBER(18,2),
+  USERNAME             VARCHAR2(100 BYTE),
+  SYSROWID             VARCHAR2(50 BYTE)        NOT NULL,
+  VBASIC               NUMBER(18,3),
+  SPL_ALLOW            NUMBER(18,2),
+  INCENTIVE            NUMBER(18,2),
+  NPF_ADJ              NUMBER(18,2),
+  PF_ADJ               NUMBER(18,2),
+  FBASIC               NUMBER(18,3),
+  DA                   NUMBER(18,3),
+  ADHOC                NUMBER(18,3),
+  LOWAGES              NUMBER(18,3),
+  FBKWAGES             NUMBER(18,3),
+  C_S_ALL              NUMBER(18,3),
+  STL_AMT              NUMBER(18,3),
+  H_WAGES              NUMBER(18,3),
+  GROSS_FOR_HRA        NUMBER(18,3),
+  PF_GROSS             NUMBER(18,3),
+  HRA                  NUMBER(18,3),
+  OT_AMOUNT            NUMBER(18,3),
+  OT_AMT               NUMBER(18,3),
+  TOT_EARN             NUMBER(18,3),
+  ESI_CONT             NUMBER(18,3),
+  GROSS_PTAX           NUMBER(18,3),
+  P_TAX                NUMBER(18,3),
+  PF_CONT              NUMBER(18,3),
+  WF_DEDN              NUMBER(18,3),
+  WF_DEDN_C            NUMBER(18,3),
+  GR_FOR_BONUS         NUMBER(18,3),
+  GROSS_WAGES          NUMBER(18,3),
+  ESI_COMP_CONT        NUMBER(18,3),
+  FPF                  NUMBER(18,3),
+  PF_COM               NUMBER(18,3),
+  FINYEARBONUSDAYS     NUMBER(18,3),
+  GR_BONOUS_TODATE     NUMBER(18,3),
+  PENSION_GROSS        NUMBER(18,3),
+  ESI_GROSS            NUMBER(18,3),
+  LOAN_PFLN            NUMBER(18,3),
+  LINT_PFLN            NUMBER(18,3),
+  LNBL_PFLN            NUMBER(18,3),
+  LIBL_PFLN            NUMBER(18,3),
+  LOAN_ADV             NUMBER(18,3),
+  LINT_ADV             NUMBER(18,3),
+  LNBL_ADV             NUMBER(18,3),
+  LINTBL_ADV           NUMBER(18,3),
+  OTHR_DEDN            NUMBER(18,3),
+  VPF                  NUMBER(18,3),
+  PF_GROSS_PRN         NUMBER(18,3),
+  STL_ENCASH           NUMBER(18,3),
+  ACTUALPAYBLEAMOUNT   NUMBER(18,2),
+  COINBF               NUMBER(18,2),
+  COINCF               NUMBER(18,2),
+  TOT_DEDUCTION        NUMBER(18,2),
+  DBASIC               NUMBER(18,4),
+  ADDLBASIC            NUMBER(18,4),
+  INCREAMT             NUMBER(18,4),
+  HRA_DEDN             NUMBER(18,2),
+  ELEC_DEDN            NUMBER(18,2),
+  CUMPF_CONT           NUMBER(18,2),
+  FINYEARCUMSTLDAYS    NUMBER(18,2),
+  CALENDARWORKINGDAYS  NUMBER(18,2),
+  UNITCODE             VARCHAR2(10 BYTE),
+  SERIALNO             VARCHAR2(10 BYTE),
+  PAYMODE              VARCHAR2(10 BYTE),
+  HRS_RATE             NUMBER(18,2),
+  OTHR_EARN            NUMBER(18,2),
+  RELEIF_FUND          NUMBER(11,2),
+  ATN_INCENTIVE        NUMBER(18,2),
+  DAILY_ESI            NUMBER(18,2),
+  CASHOT_AMOUNT        NUMBER(18,2)
+)
+TABLESPACE INFRA_WPS
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+

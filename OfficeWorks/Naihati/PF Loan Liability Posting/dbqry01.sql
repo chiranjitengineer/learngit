@@ -1,0 +1,55 @@
+select * from pftransactiondetails
+where yearmonth='202101'
+and tokenno in 
+(
+    select * from NJM_NRW_LOAN020221
+)
+
+select 
+
+ 
+SELECT * FROM PFLOANTRANSACTION
+
+select A.TOKENNO, A.LOANDATE,PF_E_NRW, PF_C_NRW ,A.PF_E, A.PF_C
+from pfloantransaction a, NJM_NRW_LOAN020221 b
+where a.tokenno=B.TOKENNO
+and A.loandate=to_date(B.loandate, 'DD/MM/YYYY')
+AND SYSTEMVOUCHERDATE IS NULL
+
+UPDATE PFLOANAPPLICATION A
+SET (PF_E, PF_C)=
+(
+    select PF_E_NRW, PF_C_NRW FROM NJM_NRW_LOAN020221 b
+    WHERE a.tokenno=B.TOKENNO
+    and A.loandate=to_date(B.loandate, 'DD/MM/YYYY')
+)
+WHERE tokenno in 
+(
+    select TOKENNO from NJM_NRW_LOAN020221 B
+    WHERE a.tokenno=B.TOKENNO
+    and A.loandate=to_date(B.loandate, 'DD/MM/YYYY')
+)
+
+
+
+
+SELECT * FROM MENUMASTER_RND
+WHERE UPPER(MENUDESC) LIKE UPPER('%pf loan%')
+
+SELECT * FROM MENUMASTER_RND
+WHERE MENUCODE='01110201'
+
+SELECT * FROM ROLEDETAILS
+WHERE MENUCODE=''
+
+SELECT * FROM REPORTPARAMETERMASTER
+WHERE REPORTTAG=''
+
+prcWPS_PFLOAN_AfterSave
+
+
+prcWPS_PFLOAN_b4Save
+
+SELECT * FROM PISPAYTRANSACTION
+
+UPDATE PISPAYTRANSACTION SET PF_C = 5000, FPF=2000 WHERE TOKENNO='01712' AND YEARMONTH='202004'
