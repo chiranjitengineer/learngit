@@ -1,0 +1,337 @@
+gridVoucherDetails
+--------------------------------------------------------------------------------------------------
+
+
+        var $container = $("div").find("#gridVoucherDetails");
+        $container.handsontable({
+            data: [],
+            //stretchH: 'all',
+            colWidths: [200, 400, 100, 100, 100, 50, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            startRows: 1,
+            colHeaders: ['Location Name', 'Particulars', 'Debit', 'Credit', 'TDS On', 'CC', 'Cash Flow Head', 'Cash Flow Code', 'Ac Type', 'Ac Code', 'Group Type', 'GST_I_O_Type', 'GST Nature',
+                        'Cost Centre Allowed', 'TDS Applicable', 'TDS Nature', 'Voucher Amt', 'Dr/Cr', 'Bill Adjust', 'On Account', 'Serial No',
+                        'Master Detail Mark', 'BillFound', 'TdsFound', 'CostCentre Deducted', 'Sys Voucher No', 'Sys Voucher Dt', 'Company Code',
+                        'Div Code', 'Year Code', 'OpMode', 'SysRowId', 'UserName', 'Location Code', 'CostCentre Grid Data', 'TDS Grid Data',
+                        'Adj Bill Grid Data', 'Transaction Type', 'Service Tax Grid Data', 'GSTgrid Data', 'Auto GST'],
+            minSpareRows: 1,
+            fillHandle: false,
+            //contextMenu: ["row_above", "row_below", "remove_row"],
+            contextMenu: ["remove_row"],
+
+            columns: [
+              { data: "LOCATIONNAME", type: 'autocomplete', source: AutoCompleteLocation, strict: true, allowInvalid: false },
+              { data: "PARTICULARS", type: 'autocomplete', source: AutoCompleteParticulats, strict: false, allowInvalid: false },
+              { data: "AMOUNTDR", type: 'numeric', format: '0.00', language: 'en' },
+              { data: "AMOUNTCR", type: 'numeric', format: '0.00', language: 'en' },
+              { data: "TDSON", type: 'numeric', format: '0.00', language: 'en' },
+              { data: "COSTCENTRE_FOUND", readOnly: true, type: 'text', },
+              { data: "CASHFLOWDESC", readOnly: true },
+              { data: "CASHFLOWCODE", readOnly: true },
+              { data: "ACTYPE", readOnly: true },
+              { data: "ACCODE", readOnly: true },
+              { data: "ACGROUPTYPE", readOnly: true },
+              { data: "GST_I_O_TYPE", readOnly: true },
+              { data: "GSTNATURE", readOnly: true },
+              { data: "COSTCENTREALLOWED", readOnly: true },
+              { data: "TDSAPPLICABLE", readOnly: true },
+              { data: "TDSNATURE", readOnly: true },
+              { data: "AMOUNT", readOnly: true },
+              { data: "DRCR", readOnly: true },
+              { data: "BILLADJUST", readOnly: true },
+              { data: "ONACCOUNT", readOnly: true },
+              { data: "SERIALNO", readOnly: true },
+              { data: "MASTERDETAILMARK", readOnly: true },
+              { data: "BILL_FOUND", readOnly: true },
+              { data: "TDS_FOUND", readOnly: true },
+              { data: "CSTTOBEDEDUCTED", readOnly: true },
+              { data: "SYSTEMVOUCHERNO", readOnly: true },
+              { data: "SYSTEMVOUCHERDATE", readOnly: true },
+              { data: "COMPANYCODE", readOnly: true },
+              { data: "DIVISIONCODE", readOnly: true },
+              { data: "YEARCODE", readOnly: true },
+              { data: "OPERATIONMODE", readOnly: true },
+              { data: "SYSROWID", readOnly: true },
+              { data: "USERNAME", readOnly: true },
+              { data: "LOCATIONCODE", readOnly: true },
+              { data: "COSTCENTREGRIDDATA", readOnly: true },
+              { data: "TDSGRIDDATA", readOnly: true },
+              { data: "ADJBILLGRIDDATA", readOnly: true },
+              { data: "TRANSACTIONTYPE", readOnly: true },
+              { data: "SERVICETAXGRIDDATA", readOnly: true },
+              { data: "GSTGRIDDATA", readOnly: true },
+              { data: "AUTOGSTROW", readOnly: true }
+
+            ],
+            afterChange: AfterChange,
+            beforeKeyDown: BeforeKeyDown,
+            afterRemoveRow: deleteTableRow,
+            afterOnCellMouseOver: handleAfterOnCellMouseOver,
+        });
+
+
+------------------------------------------------------------------------------------------------------------+
+
+gridGST
+------------------------------------------------------------------------------------------------------------++
+
+
+
+        var $container = $("div").find("#gridGST");
+        $container.handsontable({
+            data: [],
+            //stretchH: 'all',
+            colWidths: [1, 1, 1, 1,220, 80, 120, 190, 80, 30,
+                         50, 50, 150, 50, 50, 60, 80,
+                         50, 40, 70, 70, 60, 60,
+                         70, 60, 70, 60, 70, 70,
+                         70, 100, 200,
+                         1, 1, 1, 1,
+                         1, 1, 1,
+                         1, 1, 1, 1, 1,
+                         1, 1, 1, 1, 1,
+                         1, 1, 1, 1, 1, 1,
+                         1, 1, 1, 1, 1, 1, 1,
+                         1, 1, 1, 1, 1, 1
+            ],
+            startRows: 1,
+            fillHandle: false,
+            colHeaders: ["Party Name", "Recipient GSTN", "Invoice No", "Invoice <br/>Date","Location Name", "State<br/>Code", "HSN Code", "Description","Rev. <br/>Chrg.",  "G/S",
+                       "Exemp<br/>ted", "Input<br/>Avlb.", "Item/Service Description", "UOM", "Qty", "Rate", "Amount",
+                        "Disc./<br/>Unit", "Disc.<br/>(%)", "Disc. <br/>Amt.", "Assess.<br/>Value", "GST<br/>Rate(%)", "IGST<br/>Rate(%)",
+                        "IGST<br/>Amount", "CGST<br/>Rate(%)", "CGST<br/>Amount", "SGST<br/>Rate(%)", "SGST<br/>Amount", "Cess<br/>Rate(%)",
+                       "Cess<br/>Amount", "Net GST<br/>Amount", "Ledger",
+                       "Nature", "GSTN Reg", "DRCR", "Supplier GSTN",
+                        "Supplier Name", "Supplier<br/> Address", "Sender <br/>Statename",
+                       "gstn_recipient_name", "gstn_recipient_address", "gstn_recipient_statecode", "gstn_recipient_statename", "gstn_consinee",
+                       "gstn_consinee_name", "gstn_consinee_address", "gstn_consinee_statecode", "gstn_consinee_statename", "place_of_supply_statecode",
+                       "place_of_supply_statename", "debit_credit_note_no", "debit_credit_note_date", "shipping_bill_no", "shipping_bill_date", "serial_no",
+                       "AccodeFor", "accode", "voucherserialno", "companycode", "divisioncode", "divisioncodefor", "yearcode",
+                       "systemvoucherno", "systemvoucherdate", "username", "sysrowid", "transaction_type", "Party Code"],
+            minSpareRows: 1,
+            //contextMenu: ["row_above", "row_below", "remove_row"],
+            //contextMenu: ["remove_row"],
+            fixedRowsTop: 0,
+            //fixedColumnsLeft: 3,
+            manualColumnResize: true,
+            columns: [
+                { data: "PARTYNAME", readOnly: true }, //0
+                { data: "GSTN_RECIPIENT", readOnly: true, type: 'text', language: 'en' },
+                { data: "INVOICE_NO", readOnly: true, type: 'text', language: 'en' },//21
+                { data: "INVOICE_DATE", readOnly: true, type: 'text', language: 'en', placeholder: placeHolders.class_date },//22
+                //ADDED ON 19/02/2021
+                { data: "LOCATIONNAME", type: 'autocomplete', source: AutoCompleteLocation, strict: true, allowInvalid: false },
+                //ADDED ON 19022021
+                { data: "GSTN_SENDER_STATECODE", readOnly: true, type: 'text', language: 'en', placeholder: placeHolders.class_F2 },//7
+                { data: "HSN_SAC_CODE", readOnly: true, type: 'text', language: 'en', placeholder: placeHolders.class_F2 },//29
+                { data: "HSN_SAC_DESCRIPTION", readOnly: true, type: 'text', language: 'en' },//30
+                { data: "IS_REVERSE_CHARGE_BY_RECIPIENT", readOnly: false, type: 'text', language: 'en', placeholder: placeHolders.class_YN },//27
+                { data: "IS_GOODS_OR_SERVICE", readOnly: true, type: 'text', language: 'en' },//31
+                { data: "IS_EXEMPTED", readOnly: false, type: 'text', language: 'en', placeholder: placeHolders.class_YN },//32
+                { data: "INPUT_CREDIT_AVAILABLE", readOnly: false, type: 'text', language: 'en', placeholder: placeHolders.class_YN },//33
+                //{ data: "ITEM_DESCRIPTION", readOnly: false, type: 'text', language: 'en' },//34
+                { data: "ITEM_DESCRIPTION", type: 'autocomplete', source: AutoCompleteItemDesc, allowInvalid: true },//34
+                { data: "UOM", readOnly: false, type: 'text', language: 'en' },//35
+                { data: "QUANTITY", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },//36
+                { data: "RATE_PER_UNIT", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },//37
+                { data: "HSN_SAC_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//38
+                { data: "DISCOUNT_PER_UNIT", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },//39
+                { data: "DISCOUNT_PERCENTAGE", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },//40
+                { data: "DISCOUNT_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//41
+                { data: "HSN_SAC_ASSESSABLE_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//42
+                { data: "TAX_PERCENTAGE", readOnly: true, type: 'numeric', format: '0.00', language: 'en', placeholder: placeHolders.class_F2 },//43
+                { data: "IGST_RATE", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//44
+                { data: "IGST_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//45
+                { data: "CGST_RATE", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//46
+                { data: "CGST_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//47
+                { data: "SGST_RATE", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//48
+                { data: "SGST_AMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },//49
+                { data: "CESS_RATE", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },//50
+                { data: "CESS_AMOUNT", readOnly: false, type: 'numeric', format: '0.00', language: 'en' },
+                { data: "NET_GSTAMOUNT", readOnly: true, type: 'numeric', format: '0.00', language: 'en' },
+                { data: "PARTICULATS", type: 'autocomplete', source: AutoCompleteParticulats, strict: true, allowInvalid: false },
+
+               // { data: "TRANSACTION_NATURE", type: 'autocomplete', source: AutoCompleteTransNature, allowInvalid: false },//1
+                { data: "TRANSACTION_NATURE", readOnly: true, type: 'text', language: 'en' },//1
+                { data: "IS_TRAN_WITH_REGISTERED_PARTY", readOnly: true, type: 'text', language: 'en' },//2               
+                { data: "DRCR", readOnly: true, type: 'text', language: 'en' },//3
+                { data: "GSTN_SENDER", readOnly: true, type: 'text', language: 'en' },//4
+                { data: "GSTN_SENDER_NAME", readOnly: true, type: 'text', language: 'en' },//5
+                { data: "GSTN_SENDER_ADDRESS", readOnly: true, type: 'text', language: 'en' },//6                
+                { data: "GSTN_SENDER_STATENAME", readOnly: true, type: 'text', language: 'en' },//8
+
+                { data: "GSTN_RECIPIENT_NAME", readOnly: true, type: 'text', language: 'en' },//10
+                { data: "GSTN_RECIPIENT_ADDRESS", readOnly: true, type: 'text', language: 'en' },//11
+                { data: "GSTN_RECIPIENT_STATECODE", readOnly: true, type: 'text', language: 'en' },//12
+                { data: "GSTN_RECIPIENT_STATENAME", readOnly: true, type: 'text', language: 'en' },//13
+                { data: "GSTN_CONSINEE", readOnly: true, type: 'text', language: 'en' },//14
+                { data: "GSTN_CONSINEE_NAME", readOnly: true, type: 'text', language: 'en' },//15
+                { data: "GSTN_CONSINEE_ADDRESS", readOnly: true, type: 'text', language: 'en' },//16
+                { data: "GSTN_CONSINEE_STATECODE", readOnly: true, type: 'text', language: 'en' },//17
+                { data: "GSTN_CONSINEE_STATENAME", readOnly: true, type: 'text', language: 'en' },//18
+                { data: "PLACE_OF_SUPPLY_STATECODE", readOnly: true, type: 'text', language: 'en' },//19
+                { data: "PLACE_OF_SUPPLY_STATENAME", readOnly: true, type: 'text', language: 'en' },//20               
+                { data: "DEBIT_CREDIT_NOTE_NO", readOnly: true, type: 'text', language: 'en' },//23
+                { data: "DEBIT_CREDIT_NOTE_DATE", readOnly: true, type: 'text', language: 'en' },//24
+                { data: "SHIPPING_BILL_NO", readOnly: true, type: 'text', language: 'en' },//25
+                { data: "SHIPPING_BILL_DATE", readOnly: true, type: 'text', language: 'en' },//26               
+                { data: "SERIAL_NO", readOnly: true, type: 'text', language: 'en' },//28               
+                { data: "ACCODEFOR", readOnly: false, type: 'text', language: 'en' },
+                { data: "ACCODE", readOnly: true, type: 'text', language: 'en' },
+                { data: "VOUCHERSERIALNO", readOnly: true, type: 'numeric', language: 'en' },
+                { data: "COMPANYCODE", readOnly: true, type: 'text', language: 'en' },
+                { data: "DIVISIONCODE", readOnly: true, type: 'text', language: 'en' },
+                { data: "DIVISIONCODEFOR", readOnly: true, type: 'text', language: 'en' },
+                { data: "YEARCODE", readOnly: true, type: 'text', language: 'en' },
+                { data: "SYSTEMVOUCHERNO", readOnly: true, type: 'text', language: 'en' },
+                { data: "SYSTEMVOUCHERDATE", readOnly: true, type: 'text', language: 'en' },
+                { data: "USERNAME", readOnly: true, type: 'text', language: 'en' },
+                { data: "SYSROWID", readOnly: true, type: 'text', language: 'en' },
+                { data: "TRANSACTION_TYPE", readOnly: true, type: 'text', language: 'en' },
+                { data: "PARTYCODE", readOnly: true, type: 'text', language: 'en' }
+
+            ],
+            afterChange: GSTGridAfterChange,
+            //afterRemoveRow: deleteGSTTableRow,
+            beforeKeyDown: function (e) {
+                var gridrowcolumns = $('#gridGST').handsontable('getInstance');
+                var currRow = gridrowcolumns.getSelected();
+
+                if (e.which == 113) { //F2
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+
+                    if (currRow[1] == returnColIndexGST("PARTYNAME")) {
+                        // var strComp1 = document.getElementById('<%=txtCOMPCODE.ClientID%>');
+                        // var strDiv1 = document.getElementById('<%=txtDIVCODE.ClientID%>');
+                        // document.getElementById('<%=txtGSTGridCurRow.ClientID%>').value = currRow[0] + ',' + currRow[1];
+                        // var strHelp = "2097^COMPANYCODE:" + strComp1.value + "~DIVISIONCODE:" + strDiv1.value + "~^^Party Name Listing^''"
+                        // InvokePop('mainContent_txtGSTGridHelp', strHelp);
+                    }
+
+                    if (currRow[1] == returnColIndexGST("GSTN_SENDER_STATECODE")) {
+                        //var strComp1 = document.getElementById('<%=txtCOMPCODE.ClientID%>');
+                        //var strDiv1 = document.getElementById('<%=txtDIVCODE.ClientID%>');
+                        //var strPARTYCODE = document.getElementById('<%=txtAccode.ClientID%>');
+                        //var strPARTYCODE = $("#gridGST").handsontable('getDataAtCell', currRow[0], returnColIndexGST("PARTYCODE"));
+                        //document.getElementById('<%=txtGSTGridCurRow.ClientID%>').value = currRow[0] + ',' + currRow[1];
+                        //var strHelp = "2102^" + "COMPANYCODE:" + strComp1.value + "~DIVISIONCODE:" + strDiv1.value + "~PARTYCODE:" + strPARTYCODE + "~^" + "^" + "Party Ledger Address Listing^''"
+                        //InvokePop('mainContent_txtGSTGridHelp', strHelp);
+                    }
+
+                    if (currRow[1] == returnColIndexGST("HSN_SAC_CODE")) {
+                        var strComp1 = document.getElementById('<%=txtCOMPCODE.ClientID%>')
+
+                        document.getElementById('<%=txtGSTGridCurRow.ClientID%>').value = currRow[0] + ',' + currRow[1];
+                        var strHelp = "9101^COMPANYCODE:" + strComp1.value + "~^^GST HSN Listing^''"
+                        InvokePop('mainContent_txtGSTGridHelp', strHelp);
+                    }
+
+                    if (currRow[1] == returnColIndexGST("TAX_PERCENTAGE")) {
+
+                        var hsnno = $("#gridGST").handsontable('getDataAtCell', currRow[0], returnColIndexGST("HSN_SAC_CODE"));
+                        var chargepercent;
+                        $.ajax({
+                            type: "POST",
+                            url: "AcVoucher_LiabilityAgainstBill_TabGSTDetails.aspx/GetSlabRate",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            data: JSON.stringify({ strhsnno: hsnno }),
+                            success: function (res) {
+                                var strArray = new Array()
+                                strArray = res.d.split("~");
+                                chargepercent = res.d;
+                            },
+                            error: function (xhr, status) {
+                                alert("An error occurred: " + status);
+                            }
+                        });
+
+                        if (Number(chargepercent) > 0) {
+
+                        }
+                        else {
+                            var strComp1 = document.getElementById('<%=txtCOMPCODE.ClientID%>')
+                            document.getElementById('<%=txtGSTGridCurRow.ClientID%>').value = currRow[0] + ',' + currRow[1];
+                            var varSenderGSTNStateCode = $("#gridGST").handsontable('getDataAtCell', currRow[0], returnColIndexGST("GSTN_SENDER_STATECODE"));
+                            var strHelp = "9106^GSTSTATECODE:" + varSenderGSTNStateCode + "~^^GST Rate Listing^''"
+                            InvokePop('mainContent_txtGSTGridHelp', strHelp);
+                        }
+                    }
+                    if (currRow[1] == returnColIndexGST("GSTN_RECIPIENT")) {
+                        //var strComp1 = document.getElementById('<%=txtCOMPCODE.ClientID%>');
+                        //var strDiv1 = document.getElementById('<%=txtDIVCODE.ClientID%>');
+                        //var DIVISIONCODEFOR = $("#gridGST").handsontable('getDataAtCell', currRow[0], returnColIndexGST("DIVISIONCODEFOR"));
+                        //document.getElementById('<%=txtGSTGridCurRow.ClientID%>').value = currRow[0] + ',' + currRow[1];
+                        //var strHelp = "4228^COMPANYCODE:" + strComp1.value + "~DIVISIONCODE:" + DIVISIONCODEFOR + "~^^GSTIN NO^''"
+                        //InvokePop('mainContent_txtGSTGridHelp', strHelp);
+                    }
+                }//
+
+                if (currRow[1] == returnColIndexGST("IS_EXEMPTED")) {
+                    var key = e.charCode || e.keyCode; // to support all browsers
+                    //alert(key);
+                    if (key != 37 && key != 38 && key != 39 && key != 40 && key != 9)  // Right-37,Up-38,Left-39, Down-40, Tab-9 Key
+                    {
+                        e.stopImmediatePropagation();
+                    }
+                    if (key == 89) { // Y
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("IS_EXEMPTED"), "Y");
+                    }
+                    if (key == 78) { //N 
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("IS_EXEMPTED"), "N");
+                    }
+                }//
+                if (currRow[1] == returnColIndexGST("IS_REVERSE_CHARGE_BY_RECIPIENT")) {
+                    var key = e.charCode || e.keyCode; // to support all browsers
+                    //alert(key);
+                    if (key != 37 && key != 38 && key != 39 && key != 40 && key != 9)  // Right-37,Up-38,Left-39, Down-40, Tab-9 Key
+                    {
+                        e.stopImmediatePropagation();
+                    }
+                    if (key == 89) { // Y
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("IS_REVERSE_CHARGE_BY_RECIPIENT"), "Y");
+                    }
+                    if (key == 78) { //N 
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("IS_REVERSE_CHARGE_BY_RECIPIENT"), "N");
+                    }
+                }//
+
+                if (currRow[1] == returnColIndexGST("INPUT_CREDIT_AVAILABLE")) {
+                    var key = e.charCode || e.keyCode; // to support all browsers
+                    //alert(key);
+                    if (key != 37 && key != 38 && key != 39 && key != 40 && key != 9)  // Right-37,Up-38,Left-39, Down-40, Tab-9 Key
+                    {
+                        e.stopImmediatePropagation();
+                    }
+                    if (key == 89) { // Y
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("INPUT_CREDIT_AVAILABLE"), "Y");
+                    }
+                    if (key == 78) { //N 
+                        $("#gridGST").handsontable('setDataAtCell', currRow[0], returnColIndexGST("INPUT_CREDIT_AVAILABLE"), "N");
+                    }
+                }//
+
+                if (currRow[1] == returnColIndexGST("IGST_RATE")) {
+                    enableDisableGSTGridCell(currRow);
+                }//
+                if (currRow[1] == returnColIndexGST("CGST_RATE")) {
+                    enableDisableGSTGridCell(currRow);
+                }//
+
+                if (currRow[1] == returnColIndexGST("SGST_RATE")) {
+                    enableDisableGSTGridCell(currRow);
+                }//
+            },
+        });
+
+
+------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+

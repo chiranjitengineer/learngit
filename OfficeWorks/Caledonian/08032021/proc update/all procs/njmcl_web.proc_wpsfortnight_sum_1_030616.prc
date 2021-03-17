@@ -1,0 +1,101 @@
+DROP PROCEDURE NJMCL_WEB.PROC_WPSFORTNIGHT_SUM_1_030616;
+
+CREATE OR REPLACE PROCEDURE NJMCL_WEB."PROC_WPSFORTNIGHT_SUM_1_030616" 
+(
+    p_companycode varchar2,
+    p_divisioncode varchar2,
+    p_yearcode      varchar2,
+    p_fromdt varchar2,
+    p_todt varchar2
+)
+as 
+    lv_sqlstr           varchar2(20000);
+begin
+    delete from GTT_FORTNIGHTATTENDANCE;
+    /*lv_sqlstr :=    'insert into GTT_FORTNIGHTATTENDANCE '|| chr(10)
+            ||' SELECT '''||p_fromdt ||''' FROMDT,'''||p_todt||''' TODT, D.COMPANYNAME, A.TOKENNO EBNO, B.WORKERNAME, null AS W_K_T_Y, C.LINENO, A.MACHINECODE1 AS MCH, A.OCCUPATIONCODE OCC, SUM(ATTENDANCEHOURS) HRS_WK_1, 0 HRS_WK_2, '||chr(10) 
+            ||' SUM(NVL(NIGHTALLOWANCEHOURS,0)) NS_HRS, SUM(HOLIDAYHOURS) FESTIVAL_HRS, SUM(NVL(OVERTIMEHOURS,0)) O_T__HRS, 0 LAY_OFF_HRS, '||chr(10)
+            ||' null STL_DAYS, null STL_WG_ADV, null DEDN_ADJ_CD, null DEDN_ADJ_AMT_3_2, null INC_ADJ_CD, null INC_ADJ_AMT_3_2, '||chr(10) 
+            ||' null PRD_QL_CD, null PRO_QTY, null TAG, '||chr(10) 
+            ||' A.DEPARTMENTCODE DEPT, DECODE(A.SHIFTCODE,''1'',''B'',DECODE(A.SHIFTCODE,''2'',''B'',''C'')) SHIFT '||chr(10)  
+            ||' FROM WPSATTENDANCEDAYWISE A, WPSWORKERMAST B, WPSMACHINELINEMAPPING C, COMPANYMAST D '||chr(10)
+            ||' WHERE A.COMPANYCODE = '''||p_companycode||''' AND A.DIVISIONCODE = '''||p_divisioncode||''' '||chr(10)
+            ||' AND A.YEARCODE = '''||p_yearcode||''' '||chr(10)
+            ||' AND A.DATEOFATTENDANCE BETWEEN TO_DATE(''' || p_fromdt || ''',''DD/MM/YYYY'') '|| chr(10)
+            ||'                         AND TO_DATE(''' || p_todt || ''',''DD/MM/YYYY'') '|| chr(10)
+            ||' AND A.COMPANYCODE = D.COMPANYCODE '||chr(10)
+            ||' AND A.COMPANYCODE = B.COMPANYCODE AND A.DIVISIONCODE = B.DIVISIONCODE AND A.WORKERSERIAL = B.WORKERSERIAL '||chr(10)
+            ||' AND A.DEPARTMENTCODE = C.DEPARTMENTCODE (+) AND A.MACHINECODE1 = C.MACHINECODE (+) '||chr(10)
+            ||' GROUP BY D.COMPANYNAME, A.TOKENNO, B.WORKERNAME, C.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE, A.DEPARTMENTCODE, A.SHIFTCODE '||chr(10)
+            ||' ORDER BY A.DEPARTMENTCODE, A.SHIFTCODE, A.TOKENNO, C.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE '||chr(10);
+    */
+lv_sqlstr :=    ' insert into GTT_FORTNIGHTATTENDANCE '||CHR(10)
+        ||' SELECT '''||p_fromdt||''' FROMDT,'''||p_todt||''' TODT, D.COMPANYNAME, A.TOKENNO EBNO, A.WORKERNAME, null AS W_K_T_Y, A.LINENO, A.MACHINECODE1 AS MCH, A.OCCUPATIONCODE OCC, SUM(ATTENDANCEHOURS) HRS_WK_1, 0 HRS_WK_2, '||CHR(10) 
+        ||' SUM(NVL(NIGHTALLOWANCEHOURS,0)) NS_HRS, SUM(HOLIDAYHOURS) FESTIVAL_HRS, SUM(O_T_HRS) O_T__HRS, 0 LAY_OFF_HRS, '||CHR(10) 
+        ||' null STL_DAYS, null STL_WG_ADV, null DEDN_ADJ_CD, null DEDN_ADJ_AMT_3_2, null INC_ADJ_CD, null INC_ADJ_AMT_3_2, '||CHR(10) 
+        ||' null PRD_QL_CD, null PRO_QTY, null TAG, '||CHR(10) 
+        ||' A.DEPARTMENTCODE DEPT, DECODE(A.SHIFTCODE,''1'',''B'',DECODE(A.SHIFTCODE,''2'',''B'',''C'')) SHIFT '||CHR(10) 
+        ||' FROM  COMPANYMAST D, '||CHR(10)
+        ||' ( '||CHR(10)
+        ||'   SELECT A.COMPANYCODE, A.TOKENNO, B.WORKERNAME, XX.DEPARTMENTCODE,  XX.SHIFTCODE, C.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE, '||CHR(10) 
+        ||'   SUM(ATTENDANCEHOURS) ATTENDANCEHOURS,  '||CHR(10)
+        ||'   SUM(NVL(NIGHTALLOWANCEHOURS,0)) NIGHTALLOWANCEHOURS, SUM(HOLIDAYHOURS) HOLIDAYHOURS, 0 O_T_HRS '||CHR(10)
+        ||'   FROM WPSATTENDANCEDAYWISE A, WPSWORKERMAST B, WPSMACHINELINEMAPPING C, '||CHR(10) 
+        ||'      ( '||CHR(10)
+        ||'         SELECT A.WORKERSERIAL, A.DEPARTMENTCODE, MIN(SHIFTCODE) SHIFTCODE '||CHR(10) 
+        ||'         FROM WPSATTENDANCEDAYWISE A, '||CHR(10) 
+        ||'         ( '||CHR(10) 
+        ||'            SELECT WORKERSERIAL, DEPARTMENTCODE, MIN(DATEOFATTENDANCE) DATEOFATTENDANCE '||CHR(10) 
+        ||'            FROM WPSATTENDANCEDAYWISE A '||CHR(10) 
+        ||'            WHERE A.COMPANYCODE = '''||p_companycode||''' '||CHR(10)   
+        ||'              AND A.DIVISIONCODE = '''||p_divisioncode||''' '||CHR(10)   
+        ||'              AND A.DATEOFATTENDANCE >= TO_DATE('''|| p_fromdt ||''',''DD/MM/YYYY'') '||CHR(10)   
+        ||'              AND A.DATEOFATTENDANCE <= TO_DATE('''||p_todt||''',''DD/MM/YYYY'') '||CHR(10) 
+        ||'              AND (NVL(A.ATTENDANCEHOURS,0)+NVL(A.HOLIDAYHOURS,0)) >0 '||CHR(10)
+        ||'            GROUP BY A.WORKERSERIAL, A.DEPARTMENTCODE '||CHR(10)   
+        ||'        ) B '||CHR(10) 
+        ||'        WHERE A.COMPANYCODE = '''||p_companycode||'''  '||CHR(10)   
+        ||'          AND A.DIVISIONCODE = '''||p_divisioncode||''' '||CHR(10)   
+        ||'          AND A.DATEOFATTENDANCE = B.DATEOFATTENDANCE '||CHR(10) 
+        ||'          AND A.WORKERSERIAL = B.WORKERSERIAL '||CHR(10) 
+        ||'          AND A.DEPARTMENTCODE = B.DEPARTMENTCODE '||CHR(10)
+        ||'          AND (NVL(A.ATTENDANCEHOURS,0)+NVL(A.HOLIDAYHOURS,0)) >0 '||CHR(10)
+        ||'        GROUP BY A.WORKERSERIAL, A.DEPARTMENTCODE '||CHR(10) 
+        ||'      ) XX '||CHR(10) 
+        ||'  WHERE A.COMPANYCODE = '''||p_companycode||''' AND A.DIVISIONCODE = '''||p_divisioncode||''' '||CHR(10) 
+        ||'  AND A.YEARCODE = '''||p_yearcode||''' '||CHR(10) 
+        ||'  AND A.DATEOFATTENDANCE BETWEEN TO_DATE('''||p_fromdt||''',''DD/MM/YYYY'') '||CHR(10) 
+        ||'                          AND TO_DATE('''||p_todt||''',''DD/MM/YYYY'') '||CHR(10) 
+        ||'  AND A.COMPANYCODE = B.COMPANYCODE AND A.DIVISIONCODE = B.DIVISIONCODE AND A.WORKERSERIAL = B.WORKERSERIAL '||CHR(10) 
+        ||'  AND A.DEPARTMENTCODE = C.DEPARTMENTCODE (+) AND NVL(A.MACHINECODE1,''NA'') = C.MACHINECODE (+) '||CHR(10)
+        ||'  AND A.WORKERSERIAL = XX.WORKERSERIAL AND A.DEPARTMENTCODE = XX.DEPARTMENTCODE '||CHR(10)
+        ||'  AND (NVL(A.ATTENDANCEHOURS,0)+NVL(A.HOLIDAYHOURS,0)) >0 '||CHR(10)
+        ||'  GROUP BY A.COMPANYCODE,A.TOKENNO, B.WORKERNAME, C.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE, XX.DEPARTMENTCODE, XX.SHIFTCODE '||CHR(10)
+        ||'  UNION ALL '||CHR(10)
+        ||'  SELECT A.COMPANYCODE, A.TOKENNO, B.WORKERNAME, A.DEPARTMENTCODE,  A.SHIFTCODE, W.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE,'||CHR(10) 
+        ||'  0 ATTENDANCEHOURS, 0 NIGHTALLOWANCEHOURS, 0  HOLIDAYHOURS, SUM(OVERTIMEHOURS) O_T_OTHRS '||CHR(10)     
+        ||'  FROM WPSATTENDANCEDAYWISE A, WPSWORKERMAST B, WPSMACHINELINEMAPPING W '||CHR(10)  
+        ||'  WHERE A.COMPANYCODE = '''||p_companycode||''' '||CHR(10)   
+        ||'    AND A.DIVISIONCODE = '''||p_divisioncode||''' '||CHR(10)
+        ||'    AND A.YEARCODE = '''||p_yearcode||''' '||CHR(10)   
+        ||'    AND A.DATEOFATTENDANCE >= TO_DATE('''||p_fromdt||''',''DD/MM/YYYY'') '||CHR(10)   
+        ||'    AND A.DATEOFATTENDANCE <= TO_DATE('''||p_todt||''',''DD/MM/YYYY'') '||CHR(10) 
+        ||'    AND NVL(A.OVERTIMEHOURS,0)  > 0 '||CHR(10)
+        ||'    AND A.COMPANYCODE = B.COMPANYCODE AND A.DIVISIONCODE = B.DIVISIONCODE AND A.WORKERSERIAL = B.WORKERSERIAL '||CHR(10)
+        ||'    AND A.DEPARTMENTCODE = W.DEPARTMENTCODE (+) '||CHR(10) 
+        ||'    AND NVL(A.MACHINECODE1,''NA'') = W.MACHINECODE (+) '||CHR(10)
+        ||'  GROUP BY A.COMPANYCODE, A.TOKENNO, B.WORKERNAME, A.DEPARTMENTCODE, A.SHIFTCODE, W.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE, A.SHIFTCODE '||CHR(10)
+        ||' ) A '||CHR(10)
+        ||' WHERE A.COMPANYCODE = D.COMPANYCODE '||CHR(10)
+        ||' GROUP BY D.COMPANYNAME, A.TOKENNO, A.WORKERNAME, A.LINENO, A.MACHINECODE1, A.OCCUPATIONCODE, A.DEPARTMENTCODE, A.SHIFTCODE '||CHR(10)
+        ||' ORDER BY A.DEPARTMENTCODE, A.SHIFTCODE, A.TOKENNO, A.LINENO, A.MACHINECODE1, '||CHR(10) 
+        ||' SUBSTR(A.OCCUPATIONCODE, 1, 2) '||CHR(10)   ;                 
+ --   dbms_output.put_line(lv_sqlstr);
+   execute immediate lv_sqlstr;
+   UPDATE GTT_FORTNIGHTATTENDANCE A SET OCC = (SELECT A.OCC||B.WORKERTYPECODE FROM WPSOCCUPATIONMAST B
+   WHERE A.DEPT = B.DEPARTMENTCODE AND A.OCC=B.OCCUPATIONCODE);
+   COMMIT;
+end;
+/
+
+

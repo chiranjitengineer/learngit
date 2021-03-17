@@ -1,0 +1,88 @@
+
+        var keyAscii = '';
+        function AfterSelection(element, e) {
+            var gridrowcolumns = $('#dataTable').handsontable('getInstance');
+            var currRow = gridrowcolumns.getSelected();
+            if (keyAscii != 40 && keyAscii != 38 && keyAscii) {
+                var firstfocuscolumn = document.getElementById('<%=txtFIRSTFOCUSCOLUMN.ClientID%>').value;
+                var lastfocuscolumn = document.getElementById('<%=txtLASTFOCUSCOLUMN.ClientID%>').value;
+                focusOnEditableCell('#dataTable', currRow, keyAscii);
+                if (currRow[1] == returnColIndex(lastfocuscolumn)) {
+                    $("#dataTable").handsontable("selectCell", parseInt(currRow[0]) + 1, returnColIndex(firstfocuscolumn));
+                }
+                if (currRow[1] == returnColIndex("PICFROM") && (keyAscii == 9)) {
+                    $("#dataTable").handsontable("selectCell", parseInt(currRow[0]), parseInt(currRow[1]) + 1);
+                }
+                keyAscii = '';
+            }
+        };
+
+
+function focusOnEditableCell(dataTable, currRow, keyAscii) {
+    if (keyAscii == 9 || keyAscii == 39) {
+        var test = $(dataTable).handsontable("getCell", parseInt(currRow[0]), parseInt(currRow[1]), false);
+        if ($(test).css("background-color") == "rgb(255, 204, 204)") {
+            $(dataTable).handsontable("selectCell", parseInt(currRow[0]), parseInt(currRow[1]) + 1);
+        }
+        keyAscii = '';
+    }
+}
+
+
+-----------------------------------------------------------------------------------------
+
+
+
+//Added by Chiranjit Ghosh on 15/03/2021
+
+
+function fnSetGridOnSelection(divId) {
+    //var hdsOn = $('#dataTable').data('handsontable').getInstance();
+    var hdsOn = $(divId).data('handsontable').getInstance();
+    console.log('fnSetGridOn ');
+    Handsontable.hooks.add('afterSelection', AfterSelectionGrid, hdsOn);
+    Handsontable.hooks.add('beforeKeyDown', beforeKeyDownGrid, hdsOn);
+}
+var keyAscii = 0;
+function beforeKeyDownGrid(e) {
+    keyAscii = e.which;
+}
+function AfterSelectionGrid(element, e) {
+
+    console.log('AfterSelection');
+    console.log(element);
+    console.log(e);
+    var gridrowcolumns = $('#dataTable').handsontable('getInstance');
+    var currRow = gridrowcolumns.getSelected();
+    if (keyAscii != 40 && keyAscii != 38 && keyAscii) {
+        //var firstfocuscolumn = document.getElementById('txtFIRSTFOCUSCOLUMN').value;
+        //var lastfocuscolumn = document.getElementById('txtLASTFOCUSCOLUMN').value;
+        focusOnEditableCell('#dataTable', currRow, keyAscii);
+        var hdsSettings = gridrowcolumns.getSettings();
+        var colHeaders = hdsSettings.colHeaders;
+        var colWidths = hdsSettings.colWidths;
+        var LastIndex = colHeaders.length - 1;
+        var FirstIndex = 0;
+        if (currRow[1] > LastIndex) {
+            $("#dataTable").handsontable("selectCell", parseInt(currRow[0]) + 1, 0);
+        }
+        keyAscii = '';
+    }
+};
+function focusOnEditableCell(dataTable, currRow, keyAscii) {
+    console.log('focusOnEditableCell');
+    if (keyAscii == 9 || keyAscii == 39) {
+        var test = $(dataTable).handsontable("getCell", parseInt(currRow[0]), parseInt(currRow[1]), false);
+        console.log(test);
+        console.log($(test).css("color"));
+        if (($(test).css("background-color") == "rgb(255, 204, 204)")
+            || ($(test).css("color") == "rgb(119, 119, 119)")
+            || ($(test).hasClass('htDimmed'))
+            ) {
+            $(dataTable).handsontable("selectCell", parseInt(currRow[0]), parseInt(currRow[1]) + 1);
+        }
+        keyAscii = '';
+    }
+};
+
+//ended on 15/03/2021 by Chiranjit Ghosh

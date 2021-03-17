@@ -172,19 +172,20 @@ begin
         set SCRAPSALEBILLDATE = lv_Master.SALESBILLDATE;
         
         
---        select count(*) into lv_cnt from GBL_SALESOTHERBILLREFDETAILS where SCRAPSALESBILLNO = lv_BILLNO;
---        
---        
---        lv_error_remark := 'Validation Failure : [error***********]---------'||lv_BILLNO||'--------------  '||lv_cnt;
---        raise_application_error(to_number(FN_DISPLAY_ERROR( 'COMMON')),FN_DISPLAY_ERROR( 'COMMON',6,lv_error_remark));
---        
         --ended on 09/02/2021
         
         
         select *
         into lv_Master
         from GBL_SALESOTHERBILLMASTER;
-            
+   ELSE
+   
+        update GBL_SALESOTHERBILLREFDETAILS
+        set SCRAPSALEBILLNO = lv_Master.SALESBILLNO;
+        
+        update GBL_SALESOTHERBILLREFDETAILS
+        set SCRAPSALEBILLDATE = lv_Master.SALESBILLDATE;
+             
     end if;
     
     --TCS Auto Insert

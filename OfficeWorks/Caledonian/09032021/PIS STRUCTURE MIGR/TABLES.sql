@@ -1,0 +1,7837 @@
+DROP TABLE PISLEAVEENTITLEMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISLEAVEENTITLEMENT
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARCODE       VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  GRADECODE      VARCHAR2(10 BYTE),
+  WORKERSERIAL   VARCHAR2(10 BYTE),
+  TOKENNO        VARCHAR2(20 BYTE),
+  LEAVECODE      VARCHAR2(5 BYTE),
+  ENTITLEMENTS   NUMBER(5,2),
+  CARRYFORWARD   NUMBER(5,2),
+  CALENDARYEAR   VARCHAR2(4 BYTE),
+  USERNAME       VARCHAR2(100 BYTE)             NOT NULL,
+  LASTMODIFIED   DATE                           DEFAULT SYSDATE,
+  SYSROWID       VARCHAR2(50 BYTE)              NOT NULL,
+  EFFECTIVEDATE  DATE
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISCOMPONENTLIMIT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCOMPONENTLIMIT
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARMONTH      VARCHAR2(10 BYTE),
+  COMPONENTCODE  VARCHAR2(10 BYTE),
+  LIMITTYPE      CHAR(1 BYTE)                   DEFAULT 'A',
+  LIMITFROM      NUMBER(15,4),
+  LIMITTO        NUMBER(15,4),
+  VALUE          NUMBER(15,4),
+  USERNAME       VARCHAR2(100 BYTE),
+  SYSROWID       VARCHAR2(50 BYTE),
+  LASTMODIFIED   DATE                           DEFAULT SYSDATE
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISMONTHADJUSTMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISMONTHADJUSTMENT
+(
+  COMPANYCODE     VARCHAR2(10 BYTE)             NOT NULL,
+  DIVISIONCODE    VARCHAR2(10 BYTE)             NOT NULL,
+  YEARCODE        VARCHAR2(10 BYTE)             NOT NULL,
+  UNITCODE        VARCHAR2(10 BYTE),
+  CATEGORYCODE    VARCHAR2(10 BYTE)             NOT NULL,
+  GRADECODE       VARCHAR2(10 BYTE),
+  WORKERSERIAL    VARCHAR2(10 BYTE),
+  TOKENNO         VARCHAR2(10 BYTE),
+  YEARMONTH       VARCHAR2(50 BYTE),
+  ADJYEARMONTH    VARCHAR2(50 BYTE),
+  ADJDAYS         NUMBER(5,2),
+  CALCFACTORDAYS  NUMBER(5,2),
+  OT_HRS          NUMBER(5,2),
+  SFT_BDAYS       NUMBER(5,2),
+  SFT_CDAYS       NUMBER(5,2),
+  USERNAME        VARCHAR2(100 BYTE),
+  LASTMODIFIED    DATE                          DEFAULT SYSDATE,
+  SYSROWID        VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISDESIGNATIONMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISDESIGNATIONMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISDESIGNATIONMASTER
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  DESIGNATIONCODE    VARCHAR2(10 BYTE)          NOT NULL,
+  DESIGNATIONDESC    VARCHAR2(100 BYTE),
+  DESIGNATIONINDEX   NUMBER(3),
+  INCLUDENIGHTSHIFT  VARCHAR2(1 BYTE),
+  USERNAME           VARCHAR2(100 BYTE)         NOT NULL,
+  LASTMODIFIED       DATE                       DEFAULT SYSDATE,
+  SYSROWID           VARCHAR2(50 BYTE)          NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISMONTHATTENDANCE
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISMONTHATTENDANCE CASCADE CONSTRAINTS;
+
+CREATE TABLE PISMONTHATTENDANCE
+(
+  COMPANYCODE            VARCHAR2(10 BYTE),
+  DIVISIONCODE           VARCHAR2(10 BYTE),
+  YEARCODE               VARCHAR2(10 BYTE),
+  YEARMONTH              VARCHAR2(10 BYTE),
+  UNITCODE               VARCHAR2(10 BYTE),
+  CATEGORYCODE           VARCHAR2(10 BYTE),
+  GRADECODE              VARCHAR2(10 BYTE),
+  WORKERSERIAL           VARCHAR2(10 BYTE),
+  TOKENNO                VARCHAR2(10 BYTE),
+  PRESENTDAYS            NUMBER(15,4)           DEFAULT 0,
+  ADJUSTMENTDAYS         NUMBER(15,4)           DEFAULT 0,
+  LEAVEDAYS              NUMBER(15,4)           DEFAULT 0,
+  WITHOUTPAYDAYS         NUMBER(15,4)           DEFAULT 0,
+  HOLIDAYS               NUMBER(15,4)           DEFAULT 0,
+  SALARYDAYS             NUMBER(15,4)           DEFAULT 0,
+  TOTALDAYS              NUMBER(15,4)           DEFAULT 0,
+  NOOFOFFDAYS            NUMBER(15,4)           DEFAULT 0,
+  DAYOFF                 VARCHAR2(20 BYTE)      DEFAULT 0,
+  WORKEDONOFFDAYS        NUMBER(15,4)           DEFAULT 0,
+  INCLUDEOFFDAY          VARCHAR2(1 BYTE),
+  CARDREADINGDAYS        NUMBER(15,4)           DEFAULT 0,
+  CALCULATIONFACTORDAYS  NUMBER(15,4)           DEFAULT 0,
+  TRANSACTIONTYPE        VARCHAR2(50 BYTE)      DEFAULT 'SALARY',
+  MODULE                 VARCHAR2(3 BYTE)       DEFAULT 'PIS',
+  SYSROWID               VARCHAR2(100 BYTE),
+  LASTMODIFIED           DATE                   DEFAULT SYSDATE,
+  USERNAME               VARCHAR2(50 BYTE),
+  DEPARTMENTCODE         VARCHAR2(10 BYTE),
+  LV_ENCASH_DAYS         NUMBER(15,4),
+  LVDAYS_RET             NUMBER(15,4),
+  EFFECT_YEARMONTH       VARCHAR2(10 BYTE),
+  SARR_PF_GROSS          NUMBER(15,5)           DEFAULT 0,
+  SARR_ARRE              NUMBER(15,5)           DEFAULT 0,
+  SARR_ARRD              NUMBER(15,5)           DEFAULT 0,
+  SARR_NPF               NUMBER(15,5)           DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISGRADECOMPONENTMAPPING CASCADE CONSTRAINTS;
+
+CREATE TABLE PISGRADECOMPONENTMAPPING
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARMONTH      VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  GRADECODE      VARCHAR2(10 BYTE),
+  COMPONENTCODE  VARCHAR2(20 BYTE),
+  APPLICABLE     VARCHAR2(3 BYTE)               DEFAULT 'NO',
+  USERNAME       VARCHAR2(100 BYTE)             NOT NULL,
+  LASTMODIFIED   DATE                           DEFAULT SYSDATE,
+  SYSROWID       VARCHAR2(50 BYTE)              NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISLEAVEMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISLEAVEMASTER
+(
+  COMPANYCODE                 VARCHAR2(10 BYTE),
+  DIVISIONCODE                VARCHAR2(10 BYTE),
+  LEAVECODE                   VARCHAR2(5 BYTE)  NOT NULL,
+  LEAVEDESC                   VARCHAR2(500 BYTE),
+  LEAVECF                     VARCHAR2(1 BYTE)  DEFAULT 'N',
+  LEAVEENCASH                 VARCHAR2(1 BYTE)  DEFAULT 'N',
+  LEAVEINDEX                  NUMBER(3),
+  LEAVEENTITLEMENTAPPLICABLE  VARCHAR2(1 BYTE),
+  WITHOUTPAYLEAVE             VARCHAR2(1 BYTE),
+  INCLUDENIGHTSHIFT           VARCHAR2(1 BYTE),
+  LEAVECARRYFORWARDLIMIT      NUMBER(3),
+  USERNAME                    VARCHAR2(100 BYTE) NOT NULL,
+  LASTMODIFIED                DATE              DEFAULT SYSDATE,
+  SYSROWID                    VARCHAR2(50 BYTE) NOT NULL,
+  ALLOWNEGATIVELEAVES         VARCHAR2(1 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISBANKMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISBANKMASTER
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  BANKCODE          VARCHAR2(10 BYTE)           NOT NULL,
+  BANKDESC          VARCHAR2(500 BYTE)          NOT NULL,
+  BANKADDRESS       VARCHAR2(200 BYTE),
+  BANKBSR           VARCHAR2(100 BYTE),
+  BANKINDEX         NUMBER(3),
+  BANKSALARYADVISE  VARCHAR2(1 BYTE),
+  SALARYACCOUNTNO   VARCHAR2(20 BYTE),
+  MICRNO            VARCHAR2(20 BYTE),
+  BRANCHNAME        VARCHAR2(200 BYTE)          NOT NULL,
+  ACNO              VARCHAR2(20 BYTE),
+  IFSCCODE          VARCHAR2(20 BYTE),
+  USERNAME          VARCHAR2(100 BYTE)          NOT NULL,
+  LASTMODIFIED      DATE                        DEFAULT SYSDATE,
+  SYSROWID          VARCHAR2(50 BYTE)           NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISCOMPONENTMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISCOMPONENTMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCOMPONENTMASTER
+(
+  COMPANYCODE                  VARCHAR2(10 BYTE),
+  DIVISIONCODE                 VARCHAR2(10 BYTE),
+  YEARMONTH                    VARCHAR2(10 BYTE),
+  COMPONENTCODE                VARCHAR2(15 BYTE),
+  COMPONENTSHORTNAME           VARCHAR2(15 BYTE),
+  COMPONENTDESC                VARCHAR2(100 BYTE),
+  COMPONENTTYPE                VARCHAR2(50 BYTE),
+  COMPONENTGROUP               VARCHAR2(20 BYTE),
+  CALCULATIONINDEX             NUMBER(10),
+  PHASE                        NUMBER(4),
+  PAYFORMULA                   VARCHAR2(2000 BYTE),
+  DEPENDENCYTYPE               VARCHAR2(1 BYTE),
+  VALIDATIONTYPE               VARCHAR2(1 BYTE),
+  ROUNDOFFTYPE                 VARCHAR2(1 BYTE),
+  ROUNDOFFRS                   NUMBER(9,2),
+  CARRYFORWARDTYPE             VARCHAR2(1 BYTE),
+  INCLUDEPAYROLL               VARCHAR2(1 BYTE),
+  INCLUDEARREAR                VARCHAR2(1 BYTE),
+  USERENTRYAPPLICABLE          VARCHAR2(1 BYTE),
+  ATTENDANCEENTRYAPPLICABLE    VARCHAR2(1 BYTE),
+  LIMITAPPLICABLE              VARCHAR2(1 BYTE),
+  ROLLOVERAPPLICABLE           VARCHAR2(1 BYTE),
+  EMPLOYEESPECIFIC             VARCHAR2(1 BYTE),
+  SLABAPPLICABLE               VARCHAR2(1 BYTE),
+  ALLOWREIMBURSEMENT           VARCHAR2(1 BYTE),
+  ALLOWCUMULATIVECOMPCREATION  VARCHAR2(1 BYTE),
+  MISCPAYMENT                  VARCHAR2(1 BYTE),
+  FINALSETTLEMENT              VARCHAR2(1 BYTE),
+  ISCOSTCENTREWISEPOSTING      VARCHAR2(1 BYTE),
+  ACCODEREIMBURSELIABILITY     VARCHAR2(10 BYTE),
+  RATECOMPONENT                VARCHAR2(1 BYTE),
+  ACCCODE                      VARCHAR2(10 BYTE),
+  SUBCODE                      VARCHAR2(10 BYTE),
+  EXPENSECODE                  VARCHAR2(10 BYTE),
+  SYSTEMCOMPONENT              VARCHAR2(1 BYTE),
+  EDITABLEFORMULA              VARCHAR2(1 BYTE),
+  SALARYREGISTERROWNO          NUMBER(9,2),
+  SALARYREGISTERCOLSTART       NUMBER(9,2),
+  SALARYREGISTERCOLWIDTH       NUMBER(9,2),
+  PAYSLIPROWNO                 NUMBER(9,2),
+  PAYSLIPCOLSTART              NUMBER(9,2),
+  PAYSLIPCOLWIDTH              NUMBER(9,2),
+  SYSROWID                     VARCHAR2(100 BYTE),
+  LASTMODIFIED                 DATE             DEFAULT SYSDATE,
+  USERNAME                     VARCHAR2(50 BYTE),
+  PRINTSERIAL                  NUMBER(9,2),
+  COLHEADER                    VARCHAR2(50 BYTE),
+  PARTIALLYDEDUCT              VARCHAR2(1 BYTE) DEFAULT 'N',
+  ISUNREALIZED                 VARCHAR2(1 BYTE) DEFAULT 'N'
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISLEAVEAPPLICATION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISLEAVEAPPLICATION
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  YEARCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  LEAVECODE                VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON           DATE,
+  LEAVESANCTIONEDON        DATE,
+  LEAVEDATE                DATE,
+  LEAVEENCASHED            VARCHAR2(1 BYTE)     DEFAULT 'N',
+  LEAVEAPPLICATIONREMARKS  VARCHAR2(100 BYTE),
+  LEAVESANCTIONREMARKS     VARCHAR2(100 BYTE),
+  LEAVEDAYS                NUMBER(5,2)          DEFAULT 1,
+  ADJUSTMENTTAG            VARCHAR2(1 BYTE),
+  FINALSETTLEMENTTAG       VARCHAR2(1 BYTE)     DEFAULT 'N',
+  TAXABLE                  VARCHAR2(1 BYTE)     DEFAULT 'N',
+  CALENDARYEAR             VARCHAR2(4 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE)   NOT NULL,
+  LASTMODIFIED             DATE                 DEFAULT SYSDATE,
+  SYSROWID                 VARCHAR2(50 BYTE)    NOT NULL,
+  DOCUMENTNO               VARCHAR2(20 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISCOMPONENTASSIGNMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCOMPONENTASSIGNMENT
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  SYSROWID         VARCHAR2(100 BYTE),
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE,
+  USERNAME         VARCHAR2(50 BYTE),
+  BASIC            NUMBER(15,5)                 DEFAULT 0,
+  DA               NUMBER(15,5)                 DEFAULT 0,
+  HRA_GROSS        NUMBER(15,5)                 DEFAULT 0,
+  HRA_PER          NUMBER(15,5)                 DEFAULT 0,
+  HRA              NUMBER(15,5)                 DEFAULT 0,
+  PF_GROSS         NUMBER(15,5)                 DEFAULT 0,
+  PEN_GROSS        NUMBER(15,5)                 DEFAULT 0,
+  ESI_GROSS        NUMBER(15,5)                 DEFAULT 0,
+  PTAX_GROSS       NUMBER(15,5)                 DEFAULT 0,
+  PF_E             NUMBER(15,5)                 DEFAULT 0,
+  PF_C             NUMBER(15,5)                 DEFAULT 0,
+  FPF              NUMBER(15,5)                 DEFAULT 0,
+  VPF_PERC         NUMBER(15,5)                 DEFAULT 0,
+  VPF              NUMBER(15,5)                 DEFAULT 0,
+  ESI_E            NUMBER(15,5)                 DEFAULT 0,
+  ESI_C            NUMBER(15,5)                 DEFAULT 0,
+  PTAX             NUMBER(15,5)                 DEFAULT 0,
+  LWF              NUMBER(15,5)                 DEFAULT 0,
+  SARR_ARRE        NUMBER(15,5)                 DEFAULT 0,
+  SARR_ARRD        NUMBER(15,5)                 DEFAULT 0,
+  SARR_PF_GROSS    NUMBER(15,5)                 DEFAULT 0,
+  SARR_NPF_GROSS   NUMBER(15,5)                 DEFAULT 0,
+  GROSSEARN        NUMBER(15,2)                 DEFAULT 0,
+  GROSSDEDN        NUMBER(15,2)                 DEFAULT 0,
+  MISC_BF          NUMBER(11,2)                 DEFAULT 0,
+  MISC_CF          NUMBER(11,2)                 DEFAULT 0,
+  TOTEARN          NUMBER(15,2)                 DEFAULT 0,
+  TOTDEDN          NUMBER(15,5)                 DEFAULT 0,
+  NETSALARY        NUMBER(15,5)                 DEFAULT 0,
+  LOAN_PFLN        NUMBER(18,2)                 DEFAULT 0,
+  LINT_PFLN        NUMBER(18,2)                 DEFAULT 0,
+  LOAN_SADV        NUMBER(18,2)                 DEFAULT 0,
+  LINT_SADV        NUMBER(18,2)                 DEFAULT 0,
+  LOAN_VADV        NUMBER(18,2)                 DEFAULT 0,
+  LINT_VADV        NUMBER(18,2)                 DEFAULT 0,
+  LOAN_HLOAN       NUMBER(18,2)                 DEFAULT 0,
+  LINT_HLOAN       NUMBER(18,2)                 DEFAULT 0,
+  EPF              NUMBER(15,5)                 DEFAULT 0,
+  ITAX             NUMBER(15,5)                 DEFAULT 0,
+  FUEL             NUMBER(15,5)                 DEFAULT 0,
+  OTH_ALLOW        NUMBER(15,5)                 DEFAULT 0,
+  CHILD_ALOW       NUMBER(15,5)                 DEFAULT 0,
+  CONV_ALOW        NUMBER(15,5)                 DEFAULT 0,
+  HRA_FIXED        NUMBER(15,5),
+  MISC_EARN        NUMBER(15,2),
+  ESI_RT           NUMBER(15,2),
+  LTA              NUMBER(15,5)                 DEFAULT 0,
+  ADHOC            NUMBER(15,5)                 DEFAULT 0,
+  SPL_ALLOW        NUMBER(15,5)                 DEFAULT 0,
+  OT_AMT           NUMBER(15,5)                 DEFAULT 0,
+  OEPF             NUMBER(15,5)                 DEFAULT 0,
+  OE_NPF           NUMBER(15,5)                 DEFAULT 0,
+  HRA_PERC         NUMBER(15,5)                 DEFAULT 0,
+  ACT_PF_GRS       NUMBER(15,5)                 DEFAULT 0,
+  LIC              NUMBER(15,5)                 DEFAULT 0,
+  ELECTRIC         NUMBER(15,5)                 DEFAULT 0,
+  OTHR_DEDN        NUMBER(15,5)                 DEFAULT 0,
+  MEDICAL          NUMBER(15,5)                 DEFAULT 0,
+  LVENCSH_DAYS     NUMBER(15,5),
+  LEAVE_ENC        NUMBER(15,5),
+  ATN_INCNT        NUMBER(15,5)                 DEFAULT 0,
+  ATN_INCAMT       NUMBER(15,5)                 DEFAULT 0,
+  CLUB             NUMBER(15,5)                 DEFAULT 0,
+  CUMM_DAYS        NUMBER(15,5)                 DEFAULT 0,
+  CUM_PFGROS       NUMBER(15,5)                 DEFAULT 0,
+  ESI_RATE         NUMBER(15,5)                 DEFAULT 0,
+  CUMMPFEBAL       NUMBER(15,5)                 DEFAULT 0,
+  CUMMPFCBAL       NUMBER(15,5)                 DEFAULT 0,
+  CUMMVPFBAL       NUMBER(15,5)                 DEFAULT 0,
+  RT_BASIC         NUMBER(15,5)                 DEFAULT 0,
+  LNBL_BL          NUMBER(15,5)                 DEFAULT 0,
+  PER_ALLOW        NUMBER(15,5)                 DEFAULT 0,
+  MED_ALLOW        NUMBER(15,5)                 DEFAULT 0,
+  COMPSAVING       NUMBER(15,5)                 DEFAULT 0,
+  CHOWKIDARI       NUMBER(15,5)                 DEFAULT 0,
+  FURNITURE        NUMBER(15,5)                 DEFAULT 0,
+  CAR              NUMBER(15,5)                 DEFAULT 0,
+  LOTTERY          NUMBER(15,5)                 DEFAULT 0,
+  RECREATION       NUMBER(15,5)                 DEFAULT 0,
+  GAMES            NUMBER(15,5)                 DEFAULT 0,
+  SCHOOL_BUS       NUMBER(15,5)                 DEFAULT 0,
+  CONV_RT          NUMBER(15,5)                 DEFAULT 0,
+  LADIESCLUB       NUMBER(15,5)                 DEFAULT 0,
+  DAIRY            NUMBER(15,5)                 DEFAULT 0,
+  LIBRARY          NUMBER(15,5)                 DEFAULT 0,
+  OT_HRS           NUMBER(15,5)                 DEFAULT 0,
+  SUBSCRIPTION     NUMBER(15,5)                 DEFAULT 0,
+  HR_DEDN          NUMBER(15,5)                 DEFAULT 0,
+  SAL_ADV          NUMBER(15,5)                 DEFAULT 0,
+  LOAN_BL          NUMBER(15,5)                 DEFAULT 0,
+  LINT_BL          NUMBER(15,5)                 DEFAULT 0,
+  LIBL_BL          NUMBER(15,5)                 DEFAULT 0,
+  LOAN_STADV       NUMBER(15,5)                 DEFAULT 0,
+  LINT_STADV       NUMBER(15,5)                 DEFAULT 0,
+  LNBL_STADV       NUMBER(15,5)                 DEFAULT 0,
+  LIBL_STADV       NUMBER(15,5)                 DEFAULT 0,
+  LOAN_SA          NUMBER(15,5)                 DEFAULT 0,
+  LINT_SA          NUMBER(15,5)                 DEFAULT 0,
+  LNBL_SA          NUMBER(15,5)                 DEFAULT 0,
+  LIBL_SA          NUMBER(15,5)                 DEFAULT 0,
+  LOAN_PFL         NUMBER(15,5)                 DEFAULT 0,
+  LINT_PFL         NUMBER(15,5)                 DEFAULT 0,
+  LNBL_PFL         NUMBER(15,5)                 DEFAULT 0,
+  LIBL_PFL         NUMBER(15,5)                 DEFAULT 0,
+  ATTN_SALD        NUMBER(15,5)                 DEFAULT 0,
+  ATTN_HOLD        NUMBER(15,5)                 DEFAULT 0,
+  ATTN_WRKD        NUMBER(15,5)                 DEFAULT 0,
+  ATTN_LDAY        NUMBER(15,5)                 DEFAULT 0,
+  LDAY_PL          NUMBER(15,5)                 DEFAULT 0,
+  LDAY_SL          NUMBER(15,5)                 DEFAULT 0,
+  LDAY_CL          NUMBER(15,5)                 DEFAULT 0,
+  CUMM_PF_E        NUMBER(15,5)                 DEFAULT 0,
+  CUMM_PF_C        NUMBER(15,5)                 DEFAULT 0,
+  CUMM_VPF         NUMBER(15,5)                 DEFAULT 0,
+  LOAN_HPF         NUMBER(15,5)                 DEFAULT 0,
+  LINT_HPF         NUMBER(15,5)                 DEFAULT 0,
+  LNBL_HPF         NUMBER(15,5)                 DEFAULT 0,
+  LIBL_HPF         NUMBER(15,5)                 DEFAULT 0,
+  COMPS_ALLOW      NUMBER(15,5)                 DEFAULT 0,
+  CONV_FLAG        NUMBER(15,5)                 DEFAULT 0,
+  NPS_CONTR        NUMBER(15,5)                 DEFAULT 0,
+  CONV_AMT         NUMBER(15,5)                 DEFAULT 0,
+  MED_FLAG         NUMBER(15,5)                 DEFAULT 0,
+  MIN_PAY          NUMBER(15,5)                 DEFAULT 0,
+  MED_MONTH        NUMBER(15,5)                 DEFAULT 0,
+  UNREALIZE_DED    NUMBER(15,5)                 DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISDOCTORMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISDOCTORMASTER
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  DOCTORCODE    VARCHAR2(10 BYTE),
+  DOCTORNAME    VARCHAR2(200 BYTE),
+  USERNAME      VARCHAR2(100 BYTE)              NOT NULL,
+  LASTMODIFIED  DATE                            DEFAULT SYSDATE,
+  SYSROWID      VARCHAR2(50 BYTE)               NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISUNITMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISUNITMASTER
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  UNITNAME       VARCHAR2(100 BYTE),
+  UNITSHORTDESC  VARCHAR2(20 BYTE),
+  USERNAME       VARCHAR2(100 BYTE),
+  SYSROWID       VARCHAR2(50 BYTE),
+  LASTMODIFIED   DATE
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISCATEGORYMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISCATEGORYMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCATEGORYMASTER
+(
+  COMPANYCODE                    VARCHAR2(10 BYTE),
+  DIVISIONCODE                   VARCHAR2(10 BYTE),
+  CATEGORYCODE                   VARCHAR2(10 BYTE) NOT NULL,
+  CATEGORYDESC                   VARCHAR2(500 BYTE),
+  CATEGORYINDEX                  NUMBER(3),
+  LEAVECALENDARORFINYRWISE       VARCHAR2(1 BYTE),
+  CALCULATIONDAYS                NUMBER(10),
+  OFFDAYSNOTCONSIDERINSALARYDAY  VARCHAR2(50 BYTE),
+  HOLIDAYWORKED_ATTN             VARCHAR2(1 BYTE),
+  ATTENDANCEENTRY                VARCHAR2(1 BYTE),
+  EXGRATIAAPPLICABLE             VARCHAR2(1 BYTE),
+  BONUSAPPLICABLE                VARCHAR2(1 BYTE),
+  ROUNDOFFAMOUNT                 VARCHAR2(1 BYTE),
+  ROUNDOFFAPPLICABLE             VARCHAR2(1 BYTE),
+  USERNAME                       VARCHAR2(100 BYTE) NOT NULL,
+  LASTMODIFIED                   DATE           DEFAULT SYSDATE,
+  SYSROWID                       VARCHAR2(50 BYTE) NOT NULL,
+  WEEKLYOFFDAY                   VARCHAR2(20 BYTE),
+  GRATUITYFORMULA                VARCHAR2(200 BYTE),
+  PFGROSSLIMIT                   NUMBER(11,2)   DEFAULT 15000
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISGRADEMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISGRADEMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISGRADEMASTER
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE)               NOT NULL,
+  GRADECODE     VARCHAR2(10 BYTE)               NOT NULL,
+  GRADEDESC     VARCHAR2(500 BYTE),
+  GRADEINDEX    NUMBER(3),
+  USERNAME      VARCHAR2(100 BYTE)              NOT NULL,
+  LASTMODIFIED  DATE                            DEFAULT SYSDATE,
+  SYSROWID      VARCHAR2(50 BYTE)               NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISDEPARTMENTMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISDEPARTMENTMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISDEPARTMENTMASTER
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE)            NOT NULL,
+  DEPARTMENTDESC   VARCHAR2(500 BYTE),
+  DEPARTMENTINDEX  NUMBER(3),
+  USERNAME         VARCHAR2(100 BYTE)           NOT NULL,
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE,
+  SYSROWID         VARCHAR2(50 BYTE)            NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTAGWISEFIXEDCOLUMNSHOW CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTAGWISEFIXEDCOLUMNSHOW
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  TAGTYPE       VARCHAR2(50 BYTE),
+  SRL           NUMBER(3),
+  COLUMNNAME    VARCHAR2(4000 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISPAYTRANSACTION
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISPAYTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2)                DEFAULT 0,
+  ATTN_WPAY         NUMBER(11,2)                DEFAULT 0,
+  ATTN_ADJD         NUMBER(11,2)                DEFAULT 0,
+  ATTN_TOTD         NUMBER(11,2)                DEFAULT 0,
+  ATTN_LDAY         NUMBER(11,2)                DEFAULT 0,
+  ATTN_CALCF        NUMBER(11,2)                DEFAULT 0,
+  ATTN_OFFD         NUMBER(11,2)                DEFAULT 0,
+  ATTN_HOLD         NUMBER(15,2)                DEFAULT 0,
+  ATTN_WRKD         NUMBER(15,2)                DEFAULT 0,
+  LDAY_CL           NUMBER(11,2)                DEFAULT 0,
+  LDAY_PL           NUMBER(11,2)                DEFAULT 0,
+  LDAY_SL           NUMBER(11,2)                DEFAULT 0,
+  LVBL_CL           NUMBER(11,2)                DEFAULT 0,
+  LVBL_PL           NUMBER(11,2)                DEFAULT 0,
+  LVBL_SL           NUMBER(11,2)                DEFAULT 0,
+  LV_ENCASH_DAYS    NUMBER(15,2)                DEFAULT 0,
+  LV_ENCASH         NUMBER(11,2)                DEFAULT 0,
+  BASIC             NUMBER(15,5)                DEFAULT 0,
+  DA                NUMBER(15,5)                DEFAULT 0,
+  HRA_GROSS         NUMBER(15,5)                DEFAULT 0,
+  HRA_PER           NUMBER(15,5)                DEFAULT 0,
+  HRA               NUMBER(15,5)                DEFAULT 0,
+  PF_GROSS          NUMBER(15,5)                DEFAULT 0,
+  PEN_GROSS         NUMBER(15,5)                DEFAULT 0,
+  ESI_GROSS         NUMBER(15,5)                DEFAULT 0,
+  PTAX_GROSS        NUMBER(15,5)                DEFAULT 0,
+  PF_E              NUMBER(15,5)                DEFAULT 0,
+  PF_C              NUMBER(15,5)                DEFAULT 0,
+  FPF               NUMBER(15,5)                DEFAULT 0,
+  VPF_PERC          NUMBER(15,5)                DEFAULT 0,
+  VPF               NUMBER(15,5)                DEFAULT 0,
+  ESI_E             NUMBER(15,5)                DEFAULT 0,
+  ESI_C             NUMBER(15,5)                DEFAULT 0,
+  PTAX              NUMBER(15,5)                DEFAULT 0,
+  LWF               NUMBER(15,5)                DEFAULT 0,
+  ITAX              NUMBER(15,5)                DEFAULT 0,
+  ESI_RT            NUMBER(15,5)                DEFAULT 0,
+  SARR_ARRE         NUMBER(15,5)                DEFAULT 0,
+  SARR_ARRD         NUMBER(15,5)                DEFAULT 0,
+  SARR_PFARRE       NUMBER(15,5)                DEFAULT 0,
+  SARR_NPFARRE      NUMBER(15,5)                DEFAULT 0,
+  GROSSEARN         NUMBER(15,2)                DEFAULT 0,
+  GROSSDEDN         NUMBER(15,2)                DEFAULT 0,
+  MISC_BF           NUMBER(11,2)                DEFAULT 0,
+  MISC_CF           NUMBER(11,2)                DEFAULT 0,
+  TOTEARN           NUMBER(15,2)                DEFAULT 0,
+  TOTDEDN           NUMBER(15,5)                DEFAULT 0,
+  NETSALARY         NUMBER(15,5)                DEFAULT 0,
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE                        DEFAULT SYSDATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5)                DEFAULT 0,
+  SPL_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  OT_AMT            NUMBER(15,5)                DEFAULT 0,
+  CONV_ALOW         NUMBER(15,5)                DEFAULT 0,
+  OEPF              NUMBER(15,5)                DEFAULT 0,
+  OE_NPF            NUMBER(15,5)                DEFAULT 0,
+  HRA_PERC          NUMBER(15,5)                DEFAULT 0,
+  ACT_PF_GRS        NUMBER(15,5)                DEFAULT 0,
+  LIC               NUMBER(15,5)                DEFAULT 0,
+  ELECTRIC          NUMBER(15,5)                DEFAULT 0,
+  OTHR_DEDN         NUMBER(15,5)                DEFAULT 0,
+  MEDICAL           NUMBER(15,5)                DEFAULT 0,
+  LTA               NUMBER(15,5)                DEFAULT 0,
+  LOAN_BL           NUMBER(18,2),
+  LINT_BL           NUMBER(18,2),
+  LNBLBL            NUMBER(18,2),
+  LIBL_BL           NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5)                DEFAULT 0,
+  ATN_INCAMT        NUMBER(15,5)                DEFAULT 0,
+  CLUB              NUMBER(15,5)                DEFAULT 0,
+  CUMM_DAYS         NUMBER(15,5)                DEFAULT 0,
+  CUM_PFGROS        NUMBER(15,5)                DEFAULT 0,
+  ESI_RATE          NUMBER(15,5)                DEFAULT 0,
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5)                DEFAULT 0,
+  CUMM_PF_C         NUMBER(15,5)                DEFAULT 0,
+  CUMM_VPF          NUMBER(15,5)                DEFAULT 0,
+  RT_BASIC          NUMBER(15,5)                DEFAULT 0,
+  LDAY_CS           NUMBER(11,2),
+  LNBL_BL           NUMBER(15,5)                DEFAULT 0,
+  PER_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  MED_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  COMPSAVING        NUMBER(15,5)                DEFAULT 0,
+  CHOWKIDARI        NUMBER(15,5)                DEFAULT 0,
+  FURNITURE         NUMBER(15,5)                DEFAULT 0,
+  CAR               NUMBER(15,5)                DEFAULT 0,
+  LOTTERY           NUMBER(15,5)                DEFAULT 0,
+  RECREATION        NUMBER(15,5)                DEFAULT 0,
+  GAMES             NUMBER(15,5)                DEFAULT 0,
+  SCHOOL_BUS        NUMBER(15,5)                DEFAULT 0,
+  CONV_RT           NUMBER(15,5)                DEFAULT 0,
+  LADIESCLUB        NUMBER(15,5)                DEFAULT 0,
+  DAIRY             NUMBER(15,5)                DEFAULT 0,
+  LIBRARY           NUMBER(15,5)                DEFAULT 0,
+  OT_HRS            NUMBER(15,5)                DEFAULT 0,
+  SUBSCRIPTION      NUMBER(15,5)                DEFAULT 0,
+  HR_DEDN           NUMBER(15,5)                DEFAULT 0,
+  SAL_ADV           NUMBER(15,5)                DEFAULT 0,
+  LOAN_HPF          NUMBER(18,2),
+  LINT_HPF          NUMBER(18,2),
+  LNBL_HPF          NUMBER(18,2),
+  LIBL_HPF          NUMBER(18,2),
+  COMPS_ALLOW       NUMBER(15,5)                DEFAULT 0,
+  CONV_FLAG         NUMBER(15,5)                DEFAULT 0,
+  NPS_CONTR         NUMBER(15,5)                DEFAULT 0,
+  CONV_AMT          NUMBER(15,5)                DEFAULT 0,
+  MED_FLAG          NUMBER(15,5)                DEFAULT 0,
+  MIN_PAY           NUMBER(15,5)                DEFAULT 0,
+  MED_MONTH         NUMBER(15,5)                DEFAULT 0,
+  UNREALIZE_DED     NUMBER(15,5)                DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISCOMPONENTTYPEMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCOMPONENTTYPEMASTER
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  COMPONENTGROUP      VARCHAR2(20 BYTE),
+  COMPONENTGROUPNAME  VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISALLPARAMETER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISALLPARAMETER
+(
+  COMPANYCODE                   VARCHAR2(10 BYTE),
+  DIVISIONCODE                  VARCHAR2(10 BYTE),
+  YEARMONTH                     VARCHAR2(10 BYTE),
+  ROUNDOFFRS                    NUMBER(15,2),
+  PAYMENTROUNDTYPE              VARCHAR2(10 BYTE),
+  SUPERANNUATIONAGEMALE         NUMBER(15,2),
+  SUPERANNUATIONAGEFEMALE       NUMBER(15,2),
+  MINIMUMSALARYPAYABLE          NUMBER(15,2),
+  ESIQUALIFIEDAMOUNT            NUMBER(8,2)     DEFAULT 15000,
+  BANKADVICETO                  VARCHAR2(25 BYTE),
+  CUMPFMONTHBETWEEN             VARCHAR2(50 BYTE),
+  PF_E_PERCENTAGE               NUMBER(7,2),
+  ESI_E_PERCENT                 NUMBER(7,2)     DEFAULT 0,
+  ESI_C_PERCENT                 NUMBER(7,2)     DEFAULT 0,
+  ESIDEDUCTIONCHECKMONTH        VARCHAR2(20 BYTE),
+  LWFDEDUCTIONMONTH             VARCHAR2(20 BYTE),
+  LOANAMOUNTROUNDOFF            NUMBER(5,2)     DEFAULT 0,
+  LOANDEDUCTAPPLICABLEWORKDAYS  NUMBER(7,2)     DEFAULT 0,
+  LOANDEDUCTAPPLICABLECOMPNENT  VARCHAR2(15 BYTE),
+  BONUSPERCENTAGE               NUMBER(10,4),
+  BONUSGROSSLIMIT               NUMBER(10),
+  BONUSAMOUNTLIMIT              NUMBER(10),
+  BONUSAMOUNTROUNDOFF           NUMBER(9,2),
+  NEGATIVELEAVEALLOWED          VARCHAR2(3 BYTE),
+  MAXIMUMPENSIONGROSS           NUMBER(15,2),
+  PENSION_PERCENTAGE            NUMBER(6,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISHOLIDAYMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISHOLIDAYMASTER
+(
+  COMPANYCODE         VARCHAR2(50 BYTE)         NOT NULL,
+  DIVISIONCODE        VARCHAR2(50 BYTE)         NOT NULL,
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  HOLIDAYDATE         DATE                      NOT NULL,
+  HOLIDAYDESC         VARCHAR2(50 BYTE),
+  HOLIDAYTYPE         VARCHAR2(30 BYTE),
+  ISPAID              VARCHAR2(1 BYTE),
+  SYSROWID            VARCHAR2(50 BYTE),
+  USERNAME            VARCHAR2(50 BYTE),
+  LASTMODIFIED        DATE,
+  CATEGORYCODE        VARCHAR2(10 BYTE),
+  GRADECODE           VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PIS_GTT_SWT_PHASE_DEDN CASCADE CONSTRAINTS;
+
+CREATE TABLE PIS_GTT_SWT_PHASE_DEDN
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE)            NOT NULL,
+  TOKENNO          VARCHAR2(20 BYTE),
+  ATTN_SALD        NUMBER(11,2),
+  ATTN_CALCF       NUMBER(11,2),
+  GROSSEARN        NUMBER(18,4),
+  TOTEARN          NUMBER(18,4),
+  COMPONENTCODE    VARCHAR2(30 BYTE),
+  COMPONENTAMOUNT  NUMBER(18,4)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISATTENDANCEPRIORITY CASCADE CONSTRAINTS;
+
+CREATE TABLE PISATTENDANCEPRIORITY
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  ATTENDANCETYPE  VARCHAR2(20 BYTE),
+  PRIORITY        NUMBER(4)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISREIMBURSEMENT_ENTITLE CASCADE CONSTRAINTS;
+
+CREATE TABLE PISREIMBURSEMENT_ENTITLE
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  COMPONENTCODE    VARCHAR2(10 BYTE),
+  COMPONENTAMOUNT  NUMBER(11,2),
+  TRANSACTIONTYPE  VARCHAR2(20 BYTE),
+  ADDLESS          VARCHAR2(10 BYTE),
+  WORKINGDAYS      NUMBER(11,2),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE),
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISREIMBURSEMENTDETAILS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISREIMBURSEMENTDETAILS
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  FORYEARCODE      VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  COMPONENTCODE    VARCHAR2(10 BYTE),
+  COMPONENTAMOUNT  NUMBER(11,2),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  ADDLESS          VARCHAR2(10 BYTE),
+  REMARKS          VARCHAR2(250 BYTE),
+  BILLAMOUNT       NUMBER(11,2),
+  PAIDAMOUNT       NUMBER(11,2),
+  LEAVEDATEFROM    DATE,
+  LEAVEDATETO      DATE,
+  SYSROWID         VARCHAR2(50 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE,
+  TRANTYPE         VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISLEAVETRANSACTION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISLEAVETRANSACTION
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  CALENDARYEAR     VARCHAR2(4 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  LEAVECODE        VARCHAR2(5 BYTE),
+  NOOFDAYS         NUMBER(9,2),
+  ADDLESS          VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  WITHEFFECTFROM   DATE,
+  USERNAME         VARCHAR2(50 BYTE),
+  LASTMODIFIED     DATE,
+  SYSROWID         VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPROCESSFIANLIZED CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPROCESSFIANLIZED
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  ISLOCK        VARCHAR2(10 BYTE),
+  FINALIZED     VARCHAR2(10 BYTE),
+  USERNAME      VARCHAR2(50 BYTE),
+  LASTMODIFIED  DATE                            DEFAULT SYSDATE,
+  SYSROWID      VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PIS_PREV_FN_COIN CASCADE CONSTRAINTS;
+
+CREATE TABLE PIS_PREV_FN_COIN
+(
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  COINCF        NUMBER(11,5)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISCOMPONENTOPENING CASCADE CONSTRAINTS;
+
+CREATE TABLE PISCOMPONENTOPENING
+(
+  COMPANYCODE      VARCHAR2(10 BYTE)            NOT NULL,
+  DIVISIONCODE     VARCHAR2(10 BYTE)            NOT NULL,
+  YEARCODE         VARCHAR2(10 BYTE)            NOT NULL,
+  YEARMONTH        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  COMPONENTCODE    VARCHAR2(30 BYTE)            NOT NULL,
+  COMPONENTAMOUNT  NUMBER(11,2),
+  USERNAME         VARCHAR2(50 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)            NOT NULL,
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISOFFDAYMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISOFFDAYMASTER
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  WITHEFFECTFROM      DATE,
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  OFFDAY              VARCHAR2(20 BYTE),
+  INCLUDEINMONTHDAYS  VARCHAR2(3 BYTE),
+  USERNAME            VARCHAR2(50 BYTE),
+  LASTMODIFIED        DATE                      DEFAULT SYSDATE,
+  SYSROWID            VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISITAXPARAM CASCADE CONSTRAINTS;
+
+CREATE TABLE PISITAXPARAM
+(
+  COMPANYCODE        VARCHAR2(50 BYTE),
+  DIVISIONCODE       VARCHAR2(50 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COLUMNNOTOPRINT    VARCHAR2(50 BYTE),
+  COLUMNHEADING      VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING   VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING1  VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING2  VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING3  VARCHAR2(3000 BYTE),
+  COLUMNSOURCE       VARCHAR2(3000 BYTE),
+  COLUMNATTRIBUTE    VARCHAR2(3000 BYTE),
+  COLUMNBASIS        VARCHAR2(3000 BYTE),
+  COLUMNFORMULA      VARCHAR2(3000 BYTE),
+  QUALIFIEDAMOUNT    NUMBER(18,2),
+  MAXAMOUNT          NUMBER(18,2),
+  MONTHLYEXMTLIMIT   NUMBER(18,2),
+  SHORTDESCRIPTION   VARCHAR2(3000 BYTE),
+  COLUMNFORTAX       VARCHAR2(3000 BYTE),
+  UPPERLIMITAPP      VARCHAR2(1 BYTE),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNFORPRQST     VARCHAR2(1 BYTE),
+  INCLUDEINFORM16    VARCHAR2(1 BYTE),
+  DISPLAYINGRID      VARCHAR2(1 BYTE),
+  USERNAME           VARCHAR2(100 BYTE),
+  LASTMODIFIED       DATE                       DEFAULT SYSDATE,
+  SYSROWID           VARCHAR2(50 BYTE),
+  SYSTEMCOMPONENT    VARCHAR2(1 BYTE),
+  COLUMNFORM16       VARCHAR2(3000 BYTE),
+  TYPE               VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISITAXCOMPUTATION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISITAXCOMPUTATION
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  COMPONENTHEADER    VARCHAR2(200 BYTE),
+  COMPONENTCODE      VARCHAR2(100 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  COMPARREARVALUE    NUMBER(15,2),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COMPVALUE          VARCHAR2(200 BYTE),
+  COMPONENTTYPE      VARCHAR2(50 BYTE),
+  ACTUALCOMPCODE     VARCHAR2(50 BYTE),
+  FORMULARATE        NUMBER(15,2),
+  MANUALFORMULA      VARCHAR2(50 BYTE),
+  SERIALNO           NUMBER,
+  USERNAME           VARCHAR2(50 BYTE),
+  SYSROWID           VARCHAR2(50 BYTE),
+  LASTMODIFIED       DATE                       DEFAULT SYSDATE,
+  ISPROCESSALL       VARCHAR2(1 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GTTPISITAXCOMPUTATION CASCADE CONSTRAINTS;
+
+CREATE TABLE GTTPISITAXCOMPUTATION
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  COMPONENTHEADER    VARCHAR2(200 BYTE),
+  COMPONENTCODE      VARCHAR2(100 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  COMPARREARVALUE    NUMBER(15,2),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COMPVALUE          VARCHAR2(200 BYTE),
+  COMPONENTTYPE      VARCHAR2(50 BYTE),
+  COMPFORMULA        VARCHAR2(500 BYTE),
+  ACTUALCOMPCODE     VARCHAR2(50 BYTE),
+  FORMULARATE        NUMBER(15,2),
+  MANUALFORMULA      VARCHAR2(50 BYTE),
+  SERIALNO           NUMBER,
+  DISPLAYINGRID      VARCHAR2(1 BYTE),
+  CATEGORYCODE       VARCHAR2(10 BYTE),
+  GRADECODE          VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISITAXATTRIBUTEVALUE CASCADE CONSTRAINTS;
+
+CREATE TABLE PISITAXATTRIBUTEVALUE
+(
+  COMPANYCODE        VARCHAR2(50 BYTE),
+  DIVISIONCODE       VARCHAR2(50 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  COLUMNNO           VARCHAR2(300 BYTE),
+  COLUMNATTRIBUTE    VARCHAR2(3000 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  YEARMONTH          VARCHAR2(10 BYTE),
+  CATEGORYCODE       VARCHAR2(10 BYTE),
+  GRADECODE          VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYINVESTMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYINVESTMENT
+(
+  YEARCODE          VARCHAR2(10 BYTE)           NOT NULL,
+  COMPANYCODE       VARCHAR2(10 BYTE)           NOT NULL,
+  WORKERSERIAL      VARCHAR2(10 BYTE)           NOT NULL,
+  INVESTMENTCODE    VARCHAR2(50 BYTE)           NOT NULL,
+  INVESTMENTDESC    VARCHAR2(2000 BYTE),
+  UNDERSECTION      VARCHAR2(100 BYTE),
+  INVESTMENTAMOUNT  NUMBER(15,2),
+  DEDUCTIONPERCENT  NUMBER(15,2),
+  ACTIVE            CHAR(1 BYTE),
+  ENTEREDON         DATE,
+  ENTEREDBY         VARCHAR2(15 BYTE),
+  MODIFIEDBY        VARCHAR2(15 BYTE),
+  MODIFIEDON        DATE,
+  DELETEDBY         VARCHAR2(15 BYTE),
+  DELETEDON         DATE,
+  TRANDATE          DATE,
+  LASTMODIFIED      DATE,
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISBONUSDETAILS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISBONUSDETAILS
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  MODULE            VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  ATTENDANCEHOURS   NUMBER(11,2),
+  HOLIDAYHOURS      NUMBER(11,2),
+  STLHOURS          NUMBER(11,2),
+  BONUSHOURS        NUMBER(11,2),
+  BONUSDAYS         NUMBER(11,2),
+  PFGROSS           NUMBER(11,2),
+  BONUSGROSS        NUMBER(11,2),
+  PERDAYRATE        NUMBER(11,2),
+  BONUS_PERCENTAGE  NUMBER(5,2),
+  BONUSAMOUNT       NUMBER(11,2),
+  BONUSAMOUNT2      NUMBER(11,2),
+  COINBF            NUMBER(5,2),
+  COINCF            NUMBER(5,2),
+  ADVANCE           NUMBER(11,2),
+  PAIDBONUSAMOUNT   NUMBER(11,2),
+  TRANSACTIONTYPE   VARCHAR2(30 BYTE),
+  PAYMENTDATE       DATE,
+  USERNAME          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE                        DEFAULT SYSDATE,
+  SYSROWID          VARCHAR2(50 BYTE),
+  BONUSSLIPNO       NUMBER(9,2),
+  UNITCODE          VARCHAR2(10 BYTE),
+  GROUPCODE         VARCHAR2(10 BYTE),
+  SHIFTCODE         VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE SWT_PISEMP_DA_ANANYA CASCADE CONSTRAINTS;
+
+CREATE TABLE SWT_PISEMP_DA_ANANYA
+(
+  LOCATIONCODE    VARCHAR2(10 BYTE),
+  EMPLOYEECODE    VARCHAR2(10 BYTE),
+  WITHEFFECTFROM  DATE,
+  ACTVDAAMOUNT    NUMBER(18,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISARREAR_TEMP CASCADE CONSTRAINTS;
+
+CREATE TABLE PISARREAR_TEMP
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(50 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  ARREARFROM       VARCHAR2(10 BYTE),
+  ARREARTO         VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISARREARTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISARREARTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  ATTN_HOLD         NUMBER(15,2),
+  ATTN_WRKD         NUMBER(15,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  LVBL_CL           NUMBER(11,2),
+  LVBL_PL           NUMBER(11,2),
+  LVBL_SL           NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(15,2),
+  LV_ENCASH         NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  DA                NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PEN_GROSS         NUMBER(15,5),
+  ESI_GROSS         NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  VPF_PERC          NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ESI_E             NUMBER(15,5),
+  ESI_C             NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  LWF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  ESI_RT            NUMBER(15,5),
+  SARR_ARRE         NUMBER(15,5),
+  SARR_ARRD         NUMBER(15,5),
+  SARR_PF_GROSS     NUMBER(15,5),
+  SARR_NPF_GROSS    NUMBER(15,5),
+  GROSSEARN         NUMBER(15,2),
+  GROSSDEDN         NUMBER(15,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(15,2),
+  TOTDEDN           NUMBER(15,5),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5),
+  SPL_ALLOW         NUMBER(15,5),
+  OT_AMT            NUMBER(15,5),
+  CONV_ALOW         NUMBER(15,5),
+  OEPF              NUMBER(15,5),
+  OE_NPF            NUMBER(15,5),
+  HRA_PERC          NUMBER(15,5),
+  ACT_PF_GRS        NUMBER(15,5),
+  LIC               NUMBER(15,5),
+  ELECTRIC          NUMBER(15,5),
+  OTHR_DEDN         NUMBER(15,5),
+  MEDICAL           NUMBER(15,5),
+  LTA               NUMBER(15,5),
+  LOAN_BL           NUMBER(18,2),
+  LINT_BL           NUMBER(18,2),
+  LNBLBL            NUMBER(18,2),
+  LIBL_BL           NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5),
+  ATN_INCAMT        NUMBER(15,5),
+  CLUB              NUMBER(15,5),
+  CUMM_DAYS         NUMBER(15,5),
+  CUM_PFGROS        NUMBER(15,5),
+  ESI_RATE          NUMBER(15,5),
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5),
+  CUMM_PF_C         NUMBER(15,5),
+  CUMM_VPF          NUMBER(15,5),
+  RT_BASIC          NUMBER(15,5),
+  LDAY_CS           NUMBER(11,2),
+  LNBL_BL           NUMBER(15,5)                DEFAULT 0,
+  PER_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  MED_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  COMPSAVING        NUMBER(15,5)                DEFAULT 0,
+  CHOWKIDARI        NUMBER(15,5)                DEFAULT 0,
+  FURNITURE         NUMBER(15,5)                DEFAULT 0,
+  CAR               NUMBER(15,5)                DEFAULT 0,
+  LOTTERY           NUMBER(15,5)                DEFAULT 0,
+  RECREATION        NUMBER(15,5)                DEFAULT 0,
+  GAMES             NUMBER(15,5)                DEFAULT 0,
+  SCHOOL_BUS        NUMBER(15,5)                DEFAULT 0,
+  CONV_RT           NUMBER(15,5)                DEFAULT 0,
+  LADIESCLUB        NUMBER(15,5)                DEFAULT 0,
+  DAIRY             NUMBER(15,5)                DEFAULT 0,
+  LIBRARY           NUMBER(15,5)                DEFAULT 0,
+  OT_HRS            NUMBER(15,5)                DEFAULT 0,
+  SUBSCRIPTION      NUMBER(15,5)                DEFAULT 0,
+  HR_DEDN           NUMBER(15,5)                DEFAULT 0,
+  SAL_ADV           NUMBER(15,5)                DEFAULT 0,
+  LOAN_HPF          NUMBER(18,2),
+  LINT_HPF          NUMBER(18,2),
+  LNBL_HPF          NUMBER(18,2),
+  LIBL_HPF          NUMBER(18,2),
+  COMPS_ALLOW       NUMBER(15,5)                DEFAULT 0,
+  CONV_FLAG         NUMBER(15,5)                DEFAULT 0,
+  NPS_CONTR         NUMBER(15,5)                DEFAULT 0,
+  CONV_AMT          NUMBER(15,5)                DEFAULT 0,
+  MED_FLAG          NUMBER(15,5)                DEFAULT 0,
+  MIN_PAY           NUMBER(15,5)                DEFAULT 0,
+  MED_MONTH         NUMBER(15,5)                DEFAULT 0,
+  UNREALIZE_DED     NUMBER(15,5)                DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE TMP_PISCOMPONENTASSIGNMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE TMP_PISCOMPONENTASSIGNMENT
+(
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  HRA_PERC      NUMBER,
+  ESI_ADJERN    NUMBER,
+  ITAX          NUMBER,
+  SERV_PERC     NUMBER,
+  BASIC         NUMBER,
+  VPF_PERC      NUMBER,
+  HRA_AMT       NUMBER,
+  SPL_ALLOW     NUMBER,
+  CONV_PERC     NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GBL_PISITAXCOMPUTATION CASCADE CONSTRAINTS;
+
+CREATE TABLE GBL_PISITAXCOMPUTATION
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  TOKENNO            VARCHAR2(10 BYTE),
+  COMPONENTHEADER    VARCHAR2(200 BYTE),
+  COMPONENTCODE      VARCHAR2(100 BYTE),
+  COMPACTUALVALUE    NUMBER(15,2),
+  COMPPROJCTEDVALUE  NUMBER(15,2),
+  COMPMANUALVALUE    NUMBER(15,2),
+  COMPARREARVALUE    NUMBER(15,2),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COMPVALUE          VARCHAR2(200 BYTE),
+  COMPONENTTYPE      VARCHAR2(50 BYTE),
+  ACTUALCOMPCODE     VARCHAR2(50 BYTE),
+  FORMULARATE        NUMBER(15,2),
+  MANUALFORMULA      VARCHAR2(50 BYTE),
+  SERIALNO           NUMBER(10),
+  USERNAME           VARCHAR2(50 BYTE),
+  SYSROWID           VARCHAR2(50 BYTE),
+  ISPROCESSALL       VARCHAR2(1 BYTE),
+  CATEGORYCODE       VARCHAR2(10 BYTE),
+  GRADECODE          VARCHAR2(10 BYTE),
+  OPERATIONMODE      VARCHAR2(1 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISWPSWORKERDIVISIONTRANSFER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISWPSWORKERDIVISIONTRANSFER
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  MODULE             VARCHAR2(10 BYTE),
+  WORKERSERIAL       VARCHAR2(10 BYTE),
+  NEWDIVISIONCODE    VARCHAR2(10 BYTE),
+  OLDTOKENNO         VARCHAR2(10 BYTE),
+  NEWTOKENNO         VARCHAR2(10 BYTE),
+  OLDCATEGORYCODE    VARCHAR2(10 BYTE),
+  NEWCATEGORYCODE    VARCHAR2(10 BYTE),
+  OLDGRADECODE       VARCHAR2(10 BYTE),
+  NEWGRADECODE       VARCHAR2(10 BYTE),
+  OLDDEPARTMENTCODE  VARCHAR2(10 BYTE),
+  NEWDEPARTMENTCODE  VARCHAR2(10 BYTE),
+  OLDSECTIONCODE     VARCHAR2(10 BYTE),
+  NEWSECTIONCODE     VARCHAR2(10 BYTE),
+  OLDOCCUPATIONCODE  VARCHAR2(10 BYTE),
+  NEWOCCUPATIONCODE  VARCHAR2(10 BYTE),
+  SYSROWID           VARCHAR2(50 BYTE),
+  LASTMODIFIED       DATE                       DEFAULT SYSDATE,
+  USERNAME           VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GTT_PISLEAVEREGISTER CASCADE CONSTRAINTS;
+
+CREATE TABLE GTT_PISLEAVEREGISTER
+(
+  COMPANYNAME           VARCHAR2(100 BYTE)      NOT NULL,
+  COMPANYCODE           VARCHAR2(10 BYTE),
+  CATEGORYCODE          VARCHAR2(10 BYTE),
+  GRADECODE             VARCHAR2(10 BYTE),
+  EMPLOYEECODE          VARCHAR2(10 BYTE),
+  EMPLOYEENAME          VARCHAR2(50 BYTE),
+  LEAVECODE             VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON        DATE,
+  APPLIED_FORM          DATE,
+  APPLIED_TO            DATE,
+  APPLIED_DAYS          NUMBER,
+  SANCTIONED_FORM       DATE,
+  SANCTIONED_TO         DATE,
+  SANCTIONED_DAYS       NUMBER,
+  LEAVESANCTIONREMARKS  VARCHAR2(100 BYTE),
+  OPENING               NUMBER,
+  ENTITLED              NUMBER,
+  TOTAL_AVL             NUMBER,
+  PRINTDATE             CHAR(24 BYTE),
+  EX1                   CHAR(2 BYTE),
+  EX2                   CHAR(2 BYTE),
+  EX3                   CHAR(2 BYTE),
+  EX4                   CHAR(2 BYTE),
+  EX5                   CHAR(2 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISEMPLOYEEMASTER_TRANSFER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISEMPLOYEEMASTER_TRANSFER
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  EMPLOYEENAME             VARCHAR2(50 BYTE),
+  ATTNIDENTIFICATION       VARCHAR2(50 BYTE),
+  BOSSCODE                 VARCHAR2(10 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE)    NOT NULL,
+  GRADECODE                VARCHAR2(10 BYTE),
+  DEPARTMENTCODE           VARCHAR2(10 BYTE)    NOT NULL,
+  DESIGNATIONCODE          VARCHAR2(10 BYTE),
+  ESINO                    VARCHAR2(20 BYTE),
+  PFCODE                   VARCHAR2(10 BYTE),
+  PFNO                     VARCHAR2(20 BYTE),
+  PENSIONNO                VARCHAR2(20 BYTE),
+  SEX                      VARCHAR2(10 BYTE),
+  MARITIALSTATUS           VARCHAR2(10 BYTE),
+  EMPLOYEESTATUS           VARCHAR2(20 BYTE),
+  DATEOFBIRTH              DATE,
+  DATEOFJOIN               DATE,
+  DATEOFCONFIRMATION       DATE,
+  PFENTITLEDATE            DATE,
+  STATUSDATE               DATE,
+  DATEOFRETIRE             DATE,
+  EXTENDEDRETIREDATE       DATE,
+  PFSETTELMENTDATE         DATE,
+  GRATUITYSETTELMENTDATE   DATE,
+  DATEOFTERMINATIONADVICE  DATE,
+  PAYMODE                  VARCHAR2(10 BYTE),
+  BANKCODE                 VARCHAR2(20 BYTE),
+  IFSCCODE                 VARCHAR2(20 BYTE),
+  BANKACCNUMBER            VARCHAR2(20 BYTE),
+  BANKACCHOLDINGNAME       VARCHAR2(100 BYTE),
+  PANCARDNO                VARCHAR2(10 BYTE),
+  UANNO                    VARCHAR2(50 BYTE),
+  AADHARNO                 VARCHAR2(50 BYTE),
+  PHONE                    VARCHAR2(20 BYTE),
+  MOBILENO                 VARCHAR2(20 BYTE),
+  FATHERNAME               VARCHAR2(40 BYTE),
+  GUARDIANNAME             VARCHAR2(40 BYTE),
+  EMAILID                  VARCHAR2(50 BYTE),
+  SPOUSENAME               VARCHAR2(40 BYTE),
+  QUARTERALLOTED           VARCHAR2(3 BYTE),
+  QUARTERNO                VARCHAR2(50 BYTE),
+  ACADEMICQUALIFICATION    VARCHAR2(200 BYTE),
+  PROFESSIONQUALIFICATION  VARCHAR2(200 BYTE),
+  PAYMENTSTATUS            VARCHAR2(40 BYTE),
+  PFACCODE                 VARCHAR2(10 BYTE),
+  SNFACCODE                VARCHAR2(100 BYTE),
+  PFAPPLICABLE             VARCHAR2(1 BYTE),
+  EPFAPPLICABLE            VARCHAR2(1 BYTE),
+  PTAXAPPLICABLE           VARCHAR2(1 BYTE),
+  BONUSAPPLICABLE          VARCHAR2(1 BYTE),
+  GRATUITYAPPLICABLE       VARCHAR2(1 BYTE),
+  GRATUITYOPENINGYEARS     NUMBER(6,2),
+  LEAVINGSERVICE           VARCHAR2(50 BYTE),
+  REMARKS                  VARCHAR2(300 BYTE),
+  COSTCENTRECODE           VARCHAR2(10 BYTE),
+  MODULE                   VARCHAR2(10 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE),
+  LASTMODIFIED             DATE,
+  SYSROWID                 VARCHAR2(50 BYTE),
+  ADDRESS_PRESENT          VARCHAR2(200 BYTE),
+  CITY_PRESENT             VARCHAR2(50 BYTE),
+  PIN_PRESENT              VARCHAR2(10 BYTE),
+  STATE_PRESENT            VARCHAR2(50 BYTE),
+  ADDRESS_PERMANENT        VARCHAR2(200 BYTE),
+  CITY_PERMANENT           VARCHAR2(50 BYTE),
+  PIN_PERMANENT            VARCHAR2(10 BYTE),
+  STATE_PERMANENT          VARCHAR2(50 BYTE),
+  VOTERID                  VARCHAR2(20 BYTE),
+  PTAXSTATE                VARCHAR2(100 BYTE),
+  WEEKLYOFFDAY             VARCHAR2(20 BYTE),
+  LASTPROMOTIONDATE        DATE,
+  WORKERCODE               VARCHAR2(10 BYTE),
+  IMAGEURL                 VARCHAR2(200 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PREVDATA CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PREVDATA
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  ATTN_HOLD         NUMBER(15,2),
+  ATTN_WRKD         NUMBER(15,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  LVBL_CL           NUMBER(11,2),
+  LVBL_PL           NUMBER(11,2),
+  LVBL_SL           NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(15,2),
+  LV_ENCASH         NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  DA                NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PEN_GROSS         NUMBER(15,5),
+  ESI_GROSS         NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  VPF_PERC          NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ESI_E             NUMBER(15,5),
+  ESI_C             NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  LWF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  ESI_RT            NUMBER(15,5),
+  SARR_ARRE         NUMBER(15,5),
+  SARR_ARRD         NUMBER(15,5),
+  SARR_PFARRE       NUMBER(15,5),
+  SARR_NPFARRE      NUMBER(15,5),
+  GROSSEARN         NUMBER(15,2),
+  GROSSDEDN         NUMBER(15,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(15,2),
+  TOTDEDN           NUMBER(15,5),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5),
+  SPL_ALLOW         NUMBER(15,5),
+  NS_HRS            NUMBER(15,5),
+  OT_HRS            NUMBER(15,5),
+  OT_DAYS           NUMBER(15,5),
+  NS_ALLOW          NUMBER(15,5),
+  OT_AMT            NUMBER(15,5),
+  SERV_PERC         NUMBER(15,5),
+  SERV_ALW          NUMBER(15,5),
+  CONV_PERC         NUMBER(15,5),
+  CONV_ALOW         NUMBER(15,5),
+  OEPF              NUMBER(15,5),
+  OE_NPF            NUMBER(15,5),
+  ESI_ADJERN        NUMBER(15,5),
+  HRA_PERC          NUMBER(15,5),
+  ACT_PF_GRS        NUMBER(15,5),
+  LIC               NUMBER(15,5),
+  ELECTRIC          NUMBER(15,5),
+  MESS              NUMBER(15,5),
+  LTP               NUMBER(15,5),
+  SUSP_DEDN         NUMBER(15,5),
+  MISC_DEDN         NUMBER(15,5),
+  HRA_AMT           NUMBER(15,5),
+  ADHOC_NPF         NUMBER(15,5),
+  OTHR_DEDN         NUMBER(15,5),
+  PROF_BONUS        NUMBER(15,5),
+  MEDICAL           NUMBER(15,5),
+  LTA               NUMBER(15,5),
+  LOAN_SPL          NUMBER(18,2),
+  LINT_SPL          NUMBER(18,2),
+  LNBL_SPL          NUMBER(18,2),
+  LIBL_SPL          NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_OTADV        NUMBER(18,2),
+  LINT_OTADV        NUMBER(18,2),
+  LNBL_OTADV        NUMBER(18,2),
+  LIBL_OTADV        NUMBER(18,2),
+  LOAN_PJADV        NUMBER(18,2),
+  LINT_PJADV        NUMBER(18,2),
+  LNBL_PJADV        NUMBER(18,2),
+  LIBL_PJADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LOAN_FEADV        NUMBER(18,2),
+  LINT_FEADV        NUMBER(18,2),
+  LNBL_FEADV        NUMBER(18,2),
+  LIBL_FEADV        NUMBER(18,2),
+  LOAN_OLADV        NUMBER(18,2),
+  LINT_OLADV        NUMBER(18,2),
+  LNBL_OLADV        NUMBER(18,2),
+  LIBL_OLADV        NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5),
+  ATN_INCAMT        NUMBER(15,5),
+  CLUB              NUMBER(15,5),
+  CUMM_DAYS         NUMBER(15,5),
+  CUM_PFGROS        NUMBER(15,5),
+  ESI_RATE          NUMBER(15,5),
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  LOAN_SPL1         NUMBER(18,2),
+  LINT_SPL1         NUMBER(18,2),
+  LNBL_SPL1         NUMBER(18,2),
+  LIBL_SPL1         NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5),
+  CUMM_PF_C         NUMBER(15,5),
+  CUMM_VPF          NUMBER(15,5),
+  RT_BASIC          NUMBER(15,5),
+  LDAY_CS           NUMBER(11,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYSLIPRAWDATA CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYSLIPRAWDATA
+(
+  ATTN_WRKD           NUMBER(15,2),
+  ATTN_SALD           NUMBER(11,2),
+  COMPANYNAME         VARCHAR2(100 BYTE)        NOT NULL,
+  DIVISIONNAME        VARCHAR2(100 BYTE),
+  MON_YR              VARCHAR2(15 BYTE),
+  EMPLOYEENAME        VARCHAR2(50 BYTE),
+  PFNO                VARCHAR2(20 BYTE),
+  ESINO               VARCHAR2(20 BYTE),
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  YEARCODE            VARCHAR2(10 BYTE),
+  YEARMONTH           VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH    VARCHAR2(10 BYTE),
+  UNITCODE            VARCHAR2(10 BYTE),
+  DEPARTMENTCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE        VARCHAR2(10 BYTE),
+  GRADECODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE     VARCHAR2(10 BYTE),
+  PAYMODE             VARCHAR2(20 BYTE),
+  ATTN_SALD_PPTRANS   NUMBER(11,2),
+  ATTN_WPAY           NUMBER(11,2),
+  ATTN_ADJD           NUMBER(11,2),
+  ATTN_TOTD           NUMBER(11,2),
+  ATTN_LDAY           NUMBER(11,2),
+  ATTN_CALCF          NUMBER(11,2),
+  ATTN_OFFD           NUMBER(11,2),
+  ATTN_HOLD           NUMBER(15,2),
+  ATTN_WRKD_PPTRANS   NUMBER(15,2),
+  LDAY_CL             NUMBER(11,2),
+  LDAY_PL             NUMBER(11,2),
+  LDAY_SL             NUMBER(11,2),
+  LVBL_CL             NUMBER(11,2),
+  LVBL_PL             NUMBER(11,2),
+  LVBL_SL             NUMBER(11,2),
+  LV_ENCASH_DAYS      NUMBER(15,2),
+  LV_ENCASH           NUMBER(11,2),
+  BASIC               NUMBER(15,5),
+  DA                  NUMBER(15,5),
+  HRA_GROSS           NUMBER(15,5),
+  HRA_PER             NUMBER(15,5),
+  HRA                 NUMBER(15,5),
+  PF_GROSS            NUMBER(15,5),
+  PEN_GROSS           NUMBER(15,5),
+  ESI_GROSS           NUMBER(15,5),
+  PTAX_GROSS          NUMBER(15,5),
+  PF_E                NUMBER(15,5),
+  PF_C                NUMBER(15,5),
+  FPF                 NUMBER(15,5),
+  VPF_PERC            NUMBER(15,5),
+  VPF                 NUMBER(15,5),
+  ESI_E               NUMBER(15,5),
+  ESI_C               NUMBER(15,5),
+  PTAX                NUMBER(15,5),
+  LWF                 NUMBER(15,5),
+  ITAX                NUMBER(15,5),
+  ESI_RT              NUMBER(15,5),
+  SARR_ARRE           NUMBER(15,5),
+  SARR_ARRD           NUMBER(15,5),
+  SARR_PFARRE         NUMBER(15,5),
+  SARR_NPFARRE        NUMBER(15,5),
+  GROSSEARN           NUMBER(15,2),
+  GROSSDEDN           NUMBER(15,2),
+  MISC_BF             NUMBER(11,2),
+  MISC_CF             NUMBER(11,2),
+  TOTEARN             NUMBER(15,2),
+  TOTDEDN             NUMBER(15,5),
+  NETSALARY           NUMBER(15,5),
+  ADHOC               NUMBER(15,5),
+  SPL_ALLOW           NUMBER(15,5),
+  NS_HRS              NUMBER(15,5),
+  OT_HRS              NUMBER,
+  OT_DAYS             NUMBER,
+  NS_ALLOW            NUMBER(15,5),
+  OT_AMT              NUMBER(15,5),
+  SERV_PERC           NUMBER(15,5),
+  SERV_ALW            NUMBER(15,5),
+  CONV_PERC           NUMBER(15,5),
+  CONV_ALOW           NUMBER(15,5),
+  OEPF                NUMBER(15,5),
+  OE_NPF              NUMBER(15,5),
+  ESI_ADJERN          NUMBER(15,5),
+  HRA_PERC            NUMBER(15,5),
+  ACT_PF_GRS          NUMBER(15,5),
+  LIC                 NUMBER(15,5),
+  ELECTRIC            NUMBER(15,5),
+  MESS                NUMBER(15,5),
+  LTP                 NUMBER(15,5),
+  SUSP_DEDN           NUMBER(15,5),
+  MISC_DEDN           NUMBER(15,5),
+  HRA_AMT             NUMBER(15,5),
+  ADHOC_NPF           NUMBER(15,5),
+  OTHR_DEDN           NUMBER(15,5),
+  PROF_BONUS          NUMBER(15,5),
+  MEDICAL             NUMBER(15,5),
+  LTA                 NUMBER(15,5),
+  LOAN_SPL            NUMBER(18,2),
+  LINT_SPL            NUMBER(18,2),
+  LNBL_SPL            NUMBER,
+  LIBL_SPL            NUMBER,
+  LNBL_SPL1           NUMBER,
+  LIBL_SPL1           NUMBER,
+  LOAN_STADV          NUMBER(18,2),
+  LINT_STADV          NUMBER(18,2),
+  LNBL_STADV          NUMBER(18,2),
+  LIBL_STADV          NUMBER(18,2),
+  LOAN_OTADV          NUMBER(18,2),
+  LINT_OTADV          NUMBER(18,2),
+  LNBL_OTADV          NUMBER(18,2),
+  LIBL_OTADV          NUMBER(18,2),
+  LOAN_PJADV          NUMBER(18,2),
+  LINT_PJADV          NUMBER(18,2),
+  LNBL_PJADV          NUMBER(18,2),
+  LIBL_PJADV          NUMBER(18,2),
+  LOAN_SA             NUMBER(18,2),
+  LINT_SA             NUMBER(18,2),
+  LNBL_SA             NUMBER(18,2),
+  LIBL_SA             NUMBER(18,2),
+  LOAN_FEADV          NUMBER(18,2),
+  LINT_FEADV          NUMBER(18,2),
+  LNBL_FEADV          NUMBER(18,2),
+  LIBL_FEADV          NUMBER(18,2),
+  LOAN_OLADV          NUMBER(18,2),
+  LINT_OLADV          NUMBER(18,2),
+  LNBL_OLADV          NUMBER(18,2),
+  LIBL_OLADV          NUMBER(18,2),
+  LOAN_PFL            NUMBER(18,2),
+  LINT_PFL            NUMBER(18,2),
+  LNBL_PFL            NUMBER(18,2),
+  LIBL_PFL            NUMBER(18,2),
+  ATN_INCAMT          NUMBER(15,5),
+  CLUB                NUMBER(15,5),
+  DEPARTMENTDESC      VARCHAR2(500 BYTE),
+  DESIGNATIONDESC     VARCHAR2(100 BYTE),
+  TOT_PF_C            NUMBER,
+  TOT_PF_E            NUMBER,
+  TOT_VPF             NUMBER,
+  RT_BASIC            NUMBER,
+  CUMM_DAYS           NUMBER(15,5),
+  CUM_PFGROS          NUMBER(15,5),
+  OT_HRS_DAY          NUMBER,
+  LEAVE_ENC           NUMBER(15,5),
+  AADHARNO            VARCHAR2(50 BYTE),
+  FORTNIGHTSTARTDATE  DATE                      NOT NULL,
+  FORTNIGHTENDDATE    DATE                      NOT NULL,
+  DEPARTMENTNAME      VARCHAR2(50 BYTE)         DEFAULT NULL,
+  SECTIONCODE         VARCHAR2(10 BYTE)         DEFAULT NULL,
+  WORKERCATEGORYCODE  VARCHAR2(10 BYTE)         DEFAULT NULL,
+  WORKERCATEGORYNAME  VARCHAR2(50 BYTE)         DEFAULT NULL,
+  PRINT_FLAG          VARCHAR2(1 BYTE)          DEFAULT 'N',
+  KIOSKID             VARCHAR2(20 BYTE)         DEFAULT NULL,
+  PRINTDATETIME       VARCHAR2(100 BYTE)        DEFAULT NULL,
+  LASTINSERTED        DATE                      DEFAULT SYSDATE,
+  PRINT_CNT           INTEGER                   DEFAULT 0,
+  LOAN_SPL1           NUMBER(15,2),
+  LINT_SPL1           NUMBER(15,2),
+  ATN_INCNT           NUMBER(15,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISACTUALPFGROSS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISACTUALPFGROSS
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  YEARCODE      VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE)               NOT NULL,
+  ACT_PF_GROSS  NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISASSIGNGLOSTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISASSIGNGLOSTER
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  ATN_INCNT     NUMBER,
+  BASIC         NUMBER,
+  DA            NUMBER,
+  ADHOC         NUMBER,
+  SPL_ALLOW     NUMBER,
+  SERV_PERC     NUMBER,
+  CONV_PERC     NUMBER,
+  ESI_ADJERN    NUMBER,
+  HRA_PERC      NUMBER,
+  VPF_PERC      NUMBER,
+  ITAX          NUMBER,
+  ADHOC_NPF     NUMBER,
+  HRA_AMT       NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  ATTN_HOLD         NUMBER(15,2),
+  ATTN_WRKD         NUMBER(15,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  LVBL_CL           NUMBER(11,2),
+  LVBL_PL           NUMBER(11,2),
+  LVBL_SL           NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(15,2),
+  LV_ENCASH         NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  DA                NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PEN_GROSS         NUMBER(15,5),
+  ESI_GROSS         NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  VPF_PERC          NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ESI_E             NUMBER(15,5),
+  ESI_C             NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  LWF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  ESI_RT            NUMBER(15,5),
+  SARR_ARRE         NUMBER(15,5),
+  SARR_ARRD         NUMBER(15,5),
+  SARR_PFARRE       NUMBER(15,5),
+  SARR_NPFARRE      NUMBER(15,5),
+  GROSSEARN         NUMBER(15,2),
+  GROSSDEDN         NUMBER(15,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(15,2),
+  TOTDEDN           NUMBER(15,5),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5),
+  SPL_ALLOW         NUMBER(15,5),
+  OT_AMT            NUMBER(15,5),
+  CONV_ALOW         NUMBER(15,5),
+  OEPF              NUMBER(15,5),
+  OE_NPF            NUMBER(15,5),
+  HRA_PERC          NUMBER(15,5),
+  ACT_PF_GRS        NUMBER(15,5),
+  LIC               NUMBER(15,5),
+  ELECTRIC          NUMBER(15,5),
+  OTHR_DEDN         NUMBER(15,5),
+  MEDICAL           NUMBER(15,5),
+  LTA               NUMBER(15,5),
+  LOAN_BL           NUMBER(18,2),
+  LINT_BL           NUMBER(18,2),
+  LNBLBL            NUMBER(18,2),
+  LIBL_BL           NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5),
+  ATN_INCAMT        NUMBER(15,5),
+  CLUB              NUMBER(15,5),
+  CUMM_DAYS         NUMBER(15,5),
+  CUM_PFGROS        NUMBER(15,5),
+  ESI_RATE          NUMBER(15,5),
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5),
+  CUMM_PF_C         NUMBER(15,5),
+  CUMM_VPF          NUMBER(15,5),
+  RT_BASIC          NUMBER(15,5),
+  LDAY_CS           NUMBER(11,2),
+  LNBL_BL           NUMBER(15,5)                DEFAULT 0,
+  PER_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  MED_ALLOW         NUMBER(15,5)                DEFAULT 0,
+  COMPSAVING        NUMBER(15,5)                DEFAULT 0,
+  CHOWKIDARI        NUMBER(15,5)                DEFAULT 0,
+  FURNITURE         NUMBER(15,5)                DEFAULT 0,
+  CAR               NUMBER(15,5)                DEFAULT 0,
+  LOTTERY           NUMBER(15,5)                DEFAULT 0,
+  RECREATION        NUMBER(15,5)                DEFAULT 0,
+  GAMES             NUMBER(15,5)                DEFAULT 0,
+  SCHOOL_BUS        NUMBER(15,5)                DEFAULT 0,
+  CONV_RT           NUMBER(15,5)                DEFAULT 0,
+  LADIESCLUB        NUMBER(15,5)                DEFAULT 0,
+  DAIRY             NUMBER(15,5)                DEFAULT 0,
+  LIBRARY           NUMBER(15,5)                DEFAULT 0,
+  OT_HRS            NUMBER(15,5)                DEFAULT 0,
+  SUBSCRIPTION      NUMBER(15,5)                DEFAULT 0,
+  HR_DEDN           NUMBER(15,5)                DEFAULT 0,
+  SAL_ADV           NUMBER(15,5)                DEFAULT 0,
+  LOAN_HPF          NUMBER(18,2),
+  LINT_HPF          NUMBER(18,2),
+  LNBL_HPF          NUMBER(18,2),
+  LIBL_HPF          NUMBER(18,2),
+  COMPS_ALLOW       NUMBER(15,5)                DEFAULT 0,
+  CONV_FLAG         NUMBER(15,5)                DEFAULT 0,
+  NPS_CONTR         NUMBER(15,5)                DEFAULT 0,
+  CONV_AMT          NUMBER(15,5)                DEFAULT 0,
+  MED_FLAG          NUMBER(15,5)                DEFAULT 0,
+  MIN_PAY           NUMBER(15,5)                DEFAULT 0,
+  MED_MONTH         NUMBER(15,5)                DEFAULT 0,
+  UNREALIZE_DED     NUMBER(15,5)                DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISOTHERTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE TABLE PISOTHERTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  ATTN_HOLD         NUMBER(15,2),
+  ATTN_WRKD         NUMBER(15,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  LVBL_CL           NUMBER(11,2),
+  LVBL_PL           NUMBER(11,2),
+  LVBL_SL           NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(15,2),
+  LV_ENCASH         NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  DA                NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PEN_GROSS         NUMBER(15,5),
+  ESI_GROSS         NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  VPF_PERC          NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ESI_E             NUMBER(15,5),
+  ESI_C             NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  LWF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  ESI_RT            NUMBER(15,5),
+  SARR_ARRE         NUMBER(15,5),
+  SARR_ARRD         NUMBER(15,5),
+  SARR_PFARRE       NUMBER(15,5),
+  SARR_NPFARRE      NUMBER(15,5),
+  GROSSEARN         NUMBER(15,2),
+  GROSSDEDN         NUMBER(15,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(15,2),
+  TOTDEDN           NUMBER(15,5),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5),
+  SPL_ALLOW         NUMBER(15,5),
+  OT_AMT            NUMBER(15,5),
+  CONV_ALOW         NUMBER(15,5),
+  OEPF              NUMBER(15,5),
+  OE_NPF            NUMBER(15,5),
+  HRA_PERC          NUMBER(15,5),
+  ACT_PF_GRS        NUMBER(15,5),
+  LIC               NUMBER(15,5),
+  ELECTRIC          NUMBER(15,5),
+  OTHR_DEDN         NUMBER(15,5),
+  MEDICAL           NUMBER(15,5),
+  LTA               NUMBER(15,5),
+  LOAN_BL           NUMBER(18,2),
+  LINT_BL           NUMBER(18,2),
+  LNBLBL            NUMBER(18,2),
+  LIBL_BL           NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5),
+  ATN_INCAMT        NUMBER(15,5),
+  CLUB              NUMBER(15,5),
+  CUMM_DAYS         NUMBER(15,5),
+  CUM_PFGROS        NUMBER(15,5),
+  ESI_RATE          NUMBER(15,5),
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5),
+  CUMM_PF_C         NUMBER(15,5),
+  CUMM_VPF          NUMBER(15,5),
+  RT_BASIC          NUMBER(15,5),
+  LDAY_CS           NUMBER(11,2),
+  LNBL_BL           NUMBER(15,5),
+  PER_ALLOW         NUMBER(15,5),
+  MED_ALLOW         NUMBER(15,5),
+  COMPSAVING        NUMBER(15,5),
+  CHOWKIDARI        NUMBER(15,5),
+  FURNITURE         NUMBER(15,5),
+  CAR               NUMBER(15,5),
+  LOTTERY           NUMBER(15,5),
+  RECREATION        NUMBER(15,5),
+  GAMES             NUMBER(15,5),
+  SCHOOL_BUS        NUMBER(15,5),
+  CONV_RT           NUMBER(15,5),
+  LADIESCLUB        NUMBER(15,5),
+  DAIRY             NUMBER(15,5),
+  LIBRARY           NUMBER(15,5),
+  OT_HRS            NUMBER(15,5),
+  SUBSCRIPTION      NUMBER(15,5),
+  HR_DEDN           NUMBER(15,5),
+  SAL_ADV           NUMBER(15,5),
+  LOAN_HPF          NUMBER(18,2),
+  LINT_HPF          NUMBER(18,2),
+  LNBL_HPF          NUMBER(18,2),
+  LIBL_HPF          NUMBER(18,2),
+  COMPS_ALLOW       NUMBER(15,5)                DEFAULT 0,
+  CONV_FLAG         NUMBER(15,5)                DEFAULT 0,
+  NPS_CONTR         NUMBER(15,5)                DEFAULT 0,
+  CONV_AMT          NUMBER(15,5)                DEFAULT 0,
+  MED_FLAG          NUMBER(15,5)                DEFAULT 0,
+  MIN_PAY           NUMBER(15,5)                DEFAULT 0,
+  MED_MONTH         NUMBER(15,5)                DEFAULT 0,
+  UNREALIZE_DED     NUMBER(15,5)                DEFAULT 0
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+ALTER TABLE PISOFFDAYWORKINGADJUSTMENT
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISOFFDAYWORKINGADJUSTMENT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISOFFDAYWORKINGADJUSTMENT
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  DOCUMENTNO       VARCHAR2(20 BYTE),
+  DOCUMENTDATE     DATE,
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  LEAVEDATE        DATE,
+  ADJUSTMENTDATE   DATE,
+  REMARKS          VARCHAR2(1000 BYTE),
+  MODULE           VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(100 BYTE),
+  USERNAME         VARCHAR2(10 BYTE)            NOT NULL,
+  LASTMODIFIED     DATE                         DEFAULT SYSDATE,
+  SYSROWID         VARCHAR2(50 BYTE)            NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISOUTSIDEDUTYDETAILS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISOUTSIDEDUTYDETAILS
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  MODULE        VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  DUTYDATE      DATE,
+  TIMEFROM      VARCHAR2(10 BYTE),
+  TIMETO        VARCHAR2(10 BYTE),
+  DUTYTYPE      NUMBER,
+  USERNAME      VARCHAR2(10 BYTE)               NOT NULL,
+  LASTMODIFIED  DATE                            DEFAULT SYSDATE,
+  SYSROWID      VARCHAR2(50 BYTE)               NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GTT_PIS_BANKLOAN_COMPSAV_REP CASCADE CONSTRAINTS;
+
+CREATE TABLE GTT_PIS_BANKLOAN_COMPSAV_REP
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  UNITCODE        VARCHAR2(10 BYTE),
+  UNITSHORTDESC   VARCHAR2(20 BYTE),
+  CATEGORYCODE    VARCHAR2(10 BYTE),
+  CATEGORYDESC    VARCHAR2(500 BYTE),
+  DEPARTMENTCODE  VARCHAR2(10 BYTE),
+  DEPARTMENTDESC  VARCHAR2(500 BYTE),
+  TOKENNO         VARCHAR2(20 BYTE),
+  EMPLOYEENAME    VARCHAR2(50 BYTE),
+  LOANDATE        DATE,
+  LOAN_BL         NUMBER(18,2),
+  LINT_BL         NUMBER(18,2),
+  LNBL_BL         NUMBER(15,5),
+  LOANAMOUNT      NUMBER(15,2),
+  COMPSAVING      NUMBER(15,5),
+  COMPSAVING_OP   NUMBER,
+  COMPSAVING_YTD  NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISLOANMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISLOANMASTER
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  LOANCODE          VARCHAR2(5 BYTE)            NOT NULL,
+  LOANDESC          VARCHAR2(100 BYTE),
+  LOANCF            CHAR(1 BYTE)                DEFAULT 'F',
+  LOANINDEX         NUMBER(3),
+  REFUNDTYPE        VARCHAR2(25 BYTE),
+  AGAINSTCOMPONENT  VARCHAR2(25 BYTE),
+  RATIOPERCENT      NUMBER(15,2),
+  REMARKS           VARCHAR2(50 BYTE),
+  WITHEFFECTFROM    DATE,
+  REGULARDEDUCTION  CHAR(1 BYTE),
+  USERNAME          VARCHAR2(100 BYTE)          NOT NULL,
+  LASTMODIFIED      DATE                        DEFAULT SYSDATE,
+  SYSROWID          VARCHAR2(50 BYTE)           NOT NULL
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PROCESS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PROCESS
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  BASIC         NUMBER,
+  DA            NUMBER,
+  HRA_PER       NUMBER,
+  PFL_EARN      NUMBER,
+  SPL_ALLOW     NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPROCESS CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPROCESS
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(50 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  ARREARFROM       DATE,
+  ARREARTO         DATE,
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE SWT_PIS_PHASE_DEDN CASCADE CONSTRAINTS;
+
+CREATE TABLE SWT_PIS_PHASE_DEDN
+(
+  UNITCODE  VARCHAR2(10 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISEMPLOYEEMASTER_TEMP CASCADE CONSTRAINTS;
+
+CREATE TABLE PISEMPLOYEEMASTER_TEMP
+(
+  EMPLOYEECODE                VARCHAR2(200 BYTE),
+  EMPLOYEENAME                VARCHAR2(200 BYTE),
+  EMPLOYEEBOSSCODE            VARCHAR2(200 BYTE),
+  CATEGORYCODE                VARCHAR2(200 BYTE),
+  GRADECODE                   VARCHAR2(200 BYTE),
+  DEPARTMENTCODE              VARCHAR2(200 BYTE),
+  DESIGNATIONCODE             VARCHAR2(200 BYTE),
+  ACADEMICQUALIFICATION       VARCHAR2(200 BYTE),
+  EMPLOYEESTATUS              VARCHAR2(200 BYTE),
+  EMPLOYEEMARRIED             VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFJOIN          VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFCONFIRMATION  VARCHAR2(200 BYTE),
+  EMPPFENTITLEDATE            VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFBIRTH         VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFRETIRE        VARCHAR2(200 BYTE),
+  EXTENDEDRETIREDATE          VARCHAR2(200 BYTE),
+  EMPLOYEEBANKCODE            VARCHAR2(200 BYTE),
+  EMPLOYEEBANKACCNUMBER       VARCHAR2(200 BYTE),
+  EMPLOYEEPFCODE              VARCHAR2(200 BYTE),
+  EMPLOYEEPFACCNUMBER         VARCHAR2(200 BYTE),
+  EMPLOYEESEX                 VARCHAR2(200 BYTE),
+  EMPLOYEEADDRESS_PERMANENT   VARCHAR2(200 BYTE),
+  EMPLOYEEPHONE               VARCHAR2(200 BYTE),
+  CHEQUECASH                  VARCHAR2(200 BYTE),
+  STATUSDATE                  VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFPROMOTION     VARCHAR2(200 BYTE),
+  EMPLOYEEDATEOFINCREMENT     VARCHAR2(200 BYTE),
+  PROFESSIONQUALIFICATION     VARCHAR2(200 BYTE),
+  EMPLOYEEFATHERNAME          VARCHAR2(200 BYTE),
+  EMPLOYEESPOUSENAME          VARCHAR2(200 BYTE),
+  EMPLOYEEPAYMENTSTATUS       VARCHAR2(200 BYTE),
+  EMPLOYEEPANCARDNO           VARCHAR2(200 BYTE),
+  EMPLOYEEADDRESS_PERSONAL    VARCHAR2(200 BYTE),
+  PENSION_NUMBER              VARCHAR2(200 BYTE),
+  PFACCODE                    VARCHAR2(200 BYTE),
+  ACTIVE                      VARCHAR2(200 BYTE),
+  ESINO                       VARCHAR2(200 BYTE),
+  LEAVINGSERVICE              VARCHAR2(200 BYTE),
+  REMARKS                     VARCHAR2(200 BYTE),
+  DOCTORCODE                  VARCHAR2(200 BYTE),
+  BLOODGROUP                  VARCHAR2(200 BYTE),
+  EMAILID                     VARCHAR2(200 BYTE),
+  QUARTERALLOTED              VARCHAR2(200 BYTE),
+  SHORTNAME                   VARCHAR2(200 BYTE),
+  EMPLOYEETYPE                VARCHAR2(200 BYTE),
+  QUARTERNO                   VARCHAR2(200 BYTE),
+  PFSETTLEMENTDATE            VARCHAR2(200 BYTE),
+  UNITCODE                    VARCHAR2(200 BYTE),
+  STATENAME                   VARCHAR2(200 BYTE),
+  CITYNAME                    VARCHAR2(200 BYTE),
+  WEEKLYDAYOFF                VARCHAR2(200 BYTE),
+  BASIC                       VARCHAR2(200 BYTE),
+  DA                          VARCHAR2(200 BYTE),
+  SPL_ALLOWANCE               VARCHAR2(200 BYTE),
+  ADHOC                       VARCHAR2(200 BYTE),
+  OTHER_ALLOWANCE             VARCHAR2(200 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT_1 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT_1
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  SICK_ALLOW    NUMBER,
+  SPL_ALLOW     NUMBER,
+  ME_2          NUMBER,
+  ME_3          NUMBER,
+  ME_4          NUMBER,
+  ME_5          NUMBER,
+  ME_6          NUMBER,
+  MESS          NUMBER,
+  FUEL_ALLOW    NUMBER,
+  EDU_ALLOW     NUMBER,
+  PARA_ALLOW    NUMBER,
+  LAUN_ALLOW    NUMBER,
+  SFT_B_DAYS    NUMBER,
+  SFT_C_DAYS    NUMBER,
+  NS_B_RATE     NUMBER,
+  NS_C_RATE     NUMBER,
+  ME_1          NUMBER,
+  BASIC         NUMBER,
+  PFL_EARN      NUMBER,
+  HRA_PER       NUMBER,
+  DA            NUMBER,
+  LV_ENCASH     NUMBER,
+  OT_HRS        NUMBER,
+  VPF_PERC      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT_2 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT_2
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  H_WAGES       NUMBER,
+  NS_ALLOW      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT_3 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT_3
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  OT_AMT        NUMBER,
+  HRA_GROSS     NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT_4 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT_4
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  HR_ALLOW      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_SWT_5 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_SWT_5
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  PEN_GROSS     NUMBER,
+  ESI_GROSS     NUMBER,
+  PTAX_GROSS    NUMBER,
+  GROSSEARN     NUMBER,
+  PF_GROSS      NUMBER,
+  TOTEARN       NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPMAST CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPMAST
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  UNITCODE            VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  CATEGORYCODE        VARCHAR2(10 BYTE)         NOT NULL,
+  GRADECODE           VARCHAR2(10 BYTE),
+  PFAPPLICABLE        VARCHAR2(1 BYTE),
+  EPFAPPLICABLE       VARCHAR2(1 BYTE),
+  PTAXAPPLICABLE      VARCHAR2(1 BYTE),
+  QUARTERALLOTED      VARCHAR2(3 BYTE),
+  EMPLOYEESTATUS      VARCHAR2(20 BYTE),
+  DEPARTMENTCODE      VARCHAR2(10 BYTE)         NOT NULL,
+  DESIGNATIONCODE     VARCHAR2(10 BYTE),
+  PFNO                VARCHAR2(20 BYTE),
+  PENSIONNO           VARCHAR2(20 BYTE),
+  ESINO               VARCHAR2(20 BYTE),
+  BANKACCNUMBER       VARCHAR2(20 BYTE),
+  PAYMODE             VARCHAR2(10 BYTE),
+  DATEOFBIRTH         DATE,
+  DATEOFJOIN          DATE,
+  PFENTITLEDATE       DATE,
+  STATUSDATE          DATE,
+  EXTENDEDRETIREDATE  DATE,
+  PTAXSTATE           VARCHAR2(100 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPATTN CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPATTN
+(
+  COMPANYCODE            VARCHAR2(10 BYTE),
+  DIVISIONCODE           VARCHAR2(10 BYTE),
+  UNITCODE               VARCHAR2(10 BYTE),
+  YEARMONTH              VARCHAR2(10 BYTE),
+  CATEGORYCODE           VARCHAR2(10 BYTE),
+  GRADECODE              VARCHAR2(10 BYTE),
+  WORKERSERIAL           VARCHAR2(10 BYTE),
+  TOKENNO                VARCHAR2(10 BYTE),
+  PRESENTDAYS            NUMBER,
+  WITHOUTPAYDAYS         NUMBER,
+  HOLIDAYS               NUMBER,
+  SALARYDAYS             NUMBER,
+  LV_ENCASH_DAYS         NUMBER,
+  LVDAYS_RET             NUMBER,
+  TOTALDAYS              NUMBER,
+  CALCULATIONFACTORDAYS  NUMBER,
+  CAR                    NUMBER,
+  DAIRY                  NUMBER,
+  ELECTRIC               NUMBER,
+  GAMES                  NUMBER,
+  LOTTERY                NUMBER,
+  OEPF                   NUMBER,
+  OE_NPF                 NUMBER,
+  OTHR_DEDN              NUMBER,
+  OT_HRS                 NUMBER,
+  RECREATION             NUMBER,
+  SAL_ADV                NUMBER,
+  SUBSCRIPTION           NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPASSIGN CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPASSIGN
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  ADHOC         NUMBER,
+  ATN_INCNT     NUMBER,
+  BASIC         NUMBER,
+  CHOWKIDARI    NUMBER,
+  CONV_AMT      NUMBER,
+  CONV_FLAG     NUMBER,
+  DA            NUMBER,
+  FURNITURE     NUMBER,
+  HRA_PERC      NUMBER,
+  HR_DEDN       NUMBER,
+  ITAX          NUMBER,
+  LADIESCLUB    NUMBER,
+  LIC           NUMBER,
+  MED_FLAG      NUMBER,
+  MIN_PAY       NUMBER,
+  NPS_CONTR     NUMBER,
+  PER_ALLOW     NUMBER,
+  SCHOOL_BUS    NUMBER,
+  SPL_ALLOW     NUMBER,
+  VPF_PERC      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPPRVRT CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPPRVRT
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  ADHOC         NUMBER,
+  ATN_INCNT     NUMBER,
+  BASIC         NUMBER,
+  CHOWKIDARI    NUMBER,
+  CONV_AMT      NUMBER,
+  CONV_FLAG     NUMBER,
+  DA            NUMBER,
+  FURNITURE     NUMBER,
+  HRA_PERC      NUMBER,
+  HR_DEDN       NUMBER,
+  ITAX          NUMBER,
+  LADIESCLUB    NUMBER,
+  LIC           NUMBER,
+  MED_FLAG      NUMBER,
+  MIN_PAY       NUMBER,
+  NPS_CONTR     NUMBER,
+  PER_ALLOW     NUMBER,
+  SCHOOL_BUS    NUMBER,
+  SPL_ALLOW     NUMBER,
+  VPF_PERC      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPPREV CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPPREV
+(
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  MISC_CF       NUMBER(11,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_1 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_1
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  CONV_RT       NUMBER,
+  BASIC         NUMBER,
+  DA            NUMBER,
+  ADHOC         NUMBER,
+  ATN_INCNT     NUMBER,
+  PER_ALLOW     NUMBER,
+  SPL_ALLOW     NUMBER,
+  OT_HRS        NUMBER,
+  OEPF          NUMBER,
+  OE_NPF        NUMBER,
+  HRA_PERC      NUMBER,
+  RT_BASIC      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_2 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_2
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  OT_AMT        NUMBER,
+  LEAVE_ENC     NUMBER,
+  CONV_ALOW     NUMBER,
+  CONV_AMT      NUMBER,
+  VPF_PERC      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_3 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_3
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  CONV_FLAG     NUMBER,
+  HRA_GROSS     NUMBER,
+  PF_GROSS      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_4 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_4
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  HRA           NUMBER,
+  COMPS_ALLOW   NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_5 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_5
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  ESI_RATE      NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISPAYTRANSACTION_PHASE_6 CASCADE CONSTRAINTS;
+
+CREATE TABLE PISPAYTRANSACTION_PHASE_6
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  UNITCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  ATTN_SALD     NUMBER(11,2),
+  ATTN_CALCF    NUMBER(11,2),
+  TOTEARN       NUMBER,
+  ACT_PF_GRS    NUMBER,
+  PEN_GROSS     NUMBER,
+  ESI_GROSS     NUMBER,
+  PTAX_GROSS    NUMBER,
+  GROSSEARN     NUMBER,
+  NPS_CONTR     NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISTEMPCOMP CASCADE CONSTRAINTS;
+
+CREATE TABLE PISTEMPCOMP
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  WORKERSERIAL   VARCHAR2(10 BYTE),
+  TOKENNO        VARCHAR2(20 BYTE),
+  YEARMONTH      VARCHAR2(10 BYTE),
+  ATTN_SALD      NUMBER(11,2),
+  ATTN_WRKD      NUMBER(15,2),
+  ATTN_WPAY      NUMBER(11,2),
+  ATTN_ADJD      NUMBER(11,2),
+  ATTN_TOTD      NUMBER(11,2),
+  ATTN_CALCF     NUMBER(11,2),
+  ATTN_LDAY      NUMBER(11,2),
+  ATTN_OFFD      NUMBER(11,2),
+  LDAY_PL        NUMBER(11,2),
+  LDAY_SL        NUMBER(11,2),
+  ACT_PF_GRS     NUMBER,
+  ADHOC          NUMBER,
+  ATN_INCNT      NUMBER,
+  BASIC          NUMBER,
+  CAR            NUMBER,
+  CHOWKIDARI     NUMBER,
+  CLUB           NUMBER,
+  COMPSAVING     NUMBER,
+  COMPS_ALLOW    NUMBER,
+  CONV_ALOW      NUMBER,
+  CONV_AMT       NUMBER,
+  CONV_FLAG      NUMBER,
+  CONV_RT        NUMBER,
+  CUMM_DAYS      NUMBER,
+  CUMM_PF_C      NUMBER,
+  CUMM_PF_E      NUMBER,
+  CUMM_VPF       NUMBER,
+  CUM_PFGROS     NUMBER,
+  DA             NUMBER,
+  DAIRY          NUMBER,
+  ELECTRIC       NUMBER,
+  ESI_E          NUMBER,
+  ESI_GROSS      NUMBER,
+  ESI_RATE       NUMBER,
+  FURNITURE      NUMBER,
+  GAMES          NUMBER,
+  GROSSDEDN      NUMBER,
+  GROSSEARN      NUMBER,
+  HRA            NUMBER,
+  HRA_GROSS      NUMBER,
+  HRA_PERC       NUMBER,
+  HR_DEDN        NUMBER,
+  ITAX           NUMBER,
+  LADIESCLUB     NUMBER,
+  LEAVE_ENC      NUMBER,
+  LIBL_BL        NUMBER,
+  LIBL_HPF       NUMBER,
+  LIBL_PFL       NUMBER,
+  LIBL_SA        NUMBER,
+  LIBL_STADV     NUMBER,
+  LIBRARY        NUMBER,
+  LIC            NUMBER,
+  LINT_BL        NUMBER,
+  LINT_HPF       NUMBER,
+  LINT_PFL       NUMBER,
+  LINT_SA        NUMBER,
+  LINT_STADV     NUMBER,
+  LNBL_BL        NUMBER,
+  LNBL_HPF       NUMBER,
+  LNBL_PFL       NUMBER,
+  LNBL_SA        NUMBER,
+  LNBL_STADV     NUMBER,
+  LOAN_BL        NUMBER,
+  LOAN_HPF       NUMBER,
+  LOAN_PFL       NUMBER,
+  LOAN_SA        NUMBER,
+  LOAN_STADV     NUMBER,
+  LOTTERY        NUMBER,
+  LWF            NUMBER,
+  MED_ALLOW      NUMBER,
+  MED_FLAG       NUMBER,
+  MED_MONTH      NUMBER,
+  MIN_PAY        NUMBER,
+  NETSALARY      NUMBER,
+  NPS_CONTR      NUMBER,
+  OEPF           NUMBER,
+  OE_NPF         NUMBER,
+  OTHR_DEDN      NUMBER,
+  OT_AMT         NUMBER,
+  OT_HRS         NUMBER,
+  PEN_GROSS      NUMBER,
+  PER_ALLOW      NUMBER,
+  PF_E           NUMBER,
+  PF_GROSS       NUMBER,
+  PTAX           NUMBER,
+  PTAX_GROSS     NUMBER,
+  RECREATION     NUMBER,
+  RT_BASIC       NUMBER,
+  SAL_ADV        NUMBER,
+  SCHOOL_BUS     NUMBER,
+  SPL_ALLOW      NUMBER,
+  SUBSCRIPTION   NUMBER,
+  TOTEARN        NUMBER,
+  UNREALIZE_DED  NUMBER,
+  VPF            NUMBER,
+  VPF_PERC       NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PIS_SWT_PHASE_DEDN CASCADE CONSTRAINTS;
+
+CREATE TABLE PIS_SWT_PHASE_DEDN
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARMONTH      VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  GRADECODE      VARCHAR2(10 BYTE),
+  WORKERSERIAL   VARCHAR2(10 BYTE),
+  TOKENNO        VARCHAR2(10 BYTE),
+  ATTN_SALD      NUMBER(11,2),
+  ATTN_CALCF     NUMBER(11,2),
+  GROSSEARN      NUMBER,
+  TOTEARN        NUMBER,
+  CAR            NUMBER,
+  CHOWKIDARI     NUMBER,
+  CLUB           NUMBER,
+  COMPSAVING     NUMBER,
+  DAIRY          NUMBER,
+  ELECTRIC       NUMBER,
+  ESI_E          NUMBER,
+  FURNITURE      NUMBER,
+  GAMES          NUMBER,
+  HR_DEDN        NUMBER,
+  ITAX           NUMBER,
+  LADIESCLUB     NUMBER,
+  LIBRARY        NUMBER,
+  LIC            NUMBER,
+  LINT_BL        NUMBER,
+  LINT_HPF       NUMBER,
+  LINT_PFL       NUMBER,
+  LINT_SA        NUMBER,
+  LINT_STADV     NUMBER,
+  LOAN_BL        NUMBER,
+  LOAN_HPF       NUMBER,
+  LOAN_PFL       NUMBER,
+  LOAN_SA        NUMBER,
+  LOAN_STADV     NUMBER,
+  LOTTERY        NUMBER,
+  LWF            NUMBER,
+  OTHR_DEDN      NUMBER,
+  PF_E           NUMBER,
+  PTAX           NUMBER,
+  RECREATION     NUMBER,
+  SAL_ADV        NUMBER,
+  SCHOOL_BUS     NUMBER,
+  SUBSCRIPTION   NUMBER,
+  UNREALIZE_DED  NUMBER,
+  VPF            NUMBER
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISUNREALIZEDDATA CASCADE CONSTRAINTS;
+
+CREATE TABLE PISUNREALIZEDDATA
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  YEARCODE            VARCHAR2(10 BYTE),
+  YEARMONTH           DATE,
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  COMPONENTCODE       VARCHAR2(10 BYTE),
+  COMPONENTAMOUNT     NUMBER(11,2),
+  ACTUALAMOUNT        NUMBER(11,2),
+  REFERENCE_FNEDATE   DATE,
+  PAIDON              DATE,
+  TRANTYPE            VARCHAR2(10 BYTE),
+  MODULE              VARCHAR2(10 BYTE),
+  REMARKS             VARCHAR2(100 BYTE),
+  USERNAME            VARCHAR2(50 BYTE),
+  SYSROSWID           VARCHAR2(50 BYTE),
+  LASTMODIFIED        DATE                      DEFAULT SYSDATE,
+  DOCNO               VARCHAR2(20 BYTE),
+  DOCDATE             DATE,
+  TRAN_SOURCE         VARCHAR2(20 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE BIRLA_PIS_UNREALIZEDDATA CASCADE CONSTRAINTS;
+
+CREATE TABLE BIRLA_PIS_UNREALIZEDDATA
+(
+  EMP_CD             VARCHAR2(10 BYTE),
+  EMP_NAME           VARCHAR2(100 BYTE),
+  UNREALSL_EARN_AMT  NUMBER(11,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE PISWPSUNREALIZEDDATA CASCADE CONSTRAINTS;
+
+CREATE TABLE PISWPSUNREALIZEDDATA
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  YEARCODE            VARCHAR2(10 BYTE),
+  YEARMONTH           VARCHAR2(10 BYTE),
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(10 BYTE),
+  COMPONENTCODE       VARCHAR2(10 BYTE),
+  COMPONENTAMOUNT     NUMBER(11,2),
+  ACTUALAMOUNT        NUMBER(11,2),
+  REFERENCE_FNEDATE   DATE,
+  PAIDON              DATE,
+  TRANTYPE            VARCHAR2(10 BYTE),
+  MODULE              VARCHAR2(10 BYTE),
+  REMARKS             VARCHAR2(100 BYTE),
+  USERNAME            VARCHAR2(50 BYTE),
+  SYSROSWID           VARCHAR2(50 BYTE),
+  LASTMODIFIED        DATE,
+  DOCNO               VARCHAR2(20 BYTE),
+  DOCDATE             DATE,
+  TRAN_SOURCE         VARCHAR2(20 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GBL_PISLEAV CASCADE CONSTRAINTS;
+
+CREATE TABLE GBL_PISLEAV
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  YEARCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  LEAVECODE                VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON           DATE,
+  LEAVESANCTIONEDON        DATE,
+  LEAVEDATE                DATE,
+  LEAVEENCASHED            VARCHAR2(1 BYTE),
+  LEAVEAPPLICATIONREMARKS  VARCHAR2(100 BYTE),
+  LEAVESANCTIONREMARKS     VARCHAR2(100 BYTE),
+  LEAVEDAYS                NUMBER(5,2),
+  ADJUSTMENTTAG            VARCHAR2(1 BYTE),
+  FINALSETTLEMENTTAG       VARCHAR2(1 BYTE),
+  TAXABLE                  VARCHAR2(1 BYTE),
+  CALENDARYEAR             VARCHAR2(4 BYTE),
+  OPERATIONMODE            VARCHAR2(1 BYTE),
+  LEAVEAPPLIEDFROM         DATE,
+  LEAVEAPPLIEDTO           DATE,
+  DOCUMENTNO               VARCHAR2(20 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE),
+  SYSROWID                 VARCHAR2(100 BYTE),
+  MENUTAG                  VARCHAR2(100 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GBL_PISLEAVEAPPLICATION CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEAPPLICATION
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  YEARCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  LEAVECODE                VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON           DATE,
+  LEAVESANCTIONEDON        DATE,
+  LEAVEDATE                DATE,
+  LEAVEENCASHED            VARCHAR2(1 BYTE),
+  LEAVEAPPLICATIONREMARKS  VARCHAR2(100 BYTE),
+  LEAVESANCTIONREMARKS     VARCHAR2(100 BYTE),
+  LEAVEDAYS                NUMBER(5,2),
+  ADJUSTMENTTAG            VARCHAR2(1 BYTE),
+  FINALSETTLEMENTTAG       VARCHAR2(1 BYTE),
+  TAXABLE                  VARCHAR2(1 BYTE),
+  CALENDARYEAR             VARCHAR2(4 BYTE),
+  OPERATIONMODE            VARCHAR2(1 BYTE),
+  LEAVEAPPLIEDFROM         DATE,
+  LEAVEAPPLIEDTO           DATE,
+  DOCUMENTNO               VARCHAR2(20 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE),
+  SYSROWID                 VARCHAR2(100 BYTE),
+  MENUTAG                  VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVEAPPLICATION_T CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEAPPLICATION_T
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  YEARCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  EMPLOYEEID               VARCHAR2(10 BYTE),
+  EMPLOYEECODE             VARCHAR2(10 BYTE),
+  LEAVECODE                VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON           DATE,
+  LEAVESANCTIONEDON        DATE,
+  LEAVEDATE                DATE,
+  LEAVEENCASHED            VARCHAR2(1 BYTE),
+  LEAVEAPPLICATIONREMARKS  VARCHAR2(100 BYTE),
+  LEAVESANCTIONREMARKS     VARCHAR2(100 BYTE),
+  LEAVEDAYS                NUMBER(5,2),
+  ADJUSTMENTTAG            VARCHAR2(1 BYTE),
+  FINALSETTLEMENTTAG       VARCHAR2(1 BYTE),
+  TAXABLE                  VARCHAR2(1 BYTE),
+  CALENDARYEAR             VARCHAR2(4 BYTE),
+  OPERATIONMODE            VARCHAR2(1 BYTE),
+  LEAVEAPPLIEDFROM         DATE,
+  LEAVEAPPLIEDTO           DATE,
+  USERNAME                 VARCHAR2(100 BYTE),
+  SYSROWID                 VARCHAR2(100 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISBANKMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISBANKMASTER
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  BANKCODE          VARCHAR2(10 BYTE),
+  BANKDESC          VARCHAR2(500 BYTE),
+  BANKADDRESS       VARCHAR2(200 BYTE),
+  BANKBSR           VARCHAR2(100 BYTE),
+  BANKINDEX         NUMBER(3),
+  BANKSALARYADVISE  VARCHAR2(1 BYTE),
+  SALARYACCOUNTNO   VARCHAR2(20 BYTE),
+  MICRNO            VARCHAR2(20 BYTE),
+  BRANCHNAME        VARCHAR2(200 BYTE),
+  ACNO              VARCHAR2(20 BYTE),
+  IFSCCODE          VARCHAR2(20 BYTE),
+  COMPANYNAME       VARCHAR2(200 BYTE),
+  COMPANYADDRESS    VARCHAR2(250 BYTE),
+  COMPANYADDRESS1   VARCHAR2(150 BYTE),
+  COMPANYADDRESS2   VARCHAR2(150 BYTE),
+  COMPANYADDRESS3   VARCHAR2(150 BYTE),
+  COMPANYCITY       VARCHAR2(150 BYTE),
+  COMPANYSTATE      VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY    VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISCATEGORYMAST CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISCATEGORYMAST
+(
+  COMPANYCODE                    VARCHAR2(10 BYTE) NOT NULL,
+  DIVISIONCODE                   VARCHAR2(10 BYTE) NOT NULL,
+  CATEGORYCODE                   VARCHAR2(10 BYTE) NOT NULL,
+  CATEGORYDESC                   VARCHAR2(500 BYTE),
+  CATEGORYINDEX                  NUMBER(3),
+  LEAVECALENDARORFINYRWISE       VARCHAR2(1 BYTE),
+  CALCULATIONDAYS                NUMBER(10),
+  OFFDAYSNOTCONSIDERINSALARYDAY  VARCHAR2(50 BYTE),
+  HOLIDAYWORKED_ATTN             VARCHAR2(1 BYTE),
+  ATTENDANCEENTRY                VARCHAR2(1 BYTE),
+  EXGRATIAAPPLICABLE             VARCHAR2(1 BYTE),
+  BONUSAPPLICABLE                VARCHAR2(1 BYTE),
+  ROUNDOFFAMOUNT                 VARCHAR2(1 BYTE),
+  ROUNDOFFAPPLICABLE             VARCHAR2(1 BYTE),
+  COMPANYNAME                    VARCHAR2(200 BYTE),
+  COMPANYADDRESS                 VARCHAR2(250 BYTE),
+  COMPANYADDRESS1                VARCHAR2(150 BYTE),
+  COMPANYADDRESS2                VARCHAR2(150 BYTE),
+  COMPANYADDRESS3                VARCHAR2(150 BYTE),
+  COMPANYCITY                    VARCHAR2(150 BYTE),
+  COMPANYSTATE                   VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY                 VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISDEPARTMENTMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISDEPARTMENTMASTER
+(
+  COMPANYCODE      VARCHAR2(10 BYTE)            NOT NULL,
+  DIVISIONCODE     VARCHAR2(10 BYTE)            NOT NULL,
+  DEPARTMENTCODE   VARCHAR2(10 BYTE)            NOT NULL,
+  DEPARTMENTDESC   VARCHAR2(500 BYTE),
+  DEPARTMENTINDEX  NUMBER(3),
+  COMPANYNAME      VARCHAR2(200 BYTE),
+  COMPANYADDRESS   VARCHAR2(250 BYTE),
+  COMPANYADDRESS1  VARCHAR2(150 BYTE),
+  COMPANYADDRESS2  VARCHAR2(150 BYTE),
+  COMPANYADDRESS3  VARCHAR2(150 BYTE),
+  COMPANYCITY      VARCHAR2(150 BYTE),
+  COMPANYSTATE     VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY   VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISDESIGNATIONMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISDESIGNATIONMASTER
+(
+  COMPANYCODE        VARCHAR2(10 BYTE)          NOT NULL,
+  DIVISIONCODE       VARCHAR2(10 BYTE)          NOT NULL,
+  DESIGNATIONCODE    VARCHAR2(10 BYTE)          NOT NULL,
+  DESIGNATIONDESC    VARCHAR2(100 BYTE),
+  DESIGNATIONINDEX   NUMBER(3),
+  INCLUDENIGHTSHIFT  VARCHAR2(1 BYTE),
+  COMPANYNAME        VARCHAR2(200 BYTE),
+  COMPANYADDRESS     VARCHAR2(250 BYTE),
+  COMPANYADDRESS1    VARCHAR2(150 BYTE),
+  COMPANYADDRESS2    VARCHAR2(150 BYTE),
+  COMPANYADDRESS3    VARCHAR2(150 BYTE),
+  COMPANYCITY        VARCHAR2(150 BYTE),
+  COMPANYSTATE       VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY     VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISDOCTORMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISDOCTORMASTER
+(
+  COMPANYCODE      VARCHAR2(10 BYTE)            NOT NULL,
+  DIVISIONCODE     VARCHAR2(10 BYTE)            NOT NULL,
+  DOCTORCODE       VARCHAR2(10 BYTE),
+  DOCTORNAME       VARCHAR2(200 BYTE),
+  COMPANYNAME      VARCHAR2(200 BYTE),
+  COMPANYADDRESS   VARCHAR2(250 BYTE),
+  COMPANYADDRESS1  VARCHAR2(150 BYTE),
+  COMPANYADDRESS2  VARCHAR2(150 BYTE),
+  COMPANYADDRESS3  VARCHAR2(150 BYTE),
+  COMPANYCITY      VARCHAR2(150 BYTE),
+  COMPANYSTATE     VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY   VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISGRADEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISGRADEMASTER
+(
+  COMPANYCODE      VARCHAR2(10 BYTE)            NOT NULL,
+  DIVISIONCODE     VARCHAR2(10 BYTE)            NOT NULL,
+  CATEGORYCODE     VARCHAR2(10 BYTE)            NOT NULL,
+  GRADECODE        VARCHAR2(10 BYTE)            NOT NULL,
+  GRADEDESC        VARCHAR2(500 BYTE),
+  GRADEINDEX       NUMBER(3),
+  COMPANYNAME      VARCHAR2(200 BYTE),
+  COMPANYADDRESS   VARCHAR2(250 BYTE),
+  COMPANYADDRESS1  VARCHAR2(150 BYTE),
+  COMPANYADDRESS2  VARCHAR2(150 BYTE),
+  COMPANYADDRESS3  VARCHAR2(150 BYTE),
+  COMPANYCITY      VARCHAR2(150 BYTE),
+  COMPANYSTATE     VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY   VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISLEAVEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISLEAVEMASTER
+(
+  COMPANYCODE                 VARCHAR2(10 BYTE) NOT NULL,
+  DIVISIONCODE                VARCHAR2(10 BYTE) NOT NULL,
+  LEAVECODE                   VARCHAR2(5 BYTE)  NOT NULL,
+  LEAVEDESC                   VARCHAR2(500 BYTE),
+  LEAVECF                     VARCHAR2(1 BYTE)  DEFAULT 'N',
+  LEAVEENCASH                 VARCHAR2(1 BYTE)  DEFAULT 'N',
+  LEAVEINDEX                  NUMBER(3),
+  LEAVEENTITLEMENTAPPLICABLE  VARCHAR2(1 BYTE),
+  WITHOUTPAYLEAVE             VARCHAR2(1 BYTE),
+  INCLUDENIGHTSHIFT           VARCHAR2(1 BYTE),
+  COMPANYNAME                 VARCHAR2(200 BYTE),
+  COMPANYADDRESS              VARCHAR2(250 BYTE),
+  COMPANYADDRESS1             VARCHAR2(150 BYTE),
+  COMPANYADDRESS2             VARCHAR2(150 BYTE),
+  COMPANYADDRESS3             VARCHAR2(150 BYTE),
+  COMPANYCITY                 VARCHAR2(150 BYTE),
+  COMPANYSTATE                VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY              VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISLOANMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISLOANMASTER
+(
+  COMPANYCODE       VARCHAR2(10 BYTE)           NOT NULL,
+  DIVISIONCODE      VARCHAR2(10 BYTE)           NOT NULL,
+  LOANCODE          VARCHAR2(5 BYTE)            NOT NULL,
+  LOANDESC          VARCHAR2(100 BYTE),
+  LOANCF            CHAR(1 BYTE),
+  LOANINDEX         NUMBER(3),
+  REFUNDTYPE        VARCHAR2(25 BYTE),
+  AGAINSTCOMPONENT  VARCHAR2(25 BYTE),
+  RATIOPERCENT      NUMBER(15,2),
+  REMARKS           VARCHAR2(50 BYTE),
+  WITHEFFECTFROM    DATE,
+  REGULARDEDUCTION  CHAR(1 BYTE),
+  COMPANYNAME       VARCHAR2(200 BYTE),
+  COMPANYADDRESS    VARCHAR2(250 BYTE),
+  COMPANYADDRESS1   VARCHAR2(150 BYTE),
+  COMPANYADDRESS2   VARCHAR2(150 BYTE),
+  COMPANYADDRESS3   VARCHAR2(150 BYTE),
+  COMPANYCITY       VARCHAR2(150 BYTE),
+  COMPANYSTATE      VARCHAR2(150 BYTE),
+  COMPANYCOUNTRY    VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISGRADEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISGRADEMASTER
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  GRADECODE      VARCHAR2(10 BYTE),
+  GRADEDESC      VARCHAR2(500 BYTE),
+  GRADEINDEX     NUMBER(3),
+  OPERATIONMODE  VARCHAR2(1 BYTE),
+  USERNAME       VARCHAR2(100 BYTE),
+  SYSROWID       VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISDESIGNATIONMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISDESIGNATIONMASTER
+(
+  COMPANYCODE        VARCHAR2(10 BYTE),
+  DIVISIONCODE       VARCHAR2(10 BYTE),
+  DESIGNATIONCODE    VARCHAR2(10 BYTE),
+  DESIGNATIONDESC    VARCHAR2(500 BYTE),
+  DESIGNATIONINDEX   NUMBER(3),
+  INCLUDENIGHTSHIFT  VARCHAR2(1 BYTE),
+  OPERATIONMODE      VARCHAR2(1 BYTE),
+  USERNAME           VARCHAR2(100 BYTE),
+  SYSROWID           VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISBANKMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISBANKMASTER
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  BANKCODE          VARCHAR2(10 BYTE),
+  BANKDESC          VARCHAR2(500 BYTE),
+  BANKADDRESS       VARCHAR2(200 BYTE),
+  BANKBSR           VARCHAR2(100 BYTE),
+  BANKSALARYADVISE  VARCHAR2(1 BYTE),
+  SALARYACCOUNTNO   VARCHAR2(1 BYTE),
+  BANKINDEX         NUMBER(3),
+  MICRNO            VARCHAR2(20 BYTE),
+  BRANCHNAME        VARCHAR2(200 BYTE),
+  ACNO              VARCHAR2(20 BYTE),
+  IFSCCODE          VARCHAR2(20 BYTE),
+  OPERATIONMODE     VARCHAR2(1 BYTE),
+  USERNAME          VARCHAR2(100 BYTE),
+  SYSROWID          VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISDOCTORMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISDOCTORMASTER
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  DOCTORCODE     VARCHAR2(10 BYTE),
+  DOCTORNAME     VARCHAR2(500 BYTE),
+  OPERATIONMODE  VARCHAR2(1 BYTE),
+  USERNAME       VARCHAR2(100 BYTE),
+  SYSROWID       VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISGRADECOMPONENTMAPPING CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISGRADECOMPONENTMAPPING
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  APPLICABLE       VARCHAR2(1 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(40 BYTE),
+  COMPONENTCODE    VARCHAR2(40 BYTE),
+  SYSTEMCOMPONENT  VARCHAR2(1 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISCOMPONENTLIMIT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISCOMPONENTLIMIT
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARMONTH      VARCHAR2(10 BYTE),
+  COMPONENTCODE  VARCHAR2(10 BYTE),
+  LIMITTYPE      VARCHAR2(1 BYTE),
+  LIMITFROM      NUMBER(15,4),
+  LIMITTO        NUMBER(15,4),
+  VALUE          NUMBER(15,4),
+  USERNAME       VARCHAR2(100 BYTE),
+  SYSROWID       VARCHAR2(50 BYTE),
+  OPERATIONMODE  VARCHAR2(1 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISMONTHADJUSTMENT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISMONTHADJUSTMENT
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  YEARCODE        VARCHAR2(10 BYTE),
+  UNITCODE        VARCHAR2(10 BYTE),
+  CATEGORYCODE    VARCHAR2(10 BYTE),
+  GRADECODE       VARCHAR2(10 BYTE),
+  WORKERSERIAL    VARCHAR2(10 BYTE),
+  TOKENNO         VARCHAR2(10 BYTE),
+  YEARMONTH       VARCHAR2(50 BYTE),
+  ADJYEARMONTH    VARCHAR2(50 BYTE),
+  ADJDAYS         NUMBER(5,2),
+  CALCFACTORDAYS  NUMBER(5,2),
+  USERNAME        VARCHAR2(100 BYTE),
+  SYSROWID        VARCHAR2(50 BYTE),
+  OPERATIONMODE   VARCHAR2(1 BYTE),
+  OT_HRS          NUMBER(5,2),
+  SFT_BDAYS       NUMBER(5,2),
+  SFT_CDAYS       NUMBER(5,2)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISPROCESS CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISPROCESS
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(50 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  UNITCODE         VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  ARREARFROM       VARCHAR2(10 BYTE),
+  ARREARTO         VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(50 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVEBALANCE CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEBALANCE
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  LEAVECODE     VARCHAR2(10 BYTE),
+  LV_TAKEN      NUMBER(11,2),
+  LV_BAL        NUMBER(11,2)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEMASTER
+(
+  COMPANYCODE                 VARCHAR2(10 BYTE),
+  DIVISIONCODE                VARCHAR2(10 BYTE),
+  LEAVECODE                   VARCHAR2(10 BYTE),
+  LEAVEENCASH                 VARCHAR2(1 BYTE),
+  LEAVEENTITLEMENTAPPLICABLE  VARCHAR2(1 BYTE),
+  WITHOUTPAYLEAVE             VARCHAR2(1 BYTE),
+  LEAVEDESC                   VARCHAR2(500 BYTE),
+  LEAVECF                     VARCHAR2(1 BYTE),
+  LEAVEINDEX                  NUMBER(3),
+  INCLUDENIGHTSHIFT           VARCHAR2(1 BYTE),
+  LEAVECARRYFORWARDLIMIT      NUMBER(3),
+  OPERATIONMODE               VARCHAR2(1 BYTE),
+  USERNAME                    VARCHAR2(100 BYTE),
+  SYSROWID                    VARCHAR2(100 BYTE),
+  ALLOWNEGATIVELEAVES         VARCHAR2(1 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISDEPARTMENTMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISDEPARTMENTMASTER
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE),
+  DEPARTMENTDESC   VARCHAR2(500 BYTE),
+  DEPARTMENTINDEX  NUMBER(3),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  SYSROWID         VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_OFF_LV_UPDT_AMD CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_OFF_LV_UPDT_AMD
+(
+  YEARMONTH       VARCHAR2(10 BYTE),
+  WORKERSERIAL    VARCHAR2(10 BYTE),
+  PRIORITY        NUMBER(2),
+  ATTENDANCETYPE  VARCHAR2(10 BYTE),
+  NOFODAYS        NUMBER(5,2)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISHOLIDAYMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISHOLIDAYMASTER
+(
+  COMPANYCODE         VARCHAR2(50 BYTE),
+  DIVISIONCODE        VARCHAR2(50 BYTE),
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  HOLIDAYDATE         DATE,
+  HOLIDAYDESC         VARCHAR2(50 BYTE),
+  HOLIDAYTYPE         VARCHAR2(30 BYTE),
+  USERNAME            VARCHAR2(100 BYTE),
+  SYSROWID            VARCHAR2(50 BYTE),
+  ISPAID              VARCHAR2(1 BYTE),
+  CATEGORYCODE        VARCHAR2(10 BYTE),
+  GRADECODE           VARCHAR2(10 BYTE),
+  OPERATIONMODE       VARCHAR2(1 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVEAPPWITHGRID CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEAPPWITHGRID
+(
+  OPERATIONMODE            VARCHAR2(1 BYTE),
+  LASTMODIFIED             DATE,
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  YEARCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  LEAVECODE                VARCHAR2(5 BYTE),
+  LEAVEAPPLIEDON           DATE,
+  LEAVESANCTIONEDON        DATE,
+  LEAVEDATE                DATE,
+  LEAVEENCASHED            VARCHAR2(1 BYTE),
+  LEAVEAPPLICATIONREMARKS  VARCHAR2(100 BYTE),
+  LEAVESANCTIONREMARKS     VARCHAR2(100 BYTE),
+  LEAVEDAYS                NUMBER(5,2),
+  ADJUSTMENTTAG            VARCHAR2(1 BYTE),
+  FINALSETTLEMENTTAG       VARCHAR2(1 BYTE),
+  TAXABLE                  VARCHAR2(1 BYTE),
+  CALENDARYEAR             VARCHAR2(4 BYTE),
+  DOCUMENTNO               VARCHAR2(20 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE),
+  SYSROWID                 VARCHAR2(50 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISSALARYABSTRACT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISSALARYABSTRACT
+(
+  COMPANYNAME      VARCHAR2(100 BYTE),
+  DIVISIONNAME     VARCHAR2(100 BYTE),
+  REPORTMONTH      VARCHAR2(50 BYTE),
+  SLNO             VARCHAR2(10 BYTE),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE),
+  DEPARTMENTNAME   VARCHAR2(100 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  CATEGORYDESC     VARCHAR2(100 BYTE),
+  COMPONENTNAME    VARCHAR2(150 BYTE),
+  COMPONENTTYPE    VARCHAR2(50 BYTE),
+  COMPVALUE        NUMBER,
+  TOTAL_EARNING    NUMBER,
+  TOTAL_DEDUCTION  NUMBER,
+  COIN_CF          NUMBER,
+  NET_RS           NUMBER,
+  EX1              NUMBER,
+  EX2              NUMBER,
+  EX3              NUMBER,
+  EX4              NUMBER,
+  EX5              NUMBER,
+  EX6              NUMBER,
+  EX7              NUMBER,
+  EX8              NUMBER,
+  EX9              NUMBER,
+  EX10             VARCHAR2(50 BYTE),
+  EX11             VARCHAR2(50 BYTE),
+  EX12             VARCHAR2(50 BYTE),
+  EX13             VARCHAR2(50 BYTE),
+  EX14             VARCHAR2(50 BYTE),
+  EX15             VARCHAR2(50 BYTE),
+  EX16             VARCHAR2(50 BYTE),
+  EX17             VARCHAR2(50 BYTE),
+  EX18             VARCHAR2(50 BYTE),
+  EX19             VARCHAR2(50 BYTE),
+  EX20             VARCHAR2(50 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVETRANSACTION CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVETRANSACTION
+(
+  TOKENNO          VARCHAR2(10 BYTE),
+  CALENDARYEAR     VARCHAR2(4 BYTE),
+  NOOFDAYS         NUMBER(9,2),
+  SYSROWID         VARCHAR2(50 BYTE),
+  WITHEFFECTFROM   DATE,
+  YEARMONTH        VARCHAR2(10 BYTE),
+  ADDLESS          VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  USERNAME         VARCHAR2(50 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  LEAVECODE        VARCHAR2(5 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISSALARYABSTRACT_DATA CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISSALARYABSTRACT_DATA
+(
+  DEPARTMENTCODE  VARCHAR2(10 BYTE),
+  DEPARTMENTNAME  VARCHAR2(100 BYTE),
+  CATEGORYCODE    VARCHAR2(200 BYTE),
+  GRADECODE       VARCHAR2(200 BYTE),
+  GEN_INDEX       NUMBER,
+  EARN_INDEX      NUMBER,
+  DED_INDEX       NUMBER,
+  COMPNAME_GEN    VARCHAR2(150 BYTE),
+  COMPVAL_GEN     NUMBER(15,2),
+  COMPNAME_EARN   VARCHAR2(150 BYTE),
+  COMPVAL_EARN    NUMBER(15,2),
+  COMPNAME_DED    VARCHAR2(150 BYTE),
+  COMPVAL_DED     NUMBER(15,2)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISCOMPONENTMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISCOMPONENTMASTER
+(
+  COMPANYCODE                  VARCHAR2(10 BYTE),
+  DIVISIONCODE                 VARCHAR2(10 BYTE),
+  YEARMONTH                    VARCHAR2(10 BYTE),
+  COMPONENTCODE                VARCHAR2(15 BYTE),
+  COMPONENTSHORTNAME           VARCHAR2(15 BYTE),
+  COMPONENTDESC                VARCHAR2(100 BYTE),
+  COMPONENTTYPE                VARCHAR2(20 BYTE),
+  CALCULATIONINDEX             NUMBER(10),
+  PHASE                        NUMBER(4),
+  PAYFORMULA                   VARCHAR2(500 BYTE),
+  DEPENDENCYTYPE               VARCHAR2(1 BYTE),
+  VALIDATIONTYPE               VARCHAR2(1 BYTE),
+  ROUNDOFFTYPE                 VARCHAR2(1 BYTE),
+  ROUNDOFFRS                   NUMBER(9,2),
+  CARRYFORWARDTYPE             VARCHAR2(1 BYTE),
+  INCLUDEPAYROLL               VARCHAR2(1 BYTE),
+  INCLUDEARREAR                VARCHAR2(1 BYTE),
+  USERENTRYAPPLICABLE          VARCHAR2(1 BYTE),
+  ATTENDANCEENTRYAPPLICABLE    VARCHAR2(1 BYTE),
+  LIMITAPPLICABLE              VARCHAR2(1 BYTE),
+  ROLLOVERAPPLICABLE           VARCHAR2(1 BYTE),
+  EMPLOYEESPECIFIC             VARCHAR2(1 BYTE),
+  SLABAPPLICABLE               VARCHAR2(1 BYTE),
+  ALLOWREIMBURSEMENT           VARCHAR2(1 BYTE),
+  ALLOWCUMULATIVECOMPCREATION  VARCHAR2(1 BYTE),
+  MISCPAYMENT                  VARCHAR2(1 BYTE),
+  FINALSETTLEMENT              VARCHAR2(1 BYTE),
+  ISCOSTCENTREWISEPOSTING      VARCHAR2(1 BYTE),
+  ACCODEREIMBURSELIABILITY     VARCHAR2(10 BYTE),
+  RATECOMPONENT                VARCHAR2(1 BYTE),
+  ACCCODE                      VARCHAR2(10 BYTE),
+  SUBCODE                      VARCHAR2(10 BYTE),
+  EXPENSECODE                  VARCHAR2(10 BYTE),
+  SYSTEMCOMPONENT              VARCHAR2(1 BYTE),
+  EDITABLEFORMULA              VARCHAR2(1 BYTE),
+  SALARYREGISTERROWNO          NUMBER(9,2),
+  SALARYREGISTERCOLSTART       NUMBER(9,2),
+  SALARYREGISTERCOLWIDTH       NUMBER(9,2),
+  PAYSLIPROWNO                 NUMBER(9,2),
+  PAYSLIPCOLSTART              NUMBER(9,2),
+  PAYSLIPCOLWIDTH              NUMBER(9,2),
+  SYSROWID                     VARCHAR2(100 BYTE),
+  OPERATIONMODE                VARCHAR2(1 BYTE),
+  USERNAME                     VARCHAR2(50 BYTE),
+  COMPONENTGROUP               VARCHAR2(20 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISPTAXSUMMMNTHLY CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISPTAXSUMMMNTHLY
+(
+  YEARMONTH     VARCHAR2(10 BYTE),
+  MODULE        VARCHAR2(10 BYTE),
+  NOOFHEAD      NUMBER(15,4),
+  HANDS         VARCHAR2(100 BYTE),
+  EARNINGS      VARCHAR2(100 BYTE),
+  GROSS_WAGES   NUMBER(15,4),
+  COMPANYCODE   VARCHAR2(100 BYTE),
+  DIVISIONCODE  VARCHAR2(100 BYTE),
+  COMPANYNAME   VARCHAR2(100 BYTE),
+  DIVISIONNAME  VARCHAR2(100 BYTE),
+  REPORTHEADER  VARCHAR2(100 BYTE),
+  EX1           VARCHAR2(100 BYTE),
+  EX2           VARCHAR2(100 BYTE),
+  EX3           NUMBER(15,4),
+  EX4           NUMBER(15,4)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISARREARTRANSACTION CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISARREARTRANSACTION
+(
+  COMPANYCODE       VARCHAR2(10 BYTE),
+  DIVISIONCODE      VARCHAR2(10 BYTE),
+  YEARCODE          VARCHAR2(10 BYTE),
+  YEARMONTH         VARCHAR2(10 BYTE),
+  EFFECT_YEARMONTH  VARCHAR2(10 BYTE),
+  UNITCODE          VARCHAR2(10 BYTE),
+  DEPARTMENTCODE    VARCHAR2(10 BYTE),
+  CATEGORYCODE      VARCHAR2(10 BYTE),
+  GRADECODE         VARCHAR2(10 BYTE),
+  WORKERSERIAL      VARCHAR2(10 BYTE),
+  TOKENNO           VARCHAR2(20 BYTE),
+  TRANSACTIONTYPE   VARCHAR2(10 BYTE),
+  PAYMODE           VARCHAR2(20 BYTE),
+  ATTN_SALD         NUMBER(11,2),
+  ATTN_WPAY         NUMBER(11,2),
+  ATTN_ADJD         NUMBER(11,2),
+  ATTN_TOTD         NUMBER(11,2),
+  ATTN_LDAY         NUMBER(11,2),
+  ATTN_CALCF        NUMBER(11,2),
+  ATTN_OFFD         NUMBER(11,2),
+  ATTN_HOLD         NUMBER(15,2),
+  ATTN_WRKD         NUMBER(15,2),
+  LDAY_CL           NUMBER(11,2),
+  LDAY_PL           NUMBER(11,2),
+  LDAY_SL           NUMBER(11,2),
+  LVBL_CL           NUMBER(11,2),
+  LVBL_PL           NUMBER(11,2),
+  LVBL_SL           NUMBER(11,2),
+  LV_ENCASH_DAYS    NUMBER(15,2),
+  LV_ENCASH         NUMBER(11,2),
+  BASIC             NUMBER(15,5),
+  DA                NUMBER(15,5),
+  HRA_GROSS         NUMBER(15,5),
+  HRA_PER           NUMBER(15,5),
+  HRA               NUMBER(15,5),
+  PF_GROSS          NUMBER(15,5),
+  PEN_GROSS         NUMBER(15,5),
+  ESI_GROSS         NUMBER(15,5),
+  PTAX_GROSS        NUMBER(15,5),
+  PF_E              NUMBER(15,5),
+  PF_C              NUMBER(15,5),
+  FPF               NUMBER(15,5),
+  VPF_PERC          NUMBER(15,5),
+  VPF               NUMBER(15,5),
+  ESI_E             NUMBER(15,5),
+  ESI_C             NUMBER(15,5),
+  PTAX              NUMBER(15,5),
+  LWF               NUMBER(15,5),
+  ITAX              NUMBER(15,5),
+  ESI_RT            NUMBER(15,5),
+  SARR_ARRE         NUMBER(15,5),
+  SARR_ARRD         NUMBER(15,5),
+  SARR_PF_GROSS     NUMBER(15,5),
+  SARR_NPF_GROSS    NUMBER(15,5),
+  GROSSEARN         NUMBER(15,2),
+  GROSSDEDN         NUMBER(15,2),
+  MISC_BF           NUMBER(11,2),
+  MISC_CF           NUMBER(11,2),
+  TOTEARN           NUMBER(15,2),
+  TOTDEDN           NUMBER(15,5),
+  NETSALARY         NUMBER(15,5),
+  SYSROWID          VARCHAR2(100 BYTE),
+  LASTMODIFIED      DATE,
+  USERNAME          VARCHAR2(50 BYTE),
+  ADHOC             NUMBER(15,5),
+  SPL_ALLOW         NUMBER(15,5),
+  NS_HRS            NUMBER(15,5),
+  OT_HRS            NUMBER(15,5),
+  OT_DAYS           NUMBER(15,5),
+  NS_ALLOW          NUMBER(15,5),
+  OT_AMT            NUMBER(15,5),
+  SERV_PERC         NUMBER(15,5),
+  SERV_ALW          NUMBER(15,5),
+  CONV_PERC         NUMBER(15,5),
+  CONV_ALOW         NUMBER(15,5),
+  OEPF              NUMBER(15,5),
+  OE_NPF            NUMBER(15,5),
+  ESI_ADJERN        NUMBER(15,5),
+  HRA_PERC          NUMBER(15,5),
+  ACT_PF_GRS        NUMBER(15,5),
+  LIC               NUMBER(15,5),
+  ELECTRIC          NUMBER(15,5),
+  MESS              NUMBER(15,5),
+  LTP               NUMBER(15,5),
+  SUSP_DEDN         NUMBER(15,5),
+  MISC_DEDN         NUMBER(15,5),
+  HRA_AMT           NUMBER(15,5),
+  ADHOC_NPF         NUMBER(15,5),
+  OTHR_DEDN         NUMBER(15,5),
+  PROF_BONUS        NUMBER(15,5),
+  MEDICAL           NUMBER(15,5),
+  LTA               NUMBER(15,5),
+  LOAN_SPL          NUMBER(18,2),
+  LINT_SPL          NUMBER(18,2),
+  LNBL_SPL          NUMBER(18,2),
+  LIBL_SPL          NUMBER(18,2),
+  LOAN_STADV        NUMBER(18,2),
+  LINT_STADV        NUMBER(18,2),
+  LNBL_STADV        NUMBER(18,2),
+  LIBL_STADV        NUMBER(18,2),
+  LOAN_OTADV        NUMBER(18,2),
+  LINT_OTADV        NUMBER(18,2),
+  LNBL_OTADV        NUMBER(18,2),
+  LIBL_OTADV        NUMBER(18,2),
+  LOAN_PJADV        NUMBER(18,2),
+  LINT_PJADV        NUMBER(18,2),
+  LNBL_PJADV        NUMBER(18,2),
+  LIBL_PJADV        NUMBER(18,2),
+  LOAN_SA           NUMBER(18,2),
+  LINT_SA           NUMBER(18,2),
+  LNBL_SA           NUMBER(18,2),
+  LIBL_SA           NUMBER(18,2),
+  LOAN_FEADV        NUMBER(18,2),
+  LINT_FEADV        NUMBER(18,2),
+  LNBL_FEADV        NUMBER(18,2),
+  LIBL_FEADV        NUMBER(18,2),
+  LOAN_OLADV        NUMBER(18,2),
+  LINT_OLADV        NUMBER(18,2),
+  LNBL_OLADV        NUMBER(18,2),
+  LIBL_OLADV        NUMBER(18,2),
+  LVENCSH_DAYS      NUMBER(15,5),
+  LEAVE_ENC         NUMBER(15,5),
+  EPF               NUMBER(15,5),
+  ATN_INCNT         NUMBER(15,5),
+  ATN_INCAMT        NUMBER(15,5),
+  CLUB              NUMBER(15,5),
+  CUMM_DAYS         NUMBER(15,5),
+  CUM_PFGROS        NUMBER(15,5),
+  ESI_RATE          NUMBER(15,5),
+  LOAN_PFL          NUMBER(18,2),
+  LINT_PFL          NUMBER(18,2),
+  LNBL_PFL          NUMBER(18,2),
+  LIBL_PFL          NUMBER(18,2),
+  LOAN_SPL1         NUMBER(18,2),
+  LINT_SPL1         NUMBER(18,2),
+  LNBL_SPL1         NUMBER(18,2),
+  LIBL_SPL1         NUMBER(18,2),
+  CUMM_PF_E         NUMBER(15,5),
+  CUMM_PF_C         NUMBER(15,5),
+  CUMM_VPF          NUMBER(15,5),
+  RT_BASIC          NUMBER(15,5),
+  LDAY_CS           NUMBER(11,2)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISSALARYABSTRACT_NEW CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISSALARYABSTRACT_NEW
+(
+  COMPANYNAME      VARCHAR2(100 BYTE),
+  DIVISIONNAME     VARCHAR2(100 BYTE),
+  REPORTMONTH      VARCHAR2(50 BYTE),
+  SLNO             VARCHAR2(10 BYTE),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE),
+  DEPARTMENTNAME   VARCHAR2(100 BYTE),
+  CATEGORYCODE     VARCHAR2(200 BYTE),
+  CATEGORYDESC     VARCHAR2(100 BYTE),
+  COMPNAME_GEN     VARCHAR2(150 BYTE),
+  COMPVAL_GEN      NUMBER,
+  COMPNAME_EARN    VARCHAR2(150 BYTE),
+  COMPVAL_EARN     NUMBER,
+  COMPNAME_DED     VARCHAR2(150 BYTE),
+  COMPVAL_DED      NUMBER,
+  TOTAL_EARNING    NUMBER,
+  TOTAL_DEDUCTION  NUMBER,
+  COIN_CF          NUMBER,
+  NET_RS           NUMBER,
+  EX1              NUMBER,
+  EX2              NUMBER,
+  EX3              NUMBER,
+  EX4              NUMBER,
+  EX5              NUMBER,
+  EX6              NUMBER,
+  EX7              NUMBER,
+  EX8              NUMBER,
+  EX9              NUMBER,
+  EX10             VARCHAR2(200 BYTE),
+  EX11             VARCHAR2(50 BYTE),
+  EX12             VARCHAR2(50 BYTE),
+  EX13             VARCHAR2(50 BYTE),
+  EX14             VARCHAR2(50 BYTE),
+  EX15             VARCHAR2(50 BYTE),
+  EX16             VARCHAR2(50 BYTE),
+  EX17             VARCHAR2(50 BYTE),
+  EX18             VARCHAR2(50 BYTE),
+  EX19             VARCHAR2(50 BYTE),
+  EX20             VARCHAR2(50 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISREIMBURSEMENTDETAILS CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISREIMBURSEMENTDETAILS
+(
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  FORYEARCODE      VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  COMPONENTCODE    VARCHAR2(50 BYTE),
+  COMPONENTAMOUNT  NUMBER(11,2),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  ADDLESS          VARCHAR2(10 BYTE),
+  REMARKS          VARCHAR2(250 BYTE),
+  BILLAMOUNT       NUMBER(11,2),
+  PAIDAMOUNT       NUMBER(11,2),
+  LEAVEDATEFROM    DATE,
+  LEAVEDATETO      DATE,
+  SYSROWID         VARCHAR2(50 BYTE),
+  USERNAME         VARCHAR2(100 BYTE),
+  TRANTYPE         VARCHAR2(100 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  GIVENTOKEN       VARCHAR2(50 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISITAXPARAM CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISITAXPARAM
+(
+  COMPANYCODE        VARCHAR2(50 BYTE),
+  DIVISIONCODE       VARCHAR2(50 BYTE),
+  YEARCODE           VARCHAR2(10 BYTE),
+  COLUMNNO           VARCHAR2(50 BYTE),
+  COLUMNNOTOPRINT    VARCHAR2(50 BYTE),
+  COLUMNHEADING      VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING   VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING1  VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING2  VARCHAR2(3000 BYTE),
+  COLUMNSUBHEADING3  VARCHAR2(3000 BYTE),
+  COLUMNSOURCE       VARCHAR2(3000 BYTE),
+  COLUMNATTRIBUTE    VARCHAR2(3000 BYTE),
+  TYPE               VARCHAR2(50 BYTE),
+  SYSTEMCOMPONENT    VARCHAR2(1 BYTE),
+  COLUMNFORM16       VARCHAR2(3000 BYTE),
+  COLUMNBASIS        VARCHAR2(3000 BYTE),
+  COLUMNFORMULA      VARCHAR2(3000 BYTE),
+  QUALIFIEDAMOUNT    NUMBER(18,2),
+  MAXAMOUNT          NUMBER(18,2),
+  MONTHLYEXMTLIMIT   NUMBER(18,2),
+  SHORTDESCRIPTION   VARCHAR2(3000 BYTE),
+  COLUMNFORTAX       VARCHAR2(3000 BYTE),
+  UPPERLIMITAPP      VARCHAR2(1 BYTE),
+  COLUMNFORSUBTOTAL  VARCHAR2(1 BYTE),
+  COLUMNFORPRQST     VARCHAR2(1 BYTE),
+  INCLUDEINFORM16    VARCHAR2(1 BYTE),
+  DISPLAYINGRID      VARCHAR2(1 BYTE),
+  USERNAME           VARCHAR2(100 BYTE),
+  OPERATIONMODE      VARCHAR2(1 BYTE),
+  SYSROWID           VARCHAR2(50 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISMONTHATTENDANCE CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISMONTHATTENDANCE
+(
+  COMPANYCODE            VARCHAR2(10 BYTE),
+  DIVISIONCODE           VARCHAR2(10 BYTE),
+  YEARCODE               VARCHAR2(10 BYTE),
+  YEARMONTH              VARCHAR2(10 BYTE),
+  UNITCODE               VARCHAR2(10 BYTE),
+  CATEGORYCODE           VARCHAR2(10 BYTE),
+  GRADECODE              VARCHAR2(10 BYTE),
+  WORKERSERIAL           VARCHAR2(10 BYTE),
+  TOKENNO                VARCHAR2(10 BYTE),
+  PRESENTDAYS            NUMBER(15,4),
+  ADJUSTMENTDAYS         NUMBER(15,4),
+  LEAVEDAYS              NUMBER(15,4),
+  WITHOUTPAYDAYS         NUMBER(15,4),
+  HOLIDAYS               NUMBER(15,4),
+  SALARYDAYS             NUMBER(15,4),
+  TOTALDAYS              NUMBER(15,4),
+  NOOFOFFDAYS            NUMBER(15,4),
+  DAYOFF                 VARCHAR2(20 BYTE),
+  WORKEDONOFFDAYS        NUMBER(15,4),
+  INCLUDEOFFDAY          VARCHAR2(1 BYTE),
+  CARDREADINGDAYS        NUMBER(15,4),
+  CALCULATIONFACTORDAYS  NUMBER(15,4),
+  TRANSACTIONTYPE        VARCHAR2(50 BYTE),
+  MODULE                 VARCHAR2(3 BYTE),
+  SYSROWID               VARCHAR2(100 BYTE),
+  OPERATIONMODE          VARCHAR2(1 BYTE),
+  USERNAME               VARCHAR2(50 BYTE),
+  DEPARTMENTCODE         VARCHAR2(10 BYTE),
+  LV_ENCASH_DAYS         NUMBER(15,2),
+  LVDAYS_RET             NUMBER(15,2)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISCATEGORYMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISCATEGORYMASTER
+(
+  COMPANYCODE                    VARCHAR2(10 BYTE),
+  DIVISIONCODE                   VARCHAR2(10 BYTE),
+  CATEGORYCODE                   VARCHAR2(10 BYTE),
+  CATEGORYDESC                   VARCHAR2(500 BYTE),
+  CATEGORYINDEX                  NUMBER(3),
+  LEAVECALENDARORFINYRWISE       VARCHAR2(1 BYTE),
+  CALCULATIONDAYS                NUMBER(10),
+  OFFDAYSNOTCONSIDERINSALARYDAY  VARCHAR2(50 BYTE),
+  HOLIDAYWORKED_ATTN             VARCHAR2(1 BYTE),
+  ATTENDANCEENTRY                VARCHAR2(1 BYTE),
+  EXGRATIAAPPLICABLE             VARCHAR2(1 BYTE),
+  BONUSAPPLICABLE                VARCHAR2(1 BYTE),
+  ROUNDOFFAMOUNT                 VARCHAR2(1 BYTE),
+  ROUNDOFFAPPLICABLE             VARCHAR2(1 BYTE),
+  OPERATIONMODE                  VARCHAR2(1 BYTE),
+  USERNAME                       VARCHAR2(100 BYTE),
+  SYSROWID                       VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISPAYSLIP_ED_BIRLA CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISPAYSLIP_ED_BIRLA
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  YEARMONTH           VARCHAR2(10 BYTE),
+  UNITCODE            VARCHAR2(10 BYTE),
+  DEPARTMENTCODE      VARCHAR2(10 BYTE),
+  CATEGORYCODE        VARCHAR2(10 BYTE),
+  GRADECODE           VARCHAR2(10 BYTE),
+  WORKERSERIAL        VARCHAR2(10 BYTE),
+  TOKENNO             VARCHAR2(20 BYTE),
+  COMPONENTCODE       VARCHAR2(30 BYTE),
+  COMPONENTVALUE      NUMBER(10,2),
+  COMPONENTSHORTNAME  VARCHAR2(75 BYTE),
+  PHASE               NUMBER(4),
+  CALCULATIONINDEX    NUMBER(10),
+  COMPONENTTYPE       VARCHAR2(50 BYTE),
+  COMPANYNAME         VARCHAR2(100 BYTE),
+  DIVISIONNAME        VARCHAR2(100 BYTE),
+  REPORTHEADER        VARCHAR2(150 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISOFFDAYWORKINGADJUSTMENT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISOFFDAYWORKINGADJUSTMENT
+(
+  REMARKS          VARCHAR2(1000 BYTE),
+  ADJUSTMENTDATE   DATE,
+  USERNAME         VARCHAR2(10 BYTE),
+  TOKENNO          VARCHAR2(10 BYTE),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(100 BYTE),
+  MODULE           VARCHAR2(10 BYTE),
+  DOCUMENTDATE     DATE,
+  SYSROWID         VARCHAR2(50 BYTE),
+  DOCUMENTNO       VARCHAR2(20 BYTE),
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  LEAVEDATE        DATE,
+  WORKERSERIAL     VARCHAR2(10 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISOUTSIDEDUTYDETAILS CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISOUTSIDEDUTYDETAILS
+(
+  TIMETO         VARCHAR2(10 BYTE),
+  MODULE         VARCHAR2(10 BYTE),
+  SYSROWID       VARCHAR2(50 BYTE),
+  TIMEFROM       VARCHAR2(10 BYTE),
+  OPERATIONMODE  VARCHAR2(1 BYTE),
+  USERNAME       VARCHAR2(10 BYTE),
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  DUTYDATE       DATE,
+  DUTYTYPE       NUMBER(10),
+  TOKENNO        VARCHAR2(10 BYTE),
+  WORKERSERIAL   VARCHAR2(10 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_ATMCONTROL_REP CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_ATMCONTROL_REP
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  UNITSHORTDESC  VARCHAR2(20 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  CATEGORYDESC   VARCHAR2(500 BYTE),
+  PAYMODE        VARCHAR2(20 BYTE),
+  GROSSEARN      NUMBER,
+  GROSSDEDN      NUMBER,
+  NETSALARY      NUMBER
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_EPSSTATEMENT_REP CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_EPSSTATEMENT_REP
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  UNITCODE        VARCHAR2(10 BYTE),
+  UNITSHORTDESC   VARCHAR2(20 BYTE),
+  CATEGORYCODE    VARCHAR2(10 BYTE),
+  CATEGORYDESC    VARCHAR2(500 BYTE),
+  DEPARTMENTCODE  VARCHAR2(10 BYTE),
+  DEPARTMENTDESC  VARCHAR2(500 BYTE),
+  SL_NO           NUMBER,
+  TOKENNO         VARCHAR2(20 BYTE),
+  EMPLOYEENAME    VARCHAR2(50 BYTE),
+  PFNO            VARCHAR2(20 BYTE),
+  PENSIONNO       VARCHAR2(20 BYTE),
+  EPS_JNG_DT      DATE,
+  EPS_CONT        NUMBER(15,5),
+  EPS_OP          NUMBER,
+  EPS_GROSS       NUMBER,
+  EPS_YTD         NUMBER
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_PF_LOANDEDN_REP CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_PF_LOANDEDN_REP
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  UNITCODE        VARCHAR2(10 BYTE),
+  UNITSHORTDESC   VARCHAR2(20 BYTE),
+  CATEGORYCODE    VARCHAR2(10 BYTE),
+  CATEGORYDESC    VARCHAR2(500 BYTE),
+  DEPARTMENTCODE  VARCHAR2(10 BYTE),
+  DEPARTMENTDESC  VARCHAR2(500 BYTE),
+  TOKENNO         VARCHAR2(20 BYTE),
+  PFNO            VARCHAR2(20 BYTE),
+  EMPLOYEENAME    VARCHAR2(50 BYTE),
+  PF_GROSS        NUMBER(15,5),
+  PF_E            NUMBER(15,5),
+  VPF             NUMBER(15,5),
+  PF_C            NUMBER(15,5),
+  FPF             NUMBER(15,5),
+  LOAN_PFL        NUMBER(18,2),
+  LINT_PFL        NUMBER(18,2),
+  LNBL_PFL        NUMBER(18,2),
+  LOANDATE        DATE,
+  LOANAMOUNT      NUMBER(15,2),
+  PF_E_YTD        NUMBER,
+  VPF_YTD         NUMBER,
+  PF_C_YTD        NUMBER,
+  FPF_YTD         NUMBER
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISLEAVEENTITLEMENT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISLEAVEENTITLEMENT
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  YEARCODE       VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  GRADECODE      VARCHAR2(10 BYTE),
+  WORKERSERIAL   VARCHAR2(10 BYTE),
+  TOKENNO        VARCHAR2(20 BYTE),
+  LEAVECODE      VARCHAR2(5 BYTE),
+  ENTITLEMENTS   NUMBER(5,2),
+  CARRYFORWARD   NUMBER(5,2),
+  CALENDARYEAR   VARCHAR2(4 BYTE),
+  USERNAME       VARCHAR2(100 BYTE),
+  OPERATIONMODE  VARCHAR2(1 BYTE),
+  SYSROWID       VARCHAR2(100 BYTE)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISEMPLOYEEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISEMPLOYEEMASTER
+(
+  AADHARNO                 VARCHAR2(50 BYTE),
+  ACADEMICQUALIFICATION    VARCHAR2(200 BYTE),
+  ADDRESS_PERMANENT        VARCHAR2(200 BYTE),
+  ADDRESS_PRESENT          VARCHAR2(200 BYTE),
+  ATTNIDENTIFICATION       VARCHAR2(50 BYTE),
+  BANKACCHOLDINGNAME       VARCHAR2(100 BYTE),
+  BANKACCNUMBER            VARCHAR2(20 BYTE),
+  BANKCODE                 VARCHAR2(10 BYTE),
+  BONUSAPPLICABLE          VARCHAR2(1 BYTE),
+  BOSSCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE),
+  CITY_PERMANENT           VARCHAR2(50 BYTE),
+  CITY_PRESENT             VARCHAR2(50 BYTE),
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  COSTCENTRECODE           VARCHAR2(10 BYTE),
+  DATEOFBIRTH              DATE,
+  DATEOFCONFIRMATION       DATE,
+  DATEOFJOIN               DATE,
+  DATEOFRETIRE             DATE,
+  DATEOFTERMINATIONADVICE  DATE,
+  DEPARTMENTCODE           VARCHAR2(10 BYTE),
+  DESIGNATIONCODE          VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  EMAILID                  VARCHAR2(50 BYTE),
+  EMPLOYEENAME             VARCHAR2(50 BYTE),
+  EMPLOYEESTATUS           VARCHAR2(20 BYTE),
+  EPFAPPLICABLE            VARCHAR2(1 BYTE),
+  ESINO                    VARCHAR2(20 BYTE),
+  EXTENDEDRETIREDATE       DATE,
+  FATHERNAME               VARCHAR2(40 BYTE),
+  GRADECODE                VARCHAR2(10 BYTE),
+  GRATUITYAPPLICABLE       VARCHAR2(1 BYTE),
+  GRATUITYOPENINGYEARS     NUMBER(6,2),
+  GRATUITYSETTELMENTDATE   DATE,
+  GUARDIANNAME             VARCHAR2(40 BYTE),
+  IFSCCODE                 VARCHAR2(20 BYTE),
+  LEAVINGSERVICE           VARCHAR2(50 BYTE),
+  MARITIALSTATUS           VARCHAR2(1 BYTE),
+  MOBILENO                 VARCHAR2(20 BYTE),
+  MODULE                   VARCHAR2(10 BYTE),
+  OPERATIONMODE            VARCHAR2(1 BYTE),
+  PANCARDNO                VARCHAR2(10 BYTE),
+  PAYMENTSTATUS            VARCHAR2(40 BYTE),
+  PAYMODE                  VARCHAR2(10 BYTE),
+  PENSIONNO                VARCHAR2(20 BYTE),
+  PFACCODE                 VARCHAR2(10 BYTE),
+  PFAPPLICABLE             VARCHAR2(1 BYTE),
+  PFCODE                   VARCHAR2(10 BYTE),
+  PFENTITLEDATE            DATE,
+  PFNO                     VARCHAR2(20 BYTE),
+  PFSETTELMENTDATE         DATE,
+  PHONE                    VARCHAR2(20 BYTE),
+  PIN_PERMANENT            VARCHAR2(10 BYTE),
+  PIN_PRESENT              VARCHAR2(10 BYTE),
+  PROFESSIONQUALIFICATION  VARCHAR2(200 BYTE),
+  PTAXAPPLICABLE           VARCHAR2(1 BYTE),
+  QUARTERALLOTED           VARCHAR2(3 BYTE),
+  QUARTERNO                VARCHAR2(50 BYTE),
+  REMARKS                  VARCHAR2(100 BYTE),
+  SEX                      VARCHAR2(10 BYTE),
+  SNFACCODE                VARCHAR2(100 BYTE),
+  SPOUSENAME               VARCHAR2(40 BYTE),
+  STATE_PERMANENT          VARCHAR2(50 BYTE),
+  STATE_PRESENT            VARCHAR2(50 BYTE),
+  STATUSDATE               DATE,
+  SYSROWID                 VARCHAR2(50 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  UANNO                    VARCHAR2(50 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  VOTERID                  VARCHAR2(20 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  USERNAME                 VARCHAR2(100 BYTE),
+  PTAXSTATE                VARCHAR2(100 BYTE),
+  GRATUITYNUMBER           VARCHAR2(30 BYTE),
+  PRANNUMBER               VARCHAR2(30 BYTE),
+  RELIGION                 VARCHAR2(30 BYTE),
+  SUPERANUATIONDATE        DATE,
+  SUPERANUATIONNUMBER      VARCHAR2(30 BYTE),
+  LASTPROMOTIONDATE        DATE
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_ESISTATEMENT_REP CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_ESISTATEMENT_REP
+(
+  COMPANYCODE    VARCHAR2(10 BYTE),
+  DIVISIONCODE   VARCHAR2(10 BYTE),
+  UNITCODE       VARCHAR2(10 BYTE),
+  UNITSHORTDESC  VARCHAR2(20 BYTE),
+  HAND           NUMBER,
+  CATEGORYCODE   VARCHAR2(10 BYTE),
+  CATEGORYDESC   VARCHAR2(500 BYTE),
+  ESI_GROSS      NUMBER,
+  ESI_E          NUMBER,
+  ESI_C          NUMBER
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PIS_PTAXDEDN_REP CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PIS_PTAXDEDN_REP
+(
+  COMPANYCODE     VARCHAR2(10 BYTE),
+  DIVISIONCODE    VARCHAR2(10 BYTE),
+  STATENAME       VARCHAR2(50 BYTE)             NOT NULL,
+  SLABAMOUNTFROM  NUMBER(12,2),
+  SLABAMOUNTTO    NUMBER(12,2),
+  ARREAR_PTAX     NUMBER,
+  PTAX_RATE       NUMBER(15,5),
+  MEMCOUNT        NUMBER,
+  TOTAL_PTAX      NUMBER
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_PISCOMPONENTASSIGNMENT CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_PISCOMPONENTASSIGNMENT
+(
+  CONV_RT          NUMBER(15,5),
+  LWF              NUMBER(15,5),
+  LOAN_STADV       NUMBER(15,5),
+  ATTN_HOLD        NUMBER(15,5),
+  GAMES            NUMBER(15,5),
+  DAIRY            NUMBER(15,5),
+  HRA              NUMBER(15,5),
+  LNBL_BL          NUMBER(15,5),
+  OT_AMT           NUMBER(15,5),
+  CUMM_PF_E        NUMBER(15,5),
+  HRA_FIXED        NUMBER(15,5),
+  LINT_PFLN        NUMBER(18,2),
+  ATTN_LDAY        NUMBER(15,5),
+  PEN_GROSS        NUMBER(15,5),
+  SARR_ARRE        NUMBER(15,5),
+  TOTDEDN          NUMBER(15,5),
+  MISC_BF          NUMBER(11,2),
+  OTH_ALLOW        NUMBER(15,5),
+  SARR_PF_GROSS    NUMBER(15,5),
+  LTA              NUMBER(15,5),
+  TOTEARN          NUMBER(15,2),
+  LIBL_STADV       NUMBER(15,5),
+  LOAN_SA          NUMBER(15,5),
+  GROSSEARN        NUMBER(15,2),
+  OEPF             NUMBER(15,5),
+  OPERATIONMODE    VARCHAR2(1 BYTE),
+  COMPSAVING       NUMBER(15,5),
+  OE_NPF           NUMBER(15,5),
+  LINT_PFL         NUMBER(15,5),
+  CONV_ALOW        NUMBER(15,5),
+  HRA_PERC         NUMBER(15,5),
+  LOAN_PFL         NUMBER(15,5),
+  CHILD_ALOW       NUMBER(15,5),
+  EPF              NUMBER(15,5),
+  LIC              NUMBER(15,5),
+  PTAX_GROSS       NUMBER(15,5),
+  ATTN_SALD        NUMBER(15,5),
+  LOAN_SADV        NUMBER(18,2),
+  FPF              NUMBER(15,5),
+  MED_ALLOW        NUMBER(15,5),
+  CLUB             NUMBER(15,5),
+  ESI_GROSS        NUMBER(15,5),
+  CUMM_VPF         NUMBER(15,5),
+  TOKENNO          VARCHAR2(20 BYTE),
+  ACT_PF_GRS       NUMBER(15,5),
+  MEDICAL          NUMBER(15,5),
+  MISC_CF          NUMBER(11,2),
+  LINT_BL          NUMBER(15,5),
+  SPL_ALLOW        NUMBER(15,5),
+  ESI_E            NUMBER(15,5),
+  CUM_PFGROS       NUMBER(15,5),
+  PF_GROSS         NUMBER(15,5),
+  LINT_SA          NUMBER(15,5),
+  FUEL             NUMBER(15,5),
+  LINT_VADV        NUMBER(18,2),
+  OT_HRS           NUMBER(15,5),
+  LOTTERY          NUMBER(15,5),
+  LINT_HPF         NUMBER(15,5),
+  HR_DEDN          NUMBER(15,5),
+  ATN_INCNT        NUMBER(15,5),
+  VPF              NUMBER(15,5),
+  LIBL_SA          NUMBER(15,5),
+  SARR_NPF_GROSS   NUMBER(15,5),
+  LDAY_SL          NUMBER(15,5),
+  ADHOC            NUMBER(15,5),
+  LDAY_CL          NUMBER(15,5),
+  SARR_ARRD        NUMBER(15,5),
+  CUMM_PF_C        NUMBER(15,5),
+  LINT_STADV       NUMBER(15,5),
+  LINT_SADV        NUMBER(18,2),
+  CUMMPFEBAL       NUMBER(15,5),
+  CAR              NUMBER(15,5),
+  LEAVE_ENC        NUMBER(15,5),
+  COMPS_ALLOW      NUMBER(15,5),
+  DEPARTMENTCODE   VARCHAR2(10 BYTE),
+  CUMM_DAYS        NUMBER(15,5),
+  LINT_HLOAN       NUMBER(18,2),
+  ESI_RATE         NUMBER(15,5),
+  LOAN_PFLN        NUMBER(18,2),
+  LNBL_HPF         NUMBER(15,5),
+  ITAX             NUMBER(15,5),
+  SAL_ADV          NUMBER(15,5),
+  LNBL_SA          NUMBER(15,5),
+  SCHOOL_BUS       NUMBER(15,5),
+  LOAN_HPF         NUMBER(15,5),
+  ESI_C            NUMBER(15,5),
+  PF_E             NUMBER(15,5),
+  OTHR_DEDN        NUMBER(15,5),
+  LOAN_VADV        NUMBER(18,2),
+  LDAY_PL          NUMBER(15,5),
+  ESI_RT           NUMBER(15,2),
+  LOAN_BL          NUMBER(15,5),
+  UNITCODE         VARCHAR2(10 BYTE),
+  LIBL_PFL         NUMBER(15,5),
+  PF_C             NUMBER(15,5),
+  RECREATION       NUMBER(15,5),
+  VPF_PERC         NUMBER(15,5),
+  LNBL_STADV       NUMBER(15,5),
+  HRA_PER          NUMBER(15,5),
+  ATN_INCAMT       NUMBER(15,5),
+  FURNITURE        NUMBER(15,5),
+  LOAN_HLOAN       NUMBER(18,2),
+  DA               NUMBER(15,5),
+  USERNAME         VARCHAR2(50 BYTE),
+  CUMMPFCBAL       NUMBER(15,5),
+  LNBL_PFL         NUMBER(15,5),
+  LADIESCLUB       NUMBER(15,5),
+  RT_BASIC         NUMBER(15,5),
+  MISC_EARN        NUMBER(15,2),
+  SYSROWID         VARCHAR2(100 BYTE),
+  CHOWKIDARI       NUMBER(15,5),
+  WORKERSERIAL     VARCHAR2(10 BYTE),
+  LIBL_HPF         NUMBER(15,5),
+  LIBL_BL          NUMBER(15,5),
+  ATTN_WRKD        NUMBER(15,5),
+  HRA_GROSS        NUMBER(15,5),
+  BASIC            NUMBER(15,5),
+  CUMMVPFBAL       NUMBER(15,5),
+  NETSALARY        NUMBER(15,5),
+  SUBSCRIPTION     NUMBER(15,5),
+  ELECTRIC         NUMBER(15,5),
+  PTAX             NUMBER(15,5),
+  LIBRARY          NUMBER(15,5),
+  GROSSDEDN        NUMBER(15,2),
+  LVENCSH_DAYS     NUMBER(15,5),
+  PER_ALLOW        NUMBER(15,5),
+  COMPANYCODE      VARCHAR2(10 BYTE),
+  DIVISIONCODE     VARCHAR2(10 BYTE),
+  YEARCODE         VARCHAR2(10 BYTE),
+  YEARMONTH        VARCHAR2(10 BYTE),
+  CATEGORYCODE     VARCHAR2(10 BYTE),
+  GRADECODE        VARCHAR2(10 BYTE),
+  TRANSACTIONTYPE  VARCHAR2(10 BYTE),
+  UNREALIZE_DED    NUMBER(15,5),
+  MED_FLAG         NUMBER(15,5),
+  MIN_PAY          NUMBER(15,5),
+  NPS_CONTR        NUMBER(15,5),
+  CONV_AMT         NUMBER(15,5),
+  MED_MONTH        NUMBER(15,5),
+  CONV_FLAG        NUMBER(15,5)
+)
+ON COMMIT DELETE ROWS
+NOCACHE;
+
+
+DROP TABLE GBL_TMP_PISGRADEMASTER CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GBL_TMP_PISGRADEMASTER
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  LOCATIONCODE  VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  GRADEDESC     VARCHAR2(100 BYTE),
+  GRADEINDEX    NUMBER(3),
+  CATEGORYDESC  VARCHAR2(100 BYTE)
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE GTT_PISCHECK_LIST CASCADE CONSTRAINTS;
+
+CREATE GLOBAL TEMPORARY TABLE GTT_PISCHECK_LIST
+(
+  WORKERSERIAL    VARCHAR2(10 BYTE),
+  TOKENNO         VARCHAR2(10 BYTE),
+  EMPLOYEENAME    VARCHAR2(100 BYTE),
+  UNITCODE        VARCHAR2(100 BYTE),
+  CATEGORYCODE    VARCHAR2(100 BYTE),
+  GRADECODE       VARCHAR2(100 BYTE),
+  DEPARTMENTCODE  VARCHAR2(100 BYTE),
+  DEPARTMENTDESC  VARCHAR2(100 BYTE),
+  COMPANYNAME     VARCHAR2(100 BYTE),
+  DIVISIONNAME    VARCHAR2(100 BYTE),
+  FROMTODATE      VARCHAR2(100 BYTE),
+  SALARYDAYS      VARCHAR2(100 BYTE),
+  PRESENTDAYS     VARCHAR2(100 BYTE),
+  HOLIDAYS        VARCHAR2(100 BYTE),
+  COMP1           VARCHAR2(100 BYTE),
+  COMP2           VARCHAR2(100 BYTE),
+  COMP3           VARCHAR2(100 BYTE),
+  COMP4           VARCHAR2(100 BYTE),
+  COMP5           VARCHAR2(100 BYTE),
+  COMP6           VARCHAR2(100 BYTE),
+  COMP7           VARCHAR2(100 BYTE),
+  COMP8           VARCHAR2(100 BYTE),
+  COMP9           VARCHAR2(100 BYTE),
+  COMP10          VARCHAR2(100 BYTE),
+  COMP11          VARCHAR2(100 BYTE),
+  COMP12          VARCHAR2(100 BYTE),
+  COMP13          VARCHAR2(100 BYTE),
+  COMP14          VARCHAR2(100 BYTE),
+  COMP15          VARCHAR2(100 BYTE),
+  COMP16          VARCHAR2(100 BYTE),
+  COMP17          VARCHAR2(100 BYTE),
+  COMP18          VARCHAR2(100 BYTE),
+  COMP19          VARCHAR2(100 BYTE),
+  COMP20          VARCHAR2(100 BYTE),
+  COMP21          VARCHAR2(100 BYTE),
+  COMP22          VARCHAR2(100 BYTE),
+  COMP23          VARCHAR2(100 BYTE),
+  COMP24          VARCHAR2(100 BYTE),
+  COMP25          VARCHAR2(100 BYTE),
+  COMP26          VARCHAR2(100 BYTE),
+  COMP27          VARCHAR2(100 BYTE),
+  COMP28          VARCHAR2(100 BYTE),
+  COMP29          VARCHAR2(100 BYTE),
+  COMP30          VARCHAR2(100 BYTE),
+  COMP31          VARCHAR2(100 BYTE),
+  COMP32          VARCHAR2(100 BYTE),
+  COMP33          VARCHAR2(100 BYTE),
+  COMP34          VARCHAR2(100 BYTE),
+  COMP35          VARCHAR2(100 BYTE),
+  COMP36          VARCHAR2(100 BYTE),
+  COMP37          VARCHAR2(100 BYTE),
+  COMP38          VARCHAR2(100 BYTE),
+  COMP39          VARCHAR2(100 BYTE),
+  COMP40          VARCHAR2(100 BYTE),
+  COMP41          VARCHAR2(100 BYTE),
+  COMP42          VARCHAR2(100 BYTE),
+  COMP43          VARCHAR2(100 BYTE),
+  COMP44          VARCHAR2(100 BYTE),
+  COMP45          VARCHAR2(100 BYTE),
+  COMP46          VARCHAR2(100 BYTE),
+  COMP47          VARCHAR2(100 BYTE),
+  COMP48          VARCHAR2(100 BYTE),
+  COMP49          VARCHAR2(100 BYTE),
+  COMP50          VARCHAR2(100 BYTE),
+  COMP51          VARCHAR2(100 BYTE),
+  COMP52          VARCHAR2(100 BYTE),
+  COMP53          VARCHAR2(100 BYTE),
+  COMP54          VARCHAR2(100 BYTE),
+  COMP55          VARCHAR2(100 BYTE),
+  COMP56          VARCHAR2(100 BYTE),
+  COMP57          VARCHAR2(100 BYTE),
+  COMP58          VARCHAR2(100 BYTE),
+  COMP59          VARCHAR2(100 BYTE),
+  COMP60          VARCHAR2(100 BYTE),
+  COMP61          VARCHAR2(100 BYTE),
+  COMP62          VARCHAR2(100 BYTE),
+  COMP63          VARCHAR2(100 BYTE),
+  COMP64          VARCHAR2(100 BYTE),
+  COMP65          VARCHAR2(100 BYTE),
+  COMP66          VARCHAR2(100 BYTE),
+  COMP67          VARCHAR2(100 BYTE),
+  COMP68          VARCHAR2(100 BYTE),
+  COMP69          VARCHAR2(100 BYTE),
+  COMP70          VARCHAR2(100 BYTE),
+  COMP71          VARCHAR2(100 BYTE),
+  COMP72          VARCHAR2(100 BYTE),
+  COMP73          VARCHAR2(100 BYTE),
+  COMP74          VARCHAR2(100 BYTE),
+  COMP75          VARCHAR2(100 BYTE),
+  COMP76          VARCHAR2(100 BYTE),
+  COMP77          VARCHAR2(100 BYTE),
+  COMP78          VARCHAR2(100 BYTE),
+  COMP79          VARCHAR2(100 BYTE),
+  COMP80          VARCHAR2(100 BYTE),
+  COMP81          VARCHAR2(100 BYTE),
+  COMP82          VARCHAR2(100 BYTE),
+  COMP83          VARCHAR2(100 BYTE),
+  COMP84          VARCHAR2(100 BYTE),
+  COMP85          VARCHAR2(100 BYTE),
+  COMP86          VARCHAR2(100 BYTE),
+  COMP87          VARCHAR2(100 BYTE),
+  COMP88          VARCHAR2(100 BYTE),
+  COMP89          VARCHAR2(100 BYTE),
+  COMP90          VARCHAR2(100 BYTE),
+  COMP91          VARCHAR2(100 BYTE),
+  COMP92          VARCHAR2(100 BYTE),
+  COMP93          VARCHAR2(100 BYTE),
+  COMP94          VARCHAR2(100 BYTE),
+  COMP95          VARCHAR2(100 BYTE),
+  COMP96          VARCHAR2(100 BYTE),
+  COMP97          VARCHAR2(100 BYTE),
+  COMP98          VARCHAR2(100 BYTE),
+  COMP99          VARCHAR2(100 BYTE),
+  COMP100         NUMBER
+)
+ON COMMIT PRESERVE ROWS
+NOCACHE;
+
+
+DROP TABLE PIS_ERROR_LOG CASCADE CONSTRAINTS;
+
+CREATE TABLE PIS_ERROR_LOG
+(
+  COMPANYCODE         VARCHAR2(10 BYTE),
+  DIVISIONCODE        VARCHAR2(10 BYTE),
+  PROC_NAME           VARCHAR2(50 BYTE),
+  ORA_ERROR_MESSG     VARCHAR2(4000 BYTE),
+  ERROR_DATE          DATE                      DEFAULT SYSDATE,
+  ERROR_QUERY         LONG,
+  PAR_VALUES          VARCHAR2(4000 BYTE),
+  FORTNIGHTSTARTDATE  DATE,
+  FORTNIGHTENDDATE    DATE,
+  REMARKS             VARCHAR2(2000 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+DROP TABLE GBL_PIS_LEAVEBAL CASCADE CONSTRAINTS;
+
+CREATE TABLE GBL_PIS_LEAVEBAL
+(
+  COMPANYCODE   VARCHAR2(10 BYTE),
+  DIVISIONCODE  VARCHAR2(10 BYTE),
+  YEARMONTH     VARCHAR2(10 BYTE),
+  WORKERSERIAL  VARCHAR2(10 BYTE),
+  TOKENNO       VARCHAR2(10 BYTE),
+  CATEGORYCODE  VARCHAR2(10 BYTE),
+  GRADECODE     VARCHAR2(10 BYTE),
+  LEAVECODE     VARCHAR2(10 BYTE),
+  OPENING       NUMBER(11,2),
+  ENTITLE       NUMBER(11,2),
+  AVAILED       NUMBER(11,2),
+  BALANCE       NUMBER(11,2)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+CREATE INDEX IDX_PISBANKMAST_01122015051532 ON PISBANKMASTER
+(COMPANYCODE, DIVISIONCODE, BANKCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISBANKMAST_01122015124909 ON PISBANKMASTER
+(COMPANYCODE, DIVISIONCODE, BANKCODE, SALARYACCOUNTNO)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_01122016051022 ON PISCOMPONENTASSIGNMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, CATEGORYCODE, 
+GRADECODE, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_19082016042814 ON PISCOMPONENTLIMIT
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, COMPONENTCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_20072020051927 ON PISCOMPONENTASSIGNMENT
+(UNITCODE, COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, 
+CATEGORYCODE, GRADECODE, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_24052019115748 ON PISCOMPONENTASSIGNMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, CATEGORYCODE, 
+GRADECODE, WORKERSERIAL, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_24112016063046 ON PISCOMPONENTASSIGNMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, WORKERSERIAL, 
+TOKENNO, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISCOMPONEN_25112016100849 ON PISCOMPONENTASSIGNMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISDEPARTME_01122015111022 ON PISDEPARTMENTMASTER
+(COMPANYCODE, DIVISIONCODE, DEPARTMENTCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISDESIGNAT_02122015104603 ON PISDESIGNATIONMASTER
+(COMPANYCODE, DIVISIONCODE, DESIGNATIONCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISDOCTORMA_30112015013502 ON PISDOCTORMASTER
+(COMPANYCODE, DIVISIONCODE, DOCTORCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_09122016024631 ON PISGRADECOMPONENTMAPPING
+(YEARMONTH, CATEGORYCODE, GRADECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_12122016012120 ON PISGRADECOMPONENTMAPPING
+(APPLICABLE, YEARMONTH, CATEGORYCODE, GRADECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_12122016061945 ON PISGRADECOMPONENTMAPPING
+(APPLICABLE, YEARMONTH, CATEGORYCODE, GRADECODE, UNITCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_30122016124711 ON PISGRADECOMPONENTMAPPING
+(YEARMONTH, CATEGORYCODE, GRADECODE, UNITCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_30122016125103 ON PISGRADECOMPONENTMAPPING
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, CATEGORYCODE, GRADECODE, 
+UNITCODE, COMPONENTCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADECOM_30122016125632 ON PISGRADECOMPONENTMAPPING
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, CATEGORYCODE, GRADECODE, 
+UNITCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          128K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISGRADEMAS_27112015012920 ON PISGRADEMASTER
+(COMPANYCODE, DIVISIONCODE, CATEGORYCODE, GRADECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISHOLIDAYM_28082018122356 ON PISHOLIDAYMASTER
+(COMPANYCODE, DIVISIONCODE, HOLIDAYDATE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISITAXCOMP_11092019010641 ON PISITAXCOMPUTATION
+(COMPANYCODE, DIVISIONCODE, YEARCODE, WORKERSERIAL, COLUMNNO)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISITAXPARA_10122019061358 ON PISITAXPARAM
+(COMPANYCODE, DIVISIONCODE, COLUMNNO)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVEAPP_30122015011746 ON PISLEAVEAPPLICATION
+(COMPANYCODE, DIVISIONCODE, YEARCODE, WORKERSERIAL, LEAVEAPPLIEDON, 
+LEAVEDATE, DOCUMENTNO)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVEENT_02012017114013 ON PISLEAVEENTITLEMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, CATEGORYCODE, 
+GRADECODE, WORKERSERIAL, LEAVECODE, CALENDARYEAR)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVEENT_02122016035442 ON PISLEAVEENTITLEMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, CATEGORYCODE, 
+GRADECODE, WORKERSERIAL, TOKENNO, LEAVECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVEENT_16092020013553 ON PISLEAVEENTITLEMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, UNITCODE, CATEGORYCODE, 
+GRADECODE, WORKERSERIAL, LEAVECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVEMAS_30112015035615 ON PISLEAVEMASTER
+(COMPANYCODE, DIVISIONCODE, LEAVECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLEAVETRA_05072019040731 ON PISLEAVETRANSACTION
+(COMPANYCODE, DIVISIONCODE, YEARCODE, WORKERSERIAL, LEAVECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISLOANMAST_01122015115546 ON PISLOANMASTER
+(COMPANYCODE, DIVISIONCODE, LOANCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISMONTHADJ_11052017121102 ON PISMONTHADJUSTMENT
+(COMPANYCODE, DIVISIONCODE, YEARCODE, YEARMONTH)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISMONTHATT_01122016051022 ON PISMONTHATTENDANCE
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, UNITCODE, CATEGORYCODE, 
+GRADECODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISOFFDAYWO_27082020014013 ON PISOFFDAYWORKINGADJUSTMENT
+(COMPANYCODE, DIVISIONCODE, LEAVEDATE, WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISOUTSIDED_29082020021541 ON PISOUTSIDEDUTYDETAILS
+(COMPANYCODE, DIVISIONCODE, DUTYDATE, DUTYTYPE, TOKENNO, 
+WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISPAYSLIPRAWDATA ON PISPAYSLIPRAWDATA
+(COMPANYCODE, YEARCODE, DIVISIONCODE, FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, 
+DEPARTMENTCODE, WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISREIMBURS_06092019114433 ON PISREIMBURSEMENTDETAILS
+(COMPANYCODE, DIVISIONCODE, YEARCODE, FORYEARCODE, YEARMONTH, 
+WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISREIMBURS_13032020062315 ON PISREIMBURSEMENTDETAILS
+(COMPANYCODE, DIVISIONCODE, YEARCODE, FORYEARCODE, YEARMONTH, 
+WORKERSERIAL, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISUNITMAST_13012017043610 ON PISUNITMASTER
+(COMPANYCODE, DIVISIONCODE, UNITCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PISCOMPONENTMASTER_PK ON PISCOMPONENTMASTER
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, COMPONENTCODE, COMPONENTSHORTNAME)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PISMONTHATTENDANCE_PK ON PISMONTHATTENDANCE
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, CATEGORYCODE, GRADECODE, 
+WORKERSERIAL, TRANSACTIONTYPE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PK_PISCATEGORYMAST ON PISCATEGORYMASTER
+(COMPANYCODE, DIVISIONCODE, CATEGORYCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PK_PISPAYTRANSACTION ON PISPAYTRANSACTION
+(COMPANYCODE, DIVISIONCODE, YEARMONTH, TRANSACTIONTYPE, WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE OR REPLACE TRIGGER "TRG_UPDATE_PRINT_CNT_PIS" 
+ BEFORE UPDATE OF PRINT_FLAG 
+ ON PISPAYSLIPRAWDATA  
+ FOR EACH ROW
+DECLARE  
+ LV_ACTIVITY_TYPE VARCHAR2(20) ;  
+ --COMPANYCODE, DIVISIONCODE, YEARCODE, FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, WORKERSERIAL, TOKENNO, WORKERNAME, DEPARTMENTCODE, DEPARTMENTNAME, SECTIONCODE, WORKERCATEGORYCODE, WORKERCATEGORYNAME, PRINT_FLAG, KIOSKID, PRINTDATETIME, ACTIVITY_TIMESTAMP, ACTIVITY_TYPE  
+BEGIN  
+ SELECT CASE WHEN :NEW.PRINT_FLAG='Y' THEN 'PRINTED' WHEN :NEW.PRINT_FLAG='N' THEN 'RELEASED' END INTO LV_ACTIVITY_TYPE FROM DUAL;  
+ IF :NEW.PRINT_FLAG='Y' THEN  
+    :NEW.PRINT_CNT := :NEW.PRINT_CNT+1;  
+ END IF;  
+ INSERT INTO KIOSK_PRINT_LOG(COMPANYCODE, DIVISIONCODE, YEARCODE, FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, WORKERSERIAL, TOKENNO, WORKERNAME, DEPARTMENTCODE, DEPARTMENTNAME, SECTIONCODE, WORKERCATEGORYCODE, WORKERCATEGORYNAME, PRINT_FLAG, KIOSKID, PRINTDATETIME,  ACTIVITY_TYPE)   
+ VALUES(:NEW.COMPANYCODE, :NEW.DIVISIONCODE, :NEW.YEARCODE, :NEW.FORTNIGHTSTARTDATE, :NEW.FORTNIGHTENDDATE, :NEW.WORKERSERIAL, :NEW.TOKENNO, :NEW.EMPLOYEENAME, :NEW.DEPARTMENTCODE, :NEW.DEPARTMENTNAME, :NEW.SECTIONCODE, :NEW.WORKERCATEGORYCODE, :NEW.WORKERCATEGORYNAME, :NEW.PRINT_FLAG, :NEW.KIOSKID, :NEW.PRINTDATETIME,  LV_ACTIVITY_TYPE);  
+END TRG_UPDATE_PRINT_CNT_PIS;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001223" 
+ before insert ON GBL_PISGRADECOMPONENTMAPPING for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SRID" 
+ before insert ON GBL_PISLEAVEAPPLICATION_T for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001662" 
+ before insert ON GBL_PISREIMBURSEMENTDETAILS for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001671" 
+ before insert ON GBL_PISITAXPARAM for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001680" 
+ before insert ON GBL_PISMONTHATTENDANCE for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001689" 
+ before insert ON GBL_PISCATEGORYMASTER for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001692" 
+ before insert ON GBL_PISOFFDAYWORKINGADJUSTMENT for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001693" 
+ before insert ON GBL_PISOUTSIDEDUTYDETAILS for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001527" 
+ before insert ON GBL_PISLEAVEAPPWITHGRID for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001553" 
+ before insert ON GBL_PISLEAVETRANSACTION for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001261" 
+ before insert ON GBL_PISPROCESS for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001232" 
+ before insert ON GBL_PISMONTHADJUSTMENT for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER TRG_SYSROWID_00000000000001712
+ before insert ON GBL_PISCOMPONENTASSIGNMENT for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001699" 
+ before insert ON GBL_PISLEAVEENTITLEMENT for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER "TRG_SYSROWID_00000000000001700" 
+ before insert ON GBL_PISEMPLOYEEMASTER for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+CREATE OR REPLACE TRIGGER TRG_SYSROWID_00000000000001713
+ before insert ON GBL_PISLEAVEAPPLICATION for each row
+declare 
+    wlastnumber  number(11); 
+    wsysrowid    varchar2(30); 
+ begin    
+ if nvl(:new.sysrowid,'~N~') ='~N~' or upper(:new.sysrowid) = 'NULL' then 
+    select seq_sysrowid.nextval 
+    into wlastnumber 
+    from dual;     
+    wsysrowid := to_char(sysdate,'YYYYMMDDHH24MISS') || lpad(wlastnumber,10,'0');
+   :new.sysrowid := wsysrowid;  
+end if;
+ end;
+/
+
+
+ALTER TABLE PISEMPLOYEEMASTER
+ DROP PRIMARY KEY CASCADE;
+
+DROP TABLE PISEMPLOYEEMASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE PISEMPLOYEEMASTER
+(
+  COMPANYCODE              VARCHAR2(10 BYTE),
+  DIVISIONCODE             VARCHAR2(10 BYTE),
+  WORKERSERIAL             VARCHAR2(10 BYTE),
+  TOKENNO                  VARCHAR2(10 BYTE),
+  EMPLOYEENAME             VARCHAR2(50 BYTE),
+  ATTNIDENTIFICATION       VARCHAR2(50 BYTE),
+  BOSSCODE                 VARCHAR2(10 BYTE),
+  UNITCODE                 VARCHAR2(10 BYTE),
+  CATEGORYCODE             VARCHAR2(10 BYTE)    NOT NULL,
+  GRADECODE                VARCHAR2(10 BYTE),
+  DEPARTMENTCODE           VARCHAR2(10 BYTE)    NOT NULL,
+  DESIGNATIONCODE          VARCHAR2(10 BYTE),
+  ESINO                    VARCHAR2(20 BYTE),
+  PFCODE                   VARCHAR2(10 BYTE),
+  PFNO                     VARCHAR2(20 BYTE),
+  PENSIONNO                VARCHAR2(20 BYTE),
+  SEX                      VARCHAR2(10 BYTE),
+  MARITIALSTATUS           VARCHAR2(10 BYTE),
+  EMPLOYEESTATUS           VARCHAR2(20 BYTE),
+  DATEOFBIRTH              DATE,
+  DATEOFJOIN               DATE,
+  DATEOFCONFIRMATION       DATE,
+  PFENTITLEDATE            DATE,
+  STATUSDATE               DATE,
+  DATEOFRETIRE             DATE,
+  EXTENDEDRETIREDATE       DATE,
+  PFSETTELMENTDATE         DATE,
+  GRATUITYSETTELMENTDATE   DATE,
+  DATEOFTERMINATIONADVICE  DATE,
+  PAYMODE                  VARCHAR2(10 BYTE),
+  BANKCODE                 VARCHAR2(20 BYTE),
+  IFSCCODE                 VARCHAR2(20 BYTE),
+  BANKACCNUMBER            VARCHAR2(20 BYTE),
+  BANKACCHOLDINGNAME       VARCHAR2(100 BYTE),
+  PANCARDNO                VARCHAR2(10 BYTE),
+  UANNO                    VARCHAR2(50 BYTE),
+  AADHARNO                 VARCHAR2(50 BYTE),
+  PHONE                    VARCHAR2(20 BYTE),
+  MOBILENO                 VARCHAR2(20 BYTE),
+  FATHERNAME               VARCHAR2(40 BYTE),
+  GUARDIANNAME             VARCHAR2(40 BYTE),
+  EMAILID                  VARCHAR2(50 BYTE),
+  SPOUSENAME               VARCHAR2(40 BYTE),
+  QUARTERALLOTED           VARCHAR2(3 BYTE),
+  QUARTERNO                VARCHAR2(50 BYTE),
+  ACADEMICQUALIFICATION    VARCHAR2(200 BYTE),
+  PROFESSIONQUALIFICATION  VARCHAR2(200 BYTE),
+  PAYMENTSTATUS            VARCHAR2(40 BYTE)    DEFAULT 'ACTIVE',
+  PFACCODE                 VARCHAR2(10 BYTE)    DEFAULT 0,
+  SNFACCODE                VARCHAR2(100 BYTE)   DEFAULT 0,
+  PFAPPLICABLE             VARCHAR2(1 BYTE)     DEFAULT 'Y',
+  EPFAPPLICABLE            VARCHAR2(1 BYTE)     DEFAULT 'Y',
+  PTAXAPPLICABLE           VARCHAR2(1 BYTE)     DEFAULT 'Y',
+  BONUSAPPLICABLE          VARCHAR2(1 BYTE),
+  GRATUITYAPPLICABLE       VARCHAR2(1 BYTE)     DEFAULT 'N',
+  GRATUITYOPENINGYEARS     NUMBER(6,2),
+  LEAVINGSERVICE           VARCHAR2(50 BYTE),
+  REMARKS                  VARCHAR2(300 BYTE),
+  COSTCENTRECODE           VARCHAR2(10 BYTE),
+  MODULE                   VARCHAR2(10 BYTE)    DEFAULT 'PIS',
+  USERNAME                 VARCHAR2(100 BYTE),
+  LASTMODIFIED             DATE                 DEFAULT SYSDATE,
+  SYSROWID                 VARCHAR2(50 BYTE),
+  ADDRESS_PRESENT          VARCHAR2(200 BYTE),
+  CITY_PRESENT             VARCHAR2(50 BYTE),
+  PIN_PRESENT              VARCHAR2(10 BYTE),
+  STATE_PRESENT            VARCHAR2(50 BYTE),
+  ADDRESS_PERMANENT        VARCHAR2(200 BYTE),
+  CITY_PERMANENT           VARCHAR2(50 BYTE),
+  PIN_PERMANENT            VARCHAR2(10 BYTE),
+  STATE_PERMANENT          VARCHAR2(50 BYTE),
+  VOTERID                  VARCHAR2(20 BYTE),
+  PTAXSTATE                VARCHAR2(100 BYTE),
+  WEEKLYOFFDAY             VARCHAR2(20 BYTE),
+  LASTPROMOTIONDATE        DATE,
+  WORKERCODE               VARCHAR2(10 BYTE),
+  IMAGEURL                 VARCHAR2(200 BYTE),
+  SUPERANUATIONNUMBER      VARCHAR2(30 BYTE),
+  SUPERANUATIONDATE        DATE,
+  CONVEYANCE               VARCHAR2(10 BYTE),
+  RELIGION                 VARCHAR2(30 BYTE),
+  PRANNUMBER               VARCHAR2(30 BYTE),
+  GRATUITYNUMBER           VARCHAR2(30 BYTE),
+  FREEUNITELECTRICITY      VARCHAR2(30 BYTE)
+)
+
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+CREATE INDEX IDX_PISEMPLOYEE_01122016012207 ON PISEMPLOYEEMASTER
+(COMPANYCODE, TOKENNO, DIVISIONCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE INDEX IDX_PISEMPLOYEE_25052018120903 ON PISEMPLOYEEMASTER
+(TOKENNO, DIVISIONCODE, COMPANYCODE)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE UNIQUE INDEX PISEMPLOYEEMASTER_PK ON PISEMPLOYEEMASTER
+(WORKERSERIAL)
+LOGGING
+
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+NOPARALLEL;
+
+
+CREATE OR REPLACE TRIGGER "TRG_INSUPD_PISEMPLOYEEMASTER" 
+AFTER INSERT OR UPDATE ON PISEMPLOYEEMASTER FOR EACH ROW
+DECLARE
+lv_cnt number ;
+lv_pfjoindate date ;
+lv_SettlementDate date;
+lv_PfCategory   varchar2(1) := '2';
+BEGIN
+if :new.PFNO is not null then
+     if :NEW.PFAPPLICABLE= 'Y' THEN
+        IF :NEW.EPFAPPLICABLE = 'Y' THEN
+            lv_PfCategory  :='2';
+        ELSE
+            lv_PfCategory  :='1';    
+        END IF;
+     ELSE
+        lv_PfCategory  :='3';
+     END IF;
+    select count(*) into lv_cnt from PFEMPLOYEEMASTER where pfno = :new.PFNO ;
+    if inserting then
+      if lv_cnt = 0 then
+     -- PISEMPLOYEEMASTER
+       --insert into error_log(error_query) values(:new.EMPLOYEEFPFACCNUMBER||' - '||to_char(:new.EMPPFENTITLEDATE,'DD/MM/YYYY')||' - AYAN') ;
+           insert into PFEMPLOYEEMASTER(MODULE,PFNO,PFJOINDATE,currentcompanycode ,currentDIVISIONCODE,WORKERSERIAL,
+                                        TOKENNO,EMPLOYEENAME ,FATHERNAME,GUARDIANNAME,DEPARTMENTCODE,
+                                        CATEGORYCODE , GRADECODE , DATEOFBIRTH , DATEOFJOINING ,PENSIONNO,
+                                        EMPLOYEEMARRIED , SEX ,SPOUSENAME , EMPLOYEESTATUS , STATUSDATE ,
+                                        FORM3RECEIPTDATE,FORM3CEASEDATE , SEPARATIONADVICEDATE ,PFSETTLEMENTDATE, SEPARATIONDATE ,
+                                        ADDRESS , PFCATEGORY , DESIGNATIONCODE , COMPANYCODE , DIVISIONCODE ,
+                                        PFTRUSTCODE , BASICRATEONHOURS , LASTMODIFIED , ENTERBY,IFSCCODE,BANKACCNO,EMPLOYEENAME_BANK )
+                               VALUES  ('PIS',:new.PFNO,:new.PFENTITLEDATE,:new.COMPANYCODE, :new.DIVISIONCODE ,:new.WORKERSERIAL ,
+                                        :new.TOKENNO ,:new.EMPLOYEENAME ,:new.FATHERNAME,:new.FATHERNAME , :new.DEPARTMENTCODE ,
+                                        :new.CATEGORYCODE ,:new.GRADECODE ,:new.DATEOFBIRTH ,:new.DATEOFJOIN ,:new.PENSIONNO ,
+                                        :new.MARITIALSTATUS ,:new.SEX,:new.SPOUSENAME ,:new.EMPLOYEESTATUS ,:new.STATUSDATE ,
+                                        :new.DATEOFTERMINATIONADVICE ,:new.DATEOFTERMINATIONADVICE ,:new.DATEOFTERMINATIONADVICE ,:new.PFSETTELMENTDATE,:new.DATEOFTERMINATIONADVICE,
+                                        :new.ADDRESS_PRESENT ,lv_PfCategory ,:new.DESIGNATIONCODE , :new.COMPANYCODE, :new.DIVISIONCODE, 
+                                        'PT001' ,1 ,SYSDATE,:new.USERNAME,:new.IFSCCODE,:new.BANKACCNUMBER,:new.BANKACCHOLDINGNAME ) ;
+      else
+           select PFJOINDATE into lv_pfjoindate from PFEMPLOYEEMASTER where pfno = :new.PFNO;
+           if lv_pfjoindate <> :new.PFENTITLEDATE then
+             raise_application_error(-20101, 'PF JOINING DATE IS DIFFERENT FROM THE ORIGINAL PFJOINDATE IN PFMASTER ..');
+           else
+             update PFEMPLOYEEMASTER
+             set MODULE = 'PIS',
+                 currentcompanycode = :new.COMPANYCODE,
+                 currentDIVISIONCODE = :new.DIVISIONCODE ,
+                 WORKERSERIAL = :new.WORKERSERIAL ,
+                 TOKENNO =  :new.TOKENNO ,
+                 EMPLOYEENAME = :new.EMPLOYEENAME ,
+                 FATHERNAME = :new.FATHERNAME,
+                 GUARDIANNAME  = :new.FATHERNAME ,
+                 DEPARTMENTCODE = :new.DEPARTMENTCODE ,
+                 CATEGORYCODE = :new.CATEGORYCODE ,
+                 GRADECODE = :new.GRADECODE ,
+                 DATEOFBIRTH = :new.DATEOFBIRTH ,
+                 DATEOFJOINING = :new.DATEOFJOIN ,
+               --  PFJOINDATE = :new.PFMEMBERSHIPDATE ,
+               --  PFNO = :new.PFNO  ,
+                 PENSIONNO = :new.PENSIONNO ,
+                 EMPLOYEEMARRIED = :new.MARITIALSTATUS ,
+                 SEX = :new.SEX,
+                 SPOUSENAME = :new.SPOUSENAME ,
+               -- EMPLOYEESTATUS = :new.WORKERSTATUS ,
+               --  STATUSDATE = :new.DATEOFTERMINATION ,
+               --  FORM3RECEIPTDATE = :new.DATEOFTERMINATIONADVICE ,
+               --  FORM3CEASEDATE =  :new.DATEOFTERMINATIONADVICE ,
+               --  SEPARATIONADVICEDATE =  :new.DATEOFTERMINATIONADVICE ,
+               --  PFSETTLEMENTDATE = :new.PFSETTELMENTDATE,
+               --  SEPARATIONDATE  = :new.PFSETTELMENTDATE,
+                 USERNAME = :new.USERNAME, 
+                 SYSROWID = :new.SYSROWID, 
+                 ADDRESS = :new.ADDRESS_PRESENT,
+               --  PFCATEGORY = :new.PFCODE ,
+                 DESIGNATIONCODE  = :new.DESIGNATIONCODE,
+                 IFSCCODE=:new.IFSCCODE, 
+                 BANKACCNO=:new.BANKACCNUMBER, 
+                 EMPLOYEENAME_BANK=:new.BANKACCHOLDINGNAME
+             where pfno = :new.PFNO ;
+       end if;
+     end if;  
+    else -- update
+      select count(*) into lv_cnt from PFEMPLOYEEMASTER where pfno = :new.PFNO ;
+      if lv_cnt = 0 then
+           insert into PFEMPLOYEEMASTER(MODULE,PFNO,PFJOINDATE,currentcompanycode ,currentDIVISIONCODE,WORKERSERIAL,
+                                        TOKENNO,EMPLOYEENAME ,FATHERNAME,GUARDIANNAME,DEPARTMENTCODE,
+                                        CATEGORYCODE , GRADECODE , DATEOFBIRTH , DATEOFJOINING ,PENSIONNO,
+                                        EMPLOYEEMARRIED , SEX ,SPOUSENAME , EMPLOYEESTATUS , STATUSDATE ,
+                                        FORM3RECEIPTDATE,FORM3CEASEDATE , SEPARATIONADVICEDATE ,PFSETTLEMENTDATE, SEPARATIONDATE ,
+                                        ADDRESS , PFCATEGORY , DESIGNATIONCODE , COMPANYCODE , DIVISIONCODE ,
+                                        PFTRUSTCODE , BASICRATEONHOURS , LASTMODIFIED , ENTERBY,IFSCCODE,BANKACCNO,EMPLOYEENAME_BANK  )
+                               VALUES  ('PIS',:new.PFNO,:new.PFENTITLEDATE,:new.COMPANYCODE, :new.DIVISIONCODE ,:new.WORKERSERIAL ,
+                                        :new.TOKENNO ,:new.EMPLOYEENAME ,:new.FATHERNAME,:new.FATHERNAME , :new.DEPARTMENTCODE ,
+                                        :new.CATEGORYCODE ,:new.GRADECODE ,:new.DATEOFBIRTH ,:new.DATEOFJOIN ,:new.PENSIONNO ,
+                                        :new.MARITIALSTATUS ,:new.SEX,:new.SPOUSENAME ,:new.EMPLOYEESTATUS ,:new.STATUSDATE ,
+                                        :new.DATEOFTERMINATIONADVICE ,:new.DATEOFTERMINATIONADVICE ,:new.DATEOFTERMINATIONADVICE ,:new.PFSETTELMENTDATE,:new.DATEOFTERMINATIONADVICE,
+                                        :new.ADDRESS_PRESENT ,lv_PfCategory ,:new.DESIGNATIONCODE , :new.COMPANYCODE, :new.DIVISIONCODE, 
+                                        'PT001' ,1 ,SYSDATE,:new.USERNAME,:new.IFSCCODE,:new.BANKACCNUMBER,:new.BANKACCHOLDINGNAME  ) ;
+      ELSE  
+          update PFEMPLOYEEMASTER
+          set    MODULE = 'PIS',
+                 currentcompanycode = :new.COMPANYCODE,
+                 currentDIVISIONCODE = :new.DIVISIONCODE ,
+                 WORKERSERIAL = :new.WORKERSERIAL ,
+                 TOKENNO =  :new.TOKENNO ,
+                 EMPLOYEENAME = :new.EMPLOYEENAME ,
+                 FATHERNAME = :new.FATHERNAME,
+                 GUARDIANNAME  = :new.FATHERNAME ,
+                 DEPARTMENTCODE = :new.DEPARTMENTCODE ,
+                 CATEGORYCODE = :new.CATEGORYCODE ,
+                 GRADECODE = :new.GRADECODE ,
+                 DATEOFBIRTH = :new.DATEOFBIRTH ,
+                 DATEOFJOINING = :new.DATEOFJOIN ,
+              --   PFJOINDATE = :new.PFMEMBERSHIPDATE ,
+              --   PFNO = :new.PFNO  ,
+                 PENSIONNO = :new.PENSIONNO ,
+                 EMPLOYEEMARRIED = :new.MARITIALSTATUS ,
+                 SEX = :new.SEX,
+                 SPOUSENAME = :new.SPOUSENAME ,
+                 --EMPLOYEESTATUS = :new.WORKERSTATUS ,
+                 --STATUSDATE = :new.DATEOFTERMINATION ,
+                 --FORM3RECEIPTDATE = :new.DATEOFTERMINATIONADVICE ,
+                 --FORM3CEASEDATE =  :new.DATEOFTERMINATIONADVICE ,
+                 --SEPARATIONADVICEDATE =  :new.DATEOFTERMINATIONADVICE ,
+                 --PFSETTLEMENTDATE = :new.PFSETTELMENTDATE,
+                 --SEPARATIONDATE  = :new.PFSETTELMENTDATE,
+                 ADDRESS = :new.ADDRESS_PRESENT ,
+                 --PFCATEGORY = :new.PFCATEGORY ,
+                 DESIGNATIONCODE  = :new.DESIGNATIONCODE,
+                 IFSCCODE=:new.IFSCCODE, 
+                 BANKACCNO=:new.BANKACCNUMBER, 
+                 EMPLOYEENAME_BANK=:new.BANKACCHOLDINGNAME
+            where pfno = :new.PFNO ;
+       END IF;
+    END IF;
+END IF; -- not NULL CHECK
+ 
+END;
+/
+
+
+ALTER TABLE PISDESIGNATIONMASTER ADD (
+  CONSTRAINT PK_PISDESIGNATION
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, DESIGNATIONCODE));
+
+ALTER TABLE PISMONTHATTENDANCE ADD (
+  CONSTRAINT PISMONTHATTENDANCE_PK
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, YEARMONTH, CATEGORYCODE, GRADECODE, WORKERSERIAL, TRANSACTIONTYPE)
+    USING INDEX 
+    
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+               ));
+
+ALTER TABLE PISCOMPONENTMASTER ADD (
+  CONSTRAINT PISCOMPONENTMASTER_PK
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, YEARMONTH, COMPONENTCODE, COMPONENTSHORTNAME)
+    USING INDEX 
+    
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+               ));
+
+ALTER TABLE PISCATEGORYMASTER ADD (
+  CONSTRAINT PK_PISCATEGORYMAST
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, CATEGORYCODE)
+    USING INDEX 
+    
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+               ));
+
+ALTER TABLE PISGRADEMASTER ADD (
+  CONSTRAINT PK_PISGRADEMAST
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, CATEGORYCODE, GRADECODE));
+
+ALTER TABLE PISDEPARTMENTMASTER ADD (
+  CONSTRAINT PK_PISDEPARTMENTMASTER
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, DEPARTMENTCODE));
+
+ALTER TABLE PISPAYTRANSACTION ADD (
+  CONSTRAINT PK_PISPAYTRANSACTION
+ PRIMARY KEY
+ (COMPANYCODE, DIVISIONCODE, YEARMONTH, TRANSACTIONTYPE, WORKERSERIAL)
+    USING INDEX 
+    
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+               ));
+
+ALTER TABLE PISOFFDAYWORKINGADJUSTMENT ADD (
+  CONSTRAINT CON_VALID
+ PRIMARY KEY
+ (LEAVEDATE, WORKERSERIAL, DIVISIONCODE, COMPANYCODE));
+
+ALTER TABLE PISEMPLOYEEMASTER ADD (
+  CONSTRAINT PISEMPLOYEEMASTER_PK
+ PRIMARY KEY
+ (WORKERSERIAL)
+    USING INDEX 
+    
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+               ));
+
+ALTER TABLE PISGRADEMASTER ADD (
+  CONSTRAINT FK_PISGRADEMAST 
+ FOREIGN KEY (COMPANYCODE, DIVISIONCODE, CATEGORYCODE) 
+ REFERENCES PISCATEGORYMASTER (COMPANYCODE,DIVISIONCODE,CATEGORYCODE));
+
+ALTER TABLE PISEMPLOYEEMASTER ADD (
+  CONSTRAINT FK_PISEMPMAST_DEPT 
+ FOREIGN KEY (COMPANYCODE, DIVISIONCODE, DEPARTMENTCODE) 
+ REFERENCES PISDEPARTMENTMASTER (COMPANYCODE,DIVISIONCODE,DEPARTMENTCODE),
+  CONSTRAINT FK_PISEMPMAST_DESIGCODE 
+ FOREIGN KEY (COMPANYCODE, DIVISIONCODE, DESIGNATIONCODE) 
+ REFERENCES PISDESIGNATIONMASTER (COMPANYCODE,DIVISIONCODE,DESIGNATIONCODE),
+  CONSTRAINT FK_PISEMPMAST_GRADECODE 
+ FOREIGN KEY (COMPANYCODE, DIVISIONCODE, CATEGORYCODE, GRADECODE) 
+ REFERENCES PISGRADEMASTER (COMPANYCODE,DIVISIONCODE,CATEGORYCODE,GRADECODE) DISABLE);

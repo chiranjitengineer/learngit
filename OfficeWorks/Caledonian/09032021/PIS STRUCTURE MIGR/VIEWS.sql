@@ -1,0 +1,663 @@
+DROP VIEW PISASSIGN;
+
+/* Formatted on 09/03/2021 12:28:10 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISASSIGN
+(
+   COMPANYCODE,
+   DIVISIONCODE,
+   WORKERSERIAL,
+   YEARMONTH,
+   ADHOC,
+   ATN_INCNT,
+   BASIC,
+   CHOWKIDARI,
+   CONV_AMT,
+   CONV_FLAG,
+   DA,
+   FURNITURE,
+   HRA_PERC,
+   HR_DEDN,
+   ITAX,
+   LADIESCLUB,
+   LIC,
+   MED_FLAG,
+   MIN_PAY,
+   NPS_CONTR,
+   PER_ALLOW,
+   SCHOOL_BUS,
+   SPL_ALLOW,
+   VPF_PERC
+)
+AS
+     SELECT   A.COMPANYCODE,
+              A.DIVISIONCODE,
+              A.WORKERSERIAL,
+              A.YEARMONTH,
+              NVL (A.ADHOC, 0) AS ADHOC,
+              NVL (A.ATN_INCNT, 0) AS ATN_INCNT,
+              NVL (A.BASIC, 0) AS BASIC,
+              NVL (A.CHOWKIDARI, 0) AS CHOWKIDARI,
+              NVL (A.CONV_AMT, 0) AS CONV_AMT,
+              NVL (A.CONV_FLAG, 0) AS CONV_FLAG,
+              NVL (A.DA, 0) AS DA,
+              NVL (A.FURNITURE, 0) AS FURNITURE,
+              NVL (A.HRA_PERC, 0) AS HRA_PERC,
+              NVL (A.HR_DEDN, 0) AS HR_DEDN,
+              NVL (A.ITAX, 0) AS ITAX,
+              NVL (A.LADIESCLUB, 0) AS LADIESCLUB,
+              NVL (A.LIC, 0) AS LIC,
+              NVL (A.MED_FLAG, 0) AS MED_FLAG,
+              NVL (A.MIN_PAY, 0) AS MIN_PAY,
+              NVL (A.NPS_CONTR, 0) AS NPS_CONTR,
+              NVL (A.PER_ALLOW, 0) AS PER_ALLOW,
+              NVL (A.SCHOOL_BUS, 0) AS SCHOOL_BUS,
+              NVL (A.SPL_ALLOW, 0) AS SPL_ALLOW,
+              NVL (A.VPF_PERC, 0) AS VPF_PERC
+       FROM   PISCOMPONENTASSIGNMENT A,
+              (  SELECT   WORKERSERIAL, MAX (YEARMONTH) YEARMONTH
+                   FROM   PISCOMPONENTASSIGNMENT
+                  WHERE       COMPANYCODE = 'BJ0056'
+                          AND DIVISIONCODE = '0001'
+                          AND YEARMONTH <= '202009'
+                          AND TRANSACTIONTYPE = 'ASSIGNMENT'
+               GROUP BY   WORKERSERIAL) B
+      WHERE       A.COMPANYCODE = 'BJ0056'
+              AND A.DIVISIONCODE = '0001'
+              AND A.TRANSACTIONTYPE = 'ASSIGNMENT'
+              AND A.WORKERSERIAL = B.WORKERSERIAL
+              AND A.YEARMONTH = B.YEARMONTH
+   ORDER BY   A.YEARMONTH;
+
+
+DROP VIEW PISATTN;
+
+/* Formatted on 09/03/2021 12:28:10 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISATTN
+(
+   COMPANYCODE,
+   DIVISIONCODE,
+   UNITCODE,
+   YEARMONTH,
+   CATEGORYCODE,
+   GRADECODE,
+   WORKERSERIAL,
+   TOKENNO,
+   PRESENTDAYS,
+   WITHOUTPAYDAYS,
+   HOLIDAYS,
+   SALARYDAYS,
+   LV_ENCASH_DAYS,
+   LVDAYS_RET,
+   TOTALDAYS,
+   CALCULATIONFACTORDAYS,
+   CAR,
+   DAIRY,
+   ELECTRIC,
+   GAMES,
+   LOTTERY,
+   OEPF,
+   OE_NPF,
+   OTHR_DEDN,
+   OT_HRS,
+   RECREATION,
+   SAL_ADV,
+   SUBSCRIPTION
+)
+AS
+     SELECT   A.COMPANYCODE,
+              A.DIVISIONCODE,
+              B.UNITCODE,
+              B.YEARMONTH,
+              B.CATEGORYCODE,
+              B.GRADECODE,
+              B.WORKERSERIAL,
+              B.TOKENNO,
+              NVL (B.PRESENTDAYS, 0) PRESENTDAYS,
+              NVL (B.WITHOUTPAYDAYS, 0) WITHOUTPAYDAYS,
+              NVL (B.HOLIDAYS, 0) HOLIDAYS,
+              NVL (B.SALARYDAYS, 0) SALARYDAYS,
+              NVL (B.LV_ENCASH_DAYS, 0) LV_ENCASH_DAYS,
+              NVL (B.LVDAYS_RET, 0) LVDAYS_RET,
+              NVL (B.TOTALDAYS, 0) TOTALDAYS,
+              NVL (B.CALCULATIONFACTORDAYS, 0) CALCULATIONFACTORDAYS,
+              NVL (A.CAR, 0) AS CAR,
+              NVL (A.DAIRY, 0) AS DAIRY,
+              NVL (A.ELECTRIC, 0) AS ELECTRIC,
+              NVL (A.GAMES, 0) AS GAMES,
+              NVL (A.LOTTERY, 0) AS LOTTERY,
+              NVL (A.OEPF, 0) AS OEPF,
+              NVL (A.OE_NPF, 0) AS OE_NPF,
+              NVL (A.OTHR_DEDN, 0) AS OTHR_DEDN,
+              NVL (A.OT_HRS, 0) AS OT_HRS,
+              NVL (A.RECREATION, 0) AS RECREATION,
+              NVL (A.SAL_ADV, 0) AS SAL_ADV,
+              NVL (A.SUBSCRIPTION, 0) AS SUBSCRIPTION
+       FROM   PISMONTHATTENDANCE B,
+              (SELECT   *
+                 FROM   PISCOMPONENTASSIGNMENT
+                WHERE       COMPANYCODE = 'BJ0056'
+                        AND DIVISIONCODE = '0001'
+                        AND YEARMONTH = '202009'
+                        AND TRANSACTIONTYPE = 'ATTENDANCE') A
+      WHERE       B.COMPANYCODE = 'BJ0056'
+              AND B.DIVISIONCODE = '0001'
+              AND B.YEARMONTH = '202009'
+              AND B.TRANSACTIONTYPE = 'ATTENDANCE'
+              AND B.COMPANYCODE = A.COMPANYCODE(+)
+              AND B.DIVISIONCODE = A.DIVISIONCODE(+)
+              AND B.YEARMONTH = A.YEARMONTH(+)
+              AND B.WORKERSERIAL = A.WORKERSERIAL(+)
+   ORDER BY   B.TOKENNO;
+
+
+DROP VIEW PISCOMP;
+
+/* Formatted on 09/03/2021 12:28:10 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISCOMP
+(
+   COMPANYCODE,
+   DIVISIONCODE,
+   WORKERSERIAL,
+   TOKENNO,
+   YEARMONTH,
+   ATTN_SALD,
+   ATTN_WRKD,
+   ATTN_WPAY,
+   ATTN_ADJD,
+   ATTN_TOTD,
+   ATTN_CALCF,
+   ATTN_LDAY,
+   ATTN_OFFD,
+   LDAY_PL,
+   LDAY_SL,
+   ACT_PF_GRS,
+   ADHOC,
+   ATN_INCNT,
+   BASIC,
+   CAR,
+   CHOWKIDARI,
+   CLUB,
+   COMPSAVING,
+   COMPS_ALLOW,
+   CONV_ALOW,
+   CONV_AMT,
+   CONV_FLAG,
+   CONV_RT,
+   CUMM_DAYS,
+   CUMM_PF_C,
+   CUMM_PF_E,
+   CUMM_VPF,
+   CUM_PFGROS,
+   DA,
+   DAIRY,
+   ELECTRIC,
+   ESI_E,
+   ESI_GROSS,
+   ESI_RATE,
+   FURNITURE,
+   GAMES,
+   GROSSDEDN,
+   GROSSEARN,
+   HRA,
+   HRA_GROSS,
+   HRA_PERC,
+   HR_DEDN,
+   ITAX,
+   LADIESCLUB,
+   LEAVE_ENC,
+   LIBL_BL,
+   LIBL_HPF,
+   LIBL_PFL,
+   LIBL_SA,
+   LIBL_STADV,
+   LIBRARY,
+   LIC,
+   LINT_BL,
+   LINT_HPF,
+   LINT_PFL,
+   LINT_SA,
+   LINT_STADV,
+   LNBL_BL,
+   LNBL_HPF,
+   LNBL_PFL,
+   LNBL_SA,
+   LNBL_STADV,
+   LOAN_BL,
+   LOAN_HPF,
+   LOAN_PFL,
+   LOAN_SA,
+   LOAN_STADV,
+   LOTTERY,
+   LWF,
+   MED_ALLOW,
+   MED_FLAG,
+   MED_MONTH,
+   MIN_PAY,
+   NETSALARY,
+   NPS_CONTR,
+   OEPF,
+   OE_NPF,
+   OTHR_DEDN,
+   OT_AMT,
+   OT_HRS,
+   PEN_GROSS,
+   PER_ALLOW,
+   PF_E,
+   PF_GROSS,
+   PTAX,
+   PTAX_GROSS,
+   RECREATION,
+   RT_BASIC,
+   SAL_ADV,
+   SCHOOL_BUS,
+   SPL_ALLOW,
+   SUBSCRIPTION,
+   TOTEARN,
+   UNREALIZE_DED,
+   VPF,
+   VPF_PERC
+)
+AS
+     SELECT   A.COMPANYCODE,
+              A.DIVISIONCODE,
+              A.WORKERSERIAL,
+              A.TOKENNO,
+              A.YEARMONTH,
+              A.ATTN_SALD,
+              A.ATTN_WRKD,
+              A.ATTN_WPAY,
+              A.ATTN_ADJD,
+              A.ATTN_TOTD,
+              ATTN_CALCF,
+              A.ATTN_LDAY,
+              A.ATTN_OFFD,
+              A.LDAY_PL,
+              A.LDAY_SL                    /*A.LDAY_PL, A.LDAY_CL, A.LDAY_SL*/
+                       ,
+              NVL (A.ACT_PF_GRS, 0) AS ACT_PF_GRS,
+              NVL (A.ADHOC, 0) AS ADHOC,
+              NVL (A.ATN_INCNT, 0) AS ATN_INCNT,
+              NVL (A.BASIC, 0) AS BASIC,
+              NVL (A.CAR, 0) AS CAR,
+              NVL (A.CHOWKIDARI, 0) AS CHOWKIDARI,
+              NVL (A.CLUB, 0) AS CLUB,
+              NVL (A.COMPSAVING, 0) AS COMPSAVING,
+              NVL (A.COMPS_ALLOW, 0) AS COMPS_ALLOW,
+              NVL (A.CONV_ALOW, 0) AS CONV_ALOW,
+              NVL (A.CONV_AMT, 0) AS CONV_AMT,
+              NVL (A.CONV_FLAG, 0) AS CONV_FLAG,
+              NVL (A.CONV_RT, 0) AS CONV_RT,
+              NVL (A.CUMM_DAYS, 0) AS CUMM_DAYS,
+              NVL (A.CUMM_PF_C, 0) AS CUMM_PF_C,
+              NVL (A.CUMM_PF_E, 0) AS CUMM_PF_E,
+              NVL (A.CUMM_VPF, 0) AS CUMM_VPF,
+              NVL (A.CUM_PFGROS, 0) AS CUM_PFGROS,
+              NVL (A.DA, 0) AS DA,
+              NVL (A.DAIRY, 0) AS DAIRY,
+              NVL (A.ELECTRIC, 0) AS ELECTRIC,
+              NVL (A.ESI_E, 0) AS ESI_E,
+              NVL (A.ESI_GROSS, 0) AS ESI_GROSS,
+              NVL (A.ESI_RATE, 0) AS ESI_RATE,
+              NVL (A.FURNITURE, 0) AS FURNITURE,
+              NVL (A.GAMES, 0) AS GAMES,
+              NVL (A.GROSSDEDN, 0) AS GROSSDEDN,
+              NVL (A.GROSSEARN, 0) AS GROSSEARN,
+              NVL (A.HRA, 0) AS HRA,
+              NVL (A.HRA_GROSS, 0) AS HRA_GROSS,
+              NVL (A.HRA_PERC, 0) AS HRA_PERC,
+              NVL (A.HR_DEDN, 0) AS HR_DEDN,
+              NVL (A.ITAX, 0) AS ITAX,
+              NVL (A.LADIESCLUB, 0) AS LADIESCLUB,
+              NVL (A.LEAVE_ENC, 0) AS LEAVE_ENC,
+              NVL (A.LIBL_BL, 0) AS LIBL_BL,
+              NVL (A.LIBL_HPF, 0) AS LIBL_HPF,
+              NVL (A.LIBL_PFL, 0) AS LIBL_PFL,
+              NVL (A.LIBL_SA, 0) AS LIBL_SA,
+              NVL (A.LIBL_STADV, 0) AS LIBL_STADV,
+              NVL (A.LIBRARY, 0) AS LIBRARY,
+              NVL (A.LIC, 0) AS LIC,
+              NVL (A.LINT_BL, 0) AS LINT_BL,
+              NVL (A.LINT_HPF, 0) AS LINT_HPF,
+              NVL (A.LINT_PFL, 0) AS LINT_PFL,
+              NVL (A.LINT_SA, 0) AS LINT_SA,
+              NVL (A.LINT_STADV, 0) AS LINT_STADV,
+              NVL (A.LNBL_BL, 0) AS LNBL_BL,
+              NVL (A.LNBL_HPF, 0) AS LNBL_HPF,
+              NVL (A.LNBL_PFL, 0) AS LNBL_PFL,
+              NVL (A.LNBL_SA, 0) AS LNBL_SA,
+              NVL (A.LNBL_STADV, 0) AS LNBL_STADV,
+              NVL (A.LOAN_BL, 0) AS LOAN_BL,
+              NVL (A.LOAN_HPF, 0) AS LOAN_HPF,
+              NVL (A.LOAN_PFL, 0) AS LOAN_PFL,
+              NVL (A.LOAN_SA, 0) AS LOAN_SA,
+              NVL (A.LOAN_STADV, 0) AS LOAN_STADV,
+              NVL (A.LOTTERY, 0) AS LOTTERY,
+              NVL (A.LWF, 0) AS LWF,
+              NVL (A.MED_ALLOW, 0) AS MED_ALLOW,
+              NVL (A.MED_FLAG, 0) AS MED_FLAG,
+              NVL (A.MED_MONTH, 0) AS MED_MONTH,
+              NVL (A.MIN_PAY, 0) AS MIN_PAY,
+              NVL (A.NETSALARY, 0) AS NETSALARY,
+              NVL (A.NPS_CONTR, 0) AS NPS_CONTR,
+              NVL (A.OEPF, 0) AS OEPF,
+              NVL (A.OE_NPF, 0) AS OE_NPF,
+              NVL (A.OTHR_DEDN, 0) AS OTHR_DEDN,
+              NVL (A.OT_AMT, 0) AS OT_AMT,
+              NVL (A.OT_HRS, 0) AS OT_HRS,
+              NVL (A.PEN_GROSS, 0) AS PEN_GROSS,
+              NVL (A.PER_ALLOW, 0) AS PER_ALLOW,
+              NVL (A.PF_E, 0) AS PF_E,
+              NVL (A.PF_GROSS, 0) AS PF_GROSS,
+              NVL (A.PTAX, 0) AS PTAX,
+              NVL (A.PTAX_GROSS, 0) AS PTAX_GROSS,
+              NVL (A.RECREATION, 0) AS RECREATION,
+              NVL (A.RT_BASIC, 0) AS RT_BASIC,
+              NVL (A.SAL_ADV, 0) AS SAL_ADV,
+              NVL (A.SCHOOL_BUS, 0) AS SCHOOL_BUS,
+              NVL (A.SPL_ALLOW, 0) AS SPL_ALLOW,
+              NVL (A.SUBSCRIPTION, 0) AS SUBSCRIPTION,
+              NVL (A.TOTEARN, 0) AS TOTEARN,
+              NVL (A.UNREALIZE_DED, 0) AS UNREALIZE_DED,
+              NVL (A.VPF, 0) AS VPF,
+              NVL (A.VPF_PERC, 0) AS VPF_PERC
+       FROM   PISPAYTRANSACTION_SWT A
+      WHERE       A.COMPANYCODE = 'BJ0056'
+              AND DIVISIONCODE = '0001'
+              AND A.YEARMONTH = '202009'
+              AND A.TRANSACTIONTYPE = 'SALARY'
+   ORDER BY   A.WORKERSERIAL;
+
+
+DROP VIEW PISMAST;
+
+/* Formatted on 09/03/2021 12:28:11 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISMAST
+(
+   COMPANYCODE,
+   DIVISIONCODE,
+   WORKERSERIAL,
+   UNITCODE,
+   TOKENNO,
+   CATEGORYCODE,
+   GRADECODE,
+   PFAPPLICABLE,
+   EPFAPPLICABLE,
+   PTAXAPPLICABLE,
+   QUARTERALLOTED,
+   EMPLOYEESTATUS,
+   DEPARTMENTCODE,
+   DESIGNATIONCODE,
+   PFNO,
+   PENSIONNO,
+   ESINO,
+   BANKACCNUMBER,
+   PAYMODE,
+   DATEOFBIRTH,
+   DATEOFJOIN,
+   PFENTITLEDATE,
+   STATUSDATE,
+   EXTENDEDRETIREDATE,
+   PTAXSTATE
+)
+AS
+     SELECT   A.COMPANYCODE,
+              A.DIVISIONCODE,
+              A.WORKERSERIAL,
+              A.UNITCODE,
+              A.TOKENNO,
+              A.CATEGORYCODE,
+              A.GRADECODE,
+              NVL (A.PFAPPLICABLE, 'N') PFAPPLICABLE,
+              NVL (A.EPFAPPLICABLE, 'N') EPFAPPLICABLE,
+              NVL (A.PTAXAPPLICABLE, 'N') PTAXAPPLICABLE,
+              NVL (A.QUARTERALLOTED, 'N') QUARTERALLOTED,
+              A.EMPLOYEESTATUS,
+              A.DEPARTMENTCODE,
+              A.DESIGNATIONCODE,
+              A.PFNO,
+              A.PENSIONNO,
+              A.ESINO,
+              A.BANKACCNUMBER,
+              NVL (A.PAYMODE, 'CASH') PAYMODE,
+              A.DATEOFBIRTH,
+              A.DATEOFJOIN,
+              A.PFENTITLEDATE,
+              A.STATUSDATE,
+              A.EXTENDEDRETIREDATE,
+              NVL (A.PTAXSTATE, 'WEST BENGAL') PTAXSTATE
+       FROM   PISEMPLOYEEMASTER A, PISMONTHATTENDANCE B
+      WHERE       A.COMPANYCODE = 'BJ0056'
+              AND A.DIVISIONCODE = '0001'
+              AND A.COMPANYCODE = B.COMPANYCODE
+              AND A.DIVISIONCODE = B.DIVISIONCODE
+              AND A.WORKERSERIAL = B.WORKERSERIAL
+              AND B.YEARMONTH = '202009'
+              AND B.TRANSACTIONTYPE = 'ATTENDANCE'
+   ORDER BY   B.TOKENNO;
+
+
+DROP VIEW PISPREV;
+
+/* Formatted on 09/03/2021 12:28:11 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISPREV
+(
+   WORKERSERIAL,
+   YEARMONTH,
+   MISC_CF
+)
+AS
+   SELECT   A.WORKERSERIAL, A.YEARMONTH, A.MISC_CF AS MISC_CF
+     FROM   PISPAYTRANSACTION A,
+            (  SELECT   WORKERSERIAL, MAX (YEARMONTH) YEARMONTH
+                 FROM   PISPAYTRANSACTION
+                WHERE   YEARMONTH < '202009'
+             GROUP BY   WORKERSERIAL) B
+    WHERE       A.WORKERSERIAL = B.WORKERSERIAL
+            AND A.YEARMONTH = B.YEARMONTH
+            AND TRANSACTIONTYPE = 'SALARY';
+
+
+DROP VIEW PISPRVRT;
+
+/* Formatted on 09/03/2021 12:28:11 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW PISPRVRT
+(
+   COMPANYCODE,
+   DIVISIONCODE,
+   WORKERSERIAL,
+   YEARMONTH,
+   ADHOC,
+   ATN_INCNT,
+   BASIC,
+   CHOWKIDARI,
+   CONV_AMT,
+   CONV_FLAG,
+   DA,
+   FURNITURE,
+   HRA_PERC,
+   HR_DEDN,
+   ITAX,
+   LADIESCLUB,
+   LIC,
+   MED_FLAG,
+   MIN_PAY,
+   NPS_CONTR,
+   PER_ALLOW,
+   SCHOOL_BUS,
+   SPL_ALLOW,
+   VPF_PERC
+)
+AS
+     SELECT   A.COMPANYCODE,
+              A.DIVISIONCODE,
+              A.WORKERSERIAL,
+              A.YEARMONTH,
+              NVL (A.ADHOC, 0) AS ADHOC,
+              NVL (A.ATN_INCNT, 0) AS ATN_INCNT,
+              NVL (A.BASIC, 0) AS BASIC,
+              NVL (A.CHOWKIDARI, 0) AS CHOWKIDARI,
+              NVL (A.CONV_AMT, 0) AS CONV_AMT,
+              NVL (A.CONV_FLAG, 0) AS CONV_FLAG,
+              NVL (A.DA, 0) AS DA,
+              NVL (A.FURNITURE, 0) AS FURNITURE,
+              NVL (A.HRA_PERC, 0) AS HRA_PERC,
+              NVL (A.HR_DEDN, 0) AS HR_DEDN,
+              NVL (A.ITAX, 0) AS ITAX,
+              NVL (A.LADIESCLUB, 0) AS LADIESCLUB,
+              NVL (A.LIC, 0) AS LIC,
+              NVL (A.MED_FLAG, 0) AS MED_FLAG,
+              NVL (A.MIN_PAY, 0) AS MIN_PAY,
+              NVL (A.NPS_CONTR, 0) AS NPS_CONTR,
+              NVL (A.PER_ALLOW, 0) AS PER_ALLOW,
+              NVL (A.SCHOOL_BUS, 0) AS SCHOOL_BUS,
+              NVL (A.SPL_ALLOW, 0) AS SPL_ALLOW,
+              NVL (A.VPF_PERC, 0) AS VPF_PERC
+       FROM   PISCOMPONENTASSIGNMENT A,
+              (  SELECT   WORKERSERIAL, MAX (YEARMONTH) YEARMONTH
+                   FROM   PISCOMPONENTASSIGNMENT
+                  WHERE       COMPANYCODE = 'BJ0056'
+                          AND DIVISIONCODE = '0001'
+                          AND YEARMONTH < '202009'
+                          AND TRANSACTIONTYPE = 'ASSIGNMENT'
+               GROUP BY   WORKERSERIAL) B
+      WHERE       A.COMPANYCODE = 'BJ0056'
+              AND A.DIVISIONCODE = '0001'
+              AND A.TRANSACTIONTYPE = 'ASSIGNMENT'
+              AND A.WORKERSERIAL = B.WORKERSERIAL
+              AND A.YEARMONTH = B.YEARMONTH
+   ORDER BY   A.YEARMONTH;
+
+
+DROP VIEW VW_PIS_CATEGORY_COMP_NA;
+
+/* Formatted on 09/03/2021 12:28:11 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW VW_PIS_CATEGORY_COMP_NA
+(
+   UNITCODE,
+   GRADECODE,
+   CATEGORYCODE,
+   COMPONENTCODE
+)
+AS
+   (SELECT   NVL (UNITCODE, '01') UNITCODE,
+             GRADECODE,
+             CATEGORYCODE,
+             COMPONENTCODE
+      FROM   PISGRADECOMPONENTMAPPING
+     WHERE       COMPANYCODE = 'BJ0056'
+             AND DIVISIONCODE = '0001'
+             AND APPLICABLE = 'NO'
+             AND YEARMONTH =
+                   (SELECT   MAX (YEARMONTH)
+                      FROM   PISGRADECOMPONENTMAPPING
+                     WHERE       COMPANYCODE = 'BJ0056'
+                             AND DIVISIONCODE = '0001'
+                             AND YEARMONTH <= '202009'));
+
+
+DROP VIEW VW_WPSPISMASTER;
+
+/* Formatted on 09/03/2021 12:28:11 PM (QP5 v5.115.810.9015) */
+CREATE OR REPLACE FORCE VIEW VW_WPSPISMASTER
+(
+   WORKERTYPE,
+   COMPANYCODE,
+   DIVISIONCODE,
+   WORKERSERIAL,
+   WORKERCODE,
+   WORKERNAME,
+   FATHERNAME,
+   DEPARTMENTCODE,
+   DEPARTMENTNAME,
+   CATEGORYCODE,
+   CATEGORYNAME,
+   GRADECODE,
+   GRADEDESC,
+   DATEOFBIRTH,
+   DATEOFJOINING,
+   ESIJOININGDATE,
+   PFJOINIGDATE,
+   ESINO,
+   PFNO,
+   PENSIONNO,
+   DATEOFRETIREMENT,
+   EMPLOYEEMARRIED,
+   SEX,
+   SPOUSENAME,
+   EMPLOYEESTATUS,
+   STATUSDATE,
+   FORM3CEASEDATE,
+   PFSETTELMENTDATE,
+   ADDRESS,
+   INACTIVE,
+   FORM3RECEIPTDATE,
+   PFCATEGORY,
+   ADHARCARDNO,
+   UANNO,
+   BANKACNO,
+   BANKCODE,
+   BANKACCHOLDINGNAME
+)
+AS
+   SELECT   'PIS' WORKERTYPE,
+            A.COMPANYCODE,
+            A.DIVISIONCODE,
+            A.WORKERSERIAL,
+            A.TOKENNO AS WORKERCODE,
+            A.EMPLOYEENAME AS WORKERNAME,
+            A.FATHERNAME FATHERNAME,
+            A.DEPARTMENTCODE,
+            D.DEPARTMENTDESC,
+            A.CATEGORYCODE AS CATEGORYCODE,
+            B.CATEGORYDESC AS CATEGORYNAME,
+            A.GRADECODE,
+            C.GRADEDESC AS GRADEDESC,
+            A.DATEOFBIRTH DATEOFBIRTH,
+            A.DATEOFJOIN AS DATEOFJOINING,
+            NULL AS ESIJOININGDATE,
+            A.PFENTITLEDATE AS PFJOINIGDATE,
+            A.ESINO,
+            A.PFNO,
+            TO_CHAR (A.PENSIONNO) PENSIONNO,
+            CASE
+               WHEN A.EXTENDEDRETIREDATE IS NULL THEN A.DATEOFRETIRE
+               ELSE A.EXTENDEDRETIREDATE
+            END
+               DATEOFRETIREMENT,
+            A.MARITIALSTATUS AS MARRIED,
+            A.SEX,
+            A.SPOUSENAME SPOUSENAME,
+            A.EMPLOYEESTATUS,
+            A.STATUSDATE,
+            A.STATUSDATE FORM3CEASEDATE,
+            PFSETTELMENTDATE,
+            A.ADDRESS_PERMANENT ADDRESS,
+            CASE
+               WHEN A.PFSETTELMENTDATE IS NULL
+                    AND A.EMPLOYEESTATUS <> 'ACTIVE'
+               THEN
+                  'Y'
+               ELSE
+                  'N'
+            END
+               INACTIVE,
+            STATUSDATE AS FORM3RECEIPTDATE,
+            'N' AS PFCATEGORY,
+            A.AADHARNO,
+            A.UANNO,
+            A.BANKACCNUMBER BANKACNO,
+            A.BANKCODE,
+            A.BANKACCHOLDINGNAME
+     FROM   PISEMPLOYEEMASTER A,
+            PISCATEGORYMASTER B,
+            PISGRADEMASTER C,
+            PISDEPARTMENTMASTER D
+    WHERE       A.DIVISIONCODE = B.DIVISIONCODE
+            AND A.CATEGORYCODE = B.CATEGORYCODE
+            AND A.DIVISIONCODE = C.DIVISIONCODE
+            AND A.CATEGORYCODE = C.CATEGORYCODE
+            AND A.GRADECODE = C.GRADECODE
+            AND A.DIVISIONCODE = D.DIVISIONCODE
+            AND A.DEPARTMENTCODE = D.DEPARTMENTCODE;
+
+

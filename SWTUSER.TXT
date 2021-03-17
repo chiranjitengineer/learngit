@@ -79,9 +79,25 @@ PASSWORD 		: 		TWS
 SERVICE NAME 	: 		ORA11G2SE
 ---------------------------------------------------------------------
 USER 			: 		INFRA_WEB/INFRA_WEB873   
-IP   			:		122.163.121.140:8045
+IP   			:		103.133.214.73:8045
 PASSWORD 		: 		TWS
 SERVICE NAME 	: 		ORA11G2SE
+---------------------------------------------------------------------
+USER 			: 		GANGES/INFRA_WEB873   
+IP   			:		223.30.168.163:8000
+PASSWORD 		: 		TWS
+SERVICE NAME 	: 		ORA11G2SE
+---------------------------------------------------------------------
+USER 			: 		INFRA_WEB/INFRA_WEB873  
+IP   			:		103.133.214.73:9082
+PASSWORD 		: 		999
+SERVICE NAME 	: 		HOOGHLYDB
+---------------------------------------------------------------------
+USER 			: 		LUDLOW/TRACERT  
+DB IP  			:		1.6.37.242
+ERP IP   		:		1.6.37.187:8081/
+PASSWORD 		: 		123000
+SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
 
 user/pass -> BAGGAGE_WEB/
@@ -105,20 +121,6 @@ RDC password  PWD- Bjm@123#
 Gloster ANYDESK- 301042907 - PWD- Gloster@123
 
 Gloster ANYDESK- backupserver-586@ad - PWD- Gloster@123
-
- 
-<<<<<<< HEAD
-=======
-
->>>>>>> 8f31d20b22b3664d3ae98cd4f6f8f453d5ebf1d0
-
-<<<<<<< HEAD
-
-BOWREAH_WPS 
-
-
-
-BOWREAH_WPS
 
 
 

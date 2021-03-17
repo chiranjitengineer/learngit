@@ -1,0 +1,227 @@
+
+        //-------
+        function AfterChange(changes, data) {
+            if (!changes) {
+                return;
+            }
+            $.each(changes, function (index, element) {
+                var change = element;
+                var rowIndex = change[0];
+                var columnIndex = change[1];
+                var gridrowcolumns = $('#gridVoucherDetails').handsontable('getInstance');
+
+                if (columnIndex == "LOCATIONNAME") {
+                    //document.getElementById('<%=txtVoucherRowIndex.ClientID%>').value = rowIndex + ',' + columnIndex;
+                    var varLocationName = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("LOCATIONNAME"));
+                    $.ajax({
+                        url: 'AcVoucher_LiabilityAgainstBill_TabGSTDetails.aspx/getLocationCode',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        async: false,
+                        data: JSON.stringify({ strLocationName: varLocationName }),
+                        type: 'POST',
+                        success: function (response) {
+                            var str1 = (response.d);
+                            var strDataArr = new Array();
+                            if (str1 != '') {
+                                strDataArr = str1.split("~");
+                            }
+                            $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("LOCATIONCODE"), strDataArr[0]); // LOCATIONCODE
+
+                            if (strDataArr[2] != "") {
+                                document.getElementById('<%=txtReceipientGstn.ClientID%>').value = strDataArr[2];
+                        }
+
+
+                        }
+                    }); // End Ajax 
+                var varAUTOGSTROW = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("AUTOGSTROW"));
+                if (varAUTOGSTROW == "N") {
+                    gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("PARTICULARS"));  //PARTICULARS      
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS"), ''); // PARTICULARS
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("ACCODE"), ''); // ACCODE  
+                }
+
+            }//   End LOCATIONNAME
+
+
+                if (columnIndex == "PARTICULARS") {
+                    //hideVoucherGridColumn();
+                    //document.getElementById('<%=txtVoucherRowIndex.ClientID%>').value = rowIndex + ',' + columnIndex;
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("SERIALNO"), (rowIndex + 10));
+                    var isTDSApplicable = document.getElementById('<%=txtISTDSAPPLICABLE.ClientID%>').value;
+                     var varLocationCode = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("LOCATIONCODE"));
+                     var varAcHead = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS"));
+                     var varAUTOGSTROW = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("AUTOGSTROW"));
+
+
+
+
+
+                     if (varAcHead.length > 0) {
+                         //console.log(varAcHead);
+                         //console.log(varLocationCode);
+                         $.ajax({
+                             url: 'AcVoucher_LiabilityAgainstBill_TabGSTDetails.aspx/VoucherGridDataFetch',
+                             contentType: "application/json; charset=utf-8",
+                             dataType: 'json',
+                             data: JSON.stringify({ strAcHead: varAcHead, strLocationCode: varLocationCode }),
+                             //data: {},
+                             //dataType: 'json',
+                             type: 'POST',
+                             success: function (response) {
+                                 var str1 = (response.d);
+                                 var strDataArr = new Array();
+                                 if (str1 != '') {
+                                     strDataArr = str1.split("~");
+                                 }
+                                 //ACCODE||'~'||GROUPTYPE||'~'||NVL(COSTCENTREALLOWED,'N')||'~'||NVL(ISTDSAPPLICABLE,'N')||'~'||NVL(TDSNATURE,'')||'~'||NVL(GST_I_O_TYPE,'N')||'~'||NVL(GSTNATURE,'N/A')                               
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("ACCODE"), strDataArr[0]); // ACCODE
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("ACGROUPTYPE"), strDataArr[1]); // GROUPTYPE
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("COSTCENTREALLOWED"), strDataArr[2]); // COSTCENTREALLOWED
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSAPPLICABLE"), strDataArr[3]); // TDSAPPLICABLE       
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSNATURE"), strDataArr[4]); // TDSNATURE
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("GST_I_O_TYPE"), strDataArr[5]); // GST_I_O_TYPE
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("GSTNATURE"), strDataArr[6]); // GSTNATURE
+
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("CASHFLOWCODE"), strDataArr[7]);
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("CASHFLOWDESC"), strDataArr[8]);
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("ACTYPE"), strDataArr[9]);
+
+
+                                 if (varAUTOGSTROW == "N") {
+                                     $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTDR"), '0');
+                                     $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTCR"), '0');
+                                 }
+
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSON"), '0');
+                                 $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("COSTCENTREGRIDDATA"), '');
+
+                                 if (strDataArr[1] != "GST") {
+                                     $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("GSTGRIDDATA"), '');
+                                 }
+
+                                 if (strDataArr[1] != "SERVICE TAX") {
+                                     $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("SERVICETAXGRIDDATA"), '');
+                                 }
+
+                                 var strBillFound = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("BILL_FOUND")); // BILL_FOUND
+                                 var strTdsFound = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("TDS_FOUND")); // TDS_FOUND
+                                 var strCostcntFound = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("COSTCENTRE_FOUND")); // COSTCENTRE_FOUND
+
+                                 if (isTDSApplicable == "Y") {
+                                     $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("TDSON")).readOnly = false;
+                                     // $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("TDSON")).renderer = editablecolor                               
+                                 }
+                                 else {
+                                     $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("TDSON")).readOnly = true;
+                                     // $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("TDSON")).renderer = noneditablecolor
+                                 }
+
+                                 if (strDataArr[1] == "SERVICE TAX") {
+                                     $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("AMOUNTDR")).readOnly = true;
+                                     $('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("AMOUNTCR")).readOnly = true;
+                                     fn_CheckServiceTax(rowIndex);
+                                 }
+
+                                 if (strDataArr[1] == "GST" && varAUTOGSTROW != "Y") {
+                                     //$('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("AMOUNTDR")).readOnly = true;
+                                     //$('#gridVoucherDetails').handsontable('getCellMeta', rowIndex, returnColIndexVoucher("AMOUNTCR")).readOnly = true;
+                                     fn_CheckGST(rowIndex);
+                                 }
+
+                             }
+                         }); // End Ajax    
+                     }
+
+                     $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("COMPANYCODE"), document.getElementById('<%=txtCOMPCODE.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("DIVISIONCODE"), document.getElementById('<%=txtDIVCODE.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("YEARCODE"), document.getElementById('<%=txtYEARCODE1.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("OPERATIONMODE"), document.getElementById('<%=txtOPTMODE.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("USERNAME"), document.getElementById('<%=txtUSRNAME.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("SYSTEMVOUCHERNO"), document.getElementById('<%=txtSYSTEMVOUCHERNO.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("SYSTEMVOUCHERDATE"), document.getElementById('<%=txtSYSTEMVOUCHERDATE.ClientID%>').value);
+                    $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TRANSACTIONTYPE"), document.getElementById('<%=txtPAYMENTTYPE.ClientID%>').value);
+
+                    var strParticulars = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS")); // PARTICULARS
+                    if (strParticulars.length > 0) {
+                        gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("AMOUNTDR"));  //AMOUNTDR  
+                    }
+                    //else {
+                    //    gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("PARTICULARS"));  //PARTICULARS  
+                    //}
+
+                }//   End Particulars
+
+
+                if (columnIndex == "AMOUNTDR") {
+                    var varAcHead = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS"));
+                    var varamountDR = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTDR"));
+                    if (Number(varamountDR) < 0) {
+                        alert('Amount should be greater than 0');
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTDR"), '0.00');
+                        gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("AMOUNTDR"));
+                    }
+                    if (Number(varamountDR) >= 0) {
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNT"), varamountDR);
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("DRCR"), "D");
+                        document.getElementById('<%=txtVoucherRowIndex.ClientID%>').value = rowIndex + ',' + columnIndex;
+                        totalVoucherAmountDR();
+                        fn_CheckCostCentre(rowIndex, varamountDR);
+                    }
+
+                }//   End amountDR
+
+                if (columnIndex == "AMOUNTCR") {
+                    var varAcHead = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS"));
+                    var varamountCR = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTCR"));
+                    if (Number(varamountCR) < 0) {
+                        alert('Amount should be greater than 0');
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNTCR"), '0.00');
+                        gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("AMOUNTCR"));
+                    } if (Number(varamountCR) >= 0) {
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("AMOUNT"), varamountCR);
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("DRCR"), "C");
+                        document.getElementById('<%=txtVoucherRowIndex.ClientID%>').value = rowIndex + ',' + columnIndex;
+                        totalVoucherAmountCR();
+                        fn_CheckCostCentre(rowIndex, varamountCR);
+                    }
+
+                }//   End amountCR
+
+                if (columnIndex == "TDSON") {
+                    // hideVoucherGridColumn();
+                    document.getElementById('<%=txtVoucherRowIndex.ClientID%>').value = rowIndex + ',' + columnIndex;
+                    var isTDSApplicable = document.getElementById('<%=txtISTDSAPPLICABLE.ClientID%>').value;
+                    var varTDSON = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("TDSON"));
+                    var varAmount = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("AMOUNT"));
+                    var varAcHead = $("#gridVoucherDetails").handsontable('getDataAtCell', rowIndex, returnColIndexVoucher("PARTICULARS"));
+
+                    if (Number(varTDSON) < 0) {
+                        alert('Amount should be greater than 0');
+                        $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSON"), '0.00');
+                        gridrowcolumns.selectCell(rowIndex, returnColIndexVoucher("TDSON"));
+                    }
+                    else if (varTDSON > 0) {
+                        if (varTDSON > varAmount) {
+                            alert('TDS Amount can not be greater than ' + varAmount);
+                            $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSON"), varAmount);
+                        }
+                        else if (isTDSApplicable == "Y") {
+                            gridrowcolumns.selectCell(rowIndex + 1, returnColIndexVoucher("PARTICULARS"));  //PARTICULARS  
+                        }
+                        else {
+                            $("#gridVoucherDetails").handsontable('setDataAtCell', rowIndex, returnColIndexVoucher("TDSON"), '0.00');
+                            alert('TDS Not Applicable');
+                        }
+                    }
+                    totalTDSON();
+
+                }//   End amount TDSON
+
+            });
+            document.getElementById('<%=txtACLIABILITYDETAILS.ClientID%>').value = '';
+            fn_GetGridData("gridVoucherDetails");
+        }
+		
+		

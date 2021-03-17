@@ -1,0 +1,168 @@
+CREATE OR REPLACE PROCEDURE BIRLANEW.PRC_PIS_LEAVEBALANCE 
+(
+    P_COMPCODE Varchar2, 
+    P_DIVCODE Varchar2,
+    P_YEARCODE varchar2,
+    P_YEARMONTH Varchar2,
+    P_WORKERSERIAL VARCHAR2 DEFAULT NULL
+)
+as
+lv_fn_stdt DATE := TO_DATE('01/'||SUBSTR(P_YEARMONTH,5,2)||'/'||SUBSTR(P_YEARMONTH,1,4),'DD/MM/YYYY');
+lv_fn_endt DATE := LAST_DAY(TO_DATE('01/'||SUBSTR(P_YEARMONTH,5,2)||'/'||SUBSTR(P_YEARMONTH,1,4),'DD/MM/YYYY'));
+lv_CalendarYear     VARCHAR2(4) := SUBSTR(P_YEARMONTH,1,4);
+lv_Remarks          varchar2(1000) := '';
+lv_SqlStr           varchar2(4000);
+lv_parvalues        varchar2(500);
+lv_sqlerrm          varchar2(500) := '';   
+lv_ProcName         varchar2(30)   := 'PRC_PIS_LEAVEBALANCE';
+lv_EARNFLAG VARCHAR2(10);
+lv_cnt NUMBER;
+begin
+
+ 
+    lv_EARNFLAG := 'N';
+
+    --ADDED ON 13/02/2021 --FOR LEAVE EARNING
+    SELECT COUNT(PARAMETER_VALUE) INTO lv_cnt FROM SYS_PARAMETER
+    WHERE PARAMETER_NAME='LEAVE BALANCE MAINTAIN PROPORTIONATE';
+
+    IF lv_cnt > 0 THEN
+
+        SELECT PARAMETER_VALUE INTO lv_EARNFLAG FROM SYS_PARAMETER
+        WHERE PARAMETER_NAME='LEAVE BALANCE MAINTAIN PROPORTIONATE';
+
+    END IF;
+
+    --ADDED ON 13/02/2021 --FOR LEAVE EARNING
+
+    DELETE FROM GBL_PISLEAVEBALANCE;
+--    COMMIT;
+ --- BELOW CRITERIA FOR LEAVE MAINTAING FINANCIAL YEAR WISE IN CATEGORY MASTER WHICH MAINTAINC IN  THE COLUMN -LEAVECALENDARORFINANCIALYRWISE IS 'F'  
+    lv_SqlStr := 'INSERT INTO GBL_PISLEAVEBALANCE (COMPANYCODE, DIVISIONCODE, YEARMONTH, WORKERSERIAL, TOKENNO, LEAVECODE, LV_BAL, LV_TAKEN) '||CHR(10)
+            ||' SELECT B.COMPANYCODE, B.DIVISIONCODE, '''||P_YEARMONTH||''' YEARMONTH,A.WORKERSERIAL, B.TOKENNO, A.LEAVECODE,  SUM(NOOFDAYS) LV_BAL, SUM(LV_TAKEN) LV_TAKEN '||chr(10)
+            ||' FROM ( '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, NOOFDAYS, 0 LV_TAKEN '||chr(10)  -- THIS QUERY FOR OPENING DATA 
+            ||'         FROM  PISLEAVETRANSACTION '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'           AND YEARCODE = '''||P_YEARCODE||'''  '||chr(10)
+            ||'           AND TRANSACTIONTYPE = ''BF''  '||chr(10)
+            ||'         UNION ALL  '||chr(10);
+            
+       
+IF lv_EARNFLAG = 'Y' THEN
+ lv_SqlStr := lv_SqlStr
+            ||'         SELECT WORKERSERIAL, LEAVECODE, SUM(NOOFDAYS) NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR ENDTILEMENT DATA 
+            ||'         FROM  PISLEAVETRANSACTION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND YEARCODE = '''||P_YEARCODE||'''  '||chr(10) 
+            ||'         AND TRANSACTIONTYPE=''ENT'''||CHR(10)
+            ||'         GROUP BY WORKERSERIAL,LEAVECODE  '||chr(10);
+ELSE   
+    lv_SqlStr := lv_SqlStr
+            ||'         SELECT WORKERSERIAL, LEAVECODE, ENTITLEMENTS NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR ENDTILEMENT DATA 
+            ||'         FROM  PISLEAVEENTITLEMENT  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND YEARCODE = '''||P_YEARCODE||'''  '||chr(10);
+END IF;
+    lv_SqlStr := lv_SqlStr
+            ||'         UNION ALL  '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, -1* SUM(LEAVEDAYS) NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR LEAVE TAKEN DATA
+            ||'         FROM PISLEAVEAPPLICATION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND LEAVEDATE <= '''||lv_fn_endt||'''  '||chr(10)
+            ||'         AND LEAVESANCTIONEDON IS NOT NULL  '||chr(10)
+            ||'         AND YEARCODE = '''||P_YEARCODE||'''  '||chr(10)
+            ||'         GROUP BY WORKERSERIAL, LEAVECODE  '||chr(10)  
+            ||'         UNION ALL  '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, 0 NOOFDAYS, SUM(LEAVEDAYS) LV_TAKEN  '||chr(10)  -- THIS QUERY FOR TAKEN CURRENT MONTH DATA
+            ||'         FROM PISLEAVEAPPLICATION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND LEAVEDATE >= '''||lv_fn_stdt||''' '||chr(10)
+            ||'         AND LEAVEDATE <= '''||lv_fn_endt||''' '||chr(10)
+            ||'         AND LEAVESANCTIONEDON IS NOT NULL  '||chr(10)
+            ||'         AND YEARCODE = '''||P_YEARCODE||'''  '||chr(10)
+            ||'         GROUP BY WORKERSERIAL, LEAVECODE  '||chr(10)
+            ||' ) A, PISEMPLOYEEMASTER B, PISCATEGORYMASTER C, PISLEAVEMASTER L  '||chr(10)
+            ||' WHERE B.COMPANYCODE =  '''||P_COMPCODE||''' AND B.DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'   AND A.WORKERSERIAL = B.WORKERSERIAL  '||chr(10)
+            ||'   AND B.COMPANYCODE = C.COMPANYCODE AND B.DIVISIONCODE = C.DIVISIONCODE  '||chr(10)
+            ||'   AND B.CATEGORYCODE = C.CATEGORYCODE  '||chr(10)
+            ||'   AND NVL(C.LEAVECALENDARORFINYRWISE,''F'') = ''F''  '||chr(10)
+            ||'   AND L.COMPANYCODE =  '''||P_COMPCODE||''' AND L.DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'   AND A.LEAVECODE = L.LEAVECODE '||CHR(10)
+            ||'   /*AND NVL(WITHOUTPAYLEAVE,''N'') <> ''Y'' */'||CHR(10)  
+            ||'   GROUP BY B.COMPANYCODE, B.DIVISIONCODE, A.WORKERSERIAL, B.TOKENNO, A.LEAVECODE  '||chr(10);
+    insert into PIS_error_log(COMPANYCODE, DIVISIONCODE, PROC_NAME,ORA_ERROR_MESSG,ERROR_QUERY,PAR_VALUES,FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, REMARKS ) 
+    values( P_COMPCODE, P_DIVCODE, lv_ProcName,lv_sqlerrm,lv_SqlStr,lv_parvalues,lv_fn_stdt,lv_fn_endt, lv_remarks);
+    execute immediate lv_SqlStr;
+    dbms_output.put_line (lv_SqlStr);            
+    COMMIT;        
+ --- BELOW CRITERIA FOR LEAVE MAINTAING CALENDATE YEAR WISE IN CATEGORY MASTER WHICH MAINTAINC IN  THE COLUMN -LEAVECALENDARORFINANCIALYRWISE IS 'C'  
+    lv_SqlStr := 'INSERT INTO GBL_PISLEAVEBALANCE (COMPANYCODE, DIVISIONCODE, YEARMONTH, WORKERSERIAL, TOKENNO, LEAVECODE, LV_BAL, LV_TAKEN) '||CHR(10)
+            ||' SELECT B.COMPANYCODE, B.DIVISIONCODE, '''||P_YEARMONTH||''' YEARMONTH, A.WORKERSERIAL, B.TOKENNO, A.LEAVECODE,  SUM(NOOFDAYS) LV_BAL, SUM(LV_TAKEN) LV_TAKEN '||chr(10)
+            ||' FROM ( '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, NOOFDAYS, 0 LV_TAKEN '||chr(10)  -- THIS QUERY FOR OPENING DATA 
+            ||'         FROM  PISLEAVETRANSACTION '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'           AND CALENDARYEAR = '''||lv_CalendarYear||'''  '||chr(10)
+            ||'           AND TRANSACTIONTYPE = ''BF''  '||chr(10)
+            ||'         UNION ALL  '||chr(10);
+        
+IF lv_EARNFLAG = 'Y' THEN
+  lv_SqlStr := lv_SqlStr          
+            ||'         SELECT WORKERSERIAL, LEAVECODE, SUM(NOOFDAYS)  NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR LEAVE EARN DATA 
+            ||'         FROM  PISLEAVETRANSACTION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND CALENDARYEAR = '''||lv_CalendarYear||'''  '||chr(10)
+            ||'         AND TRANSACTIONTYPE=''ENT'''||CHR(10)
+            ||'         GROUP BY WORKERSERIAL,LEAVECODE  '||chr(10);
+ELSE
+           
+  lv_SqlStr := lv_SqlStr          
+            ||'         SELECT WORKERSERIAL, LEAVECODE, ENTITLEMENTS NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR ENDTILEMENT DATA 
+            ||'         FROM  PISLEAVEENTITLEMENT  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND CALENDARYEAR = '''||lv_CalendarYear||'''  '||chr(10);
+END IF;            
+            
+  lv_SqlStr := lv_SqlStr          
+            ||'         UNION ALL  '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, -1* SUM(LEAVEDAYS) NOOFDAYS, 0 LV_TAKEN  '||chr(10) -- THIS QUERY FOR LEAVE TAKEN DATA
+            ||'         FROM PISLEAVEAPPLICATION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND LEAVEDATE <= '''||lv_fn_endt||''' '||chr(10)
+            ||'         AND LEAVESANCTIONEDON IS NOT NULL  '||chr(10)
+            ||'         AND CALENDARYEAR = '''||lv_CalendarYear||'''  '||chr(10)
+            ||'         GROUP BY WORKERSERIAL, LEAVECODE  '||chr(10)  
+            ||'         UNION ALL  '||chr(10)
+            ||'         SELECT WORKERSERIAL, LEAVECODE, 0 NOOFDAYS, SUM(LEAVEDAYS) LV_TAKEN  '||chr(10)  -- THIS QUERY FOR TAKEN CURRENT MONTH DATA
+            ||'         FROM PISLEAVEAPPLICATION  '||chr(10)
+            ||'         WHERE COMPANYCODE = '''||P_COMPCODE||''' AND DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'         AND LEAVEDATE >= '''||lv_fn_stdt||''' '||chr(10)
+            ||'         AND LEAVEDATE <= '''||lv_fn_endt||''' '||chr(10)
+            ||'         AND LEAVESANCTIONEDON IS NOT NULL  '||chr(10)
+            ||'         AND CALENDARYEAR = '''||lv_CalendarYear||'''  '||chr(10)
+            ||'         GROUP BY WORKERSERIAL, LEAVECODE  '||chr(10)
+            ||' ) A, PISEMPLOYEEMASTER B, PISCATEGORYMASTER C, PISLEAVEMASTER L  '||chr(10)
+            ||' WHERE B.COMPANYCODE =  '''||P_COMPCODE||''' AND B.DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'   AND A.WORKERSERIAL = B.WORKERSERIAL  '||chr(10)
+            ||'   AND B.COMPANYCODE = C.COMPANYCODE AND B.DIVISIONCODE = C.DIVISIONCODE  '||chr(10)
+            ||'   AND B.CATEGORYCODE = C.CATEGORYCODE  '||chr(10)
+            ||'   AND NVL(C.LEAVECALENDARORFINYRWISE,''F'') = ''C''  '||chr(10)
+            ||'   AND L.COMPANYCODE =  '''||P_COMPCODE||''' AND L.DIVISIONCODE = '''||P_DIVCODE||'''  '||chr(10)
+            ||'   AND A.LEAVECODE = L.LEAVECODE '||CHR(10)
+            ||'   AND NVL(WITHOUTPAYLEAVE,''N'') <> ''Y'' '||CHR(10)  
+            ||'   GROUP BY B.COMPANYCODE, B.DIVISIONCODE, A.WORKERSERIAL, B.TOKENNO, A.LEAVECODE  '||chr(10);
+    insert into PIS_ERROR_LOG(COMPANYCODE, DIVISIONCODE, PROC_NAME,ORA_ERROR_MESSG,ERROR_QUERY,PAR_VALUES,FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, REMARKS ) 
+    values( P_COMPCODE, P_DIVCODE, lv_ProcName,lv_sqlerrm,lv_SqlStr,lv_parvalues,lv_fn_stdt,lv_fn_endt, lv_remarks);
+    execute immediate lv_SqlStr;
+--    dbms_output.put_line (lv_SqlStr);
+    COMMIT;
+exception    
+when others then
+ --insert into error_log(PROC_NAME,ORA_ERROR_MESSG,ERROR_QUERY,PAR_VALUES,REMARKS ) values( 'ERROR SQL',lv_sqlstr,lv_sqlstr,lv_parvalues,lv_remarks);
+ lv_sqlerrm := sqlerrm ;
+ --dbms_output.put_line(lv_sqlerrm);
+ insert into PIS_ERROR_LOG(PROC_NAME,ORA_ERROR_MESSG,ERROR_QUERY,PAR_VALUES,FORTNIGHTSTARTDATE, FORTNIGHTENDDATE, REMARKS ) values( lv_ProcName,lv_sqlerrm,lv_SqlStr,lv_parvalues,lv_fn_stdt,lv_fn_endt, lv_remarks);        
+end;
+/

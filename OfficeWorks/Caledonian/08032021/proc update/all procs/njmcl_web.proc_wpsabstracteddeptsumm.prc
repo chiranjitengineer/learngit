@@ -1,0 +1,49 @@
+DROP PROCEDURE NJMCL_WEB.PROC_WPSABSTRACTEDDEPTSUMM;
+
+CREATE OR REPLACE PROCEDURE NJMCL_WEB."PROC_WPSABSTRACTEDDEPTSUMM" 
+(
+    P_COMPANYCODE VARCHAR2,
+    P_DIVISIONCODE VARCHAR2,
+    P_FROMDATE VARCHAR2,
+    P_TODATE VARCHAR2,
+    P_DEPTCODE VARCHAR2
+)
+AS 
+    LV_SQLSTR           VARCHAR2(30000);
+BEGIN
+    DELETE FROM GTT_ABSTRACTEDDEPTSUMM;
+    LV_SQLSTR :=    ' INSERT INTO GTT_ABSTRACTEDDEPTSUMM '|| CHR(10) 
+                  ||'    SELECT A.DEPARTMENTCODE,B.HANDS,'||CHR(10)
+                  ||'       SUM(NVL(GROSS_WAGES,0)) GROSS_WAGES, SUM(NVL(PF_CONT,0)) PF_CONT,SUM(NVL(FPF,0)) FPF,SUM(NVL(PF_COM,0)) PF_COM,'||CHR(10)
+                  ||'       SUM(NVL(ESI_CONT,0)) ESI_CONT,SUM(NVL(P_TAX,0)) P_TAX,SUM(NVL(WF_DEDN,0)) WF_DEDN,NULL ADV,NULL LTP_ADV,'||CHR(10)
+                  ||'       SUM(NVL(SHIBCO_DEDN,0)) SHIBCO_DEDN,SUM(NVL(LOAN_PFLN,0)) LOAN_PFLN,SUM(NVL(LINT_PFLN,0)) LINT_PFLN,'||CHR(10)
+                  ||'       SUM(NVL(ACTUALPAYBLEAMOUNT,0)) ACTUALPAYBLEAMOUNT,C.COMPANYNAME,'||CHR(10)
+                  ||'       ''Run Date '' ||TO_CHAR(SYSDATE,''DD/MM/RRRR'') AS RUNDATE,'||CHR(10)
+                  ||'       ''FOR THE PERIOD FROM '' ||'''||P_FROMDATE||'''||'' TO ''||'''||P_TODATE||'''  FROMTODATE'||CHR(10)
+                  ||'  FROM WPSWAGESDETAILS_MV A,'||CHR(10)
+                  ||'       (SELECT DEPARTMENTCODE,COUNT(WORKERSERIAL) HANDS FROM WPSWAGESDETAILS_MV'||CHR(10)
+                  ||'        WHERE COMPANYCODE='''||P_COMPANYCODE||'''   '||CHR(10) 
+                  ||'          AND DIVISIONCODE='''||P_DIVISIONCODE||'''   '||CHR(10)       
+                  ||'          AND FORTNIGHTSTARTDATE=TO_DATE('''||P_FROMDATE||''',''DD/MM/YYYY'')'||CHR(10)
+                  ||'          AND FORTNIGHTENDDATE=TO_DATE('''||P_TODATE||''',''DD/MM/YYYY'')'||CHR(10)
+                  ||'        GROUP BY DEPARTMENTCODE '||CHR(10)
+                  ||'        ) B,COMPANYMAST C'||CHR(10)
+                  ||'WHERE A.COMPANYCODE='''||P_COMPANYCODE||'''   '||CHR(10) 
+                  ||'  AND A.DIVISIONCODE='''||P_DIVISIONCODE||'''   '||CHR(10)
+                  ||'  AND A.FORTNIGHTSTARTDATE=TO_DATE('''||P_FROMDATE||''',''DD/MM/YYYY'')'||CHR(10)
+                  ||'  AND A.FORTNIGHTENDDATE=TO_DATE('''||P_TODATE||''',''DD/MM/YYYY'')'||CHR(10)
+                  ||'  AND A.DEPARTMENTCODE=B.DEPARTMENTCODE'||CHR(10)
+                  ||'  AND A.COMPANYCODE=C.COMPANYCODE'||CHR(10);
+                  IF P_DEPTCODE IS NOT NULL THEN
+                    LV_SQLSTR := LV_SQLSTR ||' AND A.DEPARTMENTCODE IN ( '||P_DEPTCODE||')  '||CHR(10);
+                  END IF;                                
+                  LV_SQLSTR := LV_SQLSTR   ||' GROUP BY A.DEPARTMENTCODE,B.HANDS,C.COMPANYNAME'||CHR(10)
+                  ||'ORDER BY A.DEPARTMENTCODE'||CHR(10);
+           
+                
+  --DBMS_OUTPUT.PUT_LINE(LV_SQLSTR);
+ EXECUTE IMMEDIATE LV_SQLSTR;
+END;
+/
+
+
