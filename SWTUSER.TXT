@@ -99,6 +99,14 @@ ERP IP   		:		1.6.37.187:8081/
 PASSWORD 		: 		123000
 SERVICE NAME 	: 		OR11G2SE
 ---------------------------------------------------------------------
+USER 			: 		CJIL_WEB/CJIL_WEB  
+IP  			:		223.29.194.130
+PASSWORD 		: 		123000
+SERVICE NAME 	: 		CJIL
+
+ANYDESK         : 993 036 975
+PASSWORD        :  Swt@1234
+---------------------------------------------------------------------
 
 user/pass -> BAGGAGE_WEB/
 ---------------------------------------------------------------------
@@ -122,7 +130,7 @@ Gloster ANYDESK- 301042907 - PWD- Gloster@123
 
 Gloster ANYDESK- backupserver-586@ad - PWD- Gloster@123
 
-
+GLOSTER#P@ssw0rd
 
 
 =======
@@ -132,3 +140,12 @@ https://myindinet.indinet.co.in/servlet/CWSCInit
 ep_chiranjit2
 9LUZ9ZTG
 >>>>>>> d24c38c648edd044ccea0054db9ad9b281da9241
+
+
+HOOGLHLY DATABASE		   COMPANY     DIVISION
+-----------------------------------------------
+INFRA_WEB           ----    0002    (0022,0023) http://103.133.214.73:9082
+FORTWILLIAM_WEB     ----    0003    (0032,0033) http://103.133.214.73:9083
+BOWREAH_WEB         ----    0004    (0042,0043)
+CALJUTE_WEB         ----    0005    (0052,0053)  
+HOOGHLY_WEB         ----    0006   	(0012,0013)
